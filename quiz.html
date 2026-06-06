@@ -388,6 +388,13 @@ function render(m) {
       }
     }
 
+    if (fromSecond > 0 && runner) {
+      const firstRunnerIdx = matches.findIndex(c => c.body && c.body.family === runner);
+      if (firstRunnerIdx !== -1) {
+        fromSecond = matches.length - firstRunnerIdx;
+      }
+    }
+
     const splitAt = matches.length - fromSecond;
 
     // update progress bar to 100%

@@ -307,6 +307,7 @@ function render(m) {
     progEl.style.transition = 'none';
     progEl.style.width = '0%';
     requestAnimationFrame(() => requestAnimationFrame(() => {
+      if (!autoTimer) return;
       progEl.style.transition = `width ${ROTATE_MS}ms linear`;
       progEl.style.width = '100%';
     }));
@@ -333,7 +334,7 @@ function render(m) {
     document.querySelectorAll('#galstrip img').forEach((im, i) => im.classList.toggle('sel', i === currentIdx));
     const lbImgEl = document.getElementById('lb-img');
     const lbCtrEl = document.getElementById('lb-counter');
-    if (lbImgEl) lbImgEl.src = allImages[currentIdx];
+    if (lbImgEl) { lbImgEl.src = allImages[currentIdx]; lbImgEl.alt = `${p.name} — photo ${currentIdx + 1}`; }
     if (lbCtrEl) lbCtrEl.textContent = allImages.length > 1 ? `${currentIdx + 1} / ${allImages.length}` : '';
     resetBar();
   }
@@ -366,8 +367,11 @@ function render(m) {
 
   const lb = document.getElementById('lightbox');
 
+  let lightboxAutoWasRunning = false;
+
   function openLightbox(idx) {
     if (!allImages.length) return;
+    lightboxAutoWasRunning = !!autoTimer;
     stopAuto();
     goTo(idx);
     lb.classList.add('open');
@@ -377,7 +381,7 @@ function render(m) {
   function closeLightbox() {
     lb.classList.remove('open');
     document.body.style.overflow = '';
-    startAuto();
+    if (lightboxAutoWasRunning) startAuto();
   }
 
   // Click hero image to open lightbox

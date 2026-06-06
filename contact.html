@@ -452,7 +452,6 @@ function showSuccess(usedMailto) {
 
 function showError(msg) {
   var errDiv = document.getElementById('form-error');
-  var msgEl  = document.getElementById('form-error-msg');
   var email  = ZX.INQUIRY_EMAIL || 'inquiries@zelexdoll.com';
   if (errDiv) errDiv.style.display = 'block';
   if (msg) { var t = document.getElementById('form-error-text'); if (t) t.textContent = msg; }
