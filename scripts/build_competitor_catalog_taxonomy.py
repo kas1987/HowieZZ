@@ -457,6 +457,9 @@ def scrape_supplier(config: SupplierConfig, session: requests.Session, families:
 
         if not (height and bust and waist and hips):
             continue
+        if not (50 <= height <= 250):
+            height = None
+            continue
 
         whr = round(waist / hips, 3)
         bwr = round(bust / waist, 3)
@@ -792,14 +795,14 @@ def scrape_siliconwives(config: SiliconWivesConfig, session: requests.Session, f
     rows = []
     seen_codes: set[str] = set()
     for prod in products:
-        body_html = prod.get("body_html", "")
+        body_html = prod.get("body_html") or ""
         height, bust, waist, hips, weight, cup = _sw_body_html_measurements(body_html)
         if not (height and bust and waist and hips):
             continue
         if height < config.min_height_cm:
             continue
-        title = prod.get("title", "")
-        handle = prod.get("handle", "")
+        title = prod.get("title") or ""
+        handle = prod.get("handle") or ""
         body_code = extract_body_code(title, handle) or handle.upper()
         if body_code in seen_codes:
             continue
@@ -867,7 +870,7 @@ def build_summary(rows: list[dict], unavailable: list[dict], inventory_only: lis
         ]
         material_text = " ".join((item.get("material") or "").lower() for item in items)
         silicone_count = sum(1 for item in items if "silicone" in (item.get("material") or "").lower())
-        tpe_count = sum(1 for item in items if "tpe" in (item.get("material") or "").lower())
+        tpe_count = sum(1 for item in items if any(k in (item.get("material") or "").lower() for k in ("tpe", "hybrid")))
         brands.append(
             {
                 "brand": brand,
@@ -1316,12 +1319,28 @@ def main() -> None:
 
     rows = load_zelex_baseline()
     for supplier in SUPPLIERS:
-        rows.extend(scrape_supplier(supplier, session, families))
-    rows.extend(scrape_irontech(session, families))
-    rows.extend(scrape_tayu(session, families))
+        try:
+            rows.extend(scrape_supplier(supplier, session, families))
+        except Exception as exc:
+            print(f"[main] scrape_supplier({supplier.brand}) failed: {exc}")
+    try:
+        rows.extend(scrape_irontech(session, families))
+    except Exception as exc:
+        print(f"[main] scrape_irontech failed: {exc}")
+    try:
+        rows.extend(scrape_tayu(session, families))
+    except Exception as exc:
+        print(f"[main] scrape_tayu failed: {exc}")
     for sw_config in SW_COLLECTIONS:
-        rows.extend(scrape_siliconwives(sw_config, session, families))
-    realdoll_inventory = capture_realdoll_inventory(session)
+        try:
+            rows.extend(scrape_siliconwives(sw_config, session, families))
+        except Exception as exc:
+            print(f"[main] scrape_siliconwives({sw_config.brand}) failed: {exc}")
+    try:
+        realdoll_inventory = capture_realdoll_inventory(session)
+    except Exception as exc:
+        print(f"[main] capture_realdoll_inventory failed: {exc}")
+        realdoll_inventory = None
 
     unavailable = list(UNAVAILABLE_COMPETITORS)
     if realdoll_inventory:

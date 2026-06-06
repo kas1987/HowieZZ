@@ -1,5 +1,5 @@
 {
-  "generated_from": "db\\independent_competitor.sqlite",
+  "generated_from": "db/independent_competitor.sqlite",
   "line_columns": [
     "full-body",
     "torso",

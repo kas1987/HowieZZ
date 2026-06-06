@@ -405,7 +405,7 @@ def main() -> None:
     OUT_JSON.write_text(
         json.dumps(
             {
-                "generated_from": str(DB_PATH.relative_to(ROOT)),
+                "generated_from": DB_PATH.relative_to(ROOT).as_posix(),
                 "line_columns": LINE_COLUMNS,
                 "line_matrix": line_matrix,
                 "full_body_competitor_matrix": full_body_rows,

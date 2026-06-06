@@ -50,7 +50,7 @@ This report maps accessible competitor body-style catalogues into the ZELEX six-
 | Angel Kiss | 10 | 0 | 2 | 5 | 0 | 0 | 3 | 80.0% | 157-172 cm |
 | Dime Doll | 31 | 2 | 2 | 21 | 0 | 5 | 1 | 83.9% | 165-172 cm |
 | FunWest | 106 | 0 | 40 | 38 | 10 | 1 | 17 | 73.6% | 150-168 cm |
-| Game Lady | 6 | 0 | 2 | 2 | 0 | 1 | 1 | 66.7% | 16-171 cm |
+| Game Lady | 6 | 0 | 2 | 2 | 0 | 1 | 1 | 66.7% | 156-171 cm |
 | Gynoid | 10 | 5 | 0 | 1 | 0 | 0 | 4 | 90.0% | 155-180 cm |
 | HR Doll | 10 | 0 | 3 | 4 | 1 | 2 | 0 | 70.0% | 150-170 cm |
 | Hitdoll | 5 | 1 | 0 | 2 | 2 | 0 | 0 | 80.0% | 150-170 cm |
