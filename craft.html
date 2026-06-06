@@ -25,7 +25,7 @@
 .craft-hero .inner{
   position:relative;max-width:var(--maxw);margin:0 auto;width:100%;padding:0 40px 10vh;
 }
-.craft-hero .eyebrow{color:var(--gold);letter-spacing:6px;text-transform:uppercase;font-size:12px;margin-bottom:22px;}
+.craft-hero .eyebrow{color:var(--gold);letter-spacing:6px;text-transform:uppercase;font-size:var(--t-sm);margin-bottom:22px;}
 .craft-hero h1{
   font-family:'Playfair Display',serif;font-size:clamp(42px,8vw,92px);
   line-height:1.03;font-weight:400;max-width:15ch;
@@ -51,7 +51,7 @@
 /* ---- method section ---- */
 .method{max-width:var(--maxw);margin:0 auto;padding:100px 40px 60px;}
 .method-head{text-align:center;max-width:740px;margin:0 auto 80px;}
-.method-head .eyebrow{color:var(--gold);letter-spacing:5px;text-transform:uppercase;font-size:12px;}
+.method-head .eyebrow{color:var(--gold);letter-spacing:5px;text-transform:uppercase;font-size:var(--t-sm);}
 .method-head h2{font-family:'Playfair Display',serif;font-size:clamp(28px,4.2vw,46px);margin:14px 0;}
 .method-head p{color:var(--muted);font-weight:300;font-size:15px;}
 
@@ -63,8 +63,8 @@
   .method{padding:70px 20px 40px;}
 }
 .method-img-wrap{
-  aspect-ratio:3/4;background:#0d0d0d;border-radius:10px;overflow:hidden;
-  border:1px solid var(--line);
+  aspect-ratio:3/4;background:#0d0d0d;border-radius:var(--r-md);overflow:hidden;
+  border:1px solid var(--b-subtle);
 }
 .method-img-wrap img{width:100%;height:100%;object-fit:cover;object-position:top center;transition:.4s;}
 .method-img-wrap:hover img{transform:scale(1.04);}
@@ -74,8 +74,8 @@
 .method-txt p+p{margin-top:12px;}
 .method-txt .inline-stat{
   display:inline-block;margin-top:18px;padding:9px 18px;
-  background:var(--panel2);border:1px solid var(--line);border-radius:8px;
-  font-size:12px;letter-spacing:1.5px;color:var(--cream);
+  background:var(--s3);border:1px solid var(--b-subtle);border-radius:8px;
+  font-size:var(--t-sm);letter-spacing:1.5px;color:var(--cream);
 }
 .method-txt .inline-stat b{color:var(--gold);}
 

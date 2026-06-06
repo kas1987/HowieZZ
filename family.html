@@ -15,12 +15,12 @@
   .hero p{color:var(--muted);max-width:620px;margin:14px auto 0;font-size:15px}
   .hero .stats{display:flex;gap:38px;justify-content:center;flex-wrap:wrap;margin-top:28px;color:var(--muted)}
   .hero .stats .n{font-family:'Playfair Display',serif;font-size:30px;color:var(--cream);display:block;line-height:1}
-  .hero .stats .l{font-size:10px;letter-spacing:2px;text-transform:uppercase;margin-top:6px}
+  .hero .stats .l{font-size:var(--t-xs);letter-spacing:2px;text-transform:uppercase;margin-top:6px}
 
   /* ---- index family card ---- */
   .fam-grid{display:grid;gap:20px;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));margin-top:36px}
   .fam-card{position:relative;overflow:hidden;isolation:isolate;
-    background:var(--panel);border:1px solid rgba(212,165,116,.28);border-radius:14px;padding:28px 24px;
+    background:var(--s2);border:1px solid color-mix(in srgb,var(--gold) 28%,transparent);border-radius:var(--r-lg);padding:28px 24px;
     display:flex;flex-direction:column;gap:10px;transition:.25s;cursor:pointer;min-height:240px;
     box-shadow:0 0 0 1px rgba(212,165,116,.10),0 0 24px rgba(212,165,116,.06)}
   .fam-card:hover{transform:translateY(-5px);border-color:var(--gold);box-shadow:0 16px 40px rgba(0,0,0,.55),0 0 30px rgba(212,165,116,.14)}
@@ -30,26 +30,29 @@
   .fam-card:hover .fc-bg{opacity:.46;transform:scale(1.06)}
   .fam-card::after{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;
     background:linear-gradient(180deg,rgba(20,18,16,.48) 0%,rgba(18,18,18,.82) 58%,rgba(18,18,18,.95) 100%)}
-  .fam-card .fc-name,.fam-card .fc-sig,.fam-card .fc-desc,.fam-card .fc-count{position:relative;z-index:2}
+  .fam-card .fc-name,.fam-card .fc-sig,.fam-card .fc-desc,.fam-card .fc-count,.fam-card .fc-ratio{position:relative;z-index:2}
   .fam-card.dev{opacity:.55;cursor:default}
   .fam-card.dev::after{display:none}
   .fam-card.dev:hover{transform:none;border-color:rgba(212,165,116,.28);box-shadow:0 0 0 1px rgba(212,165,116,.10)}
   .fam-card .fc-name{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;line-height:1.1}
   .fam-card .fc-sig{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-top:2px}
-  .fam-card .fc-desc{font-size:14px;color:var(--muted);line-height:1.55;flex:1}
-  .fam-card .fc-count{font-size:12px;letter-spacing:1px;color:var(--muted);border-top:1px solid var(--line);padding-top:10px;margin-top:auto}
+  .fam-card .fc-desc{font-size:var(--t-base);color:var(--muted);line-height:1.55;flex:1}
+  .fam-card .fc-count{font-size:var(--t-sm);letter-spacing:1px;color:var(--muted);border-top:1px solid var(--b-subtle);padding-top:10px;margin-top:auto}
   .fam-card .fc-dev{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-style:italic}
+  .fam-card .fc-ratio{font-size:11px;letter-spacing:1.4px;color:var(--muted);margin-top:4px;opacity:.75}
+  .dev-narrative{color:var(--muted);font-size:14px;line-height:1.7;max-width:600px;margin:0 auto 28px}
+  .dev-cta{text-align:center;margin-top:8px}
 
   /* ---- family landing header (compact, mirrors series.html proportions) ---- */
   .fam-hero{padding:34px 32px 20px;background:radial-gradient(ellipse at top,#1c1c1c,#121212 70%);text-align:center}
   .fam-hero .eyebrow{margin-bottom:9px;font-size:11px}
   .fam-hero h1{font-size:clamp(26px,4.4vw,44px);font-weight:700;line-height:1;letter-spacing:.5px}
   .fam-hero .sig-line{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:7px}
-  .fam-hero p{color:var(--muted);max-width:620px;margin:9px auto 0;font-size:14px;line-height:1.65}
+  .fam-hero p{color:var(--muted);max-width:620px;margin:9px auto 0;font-size:var(--t-base);line-height:1.65}
   .fam-hero .prop-badge{display:inline-flex;gap:18px;flex-wrap:wrap;justify-content:center;
-    background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 18px;margin-top:16px;font-size:13px}
+    background:var(--s2);border:1px solid var(--b-subtle);border-radius:var(--r-md);padding:10px 18px;margin-top:16px;font-size:13px}
   .fam-hero .prop-badge .pb-item .pb-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);display:block}
-  .fam-hero .prop-badge .pb-item .pb-val{font-family:'Playfair Display',serif;font-size:16px;color:var(--cream)}
+  .fam-hero .prop-badge .pb-item .pb-val{font-family:'Playfair Display',serif;font-size:var(--t-md);color:var(--cream)}
 
   /* ---- section heads ---- */
   .sec{margin-top:28px}
@@ -60,41 +63,41 @@
   .actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:32px;justify-content:center}
 
   /* ---- no-content tile ---- */
-  .empty-tile{background:var(--panel2);border:1px dashed var(--line);border-radius:12px;padding:36px 20px;
+  .empty-tile{background:var(--s3);border:1px dashed var(--b-subtle);border-radius:12px;padding:36px 20px;
     text-align:center;color:var(--muted);font-size:13px;font-style:italic;grid-column:1/-1}
 
   /* ---- landing sticky controls bar (view toggle lives here) ---- */
   .landing-controls{position:sticky;top:58px;z-index:40;display:flex;align-items:center;
     justify-content:flex-end;gap:14px;padding:11px 24px;
-    background:rgba(18,18,18,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+    background:rgba(18,18,18,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--b-subtle)}
   @media(max-width:600px){.landing-controls{justify-content:center}}
 
   /* ---- segmented view toggle (pill, matches series.html) ---- */
-  .view-toggle{display:inline-flex;border:1px solid var(--line);border-radius:30px;overflow:hidden;
-    background:var(--panel2);flex-shrink:0}
+  .view-toggle{display:inline-flex;border:1px solid var(--b-subtle);border-radius:var(--r-pill);overflow:hidden;
+    background:var(--s3);flex-shrink:0}
   .view-toggle button{padding:6px 18px;border:none;background:transparent;
     color:var(--muted);font-size:11px;letter-spacing:1.2px;text-transform:uppercase;
     font-family:inherit;cursor:pointer;transition:.2s;white-space:nowrap}
-  .view-toggle button:first-child{border-right:1px solid var(--line)}
+  .view-toggle button:first-child{border-right:1px solid var(--b-subtle)}
   .view-toggle button.active{background:var(--cream);color:#111;font-weight:600}
   .view-toggle button:not(.active):hover{color:var(--text)}
 
   /* ---- chars-mode filter bar (below sticky bar) ---- */
   .char-filters{max-width:var(--maxw);margin:14px auto 0;padding:0 24px;
     display:flex;flex-wrap:wrap;gap:10px;align-items:center}
-  .char-filters .filter-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;
+  .char-filters .filter-label{font-size:var(--t-xs);letter-spacing:2px;text-transform:uppercase;
     color:var(--muted);white-space:nowrap}
   .cpill{
-    padding:5px 14px;border:1px solid var(--line);border-radius:30px;
+    padding:5px 14px;border:1px solid var(--b-subtle);border-radius:var(--r-pill);
     background:transparent;color:var(--muted);
-    cursor:pointer;font-size:12px;letter-spacing:.4px;
+    cursor:pointer;font-size:var(--t-sm);letter-spacing:.4px;
     font-family:inherit;transition:.2s;white-space:nowrap;
   }
   .cpill:hover{color:var(--text);border-color:var(--muted)}
   .cpill.active{background:var(--cream);color:#111;border-color:var(--cream);font-weight:600}
   .toggle-wrap{display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none}
   .toggle-wrap input[type=checkbox]{accent-color:var(--gold);width:15px;height:15px;cursor:pointer}
-  .toggle-label{font-size:12px;color:var(--muted);letter-spacing:.4px;transition:.2s}
+  .toggle-label{font-size:var(--t-sm);color:var(--muted);letter-spacing:.4px;transition:.2s}
   .toggle-wrap:hover .toggle-label{color:var(--text)}
 
   /* ---- char-mode count bar ---- */
@@ -233,11 +236,15 @@ function renderIndex(m) {
     const d = `d${Math.min(fi + 1, 6)}`;
 
     if (!hasBodies) {
+      const ratioLine = meta.whr
+        ? `<div class="fc-ratio">WHR ${ZX.esc(meta.whr)} &middot; ${ZX.esc((meta.sig || '').split(' · ')[0])}</div>`
+        : '';
       return `<div class="fam-card dev reveal ${d}">
         <div class="fc-name" style="color:${color}">${ZX.esc(fam)}</div>
         <div class="fc-sig">${ZX.esc((meta.sig || '').split(' · ').slice(1).join(' · '))}</div>
         <div class="fc-desc">${ZX.esc(meta.desc || '')}</div>
-        <div class="fc-count"><span class="fc-dev">In development</span></div>
+        ${ratioLine}
+        <div class="fc-count"><span class="stat stat-concept">In Development</span></div>
       </div>`;
     }
 
@@ -377,9 +384,30 @@ function renderLanding(m, fam) {
     renderView();
   });
 
+  const DEV_COPY = {
+    "The Classic": {
+      narrative: "The Classic is the proportion ZELEX returns to first — a true hourglass where waist, hip, and shoulder resolve into a single, self-evident harmony. WHR 0.68–0.72 places it at the centre of the feminine ideal: nothing exaggerated, nothing withheld. Its architectures are currently in final pre-production review; the first bodies are expected to reach the catalogue within the coming season.",
+      subject: "ZELEX — Notify me: The Classic"
+    },
+    "The Sculpt": {
+      narrative: "The Sculpt renders athletic musculature at fine-craft resolution — articulated abdominals, defined deltoids, sculpted posterior — not as caricature but as the body a serious athlete actually inhabits. At WHR 0.65–0.68 it carries the density of the Muse with the surface geometry of the gym. Engineering is underway; first production bodies will enter the catalogue once silicone durability trials are complete.",
+      subject: "ZELEX — Notify me: The Sculpt"
+    }
+  };
+
   /* ---- BODY ARCHITECTURES section ---- */
   function buildBodySec() {
     if (famBodyCodes.length === 0) {
+      const copy = DEV_COPY[fam];
+      if (copy) {
+        return `<div class="sec">
+          <div class="sec-title">Body Architectures</div>
+          <p class="dev-narrative">${ZX.esc(copy.narrative)}</p>
+          <div class="dev-cta">
+            <a class="btn ghost" href="mailto:inquiries@zelexdoll.com?subject=${encodeURIComponent(copy.subject)}">Notify me when available</a>
+          </div>
+        </div>`;
+      }
       return `<div class="sec">
         <div class="sec-title">Body Architectures</div>
         <div class="grid g4"><div class="empty-tile">No architectures catalogued yet — check back soon.</div></div>
