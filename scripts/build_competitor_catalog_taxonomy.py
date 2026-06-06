@@ -259,12 +259,6 @@ UNAVAILABLE_COMPETITORS = [
         "source_url": "https://www.dollforever.com/",
     },
     {
-        "brand": "Tayu",
-        "status": "pending-source",
-        "reason": "No stable machine-readable body-style catalogue endpoint has been integrated yet.",
-        "source_url": "https://www.tayudoll.com/",
-    },
-    {
         "brand": "Sanhui",
         "status": "pending-source",
         "reason": "No stable machine-readable body-style catalogue endpoint has been integrated yet.",
