@@ -11,11 +11,18 @@ import json
 import sqlite3
 from pathlib import Path
 
+import matplotlib.pyplot as plt
+import pandas as pd
+import seaborn as sns
+
 ROOT = Path(__file__).parent.parent
 DB_PATH = ROOT / "db" / "independent_competitor.sqlite"
 OUT_CSV = ROOT / "docs" / "research" / "independent-catalog-grouping-matrix.csv"
 OUT_MD = ROOT / "docs" / "research" / "independent-catalog-grouping-heatmap.md"
 OUT_JSON = ROOT / "db" / "independent_catalog_groupings.json"
+OUT_LINE_PNG = ROOT / "docs" / "research" / "independent-catalog-line-heatmap.png"
+OUT_PRICE_PNG = ROOT / "docs" / "research" / "independent-catalog-price-heatmap.png"
+OUT_PDR_BRIEF = ROOT / "docs" / "PDR-010-competitor-lineup-brief.md"
 
 LINE_COLUMNS = [
     "full-body",
@@ -73,6 +80,113 @@ def dominant_price_band(row: dict) -> str:
     if row.get(best, 0) == 0:
         return "unknown"
     return best
+
+
+def price_band_breadth(row: dict) -> int:
+    return sum(1 for label, _, _ in PRICE_BANDS if row.get(label, 0) > 0)
+
+
+def write_png_heatmaps(line_matrix: list[dict], price_matrix: list[dict]) -> None:
+    OUT_LINE_PNG.parent.mkdir(parents=True, exist_ok=True)
+
+    line_df = pd.DataFrame(line_matrix)
+    line_df = line_df.sort_values(["full_body_skus", "brand"], ascending=[False, True])
+    line_df = line_df.set_index("brand")[["full-body", "torso", "male", "exclusive", "house-brand", "multi-brand", "accessory", "unknown"]]
+
+    plt.figure(figsize=(13, max(6, len(line_df) * 0.35)))
+    sns.heatmap(line_df, cmap="YlOrRd", linewidths=0.2, cbar_kws={"label": "SKU Count"})
+    plt.title("Independent Competitor Line Architecture Heatmap")
+    plt.xlabel("Line Type")
+    plt.ylabel("Brand")
+    plt.tight_layout()
+    plt.savefig(OUT_LINE_PNG, dpi=180)
+    plt.close()
+
+    price_df = pd.DataFrame(price_matrix)
+    price_df = price_df.sort_values(["brand"], ascending=[True])
+    price_df = price_df.set_index("brand")[["lt_1200", "1200_1799", "1800_2499", "2500_3499", "3500_plus", "unknown_price"]]
+
+    plt.figure(figsize=(12, max(6, len(price_df) * 0.3)))
+    sns.heatmap(price_df, cmap="GnBu", linewidths=0.2, cbar_kws={"label": "SKU Count"})
+    plt.title("Independent Competitor Price-Band Heatmap")
+    plt.xlabel("Price Band")
+    plt.ylabel("Brand")
+    plt.tight_layout()
+    plt.savefig(OUT_PRICE_PNG, dpi=180)
+    plt.close()
+
+
+def write_pdr_brief(
+    line_matrix: list[dict],
+    full_body_rows: list[dict],
+    price_matrix: list[dict],
+    wm_row: dict | None,
+) -> None:
+    price_by_brand = {row["brand"]: row for row in price_matrix}
+    depth_top10 = sorted(full_body_rows, key=lambda r: (-r["full_body_skus"], r["brand"]))[:10]
+    breadth_rows = [
+        {
+            "brand": r["brand"],
+            "breadth": price_band_breadth(price_by_brand[r["brand"]]),
+            "full_body_skus": r["full_body_skus"],
+            "strategy_group": r["strategy_group"],
+        }
+        for r in full_body_rows
+        if r["brand"] in price_by_brand
+    ]
+    breadth_top10 = sorted(
+        breadth_rows,
+        key=lambda r: (-r["breadth"], -r["full_body_skus"], r["brand"]),
+    )[:10]
+
+    depth_leaders = [r for r in full_body_rows if r["strategy_group"] == "Catalog Depth Leader"]
+    aggregator_count = sum(1 for r in line_matrix if r["strategy_group"] == "Retail Aggregator")
+
+    lines: list[str] = []
+    lines.append("# PDR-010 Competitor Lineup Brief")
+    lines.append("")
+    lines.append("## Executive Summary")
+    lines.append("")
+    lines.append(
+        f"Independent competitor grouping confirms {len(full_body_rows)} full-body competitor brands plus {aggregator_count} retail-aggregator catalogs."
+    )
+    if wm_row:
+        lines.append(
+            f"WM Doll remains the deepest observed line architecture in this crawl with {wm_row['full_body_skus']} full-body SKUs and additional torso/male extensions ({wm_row['torso']} torso, {wm_row['male']} male)."
+        )
+    lines.append(
+        f"Depth leaders are {', '.join(r['brand'] for r in depth_leaders[:5])}; these brands define the current high-coverage benchmark for lineup breadth."
+    )
+    lines.append("Price-ladder breadth analysis highlights which brands compete across multiple consumer budget bands versus focused single-band positioning.")
+    lines.append("")
+
+    lines.append("## Top 10 by Full-Body Depth")
+    lines.append("")
+    lines.append("| Rank | Brand | Full-body SKUs | Strategy |")
+    lines.append("|---:|---|---:|---|")
+    for idx, row in enumerate(depth_top10, start=1):
+        lines.append(f"| {idx} | {row['brand']} | {row['full_body_skus']} | {row['strategy_group']} |")
+    lines.append("")
+
+    lines.append("## Top 10 by Price-Ladder Breadth")
+    lines.append("")
+    lines.append("| Rank | Brand | Active Price Bands | Full-body SKUs | Strategy |")
+    lines.append("|---:|---|---:|---:|---|")
+    for idx, row in enumerate(breadth_top10, start=1):
+        lines.append(
+            f"| {idx} | {row['brand']} | {row['breadth']} | {row['full_body_skus']} | {row['strategy_group']} |"
+        )
+    lines.append("")
+
+    lines.append("## Visual Matrix Artifacts")
+    lines.append("")
+    lines.append(f"- Line architecture heatmap: {OUT_LINE_PNG.relative_to(ROOT)}")
+    lines.append(f"- Price-band heatmap: {OUT_PRICE_PNG.relative_to(ROOT)}")
+    lines.append(f"- Full matrix CSV: {OUT_CSV.relative_to(ROOT)}")
+    lines.append(f"- Narrative matrix report: {OUT_MD.relative_to(ROOT)}")
+
+    OUT_PDR_BRIEF.parent.mkdir(parents=True, exist_ok=True)
+    OUT_PDR_BRIEF.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
 def strategy_group(full_body_skus: int, line_counts: dict[str, int], median_price: float | None) -> str:
@@ -279,6 +393,9 @@ def main() -> None:
 
     OUT_MD.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
+    write_png_heatmaps(line_matrix, price_matrix)
+    write_pdr_brief(line_matrix, full_body_rows, price_matrix, wm_row)
+
     OUT_JSON.write_text(
         json.dumps(
             {
@@ -295,7 +412,11 @@ def main() -> None:
         encoding="utf-8",
     )
 
-    print(f"Wrote {OUT_CSV.relative_to(ROOT)}, {OUT_MD.relative_to(ROOT)}, and {OUT_JSON.relative_to(ROOT)}")
+    print(
+        "Wrote "
+        f"{OUT_CSV.relative_to(ROOT)}, {OUT_MD.relative_to(ROOT)}, {OUT_JSON.relative_to(ROOT)}, "
+        f"{OUT_LINE_PNG.relative_to(ROOT)}, {OUT_PRICE_PNG.relative_to(ROOT)}, and {OUT_PDR_BRIEF.relative_to(ROOT)}"
+    )
 
 
 if __name__ == "__main__":
