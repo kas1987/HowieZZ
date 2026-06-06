@@ -1,0 +1,86 @@
+{
+  "package": {
+    "name": "howiezz-competitor-source-material",
+    "version": "2026-06-05",
+    "purpose": "Grouped source material for downstream agents focused on competitor lineup, line architecture, and pricing analysis.",
+    "entrypoints": {
+      "human_brief": "docs/PDR-010-competitor-lineup-brief.md",
+      "matrix_report": "docs/research/independent-catalog-grouping-heatmap.md",
+      "machine_payload": "db/independent_catalog_groupings.json"
+    }
+  },
+  "groups": [
+    {
+      "id": "executive-context",
+      "title": "Executive Context",
+      "description": "Topline conclusions and ranked competitive findings.",
+      "files": [
+        "docs/PDR-010-competitor-lineup-brief.md",
+        "docs/competitor-analysis.md",
+        "docs/PDR-009-six-family-product-taxonomy.md"
+      ]
+    },
+    {
+      "id": "independent-groupings",
+      "title": "Independent Competitor Groupings",
+      "description": "Line architecture and pricing groupings for independent competitors, including WM and ZELEX normalization outcomes.",
+      "files": [
+        "docs/research/independent-catalog-grouping-heatmap.md",
+        "docs/research/independent-catalog-grouping-matrix.csv",
+        "db/independent_catalog_groupings.json",
+        "db/independent_competitor.sqlite",
+        "db/independent_competitor_report.json"
+      ]
+    },
+    {
+      "id": "family-coverage",
+      "title": "Competitor Family Coverage",
+      "description": "Cross-competitor family coverage matrix and structured coverage payloads.",
+      "files": [
+        "docs/research/competitor-family-coverage-matrix.md",
+        "docs/research/competitor-family-coverage-matrix.csv",
+        "db/competitor_family_coverage.json",
+        "db/competitor_family_coverage.sqlite"
+      ]
+    },
+    {
+      "id": "visual-assets",
+      "title": "Visual Assets",
+      "description": "Heatmap artifacts for rapid visual comparison and slide-ready reuse.",
+      "files": [
+        "docs/research/independent-catalog-line-heatmap.png",
+        "docs/research/independent-catalog-price-heatmap.png"
+      ]
+    },
+    {
+      "id": "source-datasets",
+      "title": "Source Catalog Datasets",
+      "description": "Raw or near-raw catalog and crawl outputs used to construct grouped analytics.",
+      "files": [
+        "db/catalog.json",
+        "db/live_products.json",
+        "db/live_variants.json",
+        "db/competitor_web_scrape.json",
+        "db/family_taxonomy.json"
+      ]
+    },
+    {
+      "id": "generation-pipeline",
+      "title": "Generation Pipeline",
+      "description": "Scripts to rebuild taxonomy, competitor coverage, and independent grouping outputs.",
+      "files": [
+        "scripts/build_competitor_catalog_taxonomy.py",
+        "scripts/analyze_independent_groupings.py",
+        "scripts/build_taxonomy.py",
+        "scripts/build_db.py"
+      ]
+    }
+  ],
+  "recommended_agent_flow": [
+    "Read docs/PDR-010-competitor-lineup-brief.md for current conclusions.",
+    "Load db/independent_catalog_groupings.json for machine-consumable grouped metrics.",
+    "Use docs/research/independent-catalog-grouping-heatmap.md and CSV for table-ready context.",
+    "Consult db/independent_competitor.sqlite for custom SQL segmentation.",
+    "Rebuild with scripts/analyze_independent_groupings.py if source data changes."
+  ]
+}
