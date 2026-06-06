@@ -1,0 +1,14 @@
+{
+  "name": "howiezz",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "install-hooks": "git config core.hooksPath hooks && chmod +x hooks/pre-push && echo 'Pre-push hook installed.'"
+  },
+  "devDependencies": {
+    "jsdom": "^29.1.1",
+    "vitest": "^4.1.8"
+  }
+}

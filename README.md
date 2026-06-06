@@ -96,6 +96,22 @@ In `assets/site.js`:
 
 ---
 
+## Testing
+
+The project has 200 automated tests (139 Python via pytest, 61 JavaScript via
+vitest) covering the classification engine, all catalog parsers, character
+generation helpers, and the `site.js` browser runtime.
+
+```bash
+python -m pytest --tb=short -q   # Python tests
+npm test                          # JavaScript tests
+```
+
+A pre-push hook can run both suites automatically — see
+[CONTRIBUTING.md](CONTRIBUTING.md) for setup.
+
+---
+
 ## Contributing / workflow
 
 `main` is protected — work on a branch and open a PR; CI must pass. See
