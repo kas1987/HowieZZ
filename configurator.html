@@ -69,6 +69,10 @@
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .hg.cross .hg-img{border-style:dashed}
 .rc-cross{color:var(--blue)}
+.rc-finish{margin-top:16px}
+.rc-finish .finrow{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.finchip{font-size:11px;color:var(--cream);background:var(--panel2);border:1px solid var(--line);
+  border-radius:20px;padding:3px 10px}
 .hg-code{font-family:ui-monospace,monospace;font-size:10px;letter-spacing:.3px;text-align:center;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .hg:hover .hg-img{border-color:var(--gold)}
@@ -145,14 +149,15 @@ Promise.all([
   fetch('db/body_measurements.json').then(r=>r.json()),
   fetch('db/live_variants.json').then(r=>r.json()),
   fetch('db/product_overrides.json').then(r=>r.json()).catch(()=>({})),
-  fetch('db/heads.json').then(r=>r.json()).catch(()=>({heads:{}}))
-]).then(([m, schema, meas, variants, overrides, headsDoc]) => {
-  render(m, { schema, bodies: meas.bodies||{}, variants: variants||[], overrides: overrides||{}, heads: headsDoc.heads||{} });
+  fetch('db/heads.json').then(r=>r.json()).catch(()=>({heads:{}})),
+  fetch('db/neck_compatibility.json').then(r=>r.json()).catch(()=>({}))
+]).then(([m, schema, meas, variants, overrides, headsDoc, neck]) => {
+  render(m, { schema, bodies: meas.bodies||{}, variants: variants||[], overrides: overrides||{}, heads: headsDoc.heads||{}, neck: neck||{} });
   ZX.mountFooter();
 }).catch(() => ZX.fail());
 
 function render(m, DATA){
-  const { schema, bodies, variants, overrides, heads } = DATA;
+  const { schema, bodies, variants, overrides, heads, neck } = DATA;
   const app = document.getElementById('app');
 
   // ---- helpers reading the spec (so logic stays declarative) ----
@@ -161,15 +166,21 @@ function render(m, DATA){
   const deriv = {}; (schema.derivations||[]).forEach(d => deriv[d.id] = d);
   const prefixesFor = line => { const p = (axisById.line.code_prefix||{})[line]; return p ? (Array.isArray(p)?p:[p]) : []; };
 
-  // ---- neck-connector classes: the basis for interchangeable heads (db/heads.json#/neck_classes) ----
-  // Heads attach at the neck; the connector size — not the marketing line — is the constraint.
-  const NECK_SLIM_MAX = 29; // cm — below this is the narrow (K-Series) connector
+  // ---- neck-connector classes: the basis for interchangeable heads ----
+  // Authority is db/neck_compatibility.json (built by scripts/build_neck_compat.py),
+  // which stores an explicit per-body neck_class + a neck_joint_mm slot for the true
+  // connector spec. We read that stored value; the circumference calc is only a fallback.
+  const NECK_SLIM_MAX = neck.neck_slim_max_cm || 29; // cm — narrow (K-Series) connector below this
   const LINE_NECK = { 'K-Series':'slim', 'I-Series':'standard', 'Fusion':'standard', 'SLE 3.0':'standard' };
+  const NECK_COMPAT = (neck.compatibility) || { slim:['slim'], standard:['standard'] };
   function neckClassOfCm(cm){ return cm==null ? null : (cm < NECK_SLIM_MAX ? 'slim' : 'standard'); }
   function bodyNeckClass(code, line){
-    const b = bodies[code];
+    const rec = neck.bodies && neck.bodies[code];           // stored, reviewable per-body value
+    if(rec && rec.neck_class) return rec.neck_class;
+    const b = bodies[code];                                  // fallbacks: circumference, then line
     return neckClassOfCm(b && b.neck) || LINE_NECK[line] || 'standard';
   }
+  function neckJointKnown(code){ const r = neck.bodies && neck.bodies[code]; return !!(r && r.neck_joint_mm != null); }
 
   // Head records for a build, from the reverse-engineered catalog (db/heads.json,
   // built by scripts/build_heads.py). Cast/imaged heads lead; bodies-on-this-code first.
@@ -185,8 +196,9 @@ function render(m, DATA){
       return [...set].sort().map(code => ({head_code:code, line, face_variants:['Standard'], skin_tones:[], bodies:[], characters:[], representative_image:null, _cross:false}));
     }
     const nclass = bodyNeckClass(bodyCode, line);
+    const fits = h => (NECK_COMPAT[nclass] || [nclass]).includes(h.neck_class);
     const recs = Object.values(heads)
-      .filter(h => crossLine ? (h.neck_class === nclass) : (h.line === line))
+      .filter(h => crossLine ? fits(h) : (h.line === line))
       .map(h => ({ ...h, _cross: h.line !== line }));
     const rank = h => (h._cross ? 1000 : 0)                       // same-line block first
                     + (bodyCode && h.bodies.includes(bodyCode) ? 0 : 100)
@@ -268,11 +280,11 @@ function render(m, DATA){
       switch(rule.id){
         case 'bespoke_combination': hit = !code; break;
         case 'mj_unsupported': hit = st.head.face_variant==='Movable Jaw' && !mjOverrideFor(st.head.head_code, code); break;
-        case 'neck_incompatible': { const hr=headRec(st.head.head_code);
-          hit = !!hr && hr.neck_class && hr.neck_class !== bodyNeckClass(code, st.body.line); break; }
-        case 'cross_line_head': { const hr=headRec(st.head.head_code);
+        case 'neck_incompatible': { const hr=headRec(st.head.head_code); const bcls=bodyNeckClass(code, st.body.line);
+          hit = !!hr && hr.neck_class && !(NECK_COMPAT[bcls]||[bcls]).includes(hr.neck_class); break; }
+        case 'cross_line_head': { const hr=headRec(st.head.head_code); const bcls=bodyNeckClass(code, st.body.line);
           hit = !!hr && hr.line && hr.line !== st.body.line &&
-                (!hr.neck_class || hr.neck_class === bodyNeckClass(code, st.body.line)); break; }
+                (!hr.neck_class || (NECK_COMPAT[bcls]||[bcls]).includes(hr.neck_class)); break; }
         case 'skeleton_scope': hit = !!st.body.skeleton_version && st.body.line!=='SLE 3.0'; break;
         case 'torso_excluded': hit = st.body.height_cm < 120; break;
         case 'dev_line': hit = ['The Classic','The Sculpt'].includes(st.body.line); break;
@@ -283,7 +295,7 @@ function render(m, DATA){
   }
 
   // ---- state: seed each axis from the spec's defaults, then a known-good body ----
-  const st = { body:{}, head:{}, components:{} };
+  const st = {}; schema.groups.forEach(g => st[g.id] = {});  // one bucket per group (body/head/components/face)
   schema.groups.forEach(g => g.axes.forEach(a => {
     if(a.control==='derived') return;
     let v = a.default;
@@ -408,6 +420,16 @@ function render(m, DATA){
 
     const noticeHtml = notices.length ? `<div class="notices">`+notices.map(n=>`<div class="notice ${n.sev}">${ZX.esc(n.msg)}</div>`).join('')+`</div>` : '';
 
+    // custom finish summary: face-group selections that differ from their default
+    const faceGroup = schema.groups.find(g=>g.id==='face');
+    const finishBits = (faceGroup?faceGroup.axes:[]).map(a=>{
+      const v = (st.face||{})[a.id];
+      if(v===a.default || v==='As pictured' || v===false || v==null) return null;
+      return `${a.label}: ${v===true?'Yes':v}`;
+    }).filter(Boolean);
+    const finishBlock = finishBits.length
+      ? `<div class="rc-finish"><span class="rc-sec-title">Custom finish</span><div class="finrow">${finishBits.map(b=>`<span class="finchip">${ZX.esc(b)}</span>`).join('')}</div></div>` : '';
+
     return `<div class="resolve-card">
       <div class="rc-top">
         <div class="rc-eyebrow">Resolved architecture</div>
@@ -419,6 +441,7 @@ function render(m, DATA){
       <div class="rc-body">
         ${sig ? `<div class="rc-sec-title">Measurement signature</div><dl class="kv rc-sig">${sigRows}</dl>` :
           `<div class="note" style="font-style:italic;color:var(--muted)">No catalogued spec card — this is a bespoke inquiry, not an instant SKU.</div>`}
+        ${finishBlock}
         <div class="rc-price-row">
           <span class="rc-sku">${skuR.sku?ZX.esc(skuR.sku):'—'}</span>
           <span class="rc-price">${price!=null?'$'+price:'—'}${skuR.estimated&&price!=null?'<span class="est">estimated</span>':''}</span>

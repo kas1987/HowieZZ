@@ -46,7 +46,8 @@
       "price_range": [
         3599.0,
         3599.0
-      ]
+      ],
+      "face_features": null
     },
     "GE03_1": {
       "head_code": "GE03_1",
@@ -73,7 +74,8 @@
       "price_range": [
         3599.0,
         3899.0
-      ]
+      ],
+      "face_features": null
     },
     "GE03_2": {
       "head_code": "GE03_2",
@@ -100,7 +102,8 @@
       "price_range": [
         3599.0,
         3899.0
-      ]
+      ],
+      "face_features": null
     },
     "GE07_1": {
       "head_code": "GE07_1",
@@ -123,7 +126,8 @@
       "price_range": [
         3599.0,
         3599.0
-      ]
+      ],
+      "face_features": null
     },
     "GE07_3": {
       "head_code": "GE07_3",
@@ -146,7 +150,8 @@
       "price_range": [
         3599.0,
         3599.0
-      ]
+      ],
+      "face_features": null
     },
     "GE100_1": {
       "head_code": "GE100_1",
@@ -169,7 +174,8 @@
       "price_range": [
         3599.0,
         3599.0
-      ]
+      ],
+      "face_features": null
     },
     "GE101_1": {
       "head_code": "GE101_1",
@@ -192,7 +198,8 @@
       "price_range": [
         3899.0,
         3899.0
-      ]
+      ],
+      "face_features": null
     },
     "GE109_1": {
       "head_code": "GE109_1",
@@ -215,7 +222,8 @@
       "price_range": [
         3599.0,
         3599.0
-      ]
+      ],
+      "face_features": null
     },
     "GE111_1": {
       "head_code": "GE111_1",
@@ -238,7 +246,8 @@
       "price_range": [
         3899.0,
         3899.0
-      ]
+      ],
+      "face_features": null
     },
     "GE111_2": {
       "head_code": "GE111_2",
@@ -261,7 +270,8 @@
       "price_range": [
         3899.0,
         3899.0
-      ]
+      ],
+      "face_features": null
     },
     "GE111_3": {
       "head_code": "GE111_3",
@@ -284,7 +294,8 @@
       "price_range": [
         3899.0,
         3899.0
-      ]
+      ],
+      "face_features": null
     },
     "GE113_1": {
       "head_code": "GE113_1",
@@ -310,7 +321,8 @@
       "price_range": [
         3899.0,
         3899.0
-      ]
+      ],
+      "face_features": null
     },
     "GE114_1": {
       "head_code": "GE114_1",
@@ -336,7 +348,8 @@
       "price_range": [
         3899.0,
         3899.0
-      ]
+      ],
+      "face_features": null
     },
     "GE115_1": {
       "head_code": "GE115_1",
@@ -365,7 +378,8 @@
       "price_range": [
         3599.0,
         3899.0
-      ]
+      ],
+      "face_features": null
     },
     "GE116_1": {
       "head_code": "GE116_1",
@@ -391,7 +405,8 @@
       "price_range": [
         3899.0,
         3899.0
-      ]
+      ],
+      "face_features": null
     },
     "GE122_1": {
       "head_code": "GE122_1",
@@ -414,7 +429,8 @@
       "price_range": [
         3599.0,
         3599.0
-      ]
+      ],
+      "face_features": null
     },
     "GE122_2": {
       "head_code": "GE122_2",
@@ -437,7 +453,8 @@
       "price_range": [
         3599.0,
         3599.0
-      ]
+      ],
+      "face_features": null
     },
     "GE123_1": {
       "head_code": "GE123_1",
@@ -460,7 +477,8 @@
       "price_range": [
         3599.0,
         3599.0
-      ]
+      ],
+      "face_features": null
     },
     "GE124_1": {
       "head_code": "GE124_1",
@@ -483,7 +501,8 @@
       "price_range": [
         3599.0,
         3599.0
-      ]
+      ],
+      "face_features": null
     },
     "GE124_2": {
       "head_code": "GE124_2",
@@ -506,7 +525,8 @@
       "price_range": [
         3599.0,
         3599.0
-      ]
+      ],
+      "face_features": null
     },
     "GE125_1": {
       "head_code": "GE125_1",
@@ -530,7 +550,8 @@
       "price_range": [
         3599.0,
         3599.0
-      ]
+      ],
+      "face_features": null
     },
     "GE125_2": {
       "head_code": "GE125_2",
@@ -553,7 +574,8 @@
       "price_range": [
         3899.0,
         3899.0
-      ]
+      ],
+      "face_features": null
     },
     "GE125_3": {
       "head_code": "GE125_3",
@@ -576,7 +598,8 @@
       "price_range": [
         3599.0,
         3599.0
-      ]
+      ],
+      "face_features": null
     },
     "GE127_1": {
       "head_code": "GE127_1",
@@ -604,7 +627,8 @@
       "price_range": [
         3899.0,
         3899.0
-      ]
+      ],
+      "face_features": null
     },
     "GE134_1": {
       "head_code": "GE134_1",
@@ -632,7 +656,8 @@
       "price_range": [
         3599.0,
         3599.0
-      ]
+      ],
+      "face_features": null
     },
     "GE137_1": {
       "head_code": "GE137_1",
@@ -658,7 +683,8 @@
       "price_range": [
         3899.0,
         3899.0
-      ]
+      ],
+      "face_features": null
     },
     "GE138_1": {
       "head_code": "GE138_1",
@@ -686,7 +712,8 @@
       "price_range": [
         3899.0,
         3899.0
-      ]
+      ],
+      "face_features": null
     },
     "GE139_1": {
       "head_code": "GE139_1",
@@ -715,7 +742,8 @@
       "price_range": [
         3599.0,
         3599.0
-      ]
+      ],
+      "face_features": null
     },
     "GE139_2": {
       "head_code": "GE139_2",
@@ -738,7 +766,8 @@
       "price_range": [
         3599.0,
         3599.0
-      ]
+      ],
+      "face_features": null
     },
     "GE141_1": {
       "head_code": "GE141_1",
@@ -766,7 +795,8 @@
       "price_range": [
         3599.0,
         3599.0
-      ]
+      ],
+      "face_features": null
     },
     "GE146_1": {
       "head_code": "GE146_1",
@@ -792,7 +822,8 @@
       "price_range": [
         3599.0,
         3599.0
-      ]
+      ],
+      "face_features": null
     },
     "GE149_1": {
       "head_code": "GE149_1",
@@ -820,7 +851,8 @@
       "price_range": [
         3899.0,
         3899.0
-      ]
+      ],
+      "face_features": null
     },
     "GE14_1": {
       "head_code": "GE14_1",
@@ -846,7 +878,8 @@
       "price_range": [
         3599.0,
         3599.0
-      ]
+      ],
+      "face_features": null
     },
     "GE14_2": {
       "head_code": "GE14_2",
@@ -872,7 +905,8 @@
       "price_range": [
         3599.0,
         3599.0
-      ]
+      ],
+      "face_features": null
     },
     "GE14_3": {
       "head_code": "GE14_3",
@@ -898,7 +932,8 @@
       "price_range": [
         3599.0,
         3599.0
-      ]
+      ],
+      "face_features": null
     },
     "GE16_1": {
       "head_code": "GE16_1",
@@ -924,7 +959,8 @@
       "price_range": [
         3899.0,
         3899.0
-      ]
+      ],
+      "face_features": null
     },
     "GE16_2": {
       "head_code": "GE16_2",
@@ -950,7 +986,8 @@
       "price_range": [
         3899.0,
         3899.0
-      ]
+      ],
+      "face_features": null
     },
     "GE173_1": {
       "head_code": "GE173_1",
@@ -976,7 +1013,8 @@
       "price_range": [
         3599.0,
         3599.0
-      ]
+      ],
+      "face_features": null
     },
     "GE24_1": {
       "head_code": "GE24_1",
@@ -999,7 +1037,8 @@
       "price_range": [
         3599.0,
         3599.0
-      ]
+      ],
+      "face_features": null
     },
     "GE41_1": {
       "head_code": "GE41_1",
@@ -1027,7 +1066,8 @@
       "price_range": [
         3899.0,
         3899.0
-      ]
+      ],
+      "face_features": null
     },
     "GE45_1": {
       "head_code": "GE45_1",
@@ -1050,7 +1090,8 @@
       "price_range": [
         3599.0,
         3599.0
-      ]
+      ],
+      "face_features": null
     },
     "GE45_2": {
       "head_code": "GE45_2",
@@ -1073,7 +1114,8 @@
       "price_range": [
         3599.0,
         3599.0
-      ]
+      ],
+      "face_features": null
     },
     "GE45_5": {
       "head_code": "GE45_5",
@@ -1096,7 +1138,8 @@
       "price_range": [
         3599.0,
         3599.0
-      ]
+      ],
+      "face_features": null
     },
     "GE45_6": {
       "head_code": "GE45_6",
@@ -1119,7 +1162,8 @@
       "price_range": [
         3599.0,
         3599.0
-      ]
+      ],
+      "face_features": null
     },
     "GE45_7": {
       "head_code": "GE45_7",
@@ -1142,7 +1186,8 @@
       "price_range": [
         3899.0,
         3899.0
-      ]
+      ],
+      "face_features": null
     },
     "GE45_8": {
       "head_code": "GE45_8",
@@ -1167,7 +1212,8 @@
       "price_range": [
         3599.0,
         3599.0
-      ]
+      ],
+      "face_features": null
     },
     "GE46_2": {
       "head_code": "GE46_2",
@@ -1190,7 +1236,8 @@
       "price_range": [
         3599.0,
         3599.0
-      ]
+      ],
+      "face_features": null
     },
     "GE46_3": {
       "head_code": "GE46_3",
@@ -1213,7 +1260,8 @@
       "price_range": [
         3599.0,
         3599.0
-      ]
+      ],
+      "face_features": null
     },
     "GE46_4": {
       "head_code": "GE46_4",
@@ -1236,7 +1284,8 @@
       "price_range": [
         3599.0,
         3599.0
-      ]
+      ],
+      "face_features": null
     },
     "GE46_5": {
       "head_code": "GE46_5",
@@ -1259,7 +1308,8 @@
       "price_range": [
         3599.0,
         3599.0
-      ]
+      ],
+      "face_features": null
     },
     "GE47_1": {
       "head_code": "GE47_1",
@@ -1284,7 +1334,8 @@
       "price_range": [
         3899.0,
         3899.0
-      ]
+      ],
+      "face_features": null
     },
     "GE48_1": {
       "head_code": "GE48_1",
@@ -1307,7 +1358,8 @@
       "price_range": [
         3599.0,
         3599.0
-      ]
+      ],
+      "face_features": null
     },
     "GE48_2": {
       "head_code": "GE48_2",
@@ -1330,7 +1382,8 @@
       "price_range": [
         3599.0,
         3599.0
-      ]
+      ],
+      "face_features": null
     },
     "GE49_1": {
       "head_code": "GE49_1",
@@ -1353,7 +1406,8 @@
       "price_range": [
         3599.0,
         3599.0
-      ]
+      ],
+      "face_features": null
     },
     "GE49_2": {
       "head_code": "GE49_2",
@@ -1376,7 +1430,8 @@
       "price_range": [
         3599.0,
         3599.0
-      ]
+      ],
+      "face_features": null
     },
     "GE50_1": {
       "head_code": "GE50_1",
@@ -1399,7 +1454,8 @@
       "price_range": [
         3599.0,
         3599.0
-      ]
+      ],
+      "face_features": null
     },
     "GE51_2": {
       "head_code": "GE51_2",
@@ -1422,7 +1478,8 @@
       "price_range": [
         3599.0,
         3599.0
-      ]
+      ],
+      "face_features": null
     },
     "GE52_1": {
       "head_code": "GE52_1",
@@ -1447,7 +1504,8 @@
       "price_range": [
         3599.0,
         3599.0
-      ]
+      ],
+      "face_features": null
     },
     "GE52_2": {
       "head_code": "GE52_2",
@@ -1470,7 +1528,8 @@
       "price_range": [
         3599.0,
         3599.0
-      ]
+      ],
+      "face_features": null
     },
     "GE53_1": {
       "head_code": "GE53_1",
@@ -1495,7 +1554,8 @@
       "price_range": [
         3599.0,
         3599.0
-      ]
+      ],
+      "face_features": null
     },
     "GE53_2": {
       "head_code": "GE53_2",
@@ -1518,7 +1578,8 @@
       "price_range": [
         3599.0,
         3599.0
-      ]
+      ],
+      "face_features": null
     },
     "GE53_3": {
       "head_code": "GE53_3",
@@ -1543,7 +1604,8 @@
       "price_range": [
         3599.0,
         3599.0
-      ]
+      ],
+      "face_features": null
     },
     "GE55_3": {
       "head_code": "GE55_3",
@@ -1566,7 +1628,8 @@
       "price_range": [
         3599.0,
         3599.0
-      ]
+      ],
+      "face_features": null
     },
     "GE58_1": {
       "head_code": "GE58_1",
@@ -1589,7 +1652,8 @@
       "price_range": [
         3899.0,
         3899.0
-      ]
+      ],
+      "face_features": null
     },
     "GE59_1": {
       "head_code": "GE59_1",
@@ -1615,7 +1679,8 @@
       "price_range": [
         3899.0,
         3899.0
-      ]
+      ],
+      "face_features": null
     },
     "GE60_1": {
       "head_code": "GE60_1",
@@ -1643,7 +1708,8 @@
       "price_range": [
         3899.0,
         3899.0
-      ]
+      ],
+      "face_features": null
     },
     "GE64_1": {
       "head_code": "GE64_1",
@@ -1669,7 +1735,8 @@
       "price_range": [
         3599.0,
         3599.0
-      ]
+      ],
+      "face_features": null
     },
     "GE68_1": {
       "head_code": "GE68_1",
@@ -1697,7 +1764,8 @@
       "price_range": [
         3899.0,
         3899.0
-      ]
+      ],
+      "face_features": null
     },
     "GE76_1": {
       "head_code": "GE76_1",
@@ -1720,7 +1788,8 @@
       "price_range": [
         3599.0,
         3599.0
-      ]
+      ],
+      "face_features": null
     },
     "GE78_1": {
       "head_code": "GE78_1",
@@ -1744,7 +1813,8 @@
       "price_range": [
         3599.0,
         3899.0
-      ]
+      ],
+      "face_features": null
     },
     "GE78_2": {
       "head_code": "GE78_2",
@@ -1767,7 +1837,8 @@
       "price_range": [
         3599.0,
         3599.0
-      ]
+      ],
+      "face_features": null
     },
     "GE81_1": {
       "head_code": "GE81_1",
@@ -1790,7 +1861,8 @@
       "price_range": [
         3599.0,
         3599.0
-      ]
+      ],
+      "face_features": null
     },
     "GE82_1": {
       "head_code": "GE82_1",
@@ -1818,7 +1890,8 @@
       "price_range": [
         3899.0,
         3899.0
-      ]
+      ],
+      "face_features": null
     },
     "GE86_1": {
       "head_code": "GE86_1",
@@ -1841,7 +1914,8 @@
       "price_range": [
         3599.0,
         3599.0
-      ]
+      ],
+      "face_features": null
     },
     "GE88_2": {
       "head_code": "GE88_2",
@@ -1864,7 +1938,8 @@
       "price_range": [
         3599.0,
         3599.0
-      ]
+      ],
+      "face_features": null
     },
     "GE94_1": {
       "head_code": "GE94_1",
@@ -1887,7 +1962,8 @@
       "price_range": [
         3599.0,
         3599.0
-      ]
+      ],
+      "face_features": null
     },
     "GE94_2": {
       "head_code": "GE94_2",
@@ -1913,7 +1989,8 @@
       "price_range": [
         3599.0,
         3599.0
-      ]
+      ],
+      "face_features": null
     },
     "GE95_1": {
       "head_code": "GE95_1",
@@ -1939,7 +2016,8 @@
       "price_range": [
         3599.0,
         3599.0
-      ]
+      ],
+      "face_features": null
     },
     "GE95_2": {
       "head_code": "GE95_2",
@@ -1965,7 +2043,8 @@
       "price_range": [
         3599.0,
         3599.0
-      ]
+      ],
+      "face_features": null
     },
     "GE95_3": {
       "head_code": "GE95_3",
@@ -1991,7 +2070,8 @@
       "price_range": [
         3599.0,
         3599.0
-      ]
+      ],
+      "face_features": null
     },
     "GE95_4": {
       "head_code": "GE95_4",
@@ -2017,7 +2097,8 @@
       "price_range": [
         3899.0,
         3899.0
-      ]
+      ],
+      "face_features": null
     },
     "GE95_5": {
       "head_code": "GE95_5",
@@ -2043,7 +2124,8 @@
       "price_range": [
         3899.0,
         3899.0
-      ]
+      ],
+      "face_features": null
     },
     "GE95_6": {
       "head_code": "GE95_6",
@@ -2069,7 +2151,8 @@
       "price_range": [
         3599.0,
         3599.0
-      ]
+      ],
+      "face_features": null
     },
     "GE95_7": {
       "head_code": "GE95_7",
@@ -2095,7 +2178,8 @@
       "price_range": [
         3599.0,
         3599.0
-      ]
+      ],
+      "face_features": null
     },
     "GE97_1": {
       "head_code": "GE97_1",
@@ -2121,7 +2205,8 @@
       "price_range": [
         3599.0,
         3599.0
-      ]
+      ],
+      "face_features": null
     },
     "GE98_1": {
       "head_code": "GE98_1",
@@ -2144,7 +2229,8 @@
       "price_range": [
         3899.0,
         3899.0
-      ]
+      ],
+      "face_features": null
     },
     "GE98_2": {
       "head_code": "GE98_2",
@@ -2167,7 +2253,8 @@
       "price_range": [
         3599.0,
         3599.0
-      ]
+      ],
+      "face_features": null
     },
     "KE01_1": {
       "head_code": "KE01_1",
@@ -2190,7 +2277,8 @@
       "price_range": [
         3869.1,
         3869.1
-      ]
+      ],
+      "face_features": null
     },
     "KE02_1": {
       "head_code": "KE02_1",
@@ -2215,7 +2303,8 @@
       "price_range": [
         3869.1,
         3869.1
-      ]
+      ],
+      "face_features": null
     },
     "KE03_1": {
       "head_code": "KE03_1",
@@ -2238,7 +2327,8 @@
       "price_range": [
         3869.1,
         3869.1
-      ]
+      ],
+      "face_features": null
     },
     "ZFE01_1": {
       "head_code": "ZFE01_1",
@@ -2265,7 +2355,8 @@
       "price_range": [
         4299.0,
         4299.0
-      ]
+      ],
+      "face_features": null
     },
     "ZFE01_2": {
       "head_code": "ZFE01_2",
@@ -2290,7 +2381,8 @@
       "price_range": [
         4299.0,
         4299.0
-      ]
+      ],
+      "face_features": null
     },
     "ZFE03_1": {
       "head_code": "ZFE03_1",
@@ -2315,7 +2407,8 @@
       "price_range": [
         4299.0,
         4299.0
-      ]
+      ],
+      "face_features": null
     },
     "ZFE05_1": {
       "head_code": "ZFE05_1",
@@ -2340,7 +2433,8 @@
       "price_range": [
         4299.0,
         4299.0
-      ]
+      ],
+      "face_features": null
     },
     "ZX201_2": {
       "head_code": "ZX201_2",
@@ -2358,7 +2452,8 @@
       "characters": [],
       "product_count": 1,
       "representative_image": "assets/SLE-Series/ZX201_2_ZX172E/ZX201_2_ZX172E-102.jpg",
-      "price_range": null
+      "price_range": null,
+      "face_features": null
     },
     "ZX204_1": {
       "head_code": "ZX204_1",
@@ -2376,7 +2471,8 @@
       "characters": [],
       "product_count": 1,
       "representative_image": "assets/SLE-Series/ZX204_1_ZX172E/ZX204_1_ZX172E-102.jpg",
-      "price_range": null
+      "price_range": null,
+      "face_features": null
     },
     "ZX207_1": {
       "head_code": "ZX207_1",
@@ -2394,7 +2490,8 @@
       "characters": [],
       "product_count": 1,
       "representative_image": "assets/SLE-Series/ZX207_1_ZX172E/ZX207_1_ZX172E-105.jpg",
-      "price_range": null
+      "price_range": null,
+      "face_features": null
     },
     "ZXE200_1": {
       "head_code": "ZXE200_1",
@@ -2420,7 +2517,8 @@
       "price_range": [
         1600.0,
         2000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE200_2": {
       "head_code": "ZXE200_2",
@@ -2443,7 +2541,8 @@
       "price_range": [
         2000.0,
         2000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE200_3": {
       "head_code": "ZXE200_3",
@@ -2468,7 +2567,8 @@
       "price_range": [
         2000.0,
         2000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE200_W1": {
       "head_code": "ZXE200_W1",
@@ -2486,7 +2586,8 @@
       "characters": [],
       "product_count": 1,
       "representative_image": "assets/SLE-Series/ZXE200_W1_ZX171C/ZXE200_W1_ZX171C-102.jpg",
-      "price_range": null
+      "price_range": null,
+      "face_features": null
     },
     "ZXE200_W2": {
       "head_code": "ZXE200_W2",
@@ -2504,7 +2605,8 @@
       "characters": [],
       "product_count": 1,
       "representative_image": "assets/SLE-Series/ZXE200_W2_ZX172E/ZXE200_W2_ZX172E-101.jpg",
-      "price_range": null
+      "price_range": null,
+      "face_features": null
     },
     "ZXE200_Z1": {
       "head_code": "ZXE200_Z1",
@@ -2522,7 +2624,8 @@
       "characters": [],
       "product_count": 1,
       "representative_image": "assets/SLE-Series/ZXE200_Z1_ZX164G/ZXE200_Z1_ZX164G-101.jpg",
-      "price_range": null
+      "price_range": null,
+      "face_features": null
     },
     "ZXE201_1": {
       "head_code": "ZXE201_1",
@@ -2554,7 +2657,8 @@
       "price_range": [
         1000.0,
         2000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE201_2": {
       "head_code": "ZXE201_2",
@@ -2577,7 +2681,8 @@
       "price_range": [
         1600.0,
         2000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE201_3": {
       "head_code": "ZXE201_3",
@@ -2601,7 +2706,8 @@
       "price_range": [
         1000.0,
         2000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE201_4": {
       "head_code": "ZXE201_4",
@@ -2631,7 +2737,8 @@
       "price_range": [
         1000.0,
         2000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE201_5": {
       "head_code": "ZXE201_5",
@@ -2655,7 +2762,8 @@
       "price_range": [
         1000.0,
         1000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE201_W2": {
       "head_code": "ZXE201_W2",
@@ -2676,7 +2784,8 @@
       ],
       "product_count": 2,
       "representative_image": "assets/thumbs/SLE-Series/ZXE201_W2_ZX153B/ZXE201_W2_ZX153B-101.jpg",
-      "price_range": null
+      "price_range": null,
+      "face_features": null
     },
     "ZXE201_Z1": {
       "head_code": "ZXE201_Z1",
@@ -2694,7 +2803,8 @@
       "characters": [],
       "product_count": 1,
       "representative_image": "assets/SLE-Series/ZXE201_Z1_ZX172E/ZXE201_Z1_ZX172E-103.jpg",
-      "price_range": null
+      "price_range": null,
+      "face_features": null
     },
     "ZXE202_1": {
       "head_code": "ZXE202_1",
@@ -2718,7 +2828,8 @@
       "price_range": [
         1600.0,
         2000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE202_2": {
       "head_code": "ZXE202_2",
@@ -2741,7 +2852,8 @@
       "price_range": [
         1600.0,
         2000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE202_Z1": {
       "head_code": "ZXE202_Z1",
@@ -2759,7 +2871,8 @@
       "characters": [],
       "product_count": 1,
       "representative_image": "assets/SLE-Series/ZXE202_Z1_ZX160J/ZXE202_Z1_ZX160J-101.jpg",
-      "price_range": null
+      "price_range": null,
+      "face_features": null
     },
     "ZXE203_1": {
       "head_code": "ZXE203_1",
@@ -2788,7 +2901,8 @@
       "price_range": [
         1000.0,
         2000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE203_2": {
       "head_code": "ZXE203_2",
@@ -2812,7 +2926,8 @@
       "price_range": [
         1600.0,
         2000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE203_3": {
       "head_code": "ZXE203_3",
@@ -2833,7 +2948,8 @@
       "price_range": [
         1799.0,
         1799.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE203_4": {
       "head_code": "ZXE203_4",
@@ -2856,7 +2972,8 @@
       "price_range": [
         1000.0,
         1000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE203_5": {
       "head_code": "ZXE203_5",
@@ -2879,7 +2996,8 @@
       "price_range": [
         1000.0,
         1000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE203_W1": {
       "head_code": "ZXE203_W1",
@@ -2901,7 +3019,8 @@
       ],
       "product_count": 3,
       "representative_image": "assets/thumbs/SLE-Series/ZXE203_W1_ZX172E/ZXE203_W1_ZX172E-101.jpg",
-      "price_range": null
+      "price_range": null,
+      "face_features": null
     },
     "ZXE203_Z1": {
       "head_code": "ZXE203_Z1",
@@ -2919,7 +3038,8 @@
       "characters": [],
       "product_count": 1,
       "representative_image": "assets/SLE-Series/ZXE203_Z1_ZX165D/ZXE203_Z1_ZX165D-101.jpg",
-      "price_range": null
+      "price_range": null,
+      "face_features": null
     },
     "ZXE204_1": {
       "head_code": "ZXE204_1",
@@ -2954,7 +3074,8 @@
       "price_range": [
         1000.0,
         2000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE204_2": {
       "head_code": "ZXE204_2",
@@ -2977,7 +3098,8 @@
       "price_range": [
         1000.0,
         1000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE204_Z1": {
       "head_code": "ZXE204_Z1",
@@ -2995,7 +3117,8 @@
       "characters": [],
       "product_count": 1,
       "representative_image": "assets/SLE-Series/ZXE204_Z1_ZX172E/ZXE204_Z1_ZX172E-101.jpg",
-      "price_range": null
+      "price_range": null,
+      "face_features": null
     },
     "ZXE205_1": {
       "head_code": "ZXE205_1",
@@ -3019,7 +3142,8 @@
       "price_range": [
         1600.0,
         2000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE205_2": {
       "head_code": "ZXE205_2",
@@ -3042,7 +3166,8 @@
       "price_range": [
         1600.0,
         2000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE205_Z1": {
       "head_code": "ZXE205_Z1",
@@ -3060,7 +3185,8 @@
       "characters": [],
       "product_count": 1,
       "representative_image": "assets/SLE-Series/ZXE205_Z1_ZX166K/ZXE205_Z1_ZX166K-102.jpg",
-      "price_range": null
+      "price_range": null,
+      "face_features": null
     },
     "ZXE206_1": {
       "head_code": "ZXE206_1",
@@ -3083,7 +3209,8 @@
       "price_range": [
         2000.0,
         2000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE206_2": {
       "head_code": "ZXE206_2",
@@ -3107,7 +3234,8 @@
       "price_range": [
         1000.0,
         2000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE206_3": {
       "head_code": "ZXE206_3",
@@ -3128,7 +3256,8 @@
       "price_range": [
         1799.0,
         1799.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE206_4": {
       "head_code": "ZXE206_4",
@@ -3151,7 +3280,8 @@
       "price_range": [
         1000.0,
         1000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE206_5": {
       "head_code": "ZXE206_5",
@@ -3174,7 +3304,8 @@
       "price_range": [
         1000.0,
         1000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE206_W1": {
       "head_code": "ZXE206_W1",
@@ -3195,7 +3326,8 @@
       ],
       "product_count": 2,
       "representative_image": "assets/thumbs/SLE-Series/ZXE206_W1_ZX153B/ZXE206_W1_ZX153B-120_195fc9d2-52b2-453a-b899-69d67c0ec99c.jpg",
-      "price_range": null
+      "price_range": null,
+      "face_features": null
     },
     "ZXE206_W2": {
       "head_code": "ZXE206_W2",
@@ -3214,7 +3346,8 @@
       "characters": [],
       "product_count": 2,
       "representative_image": "assets/SLE-Series/ZXE206_W2_ZX117E/ZXE206_W2_ZX117E-101.jpg",
-      "price_range": null
+      "price_range": null,
+      "face_features": null
     },
     "ZXE206_Z1": {
       "head_code": "ZXE206_Z1",
@@ -3232,7 +3365,8 @@
       "characters": [],
       "product_count": 1,
       "representative_image": "assets/SLE-Series/ZXE206_Z1_ZX160J/ZXE206_Z1_ZX160J-101.jpg",
-      "price_range": null
+      "price_range": null,
+      "face_features": null
     },
     "ZXE207_1": {
       "head_code": "ZXE207_1",
@@ -3255,7 +3389,8 @@
       "price_range": [
         1600.0,
         2000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE207_2": {
       "head_code": "ZXE207_2",
@@ -3278,7 +3413,8 @@
       "price_range": [
         1600.0,
         2000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE207_3": {
       "head_code": "ZXE207_3",
@@ -3301,7 +3437,8 @@
       "price_range": [
         1600.0,
         2000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE207_Z1": {
       "head_code": "ZXE207_Z1",
@@ -3319,7 +3456,8 @@
       "characters": [],
       "product_count": 1,
       "representative_image": "assets/SLE-Series/ZXE207_Z1_ZX160J/ZXE207_Z1_ZX160J-101.jpg",
-      "price_range": null
+      "price_range": null,
+      "face_features": null
     },
     "ZXE208_1": {
       "head_code": "ZXE208_1",
@@ -3342,7 +3480,8 @@
       "price_range": [
         2000.0,
         2000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE208_4": {
       "head_code": "ZXE208_4",
@@ -3365,7 +3504,8 @@
       "price_range": [
         1000.0,
         1000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE208_5": {
       "head_code": "ZXE208_5",
@@ -3392,7 +3532,8 @@
       "price_range": [
         1000.0,
         2000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE208_W1": {
       "head_code": "ZXE208_W1",
@@ -3412,7 +3553,8 @@
       ],
       "product_count": 1,
       "representative_image": "assets/thumbs/SLE-Series/ZXE208_W1_ZX171C/ZXE208_W1_ZX171C-101.jpg",
-      "price_range": null
+      "price_range": null,
+      "face_features": null
     },
     "ZXE208_Z1": {
       "head_code": "ZXE208_Z1",
@@ -3430,7 +3572,8 @@
       "characters": [],
       "product_count": 1,
       "representative_image": "assets/SLE-Series/ZXE208_Z1_ZX166K/ZXE208_Z1_ZX166K-101.jpg",
-      "price_range": null
+      "price_range": null,
+      "face_features": null
     },
     "ZXE209_1": {
       "head_code": "ZXE209_1",
@@ -3453,7 +3596,8 @@
       "price_range": [
         1799.0,
         2000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE209_2": {
       "head_code": "ZXE209_2",
@@ -3476,7 +3620,8 @@
       "price_range": [
         1600.0,
         2000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE209_W1": {
       "head_code": "ZXE209_W1",
@@ -3494,7 +3639,8 @@
       "characters": [],
       "product_count": 1,
       "representative_image": "assets/SLE-Series/ZXE209_W1_ZX172E/ZXE209_W1_ZX172E-101.jpg",
-      "price_range": null
+      "price_range": null,
+      "face_features": null
     },
     "ZXE209_Z1": {
       "head_code": "ZXE209_Z1",
@@ -3512,7 +3658,8 @@
       "characters": [],
       "product_count": 1,
       "representative_image": "assets/SLE-Series/ZXE209_Z1_ZX172E/ZXE209_Z1_ZX172E-101.jpg",
-      "price_range": null
+      "price_range": null,
+      "face_features": null
     },
     "ZXE210_1": {
       "head_code": "ZXE210_1",
@@ -3535,7 +3682,8 @@
       "price_range": [
         1600.0,
         2000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE210_2": {
       "head_code": "ZXE210_2",
@@ -3558,7 +3706,8 @@
       "price_range": [
         1600.0,
         2000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE211_1": {
       "head_code": "ZXE211_1",
@@ -3581,7 +3730,8 @@
       "price_range": [
         1600.0,
         2000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE211_2": {
       "head_code": "ZXE211_2",
@@ -3604,7 +3754,8 @@
       "price_range": [
         1600.0,
         2000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE212_1": {
       "head_code": "ZXE212_1",
@@ -3628,7 +3779,8 @@
       "price_range": [
         1600.0,
         2000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE212_2": {
       "head_code": "ZXE212_2",
@@ -3651,7 +3803,8 @@
       "price_range": [
         1600.0,
         2000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE212_W1": {
       "head_code": "ZXE212_W1",
@@ -3667,7 +3820,8 @@
       "characters": [],
       "product_count": 1,
       "representative_image": "assets/SLE-Series/ZXE212_W1-ZX172E/ZXE212_W1-ZX172E-101.jpg",
-      "price_range": null
+      "price_range": null,
+      "face_features": null
     },
     "ZXE212_W2": {
       "head_code": "ZXE212_W2",
@@ -3687,7 +3841,8 @@
       ],
       "product_count": 1,
       "representative_image": "assets/thumbs/SLE-Series/ZXE212_W2_ZX171C/ZXE212_W2_ZX171C-101.jpg",
-      "price_range": null
+      "price_range": null,
+      "face_features": null
     },
     "ZXE213_1": {
       "head_code": "ZXE213_1",
@@ -3711,7 +3866,8 @@
       "price_range": [
         1000.0,
         2000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE213_2": {
       "head_code": "ZXE213_2",
@@ -3736,7 +3892,8 @@
       "price_range": [
         1000.0,
         2000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE214_1": {
       "head_code": "ZXE214_1",
@@ -3759,7 +3916,8 @@
       "price_range": [
         1600.0,
         2000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE214_2": {
       "head_code": "ZXE214_2",
@@ -3782,7 +3940,8 @@
       "price_range": [
         1600.0,
         2000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE215_1": {
       "head_code": "ZXE215_1",
@@ -3814,7 +3973,8 @@
       "price_range": [
         1000.0,
         2000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE215_2": {
       "head_code": "ZXE215_2",
@@ -3837,7 +3997,8 @@
       "price_range": [
         1000.0,
         1000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE215_3": {
       "head_code": "ZXE215_3",
@@ -3860,7 +4021,8 @@
       "price_range": [
         1000.0,
         1000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE215_W1": {
       "head_code": "ZXE215_W1",
@@ -3881,7 +4043,8 @@
       ],
       "product_count": 2,
       "representative_image": "assets/thumbs/SLE-Series/ZXE215_W1_ZX171C/ZXE215_W1_ZX171C-101.jpg",
-      "price_range": null
+      "price_range": null,
+      "face_features": null
     },
     "ZXE216_1": {
       "head_code": "ZXE216_1",
@@ -3913,7 +4076,8 @@
       "price_range": [
         1000.0,
         2000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE216_2": {
       "head_code": "ZXE216_2",
@@ -3937,7 +4101,8 @@
       "price_range": [
         1000.0,
         2000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE216_3": {
       "head_code": "ZXE216_3",
@@ -3964,7 +4129,8 @@
       "price_range": [
         1000.0,
         2000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE216_4": {
       "head_code": "ZXE216_4",
@@ -3988,7 +4154,8 @@
       "price_range": [
         1000.0,
         2000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE216_W1": {
       "head_code": "ZXE216_W1",
@@ -4009,7 +4176,8 @@
       ],
       "product_count": 2,
       "representative_image": "assets/thumbs/SLE-Series/ZXE216_W1_ZX172E/ZXE216_W1_ZX172E-101.jpg",
-      "price_range": null
+      "price_range": null,
+      "face_features": null
     },
     "ZXE217_1": {
       "head_code": "ZXE217_1",
@@ -4034,7 +4202,8 @@
       "price_range": [
         2000.0,
         2000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE217_2": {
       "head_code": "ZXE217_2",
@@ -4059,7 +4228,8 @@
       "price_range": [
         1600.0,
         2000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE217_4": {
       "head_code": "ZXE217_4",
@@ -4082,7 +4252,8 @@
       "price_range": [
         1000.0,
         1000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE217_5": {
       "head_code": "ZXE217_5",
@@ -4105,7 +4276,8 @@
       "price_range": [
         1000.0,
         1000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE218_1": {
       "head_code": "ZXE218_1",
@@ -4129,7 +4301,8 @@
       "price_range": [
         1600.0,
         2000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE218_2": {
       "head_code": "ZXE218_2",
@@ -4152,7 +4325,8 @@
       "price_range": [
         2000.0,
         2000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE218_W1": {
       "head_code": "ZXE218_W1",
@@ -4173,7 +4347,8 @@
       ],
       "product_count": 2,
       "representative_image": "assets/thumbs/SLE-Series/ZXE218_W1_ZX171C/ZXE218_W1_ZX171C-101.jpg",
-      "price_range": null
+      "price_range": null,
+      "face_features": null
     },
     "ZXE218_W2": {
       "head_code": "ZXE218_W2",
@@ -4191,7 +4366,8 @@
       "characters": [],
       "product_count": 1,
       "representative_image": "assets/SLE-Series/ZXE218_W2_ZX117E/ZXE218_W2_ZX117E-101.jpg",
-      "price_range": null
+      "price_range": null,
+      "face_features": null
     },
     "ZXE219_1": {
       "head_code": "ZXE219_1",
@@ -4218,7 +4394,8 @@
       "price_range": [
         1600.0,
         2000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE219_2": {
       "head_code": "ZXE219_2",
@@ -4241,7 +4418,8 @@
       "price_range": [
         1600.0,
         2000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE220_1": {
       "head_code": "ZXE220_1",
@@ -4264,7 +4442,8 @@
       "price_range": [
         2000.0,
         2000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE220_2": {
       "head_code": "ZXE220_2",
@@ -4287,7 +4466,8 @@
       "price_range": [
         1600.0,
         2000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE221_2": {
       "head_code": "ZXE221_2",
@@ -4310,7 +4490,8 @@
       "price_range": [
         1600.0,
         2000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE222_1": {
       "head_code": "ZXE222_1",
@@ -4335,7 +4516,8 @@
       "price_range": [
         1600.0,
         2000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE223_1": {
       "head_code": "ZXE223_1",
@@ -4362,7 +4544,8 @@
       "price_range": [
         1000.0,
         2000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE223_2": {
       "head_code": "ZXE223_2",
@@ -4385,7 +4568,8 @@
       "price_range": [
         1000.0,
         1000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE223_3": {
       "head_code": "ZXE223_3",
@@ -4408,7 +4592,8 @@
       "price_range": [
         1000.0,
         1000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE224_1": {
       "head_code": "ZXE224_1",
@@ -4431,7 +4616,8 @@
       "price_range": [
         1600.0,
         2000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE224_2": {
       "head_code": "ZXE224_2",
@@ -4456,7 +4642,8 @@
       "price_range": [
         1600.0,
         2000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE226_1": {
       "head_code": "ZXE226_1",
@@ -4481,7 +4668,8 @@
       "price_range": [
         1600.0,
         2000.0
-      ]
+      ],
+      "face_features": null
     },
     "ZXE231_1": {
       "head_code": "ZXE231_1",
@@ -4506,7 +4694,8 @@
       "price_range": [
         2000.0,
         2000.0
-      ]
+      ],
+      "face_features": null
     }
   }
 }

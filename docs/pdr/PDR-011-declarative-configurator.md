@@ -283,9 +283,41 @@ clearly-labelled custom path — and it surfaces a real commercial insight: a
 K-Series body buyer has only 3 interchangeable heads, whereas a `standard`-neck
 body opens up 186.
 
+**Neck class is now stored data, not a constant in page JS.**
+`scripts/build_neck_compat.py` → `db/neck_compatibility.json` is the single source
+of truth: an explicit `neck_class` per body, the `classes`/`compatibility` matrix,
+and the threshold — all in one reviewable place that both `build_heads.py` (via
+import) and `configurator.html` read. Each body also carries a `neck_joint_mm`
+slot (currently `null`): the hook for the **true measured connector spec**. Until
+that is filled, `neck_class` is circumference-derived and the UI labels cross-line
+fit as estimated; once `neck_joint_mm` is populated, classes key off the real
+measurement and the estimate disappears — no code change, just data.
+
 ---
 
-## 9. Strategic conclusion
+## 9. Face & finish — an honest proposed layer
+
+The natural next axis is per-head face features (eyes, makeup, brows, wig,
+freckles). The honest finding: **there is no structured face-feature data in
+`db/`** to reverse-engineer — the only real per-head face attribute is the
+movable-jaw variant (already modelled as `face_variant`). Character profiles
+carry persona/energy/tagline copy, and the stories mention "eyes"/"hair" only as
+prose.
+
+So rather than fabricate per-head eye colours, the configurator adds a **Face &
+Finish** group whose axes are all `provenance: proposed` — the standard ZELEX
+customization option set (eye colour, makeup, eyebrows, wig, freckles), offered
+globally at config time, composing into the build as a *custom finish* (no SKU
+impact) and summarised in the resolve panel. `db/heads.json` gains a
+`face_features` slot per head (`null`) as the explicit backfill target: populate
+it per head and these axes become head-aware (real defaults + availability)
+instead of global proposals. This mirrors the existing `proposed` component axes
+(standing feet, fingers) — surfaced as real options, flagged honestly as
+not-yet-backed-by-data.
+
+---
+
+## 10. Strategic conclusion
 
 1. Declarative beats hand-coded for a catalog that already regenerates from JSON:
    new bodies/tones/heads become **data** changes, not code changes.
@@ -304,7 +336,7 @@ every build is a measured architecture or an honest inquiry."*
 
 ---
 
-## 10. Acceptance Review
+## 11. Acceptance Review
 
 | Criterion | Status |
 |---|---|
@@ -321,4 +353,6 @@ every build is a measured architecture or an honest inquiry."*
 | Heads given a structured model (the head generator) | ✓ `scripts/build_heads.py` → `db/heads.json` (189 heads: line, neck_class, MJ, tones, paired bodies, cast, image, price) |
 | Head picker is an image gallery driven by that data | ✓ `head_code` renders as a thumbnail gallery; MJ gated to capable heads; falls back to a dropdown if `heads.json` missing |
 | Head↔line coupling understood + interchangeability pathway | ✓ neck-class model (slim vs standard); cross-line toggle; `cross_line_head` warn + `neck_incompatible` error; verified no slim/standard leakage |
+| Neck class is stored data with a measured-spec backfill slot | ✓ `scripts/build_neck_compat.py` → `db/neck_compatibility.json` (per-body `neck_class` + `neck_joint_mm:null`); imported by build_heads + read by the page |
+| Face features added honestly (no fabricated per-head data) | ✓ Face & Finish group, all `provenance: proposed`; `face_features` backfill slot in `heads.json`; resolve panel "custom finish" summary |
 | Both JSON artifacts parse; new page passes site validation | ✓ `validate-site.mjs` green (page added to its KIT_PAGES list) |

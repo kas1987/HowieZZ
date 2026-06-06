@@ -25,6 +25,9 @@ import re
 from collections import defaultdict
 from pathlib import Path
 
+# shared neck-connector definitions (single source of truth for the threshold)
+from build_neck_compat import neck_class, NECK_SLIM_MAX, LINE_NECK_CLASS
+
 ROOT = Path(__file__).resolve().parent.parent
 DB = ROOT / "db"
 OUT = DB / "heads.json"
@@ -33,25 +36,6 @@ OUT = DB / "heads.json"
 SERIES_LINE = {"Fusion": "Fusion", "I": "I-Series", "K": "K-Series", "SLE": "SLE 3.0"}
 # fallback: head-code prefix -> line, for heads with no/ambiguous product series_id
 PREFIX_LINE = {"ZXE": "SLE 3.0", "GE": "I-Series", "ZFE": "Fusion", "KE": "K-Series"}
-
-# --- neck-connector classes (the basis for interchangeable heads) ----------------
-# Heads attach at the neck. Marketing line is NOT the constraint; the neck
-# circumference is. db/body_measurements.json shows two clusters: K-Series ~27cm
-# (narrow) vs Fusion/I-Series/SLE ~31-33cm (standard). Heads sharing a class are
-# physically swappable across lines even though the catalog only sells line-matched
-# pairs. Threshold is an ESTIMATE from the spec cards — confirm against the physical
-# neck joint before treating a cross-line swap as guaranteed-fit.
-NECK_SLIM_MAX = 29.0  # cm; below this = the narrow (K-Series) connector
-
-
-def neck_class(neck_cm):
-    if neck_cm is None:
-        return None
-    return "slim" if neck_cm < NECK_SLIM_MAX else "standard"
-
-
-# line -> default neck class, used when a head has no measured paired body
-LINE_NECK_CLASS = {"K-Series": "slim", "I-Series": "standard", "Fusion": "standard", "SLE 3.0": "standard"}
 
 
 def load(name):
@@ -176,6 +160,10 @@ def main():
             "product_count": h["product_count"],
             "representative_image": images[0] if images else None,
             "price_range": [prices[0], prices[-1]] if prices else None,
+            # Backfill slot for per-head face features (eye colour, makeup, brows, wig,
+            # freckles). null = no structured data yet; the configurator's Face & Finish
+            # axes are global PROPOSED options until this is populated per head.
+            "face_features": None,
         }
 
     payload = {

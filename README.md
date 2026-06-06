@@ -71,7 +71,8 @@ build_profiles.py    # WHR/BWR analysis → classify into the 6 Body Families
 build_characters.py  # Series → Body → 4 characters → photoshoot|placeholder
 merge_stories.py     # fold story/profile inputs into characters.json
 make_thumbs.py       # generate hero/gallery thumbnails  (re-run after build_characters)
-build_heads.py       # reverse-engineer heads → db/heads.json (configurator head gallery)
+build_neck_compat.py # neck-connector classes → db/neck_compatibility.json (head interchangeability)
+build_heads.py       # reverse-engineer heads → db/heads.json (configurator head gallery; imports build_neck_compat)
 build_package.py     # stage the deliverable (code + referenced images) + zip
 ```
 

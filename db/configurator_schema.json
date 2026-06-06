@@ -143,6 +143,28 @@
           "note": "PROPOSED — needs a per-body capability flag in db/ before going live."
         }
       ]
+    },
+
+    {
+      "id": "face",
+      "label": "Face & Finish",
+      "intent": "Per-head finish options. PROPOSED: these are real ZELEX customizations, but there is no per-head face-feature data in db/ to reverse-engineer from — the enums below are the standard option set, not catalogued per-head availability/defaults. They compose into the build as a custom finish (no SKU impact) and write to the `face_features` slot reserved on each head (db/heads.json). Backfill that slot per head to turn these from global options into head-aware ones.",
+      "axes": [
+        { "id": "eye_color", "label": "Eye Colour", "control": "select", "type": "string", "provenance": "proposed",
+          "enum": ["As pictured", "Brown", "Hazel", "Blue", "Green", "Grey"], "default": "As pictured",
+          "note": "PROPOSED — acrylic eye swap. Per-head default unknown (no db/ data); 'As pictured' = the head's shipped eyes." },
+        { "id": "makeup", "label": "Makeup", "control": "radio", "type": "string", "provenance": "proposed",
+          "enum": ["As pictured", "Natural", "Glam"], "default": "As pictured",
+          "note": "PROPOSED — factory makeup style." },
+        { "id": "eyebrows", "label": "Eyebrows", "control": "radio", "type": "string", "provenance": "proposed",
+          "enum": ["Painted", "Implanted"], "default": "Painted",
+          "note": "PROPOSED — hand-painted vs implanted brow hair." },
+        { "id": "wig_color", "label": "Wig", "control": "select", "type": "string", "provenance": "proposed",
+          "enum": ["As pictured", "Black", "Brunette", "Blonde", "Red"], "default": "As pictured",
+          "note": "PROPOSED — removable wig; not a sculpt attribute." },
+        { "id": "freckles", "label": "Freckles", "control": "toggle", "type": "boolean", "provenance": "proposed",
+          "default": false, "note": "PROPOSED — optional painted freckles." }
+      ]
     }
   ],
 
@@ -227,6 +249,17 @@
           "breast_type": { "enum": ["Standard", "Gel / Implant"] },
           "standing_feet": { "type": "boolean" },
           "fingers": { "type": "boolean" }
+        }
+      },
+      "face": {
+        "type": "object",
+        "description": "Optional custom finish (all PROPOSED — no per-head data backing yet).",
+        "properties": {
+          "eye_color": { "enum": ["As pictured", "Brown", "Hazel", "Blue", "Green", "Grey"] },
+          "makeup": { "enum": ["As pictured", "Natural", "Glam"] },
+          "eyebrows": { "enum": ["Painted", "Implanted"] },
+          "wig_color": { "enum": ["As pictured", "Black", "Brunette", "Blonde", "Red"] },
+          "freckles": { "type": "boolean" }
         }
       }
     }
