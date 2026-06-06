@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ZELEX — Configurator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+/* ---- configurator page (PDR-011) ----
+   The whole UI is GENERATED from db/configurator_schema.json — these styles only
+   dress the generic controls + the live resolve panel. No new design tokens. */
+.cfg-head{max-width:var(--maxw);margin:0 auto;padding:36px 24px 8px;text-align:center}
+.cfg-head h1{font-size:clamp(30px,5vw,52px);font-weight:700;line-height:1.1;margin:10px 0 12px}
+.cfg-head h1 em{font-style:italic;color:var(--gold)}
+.cfg-head .sub{color:var(--muted);max-width:620px;margin:0 auto;font-size:15px;line-height:1.7}
+
+.cfg-wrap{max-width:var(--maxw);margin:0 auto;padding:28px 24px 70px;
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,420px);gap:32px;align-items:start}
+@media(max-width:880px){.cfg-wrap{grid-template-columns:1fr}}
+
+/* control groups */
+.cfg-group{background:var(--s2);border:1px solid var(--b-subtle);border-radius:16px;padding:24px;margin-bottom:20px}
+.cfg-group > h2{font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+.cfg-group .gintent{color:var(--muted);font-size:12px;line-height:1.5;margin-bottom:18px}
+.cfg-axis{margin-bottom:18px}
+.cfg-axis:last-child{margin-bottom:0}
+.cfg-axis > label{display:flex;justify-content:space-between;align-items:baseline;gap:10px;
+  font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--text);margin-bottom:8px}
+.cfg-axis .axval{color:var(--gold);font-size:13px;letter-spacing:.5px;text-transform:none;font-variant-numeric:tabular-nums}
+.cfg-axis .prov{font-size:9px;letter-spacing:1.5px;color:var(--muted);border:1px solid var(--line);
+  border-radius:20px;padding:2px 7px;text-transform:uppercase;opacity:.8}
+.cfg-axis .prov.proposed{color:var(--coral);border-color:var(--coral)}
+.cfg-axis .note{color:var(--muted);font-size:11px;line-height:1.45;margin-top:7px;font-style:italic}
+
+/* native-ish select */
+.cfg-axis select{width:100%;background:var(--panel2);color:var(--text);border:1px solid var(--line);
+  border-radius:10px;padding:11px 14px;font-family:inherit;font-size:14px;cursor:pointer}
+.cfg-axis select:focus{border-color:var(--gold);outline:none}
+
+/* segmented (radio) */
+.seg{display:flex;flex-wrap:wrap;gap:8px}
+.seg button{flex:1 1 auto;min-width:80px;background:var(--panel2);color:var(--muted);border:1px solid var(--line);
+  border-radius:10px;padding:10px 12px;font-family:inherit;font-size:13px;cursor:pointer;transition:.18s}
+.seg button:hover{border-color:var(--gold);color:var(--text)}
+.seg button.on{border-color:var(--gold);color:var(--gold);background:#2c2620}
+
+/* swatches */
+.swatches{display:flex;gap:10px}
+.swatch{display:flex;flex-direction:column;align-items:center;gap:6px;background:none;border:none;
+  cursor:pointer;color:var(--muted);font-family:inherit;font-size:11px;letter-spacing:1px}
+.swatch .dot{width:34px;height:34px;border-radius:50%;border:2px solid var(--line);transition:.18s}
+.swatch.on{color:var(--gold)}
+.swatch.on .dot{border-color:var(--gold);transform:scale(1.08)}
+
+/* slider */
+.cfg-axis input[type=range]{width:100%;accent-color:var(--gold);cursor:pointer}
+.rangerow{display:flex;justify-content:space-between;color:var(--muted);font-size:10px;margin-top:4px;letter-spacing:1px}
+
+/* toggle */
+.toggle{display:flex;align-items:center;gap:12px;cursor:pointer;user-select:none}
+.toggle input{position:absolute;opacity:0;width:0;height:0}
+.toggle .track{width:42px;height:24px;border-radius:24px;background:var(--panel2);border:1px solid var(--line);
+  position:relative;transition:.18s;flex:0 0 auto}
+.toggle .track::after{content:'';position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;
+  background:var(--muted);transition:.18s}
+.toggle input:checked + .track{border-color:var(--gold);background:#2c2620}
+.toggle input:checked + .track::after{background:var(--gold);transform:translateX(18px)}
+.toggle .tlabel{font-size:13px;color:var(--text);text-transform:none;letter-spacing:0}
+
+/* ---- resolve panel (sticky) ---- */
+.cfg-panel{position:sticky;top:90px}
+.resolve-card{background:var(--s2);border:1px solid var(--b-subtle);border-radius:18px;overflow:hidden}
+.rc-top{padding:22px 24px;border-bottom:1px solid var(--line)}
+.rc-eyebrow{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
+.rc-code{font-family:ui-monospace,monospace;font-size:26px;color:var(--cream);margin:8px 0 4px}
+.rc-line{display:flex;align-items:center;gap:8px;flex-wrap:wrap;color:var(--muted);font-size:13px}
+.rc-fam{padding:3px 10px;border-radius:20px;font-size:11px}
+.rc-body{padding:22px 24px}
+.rc-sec-title{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin:0 0 10px}
+.rc-sig.kv dt{color:var(--muted)}.rc-sig.kv dd{color:var(--text);text-align:right;font-variant-numeric:tabular-nums}
+.rc-sig.kv{grid-template-columns:1fr auto;gap:5px 14px;font-size:12.5px}
+.rc-price-row{display:flex;justify-content:space-between;align-items:baseline;margin-top:20px;
+  padding-top:18px;border-top:1px solid var(--line)}
+.rc-sku{font-family:ui-monospace,monospace;font-size:11.5px;color:var(--muted);word-break:break-all;max-width:60%}
+.rc-price{font-size:26px;color:var(--cream);font-weight:600}
+.rc-price .est{display:block;font-size:9px;letter-spacing:1.5px;color:var(--coral);text-transform:uppercase;text-align:right}
+.rc-actions{display:flex;gap:10px;padding:0 24px 22px;flex-wrap:wrap}
+.rc-actions .btn{flex:1 1 auto;text-align:center}
+
+/* validation notices */
+.notices{margin-top:16px;display:flex;flex-direction:column;gap:8px}
+.notice{font-size:12px;line-height:1.45;border-radius:10px;padding:10px 12px;border:1px solid}
+.notice.warn{border-color:var(--gold);color:var(--cream);background:rgba(212,165,116,.08)}
+.notice.error{border-color:var(--coral);color:#f2c4b6;background:rgba(225,139,115,.08)}
+
+.cfg-cast{max-width:var(--maxw);margin:0 auto;padding:0 24px 70px}
+.cfg-cast h3{font-size:14px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+.cfg-cast .section-sub{margin-bottom:18px}
+.cast-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px}
+</style>
+</head>
+<body>
+<div class="crumbs"><a href="index.html">Atlas</a><span>›</span> Configurator</div>
+<main id="app"><div class="loading">Loading catalog…</div></main>
+
+<script src="assets/site.js"></script>
+<script>
+ZX.mountNav('');
+
+// Pull the declarative spec + the raw catalog files the resolver reads. The page is a
+// thin renderer over db/configurator_schema.json — change the spec, the UI follows.
+Promise.all([
+  ZX.load(),
+  fetch('db/configurator_schema.json').then(r=>r.json()),
+  fetch('db/body_measurements.json').then(r=>r.json()),
+  fetch('db/live_variants.json').then(r=>r.json()),
+  fetch('db/product_overrides.json').then(r=>r.json()).catch(()=>({}))
+]).then(([m, schema, meas, variants, overrides]) => {
+  render(m, { schema, bodies: meas.bodies||{}, variants: variants||[], overrides: overrides||{} });
+  ZX.mountFooter();
+}).catch(() => ZX.fail());
+
+function render(m, DATA){
+  const { schema, bodies, variants, overrides } = DATA;
+  const app = document.getElementById('app');
+
+  // ---- helpers reading the spec (so logic stays declarative) ----
+  const axisById = {};
+  schema.groups.forEach(g => g.axes.forEach(a => { a._group = g.id; axisById[a.id] = a; }));
+  const deriv = {}; (schema.derivations||[]).forEach(d => deriv[d.id] = d);
+  const prefixesFor = line => { const p = (axisById.line.code_prefix||{})[line]; return p ? (Array.isArray(p)?p:[p]) : []; };
+
+  // distinct heads that co-occur with a line's bodies in the live catalog (drives the head picker)
+  function headsForLine(line){
+    const pre = prefixesFor(line);
+    const hit = b => pre.some(p => (b||'').indexOf(p) === 0);
+    const set = new Set();
+    variants.forEach(v => { if (v.head && hit(v.body)) set.add(v.head); });
+    return [...set].sort();
+  }
+
+  // ---- resolver: runs the schema's derivations on the current build ----
+  function resolveBodyCode(b){
+    for (const pre of prefixesFor(b.line)){
+      const code = pre + b.height_cm + b.cup;
+      if (bodies[code]) return code;
+    }
+    return null;
+  }
+  function signatureOf(code){
+    const src = bodies[code]; if(!src) return null;
+    const out = {};
+    axisById.signature.fields.forEach(f => { if (src[f]!=null) out[f] = src[f]; });
+    return out;
+  }
+  function classifyFamily(code){
+    // prefer the adjudicated value stored in body_profiles (see PDR-011 §4 ZK168B note)
+    const p = (m.profiles||[]).find(x => x.body_code === code);
+    if (p && p.family) return { family:p.family, WHR:p.WHR, BWR:p.BWR, confidence:p.family_confidence||'stored' };
+    const s = bodies[code]; if(!s || s.waist==null || s.hip==null) return { family:null };
+    const WHR = +(s.waist/s.hip).toFixed(3), BWR = +((s.upper_bust||s.waist)/s.waist).toFixed(3);
+    let best=null, bestD=Infinity;
+    (m.families||[]).forEach(F => {
+      const wc=(F.whr_range||F.whr||[]), bc=(F.bwr_range||F.bwr||[]);
+      if(!wc.length) return;
+      const cw=(wc[0]+wc[1])/2, cb=(bc[0]+bc[1])/2;
+      const d=Math.abs(WHR-cw)+Math.abs(BWR-cb);
+      if(d<bestD){bestD=d;best=F.name;}
+    });
+    return { family:best, WHR, BWR, confidence:'near' };
+  }
+  function mjOverrideFor(headCode, code){
+    return Object.values(overrides).find(o => o.face_code && o.head_code===headCode &&
+           (!code || o.body_code===code));
+  }
+  function resolveSku(st, code){
+    if(!code) return { sku:null, price:null, estimated:true };
+    // Movable Jaw resolves through product_overrides (carries its own SKU + price)
+    if(st.head.face_variant === 'Movable Jaw'){
+      const o = mjOverrideFor(st.head.head_code, code);
+      if(o) return { sku:o.sku, price:o.price, estimated:false };
+    }
+    const wantVer = st.body.line==='SLE 3.0' ? (st.body.skeleton_version||'').replace(/[^0-9.]/g,'') : null;
+    const cands = variants.filter(v => v.body===code && v.head===st.head.head_code);
+    const score = v => {
+      let s=0;
+      if(st.components.skin_tone && v.tone===st.components.skin_tone) s+=2;
+      if(wantVer && (v.sku||'').toLowerCase().includes('sle'+wantVer)) s+=2;
+      return s;
+    };
+    cands.sort((a,b)=>score(b)-score(a));
+    if(cands.length) return { sku:cands[0].sku, price:cands[0].price, estimated:false };
+    // no catalogued SKU — synthesize the string + estimate the price
+    const face = st.head.face_variant==='Movable Jaw' ? '(MJ)' : '';
+    const tone = st.components.skin_tone ? '-'+st.components.skin_tone : '';
+    const sle  = wantVer ? '-Sle'+wantVer : '';
+    return { sku:`${st.head.head_code}${face}+${code}${tone}${sle}`, price:null, estimated:true };
+  }
+  function estimatePrice(st, code, family){
+    const pm = (deriv.resolve_price||{}).pricing_model||{};
+    const base=(pm.base_by_line_usd||{})[st.body.line];
+    if(base==null) return null;
+    const mat=(pm.material_factor||{})[st.body.material]||1;
+    const prem=(pm.family_premium||{})[family]||0;
+    return (base*mat*(1+prem)).toFixed(2);
+  }
+  function validate(st, code){
+    const out=[];
+    (schema.validation||[]).forEach(rule=>{
+      let hit=false;
+      switch(rule.id){
+        case 'bespoke_combination': hit = !code; break;
+        case 'mj_unsupported': hit = st.head.face_variant==='Movable Jaw' && !mjOverrideFor(st.head.head_code, code); break;
+        case 'skeleton_scope': hit = !!st.body.skeleton_version && st.body.line!=='SLE 3.0'; break;
+        case 'torso_excluded': hit = st.body.height_cm < 120; break;
+        case 'dev_line': hit = ['The Classic','The Sculpt'].includes(st.body.line); break;
+      }
+      if(hit) out.push({sev:rule.severity, msg:rule.message});
+    });
+    return out;
+  }
+
+  // ---- state: seed each axis from the spec's defaults, then a known-good body ----
+  const st = { body:{}, head:{}, components:{} };
+  schema.groups.forEach(g => g.axes.forEach(a => {
+    if(a.control==='derived') return;
+    let v = a.default;
+    if(v===undefined && a.default_by_line) v = a.default_by_line['I-Series'];
+    if(v===undefined && a.enum) v = a.enum[0];
+    if(v===undefined && a.control==='toggle') v=false;
+    if(v!==undefined) st[a._group][a.id]=v;
+  }));
+  // start on a catalogued architecture for a confident first impression (ZG170C — the Muse)
+  st.body.line='I-Series'; st.body.height_cm=170; st.body.cup='C'; st.body.material='Silicone';
+  st.head.head_code = headsForLine('I-Series')[0] || st.head.head_code;
+  st.components.skin_tone='Tan';
+
+  // ---- generic control renderers (driven by axis.control) ----
+  function ctrl(a){
+    const g=st[a._group]; const cur=g[a.id];
+    if(a.control==='select' || a.control==='gallery-select'){
+      const opts = a.id==='head_code' ? headsForLine(st.body.line) : (a.enum||[]);
+      return `<select data-axis="${a.id}">`+opts.map(o=>`<option value="${ZX.esc(o)}"${o===cur?' selected':''}>${ZX.esc(o)}${devTag(a,o)}</option>`).join('')+`</select>`;
+    }
+    if(a.control==='radio'){
+      return `<div class="seg" data-axis="${a.id}">`+(a.enum||[]).map(o=>`<button data-v="${ZX.esc(o)}" class="${o===cur?'on':''}">${ZX.esc(o)}</button>`).join('')+`</div>`;
+    }
+    if(a.control==='swatch'){
+      const tones={Fair:'#e9d4bf',Tan:'#c79a6e',White:'#f1e6da'};
+      return `<div class="swatches" data-axis="${a.id}">`+(a.enum||[]).map(o=>`<button class="swatch ${o===cur?'on':''}" data-v="${ZX.esc(o)}"><span class="dot" style="background:${tones[o]||'#999'}"></span>${ZX.esc(o)}</button>`).join('')+`</div>`;
+    }
+    if(a.control==='slider'){
+      return `<input type="range" data-axis="${a.id}" min="${a.min}" max="${a.max}" step="${a.step||1}" value="${cur}">
+        <div class="rangerow"><span>${a.min}${a.unit||''}</span><span>${a.max}${a.unit||''}</span></div>`;
+    }
+    if(a.control==='toggle'){
+      return `<label class="toggle"><input type="checkbox" data-axis="${a.id}" ${cur?'checked':''}><span class="track"></span><span class="tlabel">${cur?'On':'Off'}</span></label>`;
+    }
+    return '';
+  }
+  function devTag(a,o){ return (a.id==='line' && (a.status||{})[o]==='in_development') ? ' — in development' : ''; }
+  function visible(a){
+    if(!a.visible_when) return true;
+    return Object.entries(a.visible_when).every(([k,v]) => st.body[k]===v || st.head[k]===v || st.components[k]===v);
+  }
+
+  function axisHtml(a){
+    if(a.control==='derived' || !visible(a)) return '';
+    const cur = st[a._group][a.id];
+    const valChip = (a.control==='slider') ? `<span class="axval">${cur}${a.unit||''}</span>`
+                  : (a.control!=='toggle' && cur!=null) ? `<span class="axval">${ZX.esc(cur)}</span>` : '';
+    const prov = a.provenance ? `<span class="prov ${a.provenance==='proposed'?'proposed':''}" title="${ZX.esc(schema.provenance_legend[a.provenance]||'')}">${a.provenance}</span>` : '';
+    return `<div class="cfg-axis" data-wrap="${a.id}">
+      <label>${ZX.esc(a.label)} <span style="display:flex;gap:8px;align-items:center">${valChip}${prov}</span></label>
+      ${ctrl(a)}
+      ${a.note?`<div class="note">${ZX.esc(a.note)}</div>`:''}
+    </div>`;
+  }
+
+  function controlsHtml(){
+    return schema.groups.map(g=>`<section class="cfg-group">
+      <h2>${ZX.esc(g.label)}</h2>
+      ${g.intent?`<div class="gintent">${ZX.esc(g.intent)}</div>`:''}
+      ${g.axes.map(axisHtml).join('')}
+    </section>`).join('');
+  }
+
+  // ---- the live resolve panel ----
+  function panelHtml(){
+    const code = resolveBodyCode(st.body);
+    const fam = classifyFamily(code);
+    const sig = signatureOf(code);
+    const skuR = resolveSku(st, code);
+    const price = skuR.price!=null ? skuR.price : estimatePrice(st, code, fam.family);
+    const notices = validate(st, code);
+    const fc = ZX.famColor(fam.family);
+
+    const sigRows = sig ? Object.entries(sig).map(([k,v])=>{
+      const lbl = k.replace(/_/g,' ').replace(/\bcirc\b/,'circ.');
+      const unit = k==='weight_kg' ? ' kg' : ' cm';
+      return `<dt>${ZX.esc(lbl.replace(' kg',''))}</dt><dd>${v}${unit}</dd>`;
+    }).join('') : '';
+
+    const famChip = fam.family
+      ? `<span class="rc-fam" style="color:${fc};border:1px solid ${fc}">${ZX.esc(fam.family)}${fam.confidence&&fam.confidence!=='exact'?` · ${fam.confidence}`:''}</span>`
+      : `<span class="rc-fam" style="color:var(--muted);border:1px solid var(--line)">bespoke</span>`;
+
+    const ratio = fam.WHR!=null ? `<span>WHR ${fam.WHR} · BWR ${fam.BWR}</span>` : '';
+
+    const noticeHtml = notices.length ? `<div class="notices">`+notices.map(n=>`<div class="notice ${n.sev}">${ZX.esc(n.msg)}</div>`).join('')+`</div>` : '';
+
+    return `<div class="resolve-card">
+      <div class="rc-top">
+        <div class="rc-eyebrow">Resolved architecture</div>
+        <div class="rc-code">${code?ZX.esc(code):'— bespoke —'}</div>
+        <div class="rc-line">${famChip}<span>${st.body.height_cm}cm · ${ZX.esc(st.body.cup)}-cup · ${ZX.esc(st.body.material)}</span></div>
+        <div class="rc-line" style="margin-top:6px">${ratio}</div>
+      </div>
+      <div class="rc-body">
+        ${sig ? `<div class="rc-sec-title">Measurement signature</div><dl class="kv rc-sig">${sigRows}</dl>` :
+          `<div class="note" style="font-style:italic;color:var(--muted)">No catalogued spec card — this is a bespoke inquiry, not an instant SKU.</div>`}
+        <div class="rc-price-row">
+          <span class="rc-sku">${skuR.sku?ZX.esc(skuR.sku):'—'}</span>
+          <span class="rc-price">${price!=null?'$'+price:'—'}${skuR.estimated&&price!=null?'<span class="est">estimated</span>':''}</span>
+        </div>
+        ${noticeHtml}
+      </div>
+      <div class="rc-actions">
+        ${code
+          ? `<a class="btn solid" href="contact.html">Inquire about this build</a>`
+          : `<a class="btn solid" href="mailto:${ZX.INQUIRY_EMAIL}?subject=${encodeURIComponent('ZELEX bespoke inquiry')}">Request bespoke quote</a>`}
+        ${code && (m.byBody[code]||[]).length ? `<a class="btn ghost" href="body.html?b=${encodeURIComponent(code)}">View architecture</a>` : ''}
+      </div>
+    </div>`;
+  }
+
+  // ---- existing cast for the resolved architecture (cross-link to real characters) ----
+  function castHtml(){
+    const code = resolveBodyCode(st.body);
+    const cast = code ? (m.byBody[code]||[]).filter(c=>c.status==='live') : [];
+    if(!cast.length) return '';
+    return `<section class="cfg-cast">
+      <h3>Cast on this architecture</h3>
+      <div class="section-sub">Characters ZELEX has already realised on ${ZX.esc(code)} — your build shares their measured signature.</div>
+      <div class="cast-grid">${cast.slice(0,4).map(c=>ZX.charCard(c)).join('')}</div>
+    </section>`;
+  }
+
+  // ---- mount + re-render ----
+  function paint(){
+    app.innerHTML = `
+      <div class="cfg-head">
+        <div class="eyebrow">Build a ZELEX</div>
+        <h1>Configure from the <em>catalog</em></h1>
+        <p class="sub">Every selection resolves to a measured architecture — a real body code, family, and price — or an honest bespoke inquiry. Generated live from the declarative spec (PDR-011).</p>
+      </div>
+      <div class="cfg-wrap">
+        <div class="cfg-controls">${controlsHtml()}</div>
+        <aside class="cfg-panel">${panelHtml()}</aside>
+      </div>
+      ${castHtml()}`;
+    wire();
+    ZX.revealInit();
+  }
+  // only the panel + cast depend on state; controls keep their DOM (and focus) between edits
+  function repaintLive(){
+    document.querySelector('.cfg-panel').innerHTML = panelHtml();
+    const old = document.querySelector('.cfg-cast'); if(old) old.remove();
+    document.querySelector('.cfg-wrap').insertAdjacentHTML('afterend', castHtml());
+  }
+
+  function set(group, id, value){
+    st[group][id] = value;
+    // changing line can invalidate the head + skeleton scope → reconcile, then full repaint
+    if(id==='line'){
+      const heads = headsForLine(value);
+      if(!heads.includes(st.head.head_code)) st.head.head_code = heads[0] || st.head.head_code;
+      if(value!=='SLE 3.0') delete st.body.skeleton_version;
+      else if(!st.body.skeleton_version) st.body.skeleton_version = axisById.skeleton_version.default;
+      paint();
+    } else {
+      repaintLive();
+      syncControlChrome();
+    }
+  }
+  // keep value-chips / toggle labels / segmented 'on' states in sync without a full repaint
+  function syncControlChrome(){
+    document.querySelectorAll('[data-wrap]').forEach(w=>{
+      const id=w.dataset.wrap, a=axisById[id], cur=st[a._group][id];
+      const chip=w.querySelector('.axval');
+      if(chip) chip.textContent = (a.control==='slider'?`${cur}${a.unit||''}`:String(cur));
+      w.querySelectorAll('.seg button').forEach(b=>b.classList.toggle('on', b.dataset.v===cur));
+      w.querySelectorAll('.swatch').forEach(b=>b.classList.toggle('on', b.dataset.v===cur));
+      const tl=w.querySelector('.tlabel'); if(tl) tl.textContent = cur?'On':'Off';
+    });
+  }
+
+  function wire(){
+    app.querySelectorAll('select[data-axis]').forEach(el=>el.addEventListener('change',e=>{
+      const a=axisById[el.dataset.axis]; set(a._group,a.id,e.target.value);
+    }));
+    app.querySelectorAll('input[type=range][data-axis]').forEach(el=>el.addEventListener('input',e=>{
+      const a=axisById[el.dataset.axis]; set(a._group,a.id, a.type==='integer'?parseInt(e.target.value,10):+e.target.value);
+    }));
+    app.querySelectorAll('.seg[data-axis] button').forEach(el=>el.addEventListener('click',e=>{
+      const seg=el.closest('.seg'); const a=axisById[seg.dataset.axis]; set(a._group,a.id, el.dataset.v);
+    }));
+    app.querySelectorAll('.swatches[data-axis] .swatch').forEach(el=>el.addEventListener('click',()=>{
+      const sw=el.closest('.swatches'); const a=axisById[sw.dataset.axis]; set(a._group,a.id, el.dataset.v);
+    }));
+    app.querySelectorAll('input[type=checkbox][data-axis]').forEach(el=>el.addEventListener('change',e=>{
+      const a=axisById[el.dataset.axis]; set(a._group,a.id, e.target.checked);
+    }));
+  }
+
+  paint();
+}
+</script>
+</body>
+</html>

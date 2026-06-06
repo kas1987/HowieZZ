@@ -57,7 +57,7 @@
       "resolved": {
         "body_code": "ZK168B",
         "family": "The Muse",
-        "family_confidence": "near",
+        "family_confidence": "loose",
         "WHR": 0.649,
         "BWR": 1.238,
         "signature": {
@@ -70,7 +70,7 @@
         "price": "3869.10",
         "price_basis": "catalogued live variant (authoritative)",
         "estimated": false,
-        "classifier_note": "WHR 0.649 sits below the Muse floor (0.65) and inside the Icon band (0.60–0.65), but BWR 1.238 is below both. No exact containment → nearest-center wins → The Muse (near). This is why resolve_price prefers the stored db/body_profiles family over a live re-derive."
+        "classifier_note": "WHR 0.649 sits below the Muse floor (0.65) and inside the Icon band (0.60–0.65), but BWR 1.238 is below both. The nearest-center family (The Muse) contains NEITHER axis in range → confidence 'loose' (per db/family_taxonomy.json#/confidence_labels). This is why resolve_price prefers the stored db/body_profiles family over a live re-derive."
       },
       "source": {
         "signature": "db/body_measurements.json#/bodies/ZK168B",

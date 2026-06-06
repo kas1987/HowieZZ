@@ -2,7 +2,7 @@
 
 **Branch:** claude/zelex-config-ui-builder-rso32
 **Date:** 2026-06-06
-**Status:** Proposed (PDR + schema + worked examples; no live UI yet)
+**Status:** Implemented — PDR + schema + worked examples + working `configurator.html` prototype
 
 ---
 
@@ -80,7 +80,7 @@ Three were chosen to span the axis space:
 | Body | Line | Family | Why |
 |---|---|---|---|
 | `ZG170C` | I-Series | The Muse (exact) | 17 fields, 59 live variants — richest head/face/tone coverage |
-| `ZK168B` | K-Series | The Muse (near) | Sits on a family boundary — exercises the classifier's fallback |
+| `ZK168B` | K-Series | The Muse (loose) | Sits off every family box — exercises the classifier's nearest-center fallback |
 | `ZX172E` | SLE 3.0 | The Icon (exact) | SLE-only axes: TPE material + skeleton version + version/tone SKU suffix |
 
 **Step 2 — decompose each into axes.** A catalogued product
@@ -149,8 +149,8 @@ Four declared rules, all in `configurator_schema.json#/derivations`:
 
 ZK168B has WHR 0.649 and BWR 1.238. WHR 0.649 falls *below* the Muse floor
 (0.65) and *inside* the Icon band (0.60–0.65) — but BWR 1.238 is below both
-families' bands. No family contains the point on both axes, so nearest-center
-wins → **The Muse (near)**. A naive live re-derive could just as easily snap it
+families' bands. No family contains the point on **either** axis, so
+nearest-center wins → **The Muse (loose)**. A naive live re-derive could just as easily snap it
 to Icon on the WHR axis alone. This is precisely why `classify_family` and
 `resolve_price` **prefer the precomputed `body_profiles` value** and only
 recompute for genuinely bespoke combinations. The stored taxonomy is the
@@ -167,7 +167,7 @@ adjudicated answer; the live formula is the fallback.
    Jaw` resolves a different head+face SKU (`GE02_1_2(GE46MJ)+ZG170C-Tan`),
    proving the face axis is real.
 2. **ZK168B** — `K-Series + 168 + B / KE03_1 / Fair` → `KE03_1+ZK168B-1` @
-   `$3869.10`; carries the `near`-confidence classifier note above.
+   `$3869.10`; carries the `loose`-confidence classifier note above.
 3. **ZX172E** — `SLE 3.0 + 172 + E / TPE / SLE 3.0 / ZXE215_1 / Tan` →
    `ZXE215_1+ZX172E-Tan-Sle3.0` @ `$2000`. The SLE-2.0 skeleton alternate
    resolves a *different, cheaper* SKU (`$1600`) — proving `skeleton_version` is
@@ -198,22 +198,32 @@ without bespoke code:
 
 ## 7. Scope of this package vs. the next step
 
-**In this package (proposed, no UI):**
-the spec, the worked examples, this PDR. It proves the declarative model
-round-trips real bodies and is buildable from existing `db/` files alone.
+**In this package:**
 
-**Deliberately not in this package:**
+- The spec, the worked examples, and this PDR — proving the declarative model
+  round-trips real bodies from existing `db/` files alone.
+- A working **`configurator.html`** prototype: a generic renderer that walks
+  `groups[].axes[]` to emit the kit's controls (per `site-kit-contract.md`), and
+  a resolver that runs the four `derivations` + `validation` rules live. It
+  reuses `assets/site.css` tokens and `ZX` helpers (`famColor`, `charCard`,
+  `esc`, nav/footer) — no new design system. Selections resolve in real time to a
+  body code, family, signature, SKU, and price (or a bespoke inquiry), and the
+  page cross-links to the existing cast on the resolved architecture. The
+  prototype's logic was sanity-checked against `db/` for all three worked
+  examples plus the bespoke case.
 
-- A live `configurator.html` page. The natural next PDR: a generic renderer that
-  walks `groups[].axes[]` to emit the kit's controls (per the
-  `site-kit-contract.md`), and a resolver that runs `derivations` and renders the
-  resulting body + family card via the existing `ZX.bodyCard`. No new design
-  system — it reuses `assets/site.css` tokens and `ZX` helpers.
+**Deliberately not in this package (next step):**
+
 - Backfilling the `proposed` component axes (standing feet, articulated fingers)
   with per-body capability flags in `db/`.
 - A `build_configurator.py` pipeline step that pre-resolves every catalogued
   combination into a lookup table (so the runtime resolver is a map, not a
   search).
+- A head **gallery** picker with imagery (the prototype renders `head_code` as a
+  filtered dropdown; the spec already declares it `gallery-select`).
+- Adding the configurator to the global nav in `assets/site.js` (kept out to keep
+  this change off the shared runtime; reachable via breadcrumb / direct link for
+  now).
 
 ---
 
@@ -228,8 +238,8 @@ round-trips real bodies and is buildable from existing `db/` files alone.
    source of truth; provenance tags keep the tool honest about real vs. proposed
    options.
 4. The reverse-engineering round-trips three strong-data bodies (and fails
-   honestly on a bespoke fourth), so the model is proven before a line of UI is
-   written.
+   honestly on a bespoke fourth); the `configurator.html` prototype then proves
+   the same spec drives a live UI with no per-axis code.
 
 **Positioning headline:** *"Configure from the catalog, not from imagination —
 every build is a measured architecture or an honest inquiry."*
@@ -248,5 +258,6 @@ every build is a measured architecture or an honest inquiry."*
 | ≥2 strong-data bodies reverse-engineered with truthful resolved values | ✓ ZG170C, ZK168B, ZX172E in `configurator_examples.json`, transcribed from `db/` |
 | Round-trip reproduces real SKU + price + family | ✓ each example's `resolved` matches `live_variants.json` / `body_profiles.json` |
 | Bespoke / failure path defined | ✓ `bespoke_combination` rule + worked bespoke example |
-| Reuses existing patterns (no new design system, notify-me reuse) | ✓ next-step renderer reuses `site-kit-contract`; dev lines reuse PDR-003 notify-me |
-| Both JSON artifacts parse | ✓ verified with `json.load` |
+| Reuses existing patterns (no new design system, notify-me reuse) | ✓ `configurator.html` reuses `site-kit-contract` head/boot + `ZX` helpers; dev lines reuse PDR-003 notify-me |
+| Working prototype generated from the spec (not hand-coded per axis) | ✓ `configurator.html` walks `groups[].axes[]` + `derivations`; resolver verified against `db/` for all 3 examples + bespoke |
+| Both JSON artifacts parse; new page passes site validation | ✓ `validate-site.mjs` green (page added to its KIT_PAGES list) |
