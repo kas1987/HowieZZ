@@ -111,9 +111,12 @@ window.ZX = (function () {
         requestAnimationFrame(()=>{ ticking = false; _revealSweep(); }); };
       addEventListener('scroll', onScroll, {passive:true});
       addEventListener('resize', onScroll, {passive:true});
-      // failsafe: in any environment where scroll/measurement misbehaves, never leave
-      // content hidden — force-show anything still pending after a few seconds.
-      setTimeout(()=>document.querySelectorAll('.reveal:not(.in)').forEach(e=>e.classList.add('in')), 4000);
+      // failsafe: in any environment where scroll, measurement, OR transitions
+      // misbehave, never leave content hidden — hard-show anything still pending after
+      // a few seconds, bypassing the transition (inline wins, transition:none = instant).
+      setTimeout(()=>document.querySelectorAll('.reveal:not(.in)').forEach(e=>{
+        e.classList.add('in'); e.style.transition='none'; e.style.opacity='1'; e.style.transform='none';
+      }), 4000);
     }
   }
 
