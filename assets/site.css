@@ -55,7 +55,7 @@ img{display:block}
 /* === Focus ===================================================== */
 :focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:var(--r-sm)}
 .btn:focus-visible{outline-offset:4px}
-.card:focus-visible,.bodycard:focus-visible{outline-offset:2px;box-shadow:var(--sh-focus)}
+.card:focus-visible,.bodycard:focus-visible{outline-offset:2px;box-shadow:var(--sh-card),var(--sh-focus)}
 
 /* === Nav ====================================================== */
 .nav{position:sticky;top:0;z-index:50;display:flex;justify-content:space-between;align-items:center;
@@ -212,6 +212,8 @@ main{max-width:var(--maxw);margin:0 auto;padding:10px 24px 70px}
   .js .reveal,.js .reveal.in{opacity:1;transform:none;transition:none}
   .btn.solid::after{display:none}
   .card,.bodycard{transition:border-color .15s}
+  .card:hover,.bodycard:hover{transform:none}
+  .card:hover .imgwrap img,.bodycard:hover .bw img{transform:none}
 }
 
 /* === Data / spec blocks ======================================= */
