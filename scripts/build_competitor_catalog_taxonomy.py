@@ -80,16 +80,8 @@ SUPPLIERS = [
     SupplierConfig("Game Lady", "game-lady"),
     SupplierConfig("Gynoid", "gynoid"),
     # ZELEX via Dollstudio (cross-check against local baseline)
-    SupplierConfig("ZELEX", "zelex", source_label="Dollstudio supplier catalogue (ZELEX cross-check)"),
+    SupplierConfig("ZELEX (Dollstudio)", "zelex"),
 ]
-
-BRAND_ALIASES = {
-    "ZELEX (Dollstudio)": "ZELEX",
-}
-
-
-def canonical_brand(brand: str) -> str:
-    return BRAND_ALIASES.get(brand, brand)
 
 # ---------------------------------------------------------------------------
 # Geographic / market metadata — encoded from public brand knowledge
@@ -191,36 +183,10 @@ BRAND_GEO: dict[str, dict] = {
                  "primary_markets": ["NA", "EU", "APAC"],
                  "tier": "mid", "tier_usd_floor": 1600,
                  "segment": "silicone_tpe", "market_notes": "Volume mid-tier; moderate Western distribution"},
-    "Sanhui": {"country": "China", "hq_city": "Shenzhen", "region": "Asia",
-               "primary_markets": ["NA", "EU"],
-               "tier": "premium", "tier_usd_floor": 3000,
-               "segment": "silicone",
-               "market_notes": "Full-silicone premium brand; boutique catalogue; strong realism reputation"},
-    "FunWest": {"country": "China", "hq_city": "Zhongshan", "region": "Asia",
-                "primary_markets": ["NA", "EU"],
-                "tier": "budget-mid", "tier_usd_floor": 1000,
-                "segment": "tpe",
-                "market_notes": "High-volume TPE; broad body range; strong reseller distribution"},
-    "Dime Doll": {"country": "China", "hq_city": "Zhongshan", "region": "Asia",
-                  "primary_markets": ["NA"],
-                  "tier": "mid", "tier_usd_floor": 1500,
-                  "segment": "silicone",
-                  "market_notes": "Silicone-focused mid brand; growing NA DTC presence via SiliconWives"},
-    "Lilydoll": {"country": "China", "hq_city": "Zhongshan", "region": "Asia",
-                 "primary_markets": ["NA", "EU"],
-                 "tier": "mid", "tier_usd_floor": 1500,
-                 "segment": "silicone_tpe",
-                 "market_notes": "Plush-skew body range; Empress/BBW-adjacent catalogue"},
-    "MD Doll": {"country": "China", "hq_city": "Zhongshan", "region": "Asia",
-                "primary_markets": ["NA", "EU"],
-                "tier": "mid", "tier_usd_floor": 1400,
-                "segment": "tpe",
-                "market_notes": "Volume TPE brand; broad height and cup range"},
-    "Lusandy Doll": {"country": "China", "hq_city": "Zhongshan", "region": "Asia",
-                     "primary_markets": ["NA", "EU"],
-                     "tier": "mid", "tier_usd_floor": 1400,
-                     "segment": "silicone_tpe",
-                     "market_notes": "Mid-tier multi-material catalogue; moderate Western distribution"},
+    "ZELEX (Dollstudio)": {"country": "China", "hq_city": "Zhongshan", "region": "Asia",
+                           "primary_markets": ["NA", "EU", "AU", "APAC"],
+                           "tier": "premium", "tier_usd_floor": 2800,
+                           "segment": "silicone", "market_notes": "Same brand as baseline; Dollstudio cross-check"},
 }
 
 # Market tier definitions for the market analysis table
@@ -235,8 +201,6 @@ MARKET_TIERS = [
 
 # Geographic market segments referenced in BRAND_GEO
 MARKET_REGIONS = [
-    {"code": "US", "label": "United States", "key_countries": "USA",
-     "notes": "Strict US-only market view (distinct from wider North America rollup)"},
     {"code": "NA", "label": "North America", "key_countries": "USA, Canada",
      "notes": "Largest single revenue market; highest price tolerance; RealDoll, Irontech, Tayu strong here"},
     {"code": "EU", "label": "Europe", "key_countries": "Germany, UK, France, Netherlands",
@@ -257,6 +221,12 @@ UNAVAILABLE_COMPETITORS = [
         "status": "pending-source",
         "reason": "No stable machine-readable body-style catalogue endpoint has been integrated yet.",
         "source_url": "https://www.dollforever.com/",
+    },
+    {
+        "brand": "Tayu",
+        "status": "pending-source",
+        "reason": "No stable machine-readable body-style catalogue endpoint has been integrated yet.",
+        "source_url": "https://www.tayudoll.com/",
     },
     {
         "brand": "Sanhui",
@@ -464,7 +434,7 @@ def scrape_supplier(config: SupplierConfig, session: requests.Session, families:
 
         rows.append(
             {
-                "brand": canonical_brand(config.brand),
+                "brand": config.brand,
                 "source_url": url,
                 "source_tier": config.source_tier,
                 "source_label": config.source_label,
@@ -724,127 +694,6 @@ def capture_realdoll_inventory(session: requests.Session) -> list[dict]:
             }
         )
     return inventory
-
-
-# ---------------------------------------------------------------------------
-# SiliconWives Shopify adapter — brands not available via Dollstudio
-# ---------------------------------------------------------------------------
-
-@dataclass(frozen=True)
-class SiliconWivesConfig:
-    brand: str
-    collection_slug: str
-    min_height_cm: float = 100.0
-
-    @property
-    def url(self) -> str:
-        return f"https://www.siliconwives.com/collections/{self.collection_slug}/products.json?limit=250"
-
-
-SW_COLLECTIONS = [
-    SiliconWivesConfig("Sanhui",       "sanhui-doll-brand"),
-    SiliconWivesConfig("FunWest",      "shop-funwest-doll"),
-    SiliconWivesConfig("Dime Doll",    "shop-dime-doll"),
-    SiliconWivesConfig("Lilydoll",     "shop-lilydoll-brand"),
-    SiliconWivesConfig("MD Doll",      "shop-md-doll-brand-sex-dolls"),
-    SiliconWivesConfig("Lusandy Doll", "shop-lusandy-doll"),
-]
-
-# Strict US market evidence is tied to brands observed in US-facing channels used by this pipeline.
-US_MARKET_BRANDS = {canonical_brand(s.brand) for s in SUPPLIERS} | {canonical_brand(s.brand) for s in SW_COLLECTIONS} | {"RealDoll"}
-
-
-def with_us_market_code(brand_name: str, markets: list[str]) -> list[str]:
-    out = list(markets or [])
-    if canonical_brand(brand_name) in US_MARKET_BRANDS and "US" not in out:
-        out.append("US")
-    return out
-
-
-def _sw_body_html_measurements(body_html: str) -> tuple[float | None, ...]:
-    """Extract (height_cm, bust_cm, waist_cm, hip_cm, weight_kg, cup) from SW body_html."""
-    text = normalize_space(BeautifulSoup(body_html, "html.parser").get_text(" ", strip=True))
-
-    def get(pattern: str) -> float | None:
-        m = re.search(pattern, text, re.IGNORECASE)
-        if not m:
-            return None
-        val = float(m.group(1))
-        if m.lastindex >= 2 and m.group(2):
-            return float(m.group(2))
-        return round(val * 2.54, 1) if val < 60 else val
-
-    height = get(r"Height:\s*[\d.]+\s*(?:feet[^(]*)?\(?([\d.]+)\s*cm") or get(r"Height:\s*([\d.]+)\s*cm")
-    bust   = get(r"Bust:\s*([\d.]+)\s*inches?\s*[\(/]?\s*([\d.]+)\s*cm") or get(r"Bust:\s*([\d.]+)\s*(?:cm|inch)")
-    waist  = get(r"Waist:\s*([\d.]+)\s*inches?\s*[\(/]?\s*([\d.]+)\s*cm") or get(r"Waist:\s*([\d.]+)\s*(?:cm|inch)")
-    hips   = get(r"Hips?:\s*([\d.]+)\s*inches?\s*[\(/]?\s*([\d.]+)\s*cm") or get(r"Hips?:\s*([\d.]+)\s*(?:cm|inch)")
-    weight_m = re.search(r"Weight:\s*[\d.]+\s*lbs?\s*[\(/]?\s*([\d.]+)\s*kg", text, re.I)
-    weight = float(weight_m.group(1)) if weight_m else None
-    cup_m  = re.search(r"\b([A-M])\s*[Cc]up\b", text)
-    cup    = cup_m.group(1) if cup_m else None
-    return height, bust, waist, hips, weight, cup
-
-
-def scrape_siliconwives(config: SiliconWivesConfig, session: requests.Session, families: list[dict]) -> list[dict]:
-    resp = session.get(config.url, headers=HEADERS, timeout=30)
-    resp.raise_for_status()
-    products = resp.json().get("products", [])
-    rows = []
-    seen_codes: set[str] = set()
-    for prod in products:
-        body_html = prod.get("body_html", "")
-        height, bust, waist, hips, weight, cup = _sw_body_html_measurements(body_html)
-        if not (height and bust and waist and hips):
-            continue
-        if height < config.min_height_cm:
-            continue
-        title = prod.get("title", "")
-        handle = prod.get("handle", "")
-        body_code = extract_body_code(title, handle) or handle.upper()
-        if body_code in seen_codes:
-            continue
-        seen_codes.add(body_code)
-        price_raw = None
-        for v in prod.get("variants", []):
-            try:
-                price_raw = float(v["price"])
-                break
-            except (KeyError, ValueError):
-                pass
-        whr = round(waist / hips, 3)
-        bwr = round(bust / waist, 3)
-        family, confidence, basis = nearest_family(whr, bwr, families)
-        source_url = f"https://www.siliconwives.com/products/{handle}"
-        rows.append({
-            "brand": canonical_brand(config.brand),
-            "source_url": source_url,
-            "source_tier": "secondary",
-            "source_label": "SiliconWives US reseller (Shopify product JSON)",
-            "body_code": body_code,
-            "title": title,
-            "series": None,
-            "material": next(
-                (t for t in (prod.get("tags") or []) if t.lower() in ("silicone","tpe","s-tpe","hybrid")),
-                None,
-            ),
-            "height_cm": height,
-            "weight_kg": weight,
-            "bust_cm": bust,
-            "waist_cm": waist,
-            "hip_cm": hips,
-            "underbust_cm": None,
-            "cup": cup,
-            "price": price_raw,
-            "price_currency": "USD" if price_raw is not None else None,
-            "WHR": whr,
-            "BWR": bwr,
-            "assigned_family": family,
-            "family_confidence": confidence,
-            "family_basis": basis,
-            "notes": "Extracted from Shopify product body_html via SiliconWives",
-        })
-    rows.sort(key=lambda r: (r["height_cm"], r["body_code"]))
-    return rows
 
 
 def build_summary(rows: list[dict], unavailable: list[dict], inventory_only: list[dict] | None = None) -> dict:
@@ -1147,11 +996,11 @@ def write_sqlite(rows: list[dict], summary: dict) -> None:
             "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
             [
                 (
-                    canonical_brand(brand_name),
+                    brand_name,
                     geo.get("country"),
                     geo.get("hq_city"),
                     geo.get("region"),
-                    json.dumps(with_us_market_code(brand_name, geo.get("primary_markets", [])), ensure_ascii=False),
+                    json.dumps(geo.get("primary_markets", []), ensure_ascii=False),
                     geo.get("tier"),
                     geo.get("tier_usd_floor"),
                     geo.get("segment"),
@@ -1319,8 +1168,6 @@ def main() -> None:
         rows.extend(scrape_supplier(supplier, session, families))
     rows.extend(scrape_irontech(session, families))
     rows.extend(scrape_tayu(session, families))
-    for sw_config in SW_COLLECTIONS:
-        rows.extend(scrape_siliconwives(sw_config, session, families))
     realdoll_inventory = capture_realdoll_inventory(session)
 
     unavailable = list(UNAVAILABLE_COMPETITORS)
@@ -1344,7 +1191,6 @@ def main() -> None:
                     *[supplier.url for supplier in SUPPLIERS],
                     "https://www.tayu-doll.com/product-sitemap.xml",
                     "https://www.realdoll.com/product-sitemap.xml",
-                    *[sw.url for sw in SW_COLLECTIONS],
                 ],
                 "summary": summary,
                 "rows": rows,
