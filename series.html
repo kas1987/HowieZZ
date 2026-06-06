@@ -12,7 +12,7 @@
   .hero{padding:34px 32px 20px;text-align:center;background:radial-gradient(ellipse at top,#1c1c1c,#121212 70%)}
   .hero .eyebrow{margin-bottom:9px;font-size:11px}
   .hero h1{font-size:clamp(26px,4.4vw,44px);font-weight:700;letter-spacing:.5px}
-  .hero p{color:var(--muted);max-width:600px;margin:9px auto 0;font-size:14px}
+  .hero p{color:var(--muted);max-width:600px;margin:9px auto 0;font-size:var(--t-base)}
   .stats{display:flex;gap:28px;justify-content:center;flex-wrap:wrap;margin-top:18px;color:var(--muted)}
   .stats .n{font-family:'Playfair Display',serif;font-size:23px;color:var(--cream);display:block;line-height:1}
   .stats .l{font-size:9px;letter-spacing:2px;text-transform:uppercase;margin-top:5px}
@@ -20,29 +20,29 @@
   /* ---- consolidated sticky controls bar (series switcher + view toggle) ---- */
   .controls-bar{position:sticky;top:58px;z-index:40;display:flex;align-items:center;
     justify-content:space-between;gap:14px 18px;flex-wrap:wrap;padding:11px 24px;
-    background:rgba(18,18,18,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+    background:rgba(18,18,18,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--b-subtle)}
   .series-tabs{display:flex;gap:7px;flex-wrap:wrap;align-items:center}
-  .tab{padding:6px 16px;border:1px solid var(--line);border-radius:30px;background:transparent;
-    color:var(--muted);font-size:12px;letter-spacing:.5px;font-family:inherit;transition:.2s;cursor:pointer;display:inline-block}
+  .tab{padding:6px 16px;border:1px solid var(--b-subtle);border-radius:var(--r-pill);background:transparent;
+    color:var(--muted);font-size:var(--t-sm);letter-spacing:.5px;font-family:inherit;transition:.2s;cursor:pointer;display:inline-block}
   .tab:hover{color:var(--text);border-color:var(--text)}
   .tab.active{background:var(--cream);color:#111;border-color:var(--cream);font-weight:600}
 
   /* ---- view-mode toggle (segmented pill) ---- */
-  .view-toggle{display:inline-flex;border:1px solid var(--line);border-radius:30px;overflow:hidden;
-    background:var(--panel2);flex-shrink:0}
+  .view-toggle{display:inline-flex;border:1px solid var(--b-subtle);border-radius:var(--r-pill);overflow:hidden;
+    background:var(--s3);flex-shrink:0}
   .view-toggle button{padding:6px 18px;border:none;background:transparent;
     color:var(--muted);font-size:11px;letter-spacing:1.2px;text-transform:uppercase;
     font-family:inherit;cursor:pointer;transition:.2s;white-space:nowrap}
-  .view-toggle button:first-child{border-right:1px solid var(--line)}
+  .view-toggle button:first-child{border-right:1px solid var(--b-subtle)}
   .view-toggle button.active{background:var(--cream);color:#111;font-weight:600}
   .view-toggle button:not(.active):hover{color:var(--text)}
   @media(max-width:600px){.controls-bar{justify-content:center}}
 
   /* ---- body-architecture mode ---- */
-  .body-group{border-top:1px solid var(--line);padding:32px 0 8px}
+  .body-group{border-top:1px solid var(--b-subtle);padding:32px 0 8px}
   .body-group-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:20px}
   .body-group-head h3{font-size:22px}
-  .body-group-head .meta{color:var(--muted);font-size:12px}
+  .body-group-head .meta{color:var(--muted);font-size:var(--t-sm)}
 
   /* ---- characters mode filter bar ---- */
   .char-filterbar{
@@ -51,9 +51,9 @@
   }
   .chip-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
   .pill{
-    padding:6px 16px;border:1px solid var(--line);border-radius:30px;
+    padding:6px 16px;border:1px solid var(--b-subtle);border-radius:var(--r-pill);
     background:transparent;color:var(--muted);
-    cursor:pointer;font-size:12px;letter-spacing:.5px;
+    cursor:pointer;font-size:var(--t-sm);letter-spacing:.5px;
     font-family:inherit;transition:.2s;white-space:nowrap;
   }
   .pill:hover{color:var(--text);border-color:var(--muted)}
@@ -61,7 +61,7 @@
   .filter-sep{width:1px;height:20px;background:var(--line);margin:0 4px;flex-shrink:0;align-self:center}
   .toggle-wrap{display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none}
   .toggle-wrap input[type=checkbox]{accent-color:var(--gold);width:15px;height:15px;cursor:pointer}
-  .toggle-label{font-size:12px;color:var(--muted);letter-spacing:.5px;transition:.2s}
+  .toggle-label{font-size:var(--t-sm);color:var(--muted);letter-spacing:.5px;transition:.2s}
   .toggle-wrap:hover .toggle-label{color:var(--text)}
 
   /* ---- count bar ---- */
