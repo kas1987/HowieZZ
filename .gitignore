@@ -57,6 +57,10 @@ prototypes.html
 review.html
 regression-checklist.html
 
+# ---- Local scratch area (never published): drafts, confidential briefs,
+#      rebuild reference (Shopify theme), and packaged builds ----
+_local/
+
 # ---- Local tooling / agent state ----
 .claude/
 .superpowers/
