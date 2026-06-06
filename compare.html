@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Compare Bodies - ZELEX Atlas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<div class="crumbs"><a href="index.html">Atlas</a><span>&rsaquo;</span> Compare Bodies</div>
+<main class="compare-page">
+  <section class="compare-hero">
+    <div class="eyebrow no-rule">Body Architecture</div>
+    <h1>Compare the silhouettes before you choose.</h1>
+    <p>Use this as the decision layer between raw product codes and a private inquiry. Add up to four body architectures and compare stature, ratios, family, and buyer-fit signals.</p>
+  </section>
+
+  <section class="compare-controls">
+    <select class="compare-select" id="bodySelect" aria-label="Choose a body architecture"></select>
+    <button class="btn solid" id="addBody" type="button">Add body</button>
+    <button class="btn ghost" id="clearBodies" type="button">Clear</button>
+    <a class="btn concierge" href="contact.html">Ask concierge</a>
+  </section>
+
+  <section id="compareMount" aria-live="polite">
+    <div class="compare-empty">Loading body profiles...</div>
+  </section>
+</main>
+
+<script src="assets/site.js"></script>
+<script>
+ZX.mountNav('compare.html');
+ZX.load().then(render).catch(ZX.fail);
+
+const STORAGE_KEY = 'zx_compare_bodies';
+
+function selectedCodes() {
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+  } catch (e) {
+    return [];
+  }
+}
+
+function saveCodes(codes) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(codes.slice(0, 4)));
+}
+
+function num(v, suffix) {
+  if (v === null || v === undefined || v === '') return '&mdash;';
+  return ZX.esc(v) + (suffix || '');
+}
+
+function pct(v) {
+  if (v === null || v === undefined || v === '') return '&mdash;';
+  return Math.round(Number(v) * 100) + '%';
+}
+
+function firstLiveForBody(m, code) {
+  const a = m.byBody[code] || [];
+  return a.find(c => c.status === 'live') || a[0] || null;
+}
+
+function bodyData(m, code) {
+  const profileArr = Array.isArray(m.profiles) ? m.profiles : Object.values(m.profiles || {});
+  const prof = profileArr.find(p => p.body_code === code) || {};
+  const char = firstLiveForBody(m, code);
+  const b = (char && char.body) || prof || {};
+  return Object.assign({}, prof, b, { body_code: code, character: char });
+}
+
+function buyerRead(b) {
+  const f = b.family || '';
+  if (f === 'The Muse') return 'Natural / realism-forward';
+  if (f === 'The Siren') return 'Bust-forward / dramatic';
+  if (f === 'The Icon') return 'Glamour / camera-forward';
+  if (f === 'The Empress') return 'Plush / abundant';
+  if (f === 'The Classic') return 'Balanced / first-buyer safe';
+  if (f === 'The Sculpt') return 'Athletic / defined';
+  return 'Needs review';
+}
+
+function handlingRead(b) {
+  const w = Number(b.weight_kg || b.weight || 0);
+  if (!w) return 'Unknown';
+  if (w <= 35) return 'Solo-manageable';
+  if (w <= 42) return 'Moderate';
+  return 'Dedicated-space preferred';
+}
+
+function render(m) {
+  const codes = Array.from(new Set((m.characters || []).map(c => c.body_code).filter(Boolean))).sort();
+  const select = document.getElementById('bodySelect');
+
+  select.innerHTML = codes.map(code => {
+    const b = bodyData(m, code);
+    const label = [code, b.height_cm ? b.height_cm + 'cm' : null, b.cup ? b.cup + '-cup' : null, b.family].filter(Boolean).join(' | ');
+    return '<option value="' + ZX.esc(code) + '">' + ZX.esc(label) + '</option>';
+  }).join('');
+
+  document.getElementById('addBody').onclick = () => {
+    const code = select.value;
+    const cur = selectedCodes().filter(Boolean);
+    if (!cur.includes(code)) cur.push(code);
+    saveCodes(cur.slice(0, 4));
+    ZX.track('compare_set_changed', { action: 'add', compare_count: cur.slice(0, 4).length, body_codes: cur.slice(0, 4).join(','), context: 'compare', source_page: 'compare' });
+    ZX.track('compare_add', { body_code: code, compare_count: cur.slice(0, 4).length, context: 'compare', source_page: 'compare' });
+    paint(m);
+  };
+
+  document.getElementById('clearBodies').onclick = () => {
+    const prev = selectedCodes().filter(Boolean).slice(0, 4);
+    ZX.track('compare_set_changed', { action: 'clear', previous_count: prev.length, compare_count: 0, body_codes: '', context: 'compare', source_page: 'compare' });
+    ZX.track('compare_clear', { previous_count: selectedCodes().filter(Boolean).length, context: 'compare', source_page: 'compare' });
+    saveCodes([]);
+    paint(m);
+  };
+
+  paint(m);
+  ZX.mountFooter();
+}
+
+function paint(m) {
+  const mount = document.getElementById('compareMount');
+  const codes = selectedCodes().filter(Boolean).slice(0, 4);
+
+  if (!codes.length) {
+    ZX.track('compare_view', { compare_count: 0, view_state: 'empty', context: 'compare', source_page: 'compare' });
+    mount.innerHTML = '<div class="compare-empty">Choose 2-4 body architectures to compare. Start with body codes you are already considering, then use family and ratio rows to understand silhouette differences.</div>';
+    return;
+  }
+
+  ZX.track('compare_view', { compare_count: codes.length, body_codes: codes.join(','), view_state: 'filled', context: 'compare', source_page: 'compare' });
+
+  const bodies = codes.map(code => bodyData(m, code));
+  const rows = [
+    ['Body code', b => '<span class="bcode">' + ZX.esc(b.body_code) + '</span>'],
+    ['Series', b => ZX.esc(b.series || '&mdash;')],
+    ['Family', b => b.family ? '<span class="fam" style="color:' + ZX.famColor(b.family) + ';border:1px solid ' + ZX.famColor(b.family) + '">' + ZX.esc(b.family) + '</span>' : '&mdash;'],
+    ['Buyer read', b => ZX.esc(buyerRead(b))],
+    ['Height', b => num(b.height_cm, 'cm')],
+    ['Weight', b => num(b.weight_kg, 'kg')],
+    ['Cup', b => b.cup ? ZX.esc(b.cup + '-cup') : '&mdash;'],
+    ['Bust | waist | hip', b => num(b.bust_cm || b.bust) + ' | ' + num(b.waist_cm || b.waist) + ' | ' + num(b.hip_cm || b.hip) + ' cm'],
+    ['WHR', b => pct(b.WHR)],
+    ['BWR', b => pct(b.BWR)],
+    ['Bust drop', b => num(b.bust_drop_cm, 'cm')],
+    ['Handling', b => ZX.esc(handlingRead(b))],
+    ['Confidence', b => ZX.esc(b.family_confidence || (b.estimated ? 'estimated' : '&mdash;'))]
+  ];
+
+  mount.innerHTML = '<div class="compare-table-wrap"><table class="compare-table"><thead><tr><th>Signal</th>' +
+    bodies.map(b => '<th>' + ZX.esc(b.body_code) + '</th>').join('') +
+    '</tr></thead><tbody>' +
+    rows.map(r => '<tr><td>' + r[0] + '</td>' + bodies.map(b => '<td>' + r[1](b) + '</td>').join('') + '</tr>').join('') +
+    '</tbody></table></div>' +
+    '<div style="margin-top:20px;display:flex;gap:12px;flex-wrap:wrap">' +
+    '<a class="btn solid" id="compare-contact-link" href="contact.html?compare=' + encodeURIComponent(codes.join(',')) + '&src=compare&cta=ask_about_these_bodies&context=compare&channel=contact">Ask about these bodies</a>' +
+    '<a class="btn" id="compare-quiz-link" href="quiz.html">Take the match quiz</a>' +
+    '</div>';
+
+  var ctaContact = document.getElementById('compare-contact-link');
+  if (ctaContact) {
+    ctaContact.addEventListener('click', function() {
+      ZX.track('compare_handoff_click', { compare_count: codes.length, body_codes: codes.join(','), channel: 'contact', cta: 'ask_about_these_bodies', context: 'compare', source_page: 'compare' });
+    });
+  }
+  var ctaQuiz = document.getElementById('compare-quiz-link');
+  if (ctaQuiz) {
+    ctaQuiz.addEventListener('click', function() {
+      ZX.track('compare_handoff_click', { compare_count: codes.length, body_codes: codes.join(','), channel: 'quiz', cta: 'take_match_quiz', context: 'compare', source_page: 'compare' });
+    });
+  }
+}
+</script>
+</body>
+</html>

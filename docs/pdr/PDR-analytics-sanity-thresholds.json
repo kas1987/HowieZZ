@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "2026-06-06",
+  "source": "howiezz-web",
+  "positiveFixture": {
+    "input": "docs/pdr/PDR-analytics-sample-events.ndjson",
+    "minTotalEvents": 8,
+    "minPageViews": 2,
+    "minCompareAdd": 1,
+    "minInquiryAttempts": 1,
+    "minAttributionCoverage": 0.8
+  },
+  "negativeFixtures": {
+    "broken": {
+      "input": "docs/pdr/PDR-analytics-sample-events-broken.ndjson"
+    },
+    "lowAttribution": {
+      "input": "docs/pdr/PDR-analytics-sample-events-low-attribution.ndjson",
+      "minAttributionCoverage": 0.8
+    }
+  }
+}

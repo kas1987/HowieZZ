@@ -76,8 +76,16 @@
   cursor:pointer;border-bottom:1px solid transparent;transition:.2s}
 .reset-link:hover{border-color:var(--gold)}
 
+.compare-quick{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.compare-count{font-size:12px;color:var(--muted);letter-spacing:.4px}
+.compare-quick .btn{padding:7px 12px;font-size:11px;letter-spacing:1px;text-transform:uppercase}
+
 /* ---- grid wrapper ---- */
 #grid-container{max-width:var(--maxw);margin:0 auto;padding:0 24px 60px}
+
+.browse-item{display:grid;gap:8px}
+.add-compare-browse{width:100%;padding:9px 10px;font-size:11px;letter-spacing:1.6px;text-transform:uppercase}
+.add-compare-browse.done{border-color:var(--Muse);color:var(--Muse)}
 
 /* ---- empty state ---- */
 .empty-state{
@@ -133,6 +141,11 @@
 
 <div class="count-bar">
   <div class="count-text" id="count-text"></div>
+  <div class="compare-quick" id="compare-quick">
+    <span class="compare-count" id="compare-count">Compare set: 0</span>
+    <a class="btn ghost" href="compare.html" id="open-compare-link">Open Compare</a>
+    <button class="btn ghost" type="button" id="clear-compare-browse">Clear Compare</button>
+  </div>
   <span class="reset-link" id="reset-link" style="display:none" onclick="resetFilters()">Reset filters</span>
 </div>
 
@@ -144,6 +157,7 @@
 <script>
 // ---- state ----
 let _model = null;
+const STORAGE_KEY = 'zx_compare_bodies';
 const state = {
   series: 'all',
   family: 'all',
@@ -154,6 +168,73 @@ const state = {
 // ---- boot ----
 ZX.mountNav('');
 ZX.load().then(m => { _model = m; init(m); ZX.mountFooter(); }).catch(ZX.fail);
+
+function selectedCompareCodes() {
+  try {
+    const arr = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+    if (!Array.isArray(arr)) return [];
+    return arr
+      .map(function(x) { return String(x || '').trim(); })
+      .filter(function(x) { return x && x !== '.' && /^[A-Za-z0-9_-]+$/.test(x); })
+      .slice(0, 4);
+  } catch (e) {
+    return [];
+  }
+}
+
+function saveCompareCodes(codes) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(codes.slice(0, 4)));
+}
+
+function refreshCompareQuick() {
+  const codes = selectedCompareCodes();
+  const countEl = document.getElementById('compare-count');
+  if (countEl) countEl.textContent = 'Compare set: ' + codes.length;
+
+  const openLink = document.getElementById('open-compare-link');
+  if (openLink) {
+    openLink.href = 'compare.html';
+  }
+
+  const clearBtn = document.getElementById('clear-compare-browse');
+  if (clearBtn) clearBtn.disabled = codes.length === 0;
+}
+
+function addCompareFromBrowse(characterId) {
+  if (!_model || !_model.byId || !_model.byId[characterId]) return;
+  const c = _model.byId[characterId];
+  const code = c.body_code || '';
+  if (!code) return;
+
+  const cur = selectedCompareCodes();
+  if (!cur.includes(code)) cur.push(code);
+  saveCompareCodes(cur);
+  refreshCompareQuick();
+
+  ZX.track('compare_set_changed', {
+    action: 'add',
+    compare_count: cur.length,
+    body_codes: cur.join(','),
+    context: 'browse_list',
+    source_page: 'browse'
+  });
+
+  ZX.track('compare_add', {
+    body_code: code,
+    character_id: c.character_id,
+    family: (c.body && c.body.family) ? c.body.family : '',
+    series: c.series || '',
+    compare_count: cur.length,
+    context: 'browse_list',
+    source_page: 'browse'
+  });
+
+  const btn = document.querySelector('[data-compare-char="' + characterId + '"]');
+  if (btn) {
+    btn.classList.add('done');
+    btn.textContent = 'Added to Compare';
+  }
+}
 
 // ---- init ----
 function init(m) {
@@ -177,12 +258,41 @@ function init(m) {
     renderGrid();
   });
 
+  const clearCompareBtn = document.getElementById('clear-compare-browse');
+  if (clearCompareBtn) {
+    clearCompareBtn.addEventListener('click', function() {
+      const prev = selectedCompareCodes();
+      if (!prev.length) return;
+      saveCompareCodes([]);
+      refreshCompareQuick();
+      renderGrid();
+      ZX.track('compare_set_changed', { action: 'clear', previous_count: prev.length, compare_count: 0, body_codes: '', context: 'browse_list', source_page: 'browse' });
+      ZX.track('compare_clear', { previous_count: prev.length, context: 'browse_list', source_page: 'browse' });
+    });
+  }
+
+  const openCompareLink = document.getElementById('open-compare-link');
+  if (openCompareLink) {
+    openCompareLink.addEventListener('click', function() {
+      const codes = selectedCompareCodes();
+      ZX.track('compare_handoff_click', {
+        channel: 'compare',
+        cta: 'open_compare',
+        compare_count: codes.length,
+        body_codes: codes.join(','),
+        context: 'browse_list',
+        source_page: 'browse'
+      });
+    });
+  }
+
   const searchBox = document.getElementById('search-box');
   searchBox.addEventListener('input', e => {
     state.query = e.target.value.trim();
     renderGrid();
   });
 
+  refreshCompareQuick();
   renderGrid();
 }
 
@@ -313,13 +423,29 @@ function renderGrid() {
 
   const grid = document.createElement('div');
   grid.className = 'grid g4';
+  const selected = selectedCompareCodes();
   chars.forEach((c, i) => {
     const stagger = 'd' + ((i % 6) + 1);
     const cardHtml = ZX.charCard(c).replace(/^<a /, '<a ').replace(/^<a class="/, '<a class="reveal ' + stagger + ' ');
-    grid.insertAdjacentHTML('beforeend', cardHtml);
+    const isDone = selected.includes(c.body_code);
+    const btnClass = 'btn ghost add-compare-browse' + (isDone ? ' done' : '');
+    const btnText = isDone ? 'Added to Compare' : 'Add to Compare';
+    const itemHtml =
+      '<div class="browse-item">' +
+      cardHtml +
+      '<button class="' + btnClass + '" type="button" data-compare-char="' + ZX.esc(c.character_id) + '">' + btnText + '</button>' +
+      '</div>';
+    grid.insertAdjacentHTML('beforeend', itemHtml);
   });
   container.innerHTML = '';
   container.appendChild(grid);
+
+  container.querySelectorAll('.add-compare-browse').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      addCompareFromBrowse(btn.getAttribute('data-compare-char'));
+    });
+  });
+
   ZX.revealInit();
 }
 

@@ -38,6 +38,39 @@ jobs:
       - name: Validate pages, inline JS, and catalog JSON
         run: node .github/scripts/validate-site.mjs
 
+      - name: Analytics sanity suite
+        shell: pwsh
+        run: |
+          echo "Using threshold config: docs/pdr/PDR-analytics-sanity-thresholds.json"
+          $cfg = Get-Content -Raw docs/pdr/PDR-analytics-sanity-thresholds.json | ConvertFrom-Json
+          echo "Analytics config schema_version: $($cfg.schemaVersion)"
+          ./scripts/run_analytics_sanity_suite.ps1
+
+      - name: Analytics config guardrail (expected fail)
+        shell: pwsh
+        run: |
+          pwsh -File scripts/run_analytics_sanity_suite.ps1 -ConfigPath docs/pdr/PDR-analytics-sanity-thresholds.invalid.json
+          if ($LASTEXITCODE -ne 2) {
+            Write-Error "Expected exit code 2 for invalid analytics config, got $LASTEXITCODE"
+            exit 1
+          }
+
+      - name: Analytics config guardrail missing keys (expected fail)
+        shell: pwsh
+        run: |
+          pwsh -File scripts/run_analytics_sanity_suite.ps1 -ConfigPath docs/pdr/PDR-analytics-sanity-thresholds.missing-keys.json
+          if ($LASTEXITCODE -ne 2) {
+            Write-Error "Expected exit code 2 for missing-keys analytics config, got $LASTEXITCODE"
+            exit 1
+          }
+
+      - name: Upload analytics sanity artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: analytics-sanity-summaries
+          path: .artifacts/analytics
+          if-no-files-found: error
+
       - name: Guard — no images, video, or secrets committed
         run: |
           set -e
