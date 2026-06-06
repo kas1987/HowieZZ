@@ -50,10 +50,11 @@ The most important finding is not coverage — it is strategic priority. Classic
 
 | Band | Brands |
 |---|---|
-| 100% (single or dual dominant) | Irontech Doll (100%), Gynoid (90%) |
+| 90–100% | Irontech Doll (100%), Gynoid (90%) |
 | 80–89% | Lusandy Doll (85.7%), Dime Doll (83.9%), Hitdoll (80%), ILdoll (80%), Angel Kiss (80%), YL Doll (80%) |
-| 70–79% | Lilydoll (78.6%), FunWest (73.6%), MD Doll (72.5%), HR Doll (70%), Irokebijin (70%), JY Doll (70%), Jarliet (70%), SM Doll (70%), Real Lady (75%), JK Doll (75%), WM Doll (60%), XT Doll (60%), SE Doll (60%), 6YE Premium (60%), AS Doll (50%) |
-| < 60% | Sanhui (57.1%), Game Lady (66.7%), Tayu (66.7%), Jiusheng (62.5%), Piper Doll (40%) |
+| 70–79% | Lilydoll (78.6%), Real Lady (75%), JK Doll (75%), FunWest (73.6%), MD Doll (72.5%), HR Doll (70%), Irokebijin (70%), JY Doll (70%), Jarliet (70%), SM Doll (70%) |
+| 60–69% | Game Lady (66.7%), Tayu (66.7%), Jiusheng (62.5%), WM Doll (60%), XT Doll (60%), SE Doll (60%), 6YE Premium (60%) |
+| < 60% | Sanhui (57.1%), AS Doll (50%), Piper Doll (40%) |
 
 **Market median top-2 concentration:** ~72%  
 **ZELEX top-2 concentration:** 84.2%  
@@ -125,12 +126,12 @@ The most important finding is not coverage — it is strategic priority. Classic
 
 | Family | Availability | Diff. | Demand | SEO | Conversion | Merch | Qualification | Roadmap | **Composite** |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| The Muse | 5 | 2 | 4 | 3 | 5 | 4 | 3 | 2 | **3.5** |
-| The Icon | 3 | 4 | 4 | 4 | 4 | 5 | 5 | 3 | **4.0** |
-| The Siren | 2 | 4 | 4 | 5 | 3 | 4 | 4 | 5 | **3.8** |
-| The Empress | 1 | 2 | 3 | 3 | 1 | 3 | 2 | 3 | **2.3** |
-| The Classic | 1 | 3 | 5 | 5 | 1 | 4 | 4 | 5 | **3.4** |
-| The Sculpt | 1 | 2 | 3 | 3 | 1 | 3 | 2 | 3 | **2.3** |
+| The Muse | 5 | 2 | 4 | 3 | 5 | 4 | 3 | 2 | **3.7** |
+| The Icon | 3 | 4 | 4 | 4 | 4 | 5 | 5 | 3 | **3.9** |
+| The Siren | 2 | 4 | 4 | 5 | 3 | 4 | 4 | 5 | **3.7** |
+| The Empress | 1 | 2 | 3 | 3 | 1 | 3 | 2 | 3 | **2.0** |
+| The Classic | 1 | 3 | 5 | 5 | 1 | 4 | 4 | 5 | **3.1** |
+| The Sculpt | 1 | 2 | 3 | 3 | 1 | 3 | 2 | 3 | **2.0** |
 
 **Score definitions:** Availability = number of live bodies (5 = ≥10, 1 = 0); Diff. = differentiation vs. competitors; Demand = buyer search volume proxy; SEO = organic content opportunity; Conversion = ability to generate an inquiry from a quiz/compare path; Merch = visual merchandising potential; Qualification = ability to qualify the buyer for a specific SKU; Roadmap = strategic value to future product additions.
 

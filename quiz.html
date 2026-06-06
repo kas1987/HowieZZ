@@ -32,22 +32,8 @@
   margin-bottom: 38px;
   line-height: 1.7;
 }
-.intro .btn-begin {
-  display: inline-block;
-  padding: 16px 42px;
-  background: var(--gold);
-  border: none;
-  border-radius: var(--r-md);
-  color: #111;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: .25s;
-}
-.intro .btn-begin:hover { background: var(--cream); transform: translateY(-2px); }
+/* btn-begin inherits all .btn.solid behaviour; only override size */
+.intro .btn-begin { padding: 16px 42px; }
 .intro .note {
   margin-top: 20px;
   color: var(--muted);
@@ -278,7 +264,7 @@ function render(m) {
       <div class="eyebrow reveal d1">Find Your Character</div>
       <h1 class="reveal d2">The one built <em class="em-grad">for you</em></h1>
       <p class="sub reveal d3">Five questions. Six body families. One introduction.</p>
-      <button class="btn-begin reveal d4" id="btn-begin">Begin</button>
+      <button class="btn solid btn-begin reveal d4" id="btn-begin">Begin</button>
       <p class="note reveal d5">Takes about 60 seconds</p>
     </section>
 
@@ -393,12 +379,19 @@ function render(m) {
       if (!matches.includes(c)) { matches.push(c); fromSecond++; }
     }
 
-    // final fallback: any remaining live character
-    if (matches.length < 3) {
+    // final fallback: any remaining live character (not counted as runner-up)
+    if (matches.length < 4) {
       const anyLive = m.characters.filter(c => c.status === 'live');
       for (const c of anyLive) {
         if (matches.length >= 4) break;
-        if (!matches.includes(c)) { matches.push(c); fromSecond++; }
+        if (!matches.includes(c)) { matches.push(c); }
+      }
+    }
+
+    if (fromSecond > 0 && runner) {
+      const firstRunnerIdx = matches.findIndex(c => c.body && c.body.family === runner);
+      if (firstRunnerIdx !== -1) {
+        fromSecond = matches.length - firstRunnerIdx;
       }
     }
 

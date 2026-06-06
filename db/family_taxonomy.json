@@ -28,8 +28,10 @@
       "premium": "+20%",
       "target_buyer": "First-time premium buyer",
       "status": "in_development",
-      "member_count": 0,
-      "members": []
+      "member_count": 1,
+      "members": [
+        "ZC165D"
+      ]
     },
     {
       "name": "The Icon",
@@ -141,8 +143,10 @@
       "premium": "+30%",
       "target_buyer": "Fitness realism seeker",
       "status": "in_development",
-      "member_count": 0,
-      "members": []
+      "member_count": 1,
+      "members": [
+        "ZS165D"
+      ]
     }
   ],
   "bodies": [
@@ -373,6 +377,30 @@
       "family": "The Siren",
       "confidence": "exact",
       "estimated": false
+    },
+    {
+      "body_code": "ZS165D",
+      "series": "Sculpt",
+      "height_cm": 165,
+      "cup": "D",
+      "WHR": 0.670,
+      "BWR": 1.500,
+      "bust_drop_cm": 18.0,
+      "family": "The Sculpt",
+      "confidence": "exact",
+      "estimated": true
+    },
+    {
+      "body_code": "ZC165D",
+      "series": "Classic",
+      "height_cm": 165,
+      "cup": "D",
+      "WHR": 0.700,
+      "BWR": 1.452,
+      "bust_drop_cm": 18.0,
+      "family": "The Classic",
+      "confidence": "exact",
+      "estimated": true
     }
   ]
 }

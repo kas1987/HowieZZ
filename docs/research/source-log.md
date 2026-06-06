@@ -38,7 +38,7 @@ Three brands were sourced directly from manufacturer-controlled endpoints. These
 ---
 
 ### Irontech Doll
-**Source:** `https://irontech.com/` (official manufacturer product pages)  
+**Source:** `https://www.irontechdoll.com/` (official manufacturer product pages)  
 **Profiles:** 11  
 **Confidence mix:** exact 1 · near 5 · manual-review 5  
 **Exact+near:** 54.5%  
