@@ -39,7 +39,7 @@ Price-ladder breadth analysis highlights which brands compete across multiple co
 
 ## Visual Matrix Artifacts
 
-- Line architecture heatmap: docs\research\independent-catalog-line-heatmap.png
-- Price-band heatmap: docs\research\independent-catalog-price-heatmap.png
-- Full matrix CSV: docs\research\independent-catalog-grouping-matrix.csv
-- Narrative matrix report: docs\research\independent-catalog-grouping-heatmap.md
+- Line architecture heatmap: docs/research/independent-catalog-line-heatmap.png
+- Price-band heatmap: docs/research/independent-catalog-price-heatmap.png
+- Full matrix CSV: docs/research/independent-catalog-grouping-matrix.csv
+- Narrative matrix report: docs/research/independent-catalog-grouping-heatmap.md

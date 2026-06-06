@@ -436,14 +436,18 @@ def scrape_supplier(config: SupplierConfig, session: requests.Session, families:
         if title.startswith("‣"):
             continue
 
-        block = measurement_text_from_card(anchor)
+        try:
+            block = measurement_text_from_card(anchor)
+        except Exception as exc:
+            print(f"[scrape_supplier] skip {url}: {exc}")
+            continue
         if not block:
             # Avoid deep per-product fetches in supplier mode; rely on inline card specs.
             continue
 
         height = parse_number(r"Height:\s*([\d.]+)\s*cm", block) or parse_number(r"Body height[^\d]*([\d.]+)\s*cm", block)
         weight = parse_number(r"Weight:\s*([\d.]+)\s*kg", block) or parse_number(r"weights?\s*(?:ca\.)?\s*([\d.]+)\s*kg", block)
-        bust = parse_number(r"Breasts?:\s*([\d.]+)\s*cm", block) or parse_number(r"Bust/Chest\s*([\d.]+)\s*cm", block)
+        bust = parse_number(r"Breasts?:\s*([\d.]+)\s*cm", block) or parse_number(r"(?:Bust|Chest):\s*([\d.]+)\s*cm", block)
         waist = parse_number(r"Waist:\s*([\d.]+)\s*cm", block)
         hips = parse_number(r"Hips?:\s*([\d.]+)\s*cm", block)
         underbust = parse_number(r"under bust\)?[:\s]*([\d.]+)\s*cm", block)
@@ -526,7 +530,11 @@ def scrape_irontech(session: requests.Session, families: list[dict]) -> list[dic
     rows = []
     seen_codes: set[str] = set()
     for url in irontech_product_links(session):
-        html = fetch_text(url, session)
+        try:
+            html = fetch_text(url, session)
+        except Exception as exc:
+            print(f"[scrape_irontech] skip {url}: {exc}")
+            continue
         soup = BeautifulSoup(html, "html.parser")
         specs = parse_irontech_specs(soup)
         if not specs:
@@ -625,7 +633,11 @@ def scrape_tayu(session: requests.Session, families: list[dict]) -> list[dict]:
         representative_urls.setdefault(key, url)
 
     for url in representative_urls.values():
-        html = fetch_text(url, session)
+        try:
+            html = fetch_text(url, session)
+        except Exception as exc:
+            print(f"[scrape_tayu] skip {url}: {exc}")
+            continue
         soup = BeautifulSoup(html, "html.parser")
         text = normalize_space(soup.get_text(" ", strip=True))
 

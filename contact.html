@@ -18,11 +18,11 @@
     @media(max-width:900px){.contact-layout{grid-template-columns:1fr;gap:36px}}
 
     /* character chip (prefill) */
-    .char-chip{display:flex;align-items:center;gap:14px;background:var(--panel2);border:1px solid rgba(212,165,116,.35);border-radius:10px;padding:12px 16px;margin-bottom:24px}
-    .char-chip img{width:52px;height:70px;object-fit:cover;object-position:top center;border-radius:6px;flex-shrink:0;background:#0d0d0d}
-    .char-chip .chip-thumb-ph{width:52px;height:70px;border-radius:6px;flex-shrink:0;background:var(--panel);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:22px;color:var(--gold)}
+    .char-chip{display:flex;align-items:center;gap:14px;background:var(--panel2);border:1px solid color-mix(in srgb,var(--gold) 35%,transparent);border-radius:var(--r-md);padding:12px 16px;margin-bottom:24px}
+    .char-chip img{width:52px;height:70px;object-fit:cover;object-position:top center;border-radius:var(--r-sm);flex-shrink:0;background:#0d0d0d}
+    .char-chip .chip-thumb-ph{width:52px;height:70px;border-radius:var(--r-sm);flex-shrink:0;background:var(--s2);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:22px;color:var(--gold)}
     .char-chip .chip-info{}
-    .char-chip .chip-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:3px}
+    .char-chip .chip-label{font-size:var(--t-xs);letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:3px}
     .char-chip .chip-name{font-family:'Playfair Display',serif;font-size:18px;font-weight:600;line-height:1.2}
     .char-chip .chip-sub{font-size:11px;color:var(--muted);margin-top:2px;letter-spacing:.5px}
 
@@ -103,9 +103,9 @@
 
       <!-- success state -->
       <div id="form-success">
-        <h3>Your inquiry is in.</h3>
-        <p>Thank you — we'll reply personally within one business day.<br>
-          If your email client didn't open automatically, you can also write us directly at
+        <h3>Your inquiry has been received.</h3>
+        <p>We will be in touch discreetly within one business day.<br>
+          You may also reach us directly at
           <a id="success-email-link" href="#"><!-- filled by JS --></a>.</p>
       </div>
 
@@ -374,7 +374,7 @@ function validate() {
   } else { showFieldError('f-email','err-email',false); }
 
   var msg = (document.getElementById('f-message') || {}).value || '';
-  if (!msg.trim()) {
+  if (msg.trim().length < 10) {
     showFieldError('f-message','err-message',true);
     if (!firstBad) firstBad = document.getElementById('f-message');
     ok = false;
@@ -439,9 +439,9 @@ function showSuccess(usedMailto) {
   if (form)     form.style.display    = 'none';
   if (success)  success.style.display = 'block';
   if (!usedMailto) {
-    // hide the "if email didn't open" fallback sentence for endpoint path
+    // endpoint path: hide the direct-email fallback line
     var p = success.querySelector('p');
-    if (p) p.innerHTML = 'Thank you — we\'ll reply personally within one business day.';
+    if (p) p.innerHTML = 'We will be in touch discreetly within one business day.';
   }
   // Update success email link with real href
   var email = ZX.INQUIRY_EMAIL || 'inquiries@zelexdoll.com';

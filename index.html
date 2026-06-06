@@ -15,15 +15,15 @@
   .hero .inner{position:relative;z-index:2}
   .hero h1{font-size:clamp(40px,7vw,76px);font-weight:700;letter-spacing:1px;margin:16px 0}
   .hero h1 .em{font-style:italic;color:var(--gold)}
-  .hero p{color:var(--muted);max-width:640px;margin:0 auto;font-size:16px}
+  .hero p{color:var(--muted);max-width:640px;margin:0 auto;font-size:var(--t-md)}
   .hero .cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:32px}
   .stats{display:flex;gap:40px;justify-content:center;flex-wrap:wrap;margin-top:40px}
   .stats .n{font-family:'Playfair Display',serif;font-size:32px;color:var(--cream);display:block;line-height:1}
-  .stats .l{font-size:10px;letter-spacing:2px;text-transform:uppercase;margin-top:6px;color:var(--muted)}
+  .stats .l{font-size:var(--t-xs);letter-spacing:2px;text-transform:uppercase;margin-top:6px;color:var(--muted)}
   /* doors */
   .doors{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:54px 0 10px}
   @media(max-width:880px){.doors{grid-template-columns:1fr}}
-  .door{position:relative;border:1px solid var(--line);border-radius:16px;overflow:hidden;min-height:300px;
+  .door{position:relative;border:1px solid var(--b-subtle);border-radius:16px;overflow:hidden;min-height:300px;
     display:flex;flex-direction:column;justify-content:flex-end;padding:26px;transition:.25s;background:#0d0d0d;
     box-shadow:0 0 0 1px rgba(212,165,116,.12),0 0 26px rgba(212,165,116,.08)}
   .door .dimg{position:absolute;inset:0;background-size:cover;background-position:top center;opacity:.42;transition:.4s}
@@ -46,11 +46,11 @@
   .srow:hover .srow-bg{opacity:.42;transform:scale(1.06)}
   .srow::after{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,rgba(20,18,16,.46),rgba(18,18,18,.86) 60%,rgba(18,18,18,.95))}
   .srow h4,.srow .sc,.srow .sm{position:relative;z-index:2}
-  .srow h4{font-size:20px}
-  .srow .sc{color:var(--muted);font-size:12px;margin:6px 0 10px;min-height:48px}
+  .srow h4{font-size:var(--t-lg)}
+  .srow .sc{color:var(--muted);font-size:var(--t-sm);margin:6px 0 10px;min-height:48px}
   .srow .sm{color:var(--blue);font-size:11px;letter-spacing:1px}
   .featrow{display:flex;align-items:baseline;justify-content:space-between;margin:46px 0 6px}
-  .featrow a{color:var(--gold);font-size:12px;letter-spacing:1px;text-transform:uppercase}
+  .featrow a{color:var(--gold);font-size:var(--t-sm);letter-spacing:1px;text-transform:uppercase}
 </style>
 </head>
 <body>

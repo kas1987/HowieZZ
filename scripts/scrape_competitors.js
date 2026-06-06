@@ -116,7 +116,8 @@ async function deepMeasurements(page, productUrl, baseUrl) {
     await page.waitForTimeout(1500);
     const bodyHtml = await page.evaluate(() => document.body.innerHTML);
     return parseMeasurements(bodyHtml);
-  } catch {
+  } catch (err) {
+    console.error(`[deepMeasurements] ${productUrl}: ${err.message}`);
     return {};
   }
 }
@@ -144,7 +145,7 @@ async function playwrightCatalog(browser, target) {
     const selectors = ['.product-card', '.product-item', '.grid__item', 'li.grid-item', '.product', '[class*="product-card"]', 'article.product'];
     for (const sel of selectors) {
       const els = document.querySelectorAll(sel);
-      if (els.length > 3) {
+      if (els.length > 0) {
         return Array.from(els).slice(0, 300).map(el => ({
           title:  el.querySelector('[class*="title"],[class*="name"],h2,h3,h4')?.textContent?.trim() || '',
           price:  el.querySelector('[class*="price"],.price,.amount')?.textContent?.trim() || '',
@@ -200,7 +201,9 @@ async function enrichMeasurements(browser, baseUrl, products, sampleSize = 20) {
   for (const product of toSample) {
     const handle = product.handle;
     if (!handle) continue;
-    const productUrl = handle.startsWith('http') ? handle : `${baseUrl}/products/${handle}`;
+    const productUrl = handle.startsWith('http') ? handle
+      : handle.startsWith('/products/') ? `${baseUrl}${handle}`
+      : `${baseUrl}/products/${handle}`;
     try {
       await page.goto(productUrl, { waitUntil: 'domcontentloaded', timeout: 20000 });
       await page.waitForTimeout(1000);
