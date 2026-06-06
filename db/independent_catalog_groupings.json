@@ -1,0 +1,949 @@
+{
+  "generated_from": "db\\independent_competitor.sqlite",
+  "line_columns": [
+    "full-body",
+    "torso",
+    "male",
+    "exclusive",
+    "house-brand",
+    "multi-brand",
+    "accessory",
+    "unknown"
+  ],
+  "line_matrix": [
+    {
+      "brand": "6Ye",
+      "total_products": 23,
+      "full_body_skus": 22,
+      "full-body": 22,
+      "torso": 1,
+      "male": 0,
+      "exclusive": 0,
+      "house-brand": 0,
+      "multi-brand": 0,
+      "accessory": 0,
+      "unknown": 0,
+      "full_body_share_pct": 95.7,
+      "strategy_group": "Focused Midline"
+    },
+    {
+      "brand": "AI Tech",
+      "total_products": 1,
+      "full_body_skus": 1,
+      "full-body": 1,
+      "torso": 0,
+      "male": 0,
+      "exclusive": 0,
+      "house-brand": 0,
+      "multi-brand": 0,
+      "accessory": 0,
+      "unknown": 0,
+      "full_body_share_pct": 100.0,
+      "strategy_group": "Boutique Premium"
+    },
+    {
+      "brand": "Angel Kiss",
+      "total_products": 49,
+      "full_body_skus": 49,
+      "full-body": 49,
+      "torso": 0,
+      "male": 0,
+      "exclusive": 0,
+      "house-brand": 0,
+      "multi-brand": 0,
+      "accessory": 0,
+      "unknown": 0,
+      "full_body_share_pct": 100.0,
+      "strategy_group": "Focused Midline"
+    },
+    {
+      "brand": "Arcana",
+      "total_products": 4,
+      "full_body_skus": 4,
+      "full-body": 4,
+      "torso": 0,
+      "male": 0,
+      "exclusive": 0,
+      "house-brand": 0,
+      "multi-brand": 0,
+      "accessory": 0,
+      "unknown": 0,
+      "full_body_share_pct": 100.0,
+      "strategy_group": "Focused Midline"
+    },
+    {
+      "brand": "CY Doll",
+      "total_products": 83,
+      "full_body_skus": 83,
+      "full-body": 83,
+      "torso": 0,
+      "male": 0,
+      "exclusive": 0,
+      "house-brand": 0,
+      "multi-brand": 0,
+      "accessory": 0,
+      "unknown": 0,
+      "full_body_share_pct": 100.0,
+      "strategy_group": "Focused Midline"
+    },
+    {
+      "brand": "Cyber Girl",
+      "total_products": 4,
+      "full_body_skus": 4,
+      "full-body": 4,
+      "torso": 0,
+      "male": 0,
+      "exclusive": 0,
+      "house-brand": 0,
+      "multi-brand": 0,
+      "accessory": 0,
+      "unknown": 0,
+      "full_body_share_pct": 100.0,
+      "strategy_group": "Focused Midline"
+    },
+    {
+      "brand": "Dime Doll",
+      "total_products": 35,
+      "full_body_skus": 35,
+      "full-body": 35,
+      "torso": 0,
+      "male": 0,
+      "exclusive": 0,
+      "house-brand": 0,
+      "multi-brand": 0,
+      "accessory": 0,
+      "unknown": 0,
+      "full_body_share_pct": 100.0,
+      "strategy_group": "Focused Midline"
+    },
+    {
+      "brand": "FantasyWives",
+      "total_products": 60,
+      "full_body_skus": 0,
+      "full-body": 0,
+      "torso": 0,
+      "male": 0,
+      "exclusive": 0,
+      "house-brand": 0,
+      "multi-brand": 60,
+      "accessory": 0,
+      "unknown": 0,
+      "full_body_share_pct": 0.0,
+      "strategy_group": "Retail Aggregator"
+    },
+    {
+      "brand": "FunWest",
+      "total_products": 107,
+      "full_body_skus": 107,
+      "full-body": 107,
+      "torso": 0,
+      "male": 0,
+      "exclusive": 0,
+      "house-brand": 0,
+      "multi-brand": 0,
+      "accessory": 0,
+      "unknown": 0,
+      "full_body_share_pct": 100.0,
+      "strategy_group": "Catalog Depth Leader"
+    },
+    {
+      "brand": "Irontech",
+      "total_products": 124,
+      "full_body_skus": 122,
+      "full-body": 122,
+      "torso": 2,
+      "male": 0,
+      "exclusive": 0,
+      "house-brand": 0,
+      "multi-brand": 0,
+      "accessory": 0,
+      "unknown": 0,
+      "full_body_share_pct": 98.4,
+      "strategy_group": "Catalog Depth Leader"
+    },
+    {
+      "brand": "JM Doll",
+      "total_products": 1,
+      "full_body_skus": 1,
+      "full-body": 1,
+      "torso": 0,
+      "male": 0,
+      "exclusive": 0,
+      "house-brand": 0,
+      "multi-brand": 0,
+      "accessory": 0,
+      "unknown": 0,
+      "full_body_share_pct": 100.0,
+      "strategy_group": "Focused Midline"
+    },
+    {
+      "brand": "Jiusheng",
+      "total_products": 25,
+      "full_body_skus": 25,
+      "full-body": 25,
+      "torso": 0,
+      "male": 0,
+      "exclusive": 0,
+      "house-brand": 0,
+      "multi-brand": 0,
+      "accessory": 0,
+      "unknown": 0,
+      "full_body_share_pct": 100.0,
+      "strategy_group": "Focused Midline"
+    },
+    {
+      "brand": "LilyDoll",
+      "total_products": 14,
+      "full_body_skus": 14,
+      "full-body": 14,
+      "torso": 0,
+      "male": 0,
+      "exclusive": 0,
+      "house-brand": 0,
+      "multi-brand": 0,
+      "accessory": 0,
+      "unknown": 0,
+      "full_body_share_pct": 100.0,
+      "strategy_group": "Focused Midline"
+    },
+    {
+      "brand": "Lusandy",
+      "total_products": 35,
+      "full_body_skus": 35,
+      "full-body": 35,
+      "torso": 0,
+      "male": 0,
+      "exclusive": 0,
+      "house-brand": 0,
+      "multi-brand": 0,
+      "accessory": 0,
+      "unknown": 0,
+      "full_body_share_pct": 100.0,
+      "strategy_group": "Focused Midline"
+    },
+    {
+      "brand": "MD Doll",
+      "total_products": 69,
+      "full_body_skus": 69,
+      "full-body": 69,
+      "torso": 0,
+      "male": 0,
+      "exclusive": 0,
+      "house-brand": 0,
+      "multi-brand": 0,
+      "accessory": 0,
+      "unknown": 0,
+      "full_body_share_pct": 100.0,
+      "strategy_group": "Focused Midline"
+    },
+    {
+      "brand": "Magic Moment",
+      "total_products": 3,
+      "full_body_skus": 3,
+      "full-body": 3,
+      "torso": 0,
+      "male": 0,
+      "exclusive": 0,
+      "house-brand": 0,
+      "multi-brand": 0,
+      "accessory": 0,
+      "unknown": 0,
+      "full_body_share_pct": 100.0,
+      "strategy_group": "Focused Midline"
+    },
+    {
+      "brand": "Qita",
+      "total_products": 3,
+      "full_body_skus": 2,
+      "full-body": 2,
+      "torso": 1,
+      "male": 0,
+      "exclusive": 0,
+      "house-brand": 0,
+      "multi-brand": 0,
+      "accessory": 0,
+      "unknown": 0,
+      "full_body_share_pct": 66.7,
+      "strategy_group": "Line Extension (torso/male)"
+    },
+    {
+      "brand": "Real Lady",
+      "total_products": 64,
+      "full_body_skus": 64,
+      "full-body": 64,
+      "torso": 0,
+      "male": 0,
+      "exclusive": 0,
+      "house-brand": 0,
+      "multi-brand": 0,
+      "accessory": 0,
+      "unknown": 0,
+      "full_body_share_pct": 100.0,
+      "strategy_group": "Focused Midline"
+    },
+    {
+      "brand": "Route",
+      "total_products": 1,
+      "full_body_skus": 0,
+      "full-body": 0,
+      "torso": 0,
+      "male": 0,
+      "exclusive": 0,
+      "house-brand": 0,
+      "multi-brand": 0,
+      "accessory": 1,
+      "unknown": 0,
+      "full_body_share_pct": 0.0,
+      "strategy_group": "Retail Aggregator"
+    },
+    {
+      "brand": "SE Doll",
+      "total_products": 135,
+      "full_body_skus": 135,
+      "full-body": 135,
+      "torso": 0,
+      "male": 0,
+      "exclusive": 0,
+      "house-brand": 0,
+      "multi-brand": 0,
+      "accessory": 0,
+      "unknown": 0,
+      "full_body_share_pct": 100.0,
+      "strategy_group": "Catalog Depth Leader"
+    },
+    {
+      "brand": "SY Doll",
+      "total_products": 4,
+      "full_body_skus": 4,
+      "full-body": 4,
+      "torso": 0,
+      "male": 0,
+      "exclusive": 0,
+      "house-brand": 0,
+      "multi-brand": 0,
+      "accessory": 0,
+      "unknown": 0,
+      "full_body_share_pct": 100.0,
+      "strategy_group": "Focused Midline"
+    },
+    {
+      "brand": "Sanhui",
+      "total_products": 7,
+      "full_body_skus": 7,
+      "full-body": 7,
+      "torso": 0,
+      "male": 0,
+      "exclusive": 0,
+      "house-brand": 0,
+      "multi-brand": 0,
+      "accessory": 0,
+      "unknown": 0,
+      "full_body_share_pct": 100.0,
+      "strategy_group": "Boutique Premium"
+    },
+    {
+      "brand": "Sigafun",
+      "total_products": 7,
+      "full_body_skus": 7,
+      "full-body": 7,
+      "torso": 0,
+      "male": 0,
+      "exclusive": 0,
+      "house-brand": 0,
+      "multi-brand": 0,
+      "accessory": 0,
+      "unknown": 0,
+      "full_body_share_pct": 100.0,
+      "strategy_group": "Focused Midline"
+    },
+    {
+      "brand": "Silicon Wives",
+      "total_products": 346,
+      "full_body_skus": 0,
+      "full-body": 0,
+      "torso": 0,
+      "male": 0,
+      "exclusive": 14,
+      "house-brand": 332,
+      "multi-brand": 0,
+      "accessory": 0,
+      "unknown": 0,
+      "full_body_share_pct": 0.0,
+      "strategy_group": "Retail Aggregator"
+    },
+    {
+      "brand": "Sino Doll",
+      "total_products": 12,
+      "full_body_skus": 12,
+      "full-body": 12,
+      "torso": 0,
+      "male": 0,
+      "exclusive": 0,
+      "house-brand": 0,
+      "multi-brand": 0,
+      "accessory": 0,
+      "unknown": 0,
+      "full_body_share_pct": 100.0,
+      "strategy_group": "Boutique Premium"
+    },
+    {
+      "brand": "Starpery",
+      "total_products": 47,
+      "full_body_skus": 46,
+      "full-body": 46,
+      "torso": 1,
+      "male": 0,
+      "exclusive": 0,
+      "house-brand": 0,
+      "multi-brand": 0,
+      "accessory": 0,
+      "unknown": 0,
+      "full_body_share_pct": 97.9,
+      "strategy_group": "Focused Midline"
+    },
+    {
+      "brand": "WM Doll",
+      "total_products": 280,
+      "full_body_skus": 271,
+      "full-body": 271,
+      "torso": 5,
+      "male": 4,
+      "exclusive": 0,
+      "house-brand": 0,
+      "multi-brand": 0,
+      "accessory": 0,
+      "unknown": 0,
+      "full_body_share_pct": 96.8,
+      "strategy_group": "Catalog Depth Leader"
+    },
+    {
+      "brand": "Warm Doll",
+      "total_products": 9,
+      "full_body_skus": 0,
+      "full-body": 0,
+      "torso": 0,
+      "male": 0,
+      "exclusive": 0,
+      "house-brand": 0,
+      "multi-brand": 0,
+      "accessory": 9,
+      "unknown": 0,
+      "full_body_share_pct": 0.0,
+      "strategy_group": "Retail Aggregator"
+    },
+    {
+      "brand": "XT Doll",
+      "total_products": 50,
+      "full_body_skus": 50,
+      "full-body": 50,
+      "torso": 0,
+      "male": 0,
+      "exclusive": 0,
+      "house-brand": 0,
+      "multi-brand": 0,
+      "accessory": 0,
+      "unknown": 0,
+      "full_body_share_pct": 100.0,
+      "strategy_group": "Focused Midline"
+    },
+    {
+      "brand": "YL Doll",
+      "total_products": 33,
+      "full_body_skus": 32,
+      "full-body": 32,
+      "torso": 0,
+      "male": 1,
+      "exclusive": 0,
+      "house-brand": 0,
+      "multi-brand": 0,
+      "accessory": 0,
+      "unknown": 0,
+      "full_body_share_pct": 97.0,
+      "strategy_group": "Focused Midline"
+    },
+    {
+      "brand": "ZELEX",
+      "total_products": 156,
+      "full_body_skus": 0,
+      "full-body": 0,
+      "torso": 0,
+      "male": 0,
+      "exclusive": 0,
+      "house-brand": 0,
+      "multi-brand": 0,
+      "accessory": 0,
+      "unknown": 2,
+      "full_body_share_pct": 0.0,
+      "strategy_group": "Focused Midline"
+    }
+  ],
+  "price_matrix": [
+    {
+      "brand": "6Ye",
+      "lt_1200": 0,
+      "1200_1799": 4,
+      "1800_2499": 19,
+      "2500_3499": 0,
+      "3500_plus": 0,
+      "unknown_price": 0
+    },
+    {
+      "brand": "AI Tech",
+      "lt_1200": 0,
+      "1200_1799": 0,
+      "1800_2499": 0,
+      "2500_3499": 0,
+      "3500_plus": 1,
+      "unknown_price": 0
+    },
+    {
+      "brand": "Angel Kiss",
+      "lt_1200": 0,
+      "1200_1799": 0,
+      "1800_2499": 49,
+      "2500_3499": 0,
+      "3500_plus": 0,
+      "unknown_price": 0
+    },
+    {
+      "brand": "Arcana",
+      "lt_1200": 0,
+      "1200_1799": 4,
+      "1800_2499": 0,
+      "2500_3499": 0,
+      "3500_plus": 0,
+      "unknown_price": 0
+    },
+    {
+      "brand": "CY Doll",
+      "lt_1200": 0,
+      "1200_1799": 70,
+      "1800_2499": 13,
+      "2500_3499": 0,
+      "3500_plus": 0,
+      "unknown_price": 0
+    },
+    {
+      "brand": "Cyber Girl",
+      "lt_1200": 0,
+      "1200_1799": 0,
+      "1800_2499": 4,
+      "2500_3499": 0,
+      "3500_plus": 0,
+      "unknown_price": 0
+    },
+    {
+      "brand": "Dime Doll",
+      "lt_1200": 4,
+      "1200_1799": 31,
+      "1800_2499": 0,
+      "2500_3499": 0,
+      "3500_plus": 0,
+      "unknown_price": 0
+    },
+    {
+      "brand": "FantasyWives",
+      "lt_1200": 3,
+      "1200_1799": 2,
+      "1800_2499": 18,
+      "2500_3499": 37,
+      "3500_plus": 0,
+      "unknown_price": 0
+    },
+    {
+      "brand": "FunWest",
+      "lt_1200": 1,
+      "1200_1799": 57,
+      "1800_2499": 49,
+      "2500_3499": 0,
+      "3500_plus": 0,
+      "unknown_price": 0
+    },
+    {
+      "brand": "Irontech",
+      "lt_1200": 1,
+      "1200_1799": 8,
+      "1800_2499": 97,
+      "2500_3499": 18,
+      "3500_plus": 0,
+      "unknown_price": 0
+    },
+    {
+      "brand": "JM Doll",
+      "lt_1200": 0,
+      "1200_1799": 0,
+      "1800_2499": 1,
+      "2500_3499": 0,
+      "3500_plus": 0,
+      "unknown_price": 0
+    },
+    {
+      "brand": "Jiusheng",
+      "lt_1200": 0,
+      "1200_1799": 4,
+      "1800_2499": 19,
+      "2500_3499": 2,
+      "3500_plus": 0,
+      "unknown_price": 0
+    },
+    {
+      "brand": "LilyDoll",
+      "lt_1200": 8,
+      "1200_1799": 6,
+      "1800_2499": 0,
+      "2500_3499": 0,
+      "3500_plus": 0,
+      "unknown_price": 0
+    },
+    {
+      "brand": "Lusandy",
+      "lt_1200": 0,
+      "1200_1799": 0,
+      "1800_2499": 0,
+      "2500_3499": 35,
+      "3500_plus": 0,
+      "unknown_price": 0
+    },
+    {
+      "brand": "MD Doll",
+      "lt_1200": 0,
+      "1200_1799": 13,
+      "1800_2499": 20,
+      "2500_3499": 36,
+      "3500_plus": 0,
+      "unknown_price": 0
+    },
+    {
+      "brand": "Magic Moment",
+      "lt_1200": 0,
+      "1200_1799": 1,
+      "1800_2499": 2,
+      "2500_3499": 0,
+      "3500_plus": 0,
+      "unknown_price": 0
+    },
+    {
+      "brand": "Qita",
+      "lt_1200": 1,
+      "1200_1799": 0,
+      "1800_2499": 2,
+      "2500_3499": 0,
+      "3500_plus": 0,
+      "unknown_price": 0
+    },
+    {
+      "brand": "Real Lady",
+      "lt_1200": 1,
+      "1200_1799": 0,
+      "1800_2499": 0,
+      "2500_3499": 63,
+      "3500_plus": 0,
+      "unknown_price": 0
+    },
+    {
+      "brand": "Route",
+      "lt_1200": 0,
+      "1200_1799": 0,
+      "1800_2499": 0,
+      "2500_3499": 0,
+      "3500_plus": 0,
+      "unknown_price": 1
+    },
+    {
+      "brand": "SE Doll",
+      "lt_1200": 2,
+      "1200_1799": 60,
+      "1800_2499": 73,
+      "2500_3499": 0,
+      "3500_plus": 0,
+      "unknown_price": 0
+    },
+    {
+      "brand": "SY Doll",
+      "lt_1200": 0,
+      "1200_1799": 0,
+      "1800_2499": 4,
+      "2500_3499": 0,
+      "3500_plus": 0,
+      "unknown_price": 0
+    },
+    {
+      "brand": "Sanhui",
+      "lt_1200": 0,
+      "1200_1799": 0,
+      "1800_2499": 3,
+      "2500_3499": 4,
+      "3500_plus": 0,
+      "unknown_price": 0
+    },
+    {
+      "brand": "Sigafun",
+      "lt_1200": 0,
+      "1200_1799": 7,
+      "1800_2499": 0,
+      "2500_3499": 0,
+      "3500_plus": 0,
+      "unknown_price": 0
+    },
+    {
+      "brand": "Silicon Wives",
+      "lt_1200": 302,
+      "1200_1799": 1,
+      "1800_2499": 7,
+      "2500_3499": 1,
+      "3500_plus": 2,
+      "unknown_price": 33
+    },
+    {
+      "brand": "Sino Doll",
+      "lt_1200": 0,
+      "1200_1799": 0,
+      "1800_2499": 1,
+      "2500_3499": 9,
+      "3500_plus": 2,
+      "unknown_price": 0
+    },
+    {
+      "brand": "Starpery",
+      "lt_1200": 1,
+      "1200_1799": 3,
+      "1800_2499": 42,
+      "2500_3499": 1,
+      "3500_plus": 0,
+      "unknown_price": 0
+    },
+    {
+      "brand": "WM Doll",
+      "lt_1200": 4,
+      "1200_1799": 232,
+      "1800_2499": 44,
+      "2500_3499": 0,
+      "3500_plus": 0,
+      "unknown_price": 0
+    },
+    {
+      "brand": "Warm Doll",
+      "lt_1200": 8,
+      "1200_1799": 1,
+      "1800_2499": 0,
+      "2500_3499": 0,
+      "3500_plus": 0,
+      "unknown_price": 0
+    },
+    {
+      "brand": "XT Doll",
+      "lt_1200": 0,
+      "1200_1799": 0,
+      "1800_2499": 50,
+      "2500_3499": 0,
+      "3500_plus": 0,
+      "unknown_price": 0
+    },
+    {
+      "brand": "YL Doll",
+      "lt_1200": 0,
+      "1200_1799": 2,
+      "1800_2499": 31,
+      "2500_3499": 0,
+      "3500_plus": 0,
+      "unknown_price": 0
+    },
+    {
+      "brand": "ZELEX",
+      "lt_1200": 1,
+      "1200_1799": 40,
+      "1800_2499": 102,
+      "2500_3499": 13,
+      "3500_plus": 0,
+      "unknown_price": 0
+    }
+  ],
+  "strategy_groups": [
+    {
+      "brand": "AI Tech",
+      "strategy_group": "Boutique Premium",
+      "full_body_skus": 1,
+      "median_price_usd": 4499.0
+    },
+    {
+      "brand": "Sanhui",
+      "strategy_group": "Boutique Premium",
+      "full_body_skus": 7,
+      "median_price_usd": 2599.0
+    },
+    {
+      "brand": "Sino Doll",
+      "strategy_group": "Boutique Premium",
+      "full_body_skus": 12,
+      "median_price_usd": 2999.0
+    },
+    {
+      "brand": "FunWest",
+      "strategy_group": "Catalog Depth Leader",
+      "full_body_skus": 107,
+      "median_price_usd": 1599.0
+    },
+    {
+      "brand": "Irontech",
+      "strategy_group": "Catalog Depth Leader",
+      "full_body_skus": 122,
+      "median_price_usd": 2386.0
+    },
+    {
+      "brand": "SE Doll",
+      "strategy_group": "Catalog Depth Leader",
+      "full_body_skus": 135,
+      "median_price_usd": 2199.0
+    },
+    {
+      "brand": "WM Doll",
+      "strategy_group": "Catalog Depth Leader",
+      "full_body_skus": 271,
+      "median_price_usd": 1777.0
+    },
+    {
+      "brand": "6Ye",
+      "strategy_group": "Focused Midline",
+      "full_body_skus": 22,
+      "median_price_usd": 1899.0
+    },
+    {
+      "brand": "Angel Kiss",
+      "strategy_group": "Focused Midline",
+      "full_body_skus": 49,
+      "median_price_usd": 2199.0
+    },
+    {
+      "brand": "Arcana",
+      "strategy_group": "Focused Midline",
+      "full_body_skus": 4,
+      "median_price_usd": 1336.0
+    },
+    {
+      "brand": "CY Doll",
+      "strategy_group": "Focused Midline",
+      "full_body_skus": 83,
+      "median_price_usd": 1799.0
+    },
+    {
+      "brand": "Cyber Girl",
+      "strategy_group": "Focused Midline",
+      "full_body_skus": 4,
+      "median_price_usd": 2199.0
+    },
+    {
+      "brand": "Dime Doll",
+      "strategy_group": "Focused Midline",
+      "full_body_skus": 35,
+      "median_price_usd": 1699.0
+    },
+    {
+      "brand": "JM Doll",
+      "strategy_group": "Focused Midline",
+      "full_body_skus": 1,
+      "median_price_usd": 1999.0
+    },
+    {
+      "brand": "Jiusheng",
+      "strategy_group": "Focused Midline",
+      "full_body_skus": 25,
+      "median_price_usd": 2299.0
+    },
+    {
+      "brand": "LilyDoll",
+      "strategy_group": "Focused Midline",
+      "full_body_skus": 14,
+      "median_price_usd": 1199.0
+    },
+    {
+      "brand": "Lusandy",
+      "strategy_group": "Focused Midline",
+      "full_body_skus": 35,
+      "median_price_usd": 2699.0
+    },
+    {
+      "brand": "MD Doll",
+      "strategy_group": "Focused Midline",
+      "full_body_skus": 69,
+      "median_price_usd": 2599.0
+    },
+    {
+      "brand": "Magic Moment",
+      "strategy_group": "Focused Midline",
+      "full_body_skus": 3,
+      "median_price_usd": 1899.0
+    },
+    {
+      "brand": "Real Lady",
+      "strategy_group": "Focused Midline",
+      "full_body_skus": 64,
+      "median_price_usd": 3149.0
+    },
+    {
+      "brand": "SY Doll",
+      "strategy_group": "Focused Midline",
+      "full_body_skus": 4,
+      "median_price_usd": 1949.0
+    },
+    {
+      "brand": "Sigafun",
+      "strategy_group": "Focused Midline",
+      "full_body_skus": 7,
+      "median_price_usd": 1425.0
+    },
+    {
+      "brand": "Starpery",
+      "strategy_group": "Focused Midline",
+      "full_body_skus": 46,
+      "median_price_usd": 1949.0
+    },
+    {
+      "brand": "XT Doll",
+      "strategy_group": "Focused Midline",
+      "full_body_skus": 50,
+      "median_price_usd": 2399.0
+    },
+    {
+      "brand": "YL Doll",
+      "strategy_group": "Focused Midline",
+      "full_body_skus": 32,
+      "median_price_usd": 2049.0
+    },
+    {
+      "brand": "ZELEX",
+      "strategy_group": "Focused Midline",
+      "full_body_skus": 0,
+      "median_price_usd": 1999.0
+    },
+    {
+      "brand": "Qita",
+      "strategy_group": "Line Extension (torso/male)",
+      "full_body_skus": 2,
+      "median_price_usd": 2099.0
+    },
+    {
+      "brand": "FantasyWives",
+      "strategy_group": "Retail Aggregator",
+      "full_body_skus": 0,
+      "median_price_usd": null
+    },
+    {
+      "brand": "Route",
+      "strategy_group": "Retail Aggregator",
+      "full_body_skus": 0,
+      "median_price_usd": null
+    },
+    {
+      "brand": "Silicon Wives",
+      "strategy_group": "Retail Aggregator",
+      "full_body_skus": 0,
+      "median_price_usd": 1199.0
+    },
+    {
+      "brand": "Warm Doll",
+      "strategy_group": "Retail Aggregator",
+      "full_body_skus": 0,
+      "median_price_usd": null
+    }
+  ]
+}
