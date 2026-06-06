@@ -1,0 +1,139 @@
+{
+  "_comment": "Reverse-engineered worked examples: three strong-data ZELEX architectures expressed as configurator build documents, each paired with the values its declarations resolve to. This is the proof that the declarative model in db/configurator_schema.json round-trips real catalogued bodies. `build` = buyer inputs only; `resolved` = output of the schema's derivations; `source` = where each fact came from. All numbers are transcribed from db/, not invented.",
+  "spec_version": "1.0.0",
+  "validated_against": "db/configurator_schema.json#/build_document_schema",
+
+  "examples": [
+    {
+      "id": "yvonne-zg170c",
+      "title": "I-Series Muse — ZG170C (e.g. Yvonne / Valerie cast)",
+      "why_chosen": "Full 17-field spec card; exact-confidence Muse; 59 live variants — the richest head pool to exercise head/face/tone axes.",
+      "build": {
+        "spec_version": "1.0.0",
+        "body":   { "line": "I-Series", "height_cm": 170, "cup": "C", "material": "Silicone" },
+        "head":   { "head_code": "GE52_2", "face_variant": "Standard", "head_tone_match": true },
+        "components": { "skin_tone": "Tan", "breast_type": "Standard", "standing_feet": false, "fingers": false }
+      },
+      "resolved": {
+        "body_code": "ZG170C",
+        "family": "The Muse",
+        "family_confidence": "exact",
+        "WHR": 0.686,
+        "BWR": 1.357,
+        "signature": {
+          "upper_bust": 87.5, "under_bust": 71.5, "waist": 64.5, "hip": 94,
+          "neck": 33, "shoulder_width": 40, "arm_length": 68, "hand_length": 18.5,
+          "leg_length": 78, "foot_length": 23, "thigh_circ": 50, "calf_circ": 32,
+          "weight_kg": 36.1
+        },
+        "sku": "GE52_2+ZG170C-Tan",
+        "price": "3599.00",
+        "price_basis": "catalogued live variant (authoritative)",
+        "estimated": false
+      },
+      "movable_jaw_alt": {
+        "note": "Switching face_variant → Movable Jaw resolves a different head+face and SKU, per db/product_overrides.json.",
+        "build_delta": { "head.head_code": "GE02_1", "head.face_variant": "Movable Jaw" },
+        "resolved_sku": "GE02_1_2(GE46MJ)+ZG170C-Tan"
+      },
+      "source": {
+        "signature": "db/body_measurements.json#/bodies/ZG170C",
+        "family_whr_bwr": "db/body_profiles.json#/profiles (ZG170C)",
+        "sku_price": "db/live_variants.json (body=ZG170C, head=GE52_2, tone=Tan)",
+        "movable_jaw": "db/product_overrides.json#/GE02_1"
+      }
+    },
+
+    {
+      "id": "somi-zk168b",
+      "title": "K-Series Muse — ZK168B (Somi cast)",
+      "why_chosen": "Full spec card; demonstrates the WHR/BWR classifier landing at a family boundary (WHR just under Icon, BWR low) yet still resolving to a precomputed family value — the case where you trust the stored classification over a re-derive.",
+      "build": {
+        "spec_version": "1.0.0",
+        "body":   { "line": "K-Series", "height_cm": 168, "cup": "B", "material": "Silicone" },
+        "head":   { "head_code": "KE03_1", "face_variant": "Standard", "head_tone_match": true },
+        "components": { "skin_tone": "Fair", "breast_type": "Standard", "standing_feet": false, "fingers": false }
+      },
+      "resolved": {
+        "body_code": "ZK168B",
+        "family": "The Muse",
+        "family_confidence": "near",
+        "WHR": 0.649,
+        "BWR": 1.238,
+        "signature": {
+          "upper_bust": 78, "under_bust": 66, "waist": 63, "hip": 97,
+          "neck": 27.5, "shoulder_width": 34.5, "arm_length": 71, "hand_length": 16,
+          "leg_length": 81, "foot_length": 22.5, "thigh_circ": 51, "calf_circ": 33,
+          "weight_kg": 37.5
+        },
+        "sku": "KE03_1+ZK168B-1",
+        "price": "3869.10",
+        "price_basis": "catalogued live variant (authoritative)",
+        "estimated": false,
+        "classifier_note": "WHR 0.649 sits below the Muse floor (0.65) and inside the Icon band (0.60–0.65), but BWR 1.238 is below both. No exact containment → nearest-center wins → The Muse (near). This is why resolve_price prefers the stored db/body_profiles family over a live re-derive."
+      },
+      "source": {
+        "signature": "db/body_measurements.json#/bodies/ZK168B",
+        "family_whr_bwr": "db/body_profiles.json#/profiles (ZK168B)",
+        "sku_price": "db/live_variants.json (body=ZK168B, head=KE03_1)"
+      }
+    },
+
+    {
+      "id": "zxe215-zx172e",
+      "title": "SLE Icon — ZX172E (ZXE215_1 cast)",
+      "why_chosen": "Exercises the SLE-only axes (TPE material, skeleton_version) and the version/tone SKU suffix; exact-confidence Icon. Shows the same architecture priced two ways across skeleton versions.",
+      "build": {
+        "spec_version": "1.0.0",
+        "body":   { "line": "SLE 3.0", "height_cm": 172, "cup": "E", "material": "TPE", "skeleton_version": "SLE 3.0" },
+        "head":   { "head_code": "ZXE215_1", "face_variant": "Standard", "head_tone_match": true },
+        "components": { "skin_tone": "Tan", "breast_type": "Standard", "standing_feet": false, "fingers": false }
+      },
+      "resolved": {
+        "body_code": "ZX172E",
+        "family": "The Icon",
+        "family_confidence": "exact",
+        "WHR": 0.608,
+        "BWR": 1.504,
+        "signature": {
+          "upper_bust": 86.5, "under_bust": 67, "waist": 57.5, "hip": 94.5,
+          "neck": 32.5, "shoulder_width": 38, "arm_length": 70.5, "hand_length": 19,
+          "leg_length": 84.5, "foot_length": 21, "thigh_circ": 48.5, "calf_circ": 34,
+          "weight_kg": 35.7
+        },
+        "sku": "ZXE215_1+ZX172E-Tan-Sle3.0",
+        "price": "2000.00",
+        "price_basis": "catalogued live variant (authoritative)",
+        "estimated": false
+      },
+      "skeleton_version_alt": {
+        "note": "Same body, head, tone, but SLE 2.0 skeleton resolves a separate, lower-priced SKU — proving skeleton_version is a real price axis, not cosmetic.",
+        "build_delta": { "body.skeleton_version": "SLE 2.0" },
+        "resolved_sku": "ZXE203_W1+ZX172E-White-Sle2.0",
+        "resolved_price": "1600.00"
+      },
+      "source": {
+        "signature": "db/body_measurements.json#/bodies/ZX172E",
+        "family_whr_bwr": "db/body_profiles.json#/profiles (ZX172E)",
+        "sku_price": "db/live_variants.json (body=ZX172E, head=ZXE215_1, tone=Tan, Sle3.0)"
+      }
+    }
+  ],
+
+  "bespoke_example": {
+    "id": "bespoke-empress",
+    "title": "Bespoke combination — no catalogued architecture",
+    "why_chosen": "Shows the warn-path: a valid-looking selection that resolve_body_code cannot map to a real body_code.",
+    "build": {
+      "spec_version": "1.0.0",
+      "body":   { "line": "K-Series", "height_cm": 175, "cup": "K", "material": "Silicone" },
+      "head":   { "head_code": "KE03_1", "face_variant": "Standard" },
+      "components": { "skin_tone": "Fair" }
+    },
+    "resolved": {
+      "body_code": null,
+      "validation_flags": ["bespoke_combination"],
+      "disposition": "Route to a bespoke inquiry (PDR-003 notify-me pattern), not an instant SKU. ZK175K is not a catalogued architecture."
+    }
+  }
+}

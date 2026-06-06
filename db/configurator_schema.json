@@ -1,0 +1,225 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "spec_version": "1.0.0",
+  "title": "ZELEX Declarative Configurator Spec",
+  "description": "A data-driven specification a configurator UI is GENERATED from (not hand-coded against). Each axis declares its control, type, option source, provenance, and price effect. A buyer's selections form a 'build document' that resolves — through the declarations in `derivations` — to a catalogued body architecture, a SKU, a measurement signature, a Body Family, and a price. See docs/pdr/PDR-011-declarative-configurator.md. Large option sets are referenced by data source rather than inlined, so the catalog stays the single source of truth.",
+  "generated_from": [
+    "db/catalog.json", "db/body_measurements.json", "db/body_profiles.json",
+    "db/body_types.json", "db/live_variants.json", "db/product_overrides.json"
+  ],
+
+  "data_sources": {
+    "catalog":      { "file": "db/catalog.json",          "note": "series + 255 head+body products" },
+    "measurements": { "file": "db/body_measurements.json", "note": "spec-card measurements — source of truth for the signature" },
+    "profiles":     { "file": "db/body_profiles.json",     "note": "WHR/BWR + Body Family classification per body_code" },
+    "body_types":   { "file": "db/body_types.json",        "note": "architecture records (family, slots, photoshoots)" },
+    "variants":     { "file": "db/live_variants.json",     "note": "396 live SKUs — head+body+tone → price" }
+  },
+
+  "provenance_legend": {
+    "catalog":   "Enumerated directly from catalogued product data.",
+    "spec-card": "Read from db/body_measurements.json once a body_code resolves; not buyer-editable.",
+    "derived":   "Computed by a rule in `derivations`; never stored as input.",
+    "proposed":  "A real ZELEX option not yet structured in db/. Flagged so the team can decide to backfill it before this axis goes live."
+  },
+
+  "groups": [
+    {
+      "id": "body",
+      "label": "Body Architecture",
+      "intent": "Selectors that RESOLVE to one catalogued architecture. They are filters, not free composition — every valid combination must map to an existing body_code (or be flagged bespoke).",
+      "axes": [
+        {
+          "id": "line", "label": "Series / Line", "control": "select", "type": "string",
+          "required": true, "provenance": "catalog",
+          "enum": ["K-Series", "I-Series", "Fusion", "SLE 3.0", "The Classic", "The Sculpt"],
+          "code_prefix": { "K-Series": "ZK", "I-Series": ["ZG", "ZGX"], "Fusion": "ZF", "SLE 3.0": "ZX", "The Classic": "ZC", "The Sculpt": "ZS" },
+          "status": { "The Classic": "in_development", "The Sculpt": "in_development" },
+          "note": "Drives the body_code prefix and the head-pool naming grammar."
+        },
+        {
+          "id": "height_cm", "label": "Height", "control": "slider", "type": "integer",
+          "unit": "cm", "required": true, "provenance": "catalog",
+          "min": 153, "max": 175, "step": 1, "default": 168,
+          "exclude_below": 120, "exclude_reason": "Torso / mini bodies are out of scope (is_torso filter in build_characters.py).",
+          "note": "Resolves with line+cup to a body_code. Not all heights exist for all lines."
+        },
+        {
+          "id": "cup", "label": "Cup", "control": "select", "type": "string",
+          "required": true, "provenance": "catalog",
+          "enum": ["A", "B", "C", "D", "E", "F", "G", "J", "K"],
+          "default": "C"
+        },
+        {
+          "id": "material", "label": "Material", "control": "radio", "type": "string",
+          "required": true, "provenance": "catalog",
+          "enum": ["Silicone", "TPE"],
+          "default_by_line": { "K-Series": "Silicone", "I-Series": "Silicone", "Fusion": "Silicone", "SLE 3.0": "TPE" },
+          "note": "Catalog titles mark K/I/Fusion as Silicone; SLE skews TPE. Material is a price driver."
+        },
+        {
+          "id": "skeleton_version", "label": "Skeleton Version", "control": "select", "type": "string",
+          "required": false, "provenance": "catalog",
+          "enum": ["SLE 2.0", "SLE 3.0"], "default": "SLE 3.0",
+          "visible_when": { "line": "SLE 3.0" },
+          "note": "Only meaningful for the SLE line; appears in SKU suffix (…-Sle3.0)."
+        },
+        {
+          "id": "body_code", "label": "Resolved Architecture", "control": "derived", "type": "string",
+          "provenance": "derived", "derivation_ref": "resolve_body_code"
+        },
+        {
+          "id": "signature", "label": "Measurement Signature", "control": "derived", "type": "object",
+          "provenance": "spec-card", "source_ref": "measurements",
+          "fields": ["upper_bust", "under_bust", "waist", "hip", "neck", "shoulder_width", "arm_length", "hand_length", "leg_length", "foot_length", "thigh_circ", "calf_circ", "weight_kg"],
+          "unit": "cm (weight_kg in kg)",
+          "note": "Locked to the resolved body_code. Read-only — the buyer picks an architecture, not loose tape measures."
+        },
+        {
+          "id": "family", "label": "Body Family", "control": "derived", "type": "string",
+          "provenance": "derived", "derivation_ref": "classify_family"
+        }
+      ]
+    },
+
+    {
+      "id": "head",
+      "label": "Head & Face",
+      "axes": [
+        {
+          "id": "head_code", "label": "Head", "control": "gallery-select", "type": "string",
+          "required": true, "provenance": "catalog",
+          "enum_source": { "source": "catalog", "path": "products[*].head_code", "distinct": true, "filter": "matches selected line prefix" },
+          "note": "163 distinct heads in catalog; rendered as an image gallery filtered to the line, not a 163-row dropdown."
+        },
+        {
+          "id": "face_variant", "label": "Jaw / Face Build", "control": "radio", "type": "string",
+          "required": true, "provenance": "catalog",
+          "enum": ["Standard", "Movable Jaw"],
+          "default": "Standard",
+          "resolves": { "Movable Jaw": "appends MJ face_code (e.g. GE46MJ) per db/product_overrides.json" },
+          "note": "~50 catalog variants carry a Movable-Jaw face_code. Availability depends on head_code."
+        },
+        {
+          "id": "head_tone_match", "label": "Match head tone to body", "control": "toggle", "type": "boolean",
+          "required": false, "provenance": "catalog", "default": true,
+          "note": "When true, head skin_tone follows the body skin_tone component; otherwise selectable independently."
+        }
+      ]
+    },
+
+    {
+      "id": "components",
+      "label": "Components & Finish",
+      "axes": [
+        {
+          "id": "skin_tone", "label": "Skin Tone", "control": "swatch", "type": "string",
+          "required": true, "provenance": "catalog",
+          "enum": ["Fair", "Tan", "White"],
+          "default": "Fair",
+          "note": "From live_variants tone field (Tan 228, Fair 72, White 23 SKUs); resolves into the SKU suffix (…-Tan)."
+        },
+        {
+          "id": "breast_type", "label": "Breast Build", "control": "radio", "type": "string",
+          "required": false, "provenance": "catalog",
+          "enum": ["Standard", "Gel / Implant"],
+          "default": "Standard",
+          "note": "15 catalog SKUs reference an implant/gel build; offered where the body supports it."
+        },
+        {
+          "id": "standing_feet", "label": "Standing Feet (foot bolts)", "control": "toggle", "type": "boolean",
+          "required": false, "provenance": "proposed", "default": false,
+          "note": "PROPOSED — a real ZELEX option not yet in db/. Backfill a per-body 'standing' flag before enabling."
+        },
+        {
+          "id": "fingers", "label": "Articulated Fingers", "control": "toggle", "type": "boolean",
+          "required": false, "provenance": "proposed", "default": false,
+          "note": "PROPOSED — needs a per-body capability flag in db/ before going live."
+        }
+      ]
+    }
+  ],
+
+  "derivations": [
+    {
+      "id": "resolve_body_code",
+      "produces": "body.body_code",
+      "inputs": ["body.line", "body.height_cm", "body.cup"],
+      "rule": "code = code_prefix(line) + height_cm + cup; lookup must exist in db/body_measurements.json#/bodies. If absent, set body_code=null and raise the `bespoke_combination` validation flag.",
+      "example": "K-Series + 168 + B → ZK168B"
+    },
+    {
+      "id": "classify_family",
+      "produces": "body.family",
+      "inputs": ["signature.waist", "signature.hip", "signature.upper_bust"],
+      "rule": "WHR = waist/hip; BWR = upper_bust/waist; choose the family whose whr_range and bwr_range both contain the point (db/body_profiles.json#/families). On no exact containment, pick nearest range-center and label confidence near|loose (see db/family_taxonomy.json#/confidence_labels).",
+      "note": "Prefer the precomputed value at db/body_profiles.json#/profiles[body_code] when present; recompute only for bespoke combinations."
+    },
+    {
+      "id": "resolve_sku",
+      "produces": "resolved.sku",
+      "inputs": ["head.head_code", "head.face_variant", "body.body_code", "components.skin_tone", "body.skeleton_version"],
+      "rule": "sku = head_code [ + '(' + faceMJ + ')' if Movable Jaw ] + '+' + body_code [ + '-' + skin_tone ] [ + '-Sle' + version for SLE ]. Match against db/live_variants.json#/sku for an exact catalogued SKU.",
+      "example": "ZXE215_1 + ZX172E + Tan + SLE 3.0 → ZXE215_1+ZX172E-Tan-Sle3.0"
+    },
+    {
+      "id": "resolve_price",
+      "produces": "resolved.price",
+      "inputs": ["resolved.sku", "body.family", "body.material"],
+      "rule": "If resolved.sku matches a live variant, use its price (authoritative). Otherwise estimate: base_by_line × material_factor × (1 + family_premium). Mark estimated:true.",
+      "pricing_model": {
+        "base_by_line_usd": { "SLE 3.0": 1800, "Fusion": 3200, "I-Series": 3400, "K-Series": 3600 },
+        "material_factor": { "Silicone": 1.0, "TPE": 0.85 },
+        "family_premium": { "The Classic": 0.20, "The Muse": 0.25, "The Icon": 0.30, "The Siren": 0.35, "The Empress": 0.30, "The Sculpt": 0.25 },
+        "note": "Premiums mirror db/body_profiles.json. Catalogued SKU price always wins over the estimate."
+      }
+    }
+  ],
+
+  "validation": [
+    { "id": "bespoke_combination", "severity": "warn", "when": "resolve_body_code finds no catalogued body_code", "message": "This line + height + cup is not a catalogued architecture. Treat as a bespoke inquiry, not an instant SKU." },
+    { "id": "mj_unsupported", "severity": "error", "when": "face_variant == 'Movable Jaw' and head_code has no MJ face_code in product_overrides", "message": "Selected head has no Movable-Jaw build." },
+    { "id": "skeleton_scope", "severity": "error", "when": "skeleton_version is set and line != 'SLE 3.0'", "message": "Skeleton version applies to the SLE line only." },
+    { "id": "torso_excluded", "severity": "error", "when": "height_cm < 120", "message": "Torso / mini bodies are out of scope." },
+    { "id": "dev_line", "severity": "warn", "when": "line in ['The Classic','The Sculpt']", "message": "This line is in development — route to notify-me, not checkout (see PDR-003)." }
+  ],
+
+  "build_document_schema": {
+    "$comment": "JSON Schema a saved build is validated against. Inputs only — derived fields live in `resolved` and are recomputed, never trusted from input.",
+    "type": "object",
+    "required": ["spec_version", "body", "head", "components"],
+    "properties": {
+      "spec_version": { "const": "1.0.0" },
+      "body": {
+        "type": "object",
+        "required": ["line", "height_cm", "cup", "material"],
+        "properties": {
+          "line": { "enum": ["K-Series", "I-Series", "Fusion", "SLE 3.0", "The Classic", "The Sculpt"] },
+          "height_cm": { "type": "integer", "minimum": 120, "maximum": 175 },
+          "cup": { "enum": ["A", "B", "C", "D", "E", "F", "G", "J", "K"] },
+          "material": { "enum": ["Silicone", "TPE"] },
+          "skeleton_version": { "enum": ["SLE 2.0", "SLE 3.0"] }
+        }
+      },
+      "head": {
+        "type": "object",
+        "required": ["head_code", "face_variant"],
+        "properties": {
+          "head_code": { "type": "string" },
+          "face_variant": { "enum": ["Standard", "Movable Jaw"] },
+          "head_tone_match": { "type": "boolean" }
+        }
+      },
+      "components": {
+        "type": "object",
+        "required": ["skin_tone"],
+        "properties": {
+          "skin_tone": { "enum": ["Fair", "Tan", "White"] },
+          "breast_type": { "enum": ["Standard", "Gel / Implant"] },
+          "standing_feet": { "type": "boolean" },
+          "fingers": { "type": "boolean" }
+        }
+      }
+    }
+  }
+}
