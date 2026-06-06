@@ -10,6 +10,40 @@
   --Empress:#C792D6;--Sculpt:#C7B07F;
   --maxw:1340px;
 }
+
+/* === Design System v2 Tokens ===================================
+   Semantic layer. Use these in new components; legacy raw vars
+   remain for backward compat.
+   ============================================================== */
+:root{
+  /* Surfaces */
+  --s0:#0d0d0d;--s1:var(--bg);--s2:var(--panel);--s3:var(--panel2);
+
+  /* Borders */
+  --b-soft:rgba(212,165,116,.18);--b-accent:var(--gold);--b-subtle:var(--line);
+
+  /* Type scale */
+  --t-xs:10px;--t-sm:12px;--t-base:14px;--t-md:16px;
+  --t-lg:20px;--t-xl:28px;--t-2xl:38px;--t-3xl:52px;
+
+  /* Spacing */
+  --sp1:4px;--sp2:8px;--sp3:12px;--sp4:16px;
+  --sp5:24px;--sp6:32px;--sp7:48px;--sp8:64px;
+
+  /* Radii */
+  --r-sm:6px;--r-md:10px;--r-lg:14px;--r-pill:100px;
+
+  /* Shadows — card rests quiet; glow only on interaction */
+  --sh-card:0 2px 10px rgba(0,0,0,.45);
+  --sh-card-hover:0 16px 40px rgba(0,0,0,.6),0 0 28px rgba(212,165,116,.16);
+  --sh-focus:0 0 0 3px rgba(212,165,116,.35);
+
+  /* Status palette */
+  --st-live:#6BC88A;--st-concept:#9EA8B8;--st-pending:#E0A945;
+  --st-estimated:#C792D6;--st-verified:#5EA6E8;
+}
+
+/* === Reset & base ============================================= */
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{font-family:'Montserrat',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh}
@@ -18,7 +52,12 @@ a{color:inherit;text-decoration:none}
 img{display:block}
 .serif-i{font-family:'Playfair Display',serif;font-style:italic}
 
-/* ---- nav ---- */
+/* === Focus ===================================================== */
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:var(--r-sm)}
+.btn:focus-visible{outline-offset:4px}
+.card:focus-visible,.bodycard:focus-visible{outline-offset:2px;box-shadow:var(--sh-card),var(--sh-focus)}
+
+/* === Nav ====================================================== */
 .nav{position:sticky;top:0;z-index:50;display:flex;justify-content:space-between;align-items:center;
   padding:15px 32px;background:rgba(18,18,18,.93);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 .nav .brand{font-family:'Playfair Display',serif;font-weight:700;letter-spacing:4px;font-size:20px}
@@ -29,40 +68,71 @@ img{display:block}
 .nav .links a.active{color:var(--gold)}
 @media(max-width:720px){.nav{padding:13px 18px}.nav .links{gap:14px}.nav .links a{font-size:10px;letter-spacing:1px}}
 
-/* ---- generic layout ---- */
+/* === Layout =================================================== */
 main{max-width:var(--maxw);margin:0 auto;padding:10px 24px 70px}
 .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
-.eyebrow{color:var(--gold);letter-spacing:5px;text-transform:uppercase;font-size:12px}
+.eyebrow{color:var(--gold);letter-spacing:5px;text-transform:uppercase;font-size:12px;display:inline-block}
+.eyebrow::after{content:"";display:block;height:1px;width:34px;margin:8px auto 0;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.7}
+.eyebrow.no-rule::after{display:none}
 .crumbs{max-width:var(--maxw);margin:0 auto;padding:18px 24px 0;font-size:12px;letter-spacing:1px;color:var(--muted)}
 .crumbs a:hover{color:var(--text)}
 .crumbs span{color:var(--line);margin:0 8px}
 .section-head{margin:46px 0 6px;font-size:13px;letter-spacing:4px;text-transform:uppercase;color:var(--blue)}
 .section-sub{color:var(--muted);font-size:13px;margin-bottom:10px;max-width:760px}
 
-/* ---- buttons ---- */
-.btn{display:inline-block;padding:12px 26px;border:1px solid var(--gold);border-radius:8px;color:var(--gold);
+/* === Buttons ================================================== */
+.btn{display:inline-block;padding:12px 26px;border:1px solid var(--gold);border-radius:var(--r-md);color:var(--gold);
   letter-spacing:2px;text-transform:uppercase;font-size:12px;transition:.25s;cursor:pointer;font-family:inherit;background:transparent}
 .btn:hover{background:var(--gold);color:#111}
-.btn.solid{background:var(--cream);border-color:var(--cream);color:#111}
+
+/* Solid / filled — secondary call-to-action */
+.btn.solid{background:var(--cream);border-color:var(--cream);color:#111;position:relative;overflow:hidden}
 .btn.solid:hover{background:var(--gold);border-color:var(--gold)}
+.btn.solid::after{content:"";position:absolute;top:0;left:-120%;width:60%;height:100%;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.45),transparent);transform:skewX(-18deg);transition:left .55s ease}
+.btn.solid:hover::after{left:140%}
+
+/* Ghost — low-emphasis */
 .btn.ghost{border-color:var(--line);color:var(--muted)}
 .btn.ghost:hover{border-color:var(--text);color:var(--text);background:transparent}
 
-/* ---- family chip ---- */
-.fam{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;padding:4px 10px;border-radius:20px;font-weight:600;display:inline-block}
-.bcode{font-family:ui-monospace,monospace;font-size:13px;color:var(--cream);background:var(--panel2);padding:3px 9px;border-radius:6px}
+/* Concierge — premium final-step CTA */
+.btn.concierge{font-family:'Playfair Display',serif;font-style:italic;letter-spacing:1.5px;text-transform:none;
+  font-size:14px;padding:13px 30px;border-color:var(--gold);color:var(--cream);
+  background:linear-gradient(135deg,rgba(30,24,18,.9),rgba(42,34,22,.9));
+  box-shadow:inset 0 0 0 1px rgba(212,165,116,.22),0 4px 18px rgba(0,0,0,.45)}
+.btn.concierge:hover{background:linear-gradient(135deg,rgba(50,38,22,.95),rgba(65,48,25,.95));
+  color:var(--gold);box-shadow:inset 0 0 0 1px rgba(212,165,116,.5),0 8px 28px rgba(0,0,0,.55)}
 
-/* ---- character card (shared) ---- */
+/* === Status Primitives ======================================== */
+.stat{display:inline-flex;align-items:center;gap:5px;font-size:var(--t-xs);letter-spacing:1.5px;
+  text-transform:uppercase;font-weight:600;padding:3px 9px;border-radius:var(--r-pill)}
+.stat::before{content:"";width:6px;height:6px;border-radius:50%;flex-shrink:0;background:currentColor}
+.stat-live   {color:var(--st-live);   background:rgba(107,200,138,.10);border:1px solid rgba(107,200,138,.22)}
+.stat-concept{color:var(--st-concept);background:rgba(158,168,184,.08);border:1px solid rgba(158,168,184,.16)}
+.stat-pending{color:var(--st-pending);background:rgba(224,169,69,.10); border:1px solid rgba(224,169,69,.22)}
+.stat-estimated{color:var(--st-estimated);background:rgba(199,146,214,.10);border:1px solid rgba(199,146,214,.22)}
+.stat-verified{color:var(--st-verified);background:rgba(94,166,232,.10);border:1px solid rgba(94,166,232,.22)}
+
+/* === Chips & codes ============================================ */
+.fam{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;padding:4px 10px;border-radius:var(--r-pill);font-weight:600;display:inline-block}
+.bcode{font-family:ui-monospace,monospace;font-size:13px;color:var(--cream);background:var(--panel2);padding:3px 9px;border-radius:var(--r-sm)}
+
+/* === Grids ==================================================== */
 .grid{display:grid;gap:18px}
 .grid.g4{grid-template-columns:repeat(4,1fr)}
 .grid.g3{grid-template-columns:repeat(3,1fr)}
 .grid.g2{grid-template-columns:repeat(2,1fr)}
 @media(max-width:980px){.grid.g4,.grid.g3{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:520px){.grid.g4,.grid.g3,.grid.g2{grid-template-columns:1fr}}
-.card{background:var(--panel);border:1px solid rgba(212,165,116,.34);border-radius:13px;overflow:hidden;cursor:pointer;
-  transition:.25s;display:flex;flex-direction:column;box-shadow:0 0 0 1px rgba(212,165,116,.12),0 0 26px rgba(212,165,116,.08)}
-.card:hover{transform:translateY(-5px);border-color:var(--gold);box-shadow:0 16px 40px rgba(0,0,0,.55),0 0 0 1px rgba(212,165,116,.14),0 0 30px rgba(212,165,116,.16)}
-.imgwrap{position:relative;aspect-ratio:3/4;background:#0d0d0d;overflow:hidden}
+
+/* === Character Card =========================================== */
+.card{background:var(--panel);border:1px solid var(--b-soft);border-radius:var(--r-lg);overflow:hidden;cursor:pointer;
+  transition:transform .25s,border-color .25s,box-shadow .25s;display:flex;flex-direction:column;
+  box-shadow:var(--sh-card)}
+.card:hover{transform:translateY(-5px);border-color:var(--gold);box-shadow:var(--sh-card-hover)}
+.imgwrap{position:relative;aspect-ratio:3/4;background:var(--s0);overflow:hidden}
 .imgwrap img{width:100%;height:100%;object-fit:cover;object-position:top center;transition:.4s}
 .card:hover .imgwrap img{transform:scale(1.05)}
 .card.ph .imgwrap img{filter:grayscale(.4) brightness(.66)}
@@ -70,21 +140,22 @@ main{max-width:var(--maxw);margin:0 auto;padding:10px 24px 70px}
   background:radial-gradient(ellipse at 50% 30%,color-mix(in srgb,var(--fc) 26%,#141414),#101010 75%)}
 .monotile span{font-family:'Playfair Display',serif;font-size:64px;font-weight:700;color:var(--fc);opacity:.85}
 .repbadge{position:absolute;top:10px;left:10px;font-size:9px;letter-spacing:1px;text-transform:uppercase;
-  background:rgba(0,0,0,.78);color:var(--gold);padding:4px 8px;border-radius:5px;border:1px solid var(--gold)}
+  background:rgba(0,0,0,.78);color:var(--gold);padding:4px 8px;border-radius:var(--r-sm);border:1px solid var(--gold)}
 .slotchip{position:absolute;bottom:10px;right:10px;font-size:10px;letter-spacing:1px;background:rgba(0,0,0,.72);
-  color:var(--cream);padding:3px 8px;border-radius:5px}
+  color:var(--cream);padding:3px 8px;border-radius:var(--r-sm)}
 .card .b{padding:14px}
 .card .pname-row{display:flex;align-items:flex-start;justify-content:space-between;gap:9px}
 .card .pname{font-family:'Playfair Display',serif;font-size:20px;font-weight:600;line-height:1.1}
 .card .cupchip{flex-shrink:0;margin-top:2px;font-size:10px;letter-spacing:.6px;font-weight:600;
-  padding:2px 9px;border:1px solid currentColor;border-radius:20px;white-space:nowrap;background:rgba(0,0,0,.18)}
+  padding:2px 9px;border:1px solid currentColor;border-radius:var(--r-pill);white-space:nowrap;background:rgba(0,0,0,.18)}
 .card .ptitle{color:var(--muted);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;margin:3px 0 8px}
 .card .ptag{color:var(--gold);font-style:italic;font-size:12.5px;font-family:'Playfair Display',serif}
 
-/* ---- body-architecture card ---- */
-.bodycard{background:var(--panel);border:1px solid rgba(212,165,116,.34);border-radius:13px;overflow:hidden;cursor:pointer;transition:.25s;box-shadow:0 0 0 1px rgba(212,165,116,.12),0 0 26px rgba(212,165,116,.08)}
-.bodycard:hover{transform:translateY(-5px);border-color:var(--gold);box-shadow:0 16px 40px rgba(0,0,0,.55),0 0 0 1px rgba(212,165,116,.14),0 0 30px rgba(212,165,116,.16)}
-.bodycard .bw{position:relative;aspect-ratio:4/5;background:#0d0d0d;overflow:hidden}
+/* === Body-Architecture Card =================================== */
+.bodycard{background:var(--panel);border:1px solid var(--b-soft);border-radius:var(--r-lg);overflow:hidden;
+  cursor:pointer;transition:transform .25s,border-color .25s,box-shadow .25s;box-shadow:var(--sh-card)}
+.bodycard:hover{transform:translateY(-5px);border-color:var(--gold);box-shadow:var(--sh-card-hover)}
+.bodycard .bw{position:relative;aspect-ratio:4/5;background:var(--s0);overflow:hidden}
 .bodycard .bw img{width:100%;height:100%;object-fit:cover;object-position:top center;transition:.4s}
 .bodycard:hover .bw img{transform:scale(1.04)}
 .bodycard .bb{padding:14px}
@@ -93,17 +164,17 @@ main{max-width:var(--maxw);margin:0 auto;padding:10px 24px 70px}
 .bodycard .bb .m .fam{font-size:9px;padding:3px 8px}
 .bodycard .bb .bnames{color:var(--cream);font-size:12px;margin-top:7px;font-family:'Playfair Display',serif;font-style:italic}
 .bodycard .bb .sig{color:var(--blue);font-size:11px;letter-spacing:1px;margin-top:6px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+
+/* === Metrics / filter primitives ============================== */
 .rstat{display:inline-flex;align-items:center;gap:3px}
 .rsvg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
-/* shared metrics legend — compact bar */
 .metrics-legend{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin:0 0 14px;
-  padding:8px 14px;border:1px solid var(--line);border-radius:8px;background:rgba(255,255,255,.02);
+  padding:8px 14px;border:1px solid var(--line);border-radius:var(--r-md);background:rgba(255,255,255,.02);
   font-size:11.5px;color:var(--blue)}
 .metrics-legend .lg-title{color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;font-size:9px}
 .metrics-legend .rstat{cursor:help;gap:4px}
 .metrics-legend .lg-note{color:var(--muted);font-size:10.5px;font-style:italic;margin-left:auto;max-width:380px;line-height:1.4}
 @media(max-width:680px){.metrics-legend{gap:14px}.metrics-legend .lg-note{margin-left:0;max-width:none}}
-/* family-filter chips */
 .filter-heading{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-right:4px}
 .fam-dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;vertical-align:middle}
 .pill .pill-n{color:var(--muted);font-size:10px;margin-left:3px}
@@ -112,7 +183,7 @@ main{max-width:var(--maxw);margin:0 auto;padding:10px 24px 70px}
 /* ============================================================
    Editorial finishes — hero backdrops, motion, accents
    ============================================================ */
-/* ---- reusable hero / title backdrop (slow ken-burns + fade-to-bg scrim) ---- */
+/* Reusable hero backdrop — slow ken-burns + fade-to-bg scrim */
 .has-backdrop{position:relative;overflow:hidden;isolation:isolate}
 .has-backdrop > .backdrop{position:absolute;inset:0;z-index:0;background-size:cover;background-position:top center;
   opacity:.18;filter:grayscale(.18);transform:scale(1.06);animation:kenburns 36s ease-in-out infinite alternate;will-change:transform}
@@ -121,50 +192,43 @@ main{max-width:var(--maxw);margin:0 auto;padding:10px 24px 70px}
 .has-backdrop > *:not(.backdrop){position:relative;z-index:2}
 @keyframes kenburns{from{transform:scale(1.06) translate3d(0,0,0)}to{transform:scale(1.16) translate3d(0,-2.2%,0)}}
 
-/* ---- scroll reveal (transition-based: `.in` declares the final value directly,
-       so it settles correctly even for off-screen elements; only hides under .js) ---- */
+/* Scroll reveal — transition-based; settles off-screen correctly; only hides under .js */
 .js .reveal{opacity:0;transform:translateY(18px);
   transition:opacity .6s cubic-bezier(.22,.61,.36,1), transform .6s cubic-bezier(.22,.61,.36,1)}
 .js .reveal.in{opacity:1;transform:none}
 .reveal.d1{transition-delay:.06s}.reveal.d2{transition-delay:.12s}.reveal.d3{transition-delay:.18s}
 .reveal.d4{transition-delay:.24s}.reveal.d5{transition-delay:.30s}.reveal.d6{transition-delay:.36s}
 
-/* ---- editorial accents ---- */
+/* Editorial accents */
 .em-grad{background:linear-gradient(100deg,var(--gold) 0%,var(--cream) 52%,var(--coral) 100%);
   -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
-.eyebrow{display:inline-block}
-.eyebrow::after{content:"";display:block;height:1px;width:34px;margin:8px auto 0;
-  background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.7}
-.eyebrow.no-rule::after{display:none}
 
-/* subtle sheen sweep across solid buttons on hover */
-.btn.solid{position:relative;overflow:hidden}
-.btn.solid::after{content:"";position:absolute;top:0;left:-120%;width:60%;height:100%;
-  background:linear-gradient(100deg,transparent,rgba(255,255,255,.45),transparent);transform:skewX(-18deg);transition:left .55s ease}
-.btn.solid:hover::after{left:140%}
-
-/* nav lifts a touch once you scroll past the hero lip */
+/* Nav shadow once scrolled past hero */
 .nav.up{box-shadow:0 8px 28px rgba(0,0,0,.45);border-bottom-color:rgba(212,165,116,.25)}
 
+/* === Reduced-motion overrides ================================= */
 @media(prefers-reduced-motion:reduce){
   .has-backdrop > .backdrop{animation:none}
   .js .reveal,.js .reveal.in{opacity:1;transform:none;transition:none}
   .btn.solid::after{display:none}
+  .card,.bodycard{transition:border-color .15s}
+  .card:hover,.bodycard:hover{transform:none}
+  .card:hover .imgwrap img,.bodycard:hover .bw img{transform:none}
 }
 
-/* ---- key/value spec block ---- */
+/* === Data / spec blocks ======================================= */
 .kv{display:grid;grid-template-columns:130px 1fr;gap:7px 14px;font-size:13.5px;color:var(--muted)}
 .kv b{color:var(--text);font-weight:600}
-.pos{font-size:13.5px;background:var(--panel2);border-left:3px solid var(--blue);padding:13px;border-radius:0 8px 8px 0}
-.phnote{font-size:13.5px;background:var(--panel2);border-left:3px solid var(--gold);padding:13px;border-radius:0 8px 8px 0}
+.pos{font-size:13.5px;background:var(--panel2);border-left:3px solid var(--blue);padding:13px;border-radius:0 var(--r-sm) var(--r-sm) 0}
+.phnote{font-size:13.5px;background:var(--panel2);border-left:3px solid var(--gold);padding:13px;border-radius:0 var(--r-sm) var(--r-sm) 0}
 
-/* ---- footer ---- */
+/* === Footer =================================================== */
 footer{text-align:center;color:var(--muted);font-size:12px;padding:48px 20px;border-top:1px solid var(--line);margin-top:40px}
 footer .fl{margin-bottom:12px;display:flex;gap:22px;justify-content:center;flex-wrap:wrap}
 footer .fl a{letter-spacing:2px;text-transform:uppercase;font-size:11px}
 footer .fl a:hover{color:var(--text)}
 
-/* ---- misc ---- */
+/* === Misc ===================================================== */
 .err{max-width:600px;margin:60px auto;text-align:center;color:var(--coral)}
-.err code{background:#222;padding:2px 7px;border-radius:5px;color:var(--cream)}
+.err code{background:#222;padding:2px 7px;border-radius:var(--r-sm);color:var(--cream)}
 .loading{max-width:600px;margin:80px auto;text-align:center;color:var(--muted)}

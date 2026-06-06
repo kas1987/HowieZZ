@@ -64,6 +64,8 @@ _local/
 # ---- Local tooling / agent state ----
 .claude/
 .superpowers/
+.01_Per GPT/
+docs/superpowers/
 
 # ---- Python ----
 __pycache__/
