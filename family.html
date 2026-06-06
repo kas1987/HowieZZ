@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ZELEX — Body Families</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+  /* ---- hero ---- */
+  .hero{padding:64px 32px 36px;text-align:center;background:radial-gradient(ellipse at top,#1e1e1e,#121212 72%)}
+  .hero .eyebrow{margin-bottom:14px}
+  .hero h1{font-size:clamp(32px,6vw,60px);font-weight:700;letter-spacing:1px}
+  .hero p{color:var(--muted);max-width:620px;margin:14px auto 0;font-size:15px}
+  .hero .stats{display:flex;gap:38px;justify-content:center;flex-wrap:wrap;margin-top:28px;color:var(--muted)}
+  .hero .stats .n{font-family:'Playfair Display',serif;font-size:30px;color:var(--cream);display:block;line-height:1}
+  .hero .stats .l{font-size:10px;letter-spacing:2px;text-transform:uppercase;margin-top:6px}
+
+  /* ---- index family card ---- */
+  .fam-grid{display:grid;gap:20px;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));margin-top:36px}
+  .fam-card{position:relative;overflow:hidden;isolation:isolate;
+    background:var(--panel);border:1px solid rgba(212,165,116,.28);border-radius:14px;padding:28px 24px;
+    display:flex;flex-direction:column;gap:10px;transition:.25s;cursor:pointer;min-height:240px;
+    box-shadow:0 0 0 1px rgba(212,165,116,.10),0 0 24px rgba(212,165,116,.06)}
+  .fam-card:hover{transform:translateY(-5px);border-color:var(--gold);box-shadow:0 16px 40px rgba(0,0,0,.55),0 0 30px rgba(212,165,116,.14)}
+  /* representative photo backdrop (families with bodies) + readability scrim */
+  .fam-card .fc-bg{position:absolute;inset:0;z-index:0;background-size:cover;background-position:top center;
+    opacity:.30;transform:scale(1.02);transition:.35s ease}
+  .fam-card:hover .fc-bg{opacity:.46;transform:scale(1.06)}
+  .fam-card::after{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;
+    background:linear-gradient(180deg,rgba(20,18,16,.48) 0%,rgba(18,18,18,.82) 58%,rgba(18,18,18,.95) 100%)}
+  .fam-card .fc-name,.fam-card .fc-sig,.fam-card .fc-desc,.fam-card .fc-count{position:relative;z-index:2}
+  .fam-card.dev{opacity:.55;cursor:default}
+  .fam-card.dev::after{display:none}
+  .fam-card.dev:hover{transform:none;border-color:rgba(212,165,116,.28);box-shadow:0 0 0 1px rgba(212,165,116,.10)}
+  .fam-card .fc-name{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;line-height:1.1}
+  .fam-card .fc-sig{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-top:2px}
+  .fam-card .fc-desc{font-size:14px;color:var(--muted);line-height:1.55;flex:1}
+  .fam-card .fc-count{font-size:12px;letter-spacing:1px;color:var(--muted);border-top:1px solid var(--line);padding-top:10px;margin-top:auto}
+  .fam-card .fc-dev{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-style:italic}
+
+  /* ---- family landing header (compact, mirrors series.html proportions) ---- */
+  .fam-hero{padding:34px 32px 20px;background:radial-gradient(ellipse at top,#1c1c1c,#121212 70%);text-align:center}
+  .fam-hero .eyebrow{margin-bottom:9px;font-size:11px}
+  .fam-hero h1{font-size:clamp(26px,4.4vw,44px);font-weight:700;line-height:1;letter-spacing:.5px}
+  .fam-hero .sig-line{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:7px}
+  .fam-hero p{color:var(--muted);max-width:620px;margin:9px auto 0;font-size:14px;line-height:1.65}
+  .fam-hero .prop-badge{display:inline-flex;gap:18px;flex-wrap:wrap;justify-content:center;
+    background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 18px;margin-top:16px;font-size:13px}
+  .fam-hero .prop-badge .pb-item .pb-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);display:block}
+  .fam-hero .prop-badge .pb-item .pb-val{font-family:'Playfair Display',serif;font-size:16px;color:var(--cream)}
+
+  /* ---- section heads ---- */
+  .sec{margin-top:28px}
+  .sec-title{font-size:13px;letter-spacing:4px;text-transform:uppercase;color:var(--blue);margin-bottom:6px}
+  .sec-sub{color:var(--muted);font-size:13px;margin-bottom:22px;max-width:760px}
+
+  /* ---- actions ---- */
+  .actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:32px;justify-content:center}
+
+  /* ---- no-content tile ---- */
+  .empty-tile{background:var(--panel2);border:1px dashed var(--line);border-radius:12px;padding:36px 20px;
+    text-align:center;color:var(--muted);font-size:13px;font-style:italic;grid-column:1/-1}
+
+  /* ---- landing sticky controls bar (view toggle lives here) ---- */
+  .landing-controls{position:sticky;top:58px;z-index:40;display:flex;align-items:center;
+    justify-content:flex-end;gap:14px;padding:11px 24px;
+    background:rgba(18,18,18,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  @media(max-width:600px){.landing-controls{justify-content:center}}
+
+  /* ---- segmented view toggle (pill, matches series.html) ---- */
+  .view-toggle{display:inline-flex;border:1px solid var(--line);border-radius:30px;overflow:hidden;
+    background:var(--panel2);flex-shrink:0}
+  .view-toggle button{padding:6px 18px;border:none;background:transparent;
+    color:var(--muted);font-size:11px;letter-spacing:1.2px;text-transform:uppercase;
+    font-family:inherit;cursor:pointer;transition:.2s;white-space:nowrap}
+  .view-toggle button:first-child{border-right:1px solid var(--line)}
+  .view-toggle button.active{background:var(--cream);color:#111;font-weight:600}
+  .view-toggle button:not(.active):hover{color:var(--text)}
+
+  /* ---- chars-mode filter bar (below sticky bar) ---- */
+  .char-filters{max-width:var(--maxw);margin:14px auto 0;padding:0 24px;
+    display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+  .char-filters .filter-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;
+    color:var(--muted);white-space:nowrap}
+  .cpill{
+    padding:5px 14px;border:1px solid var(--line);border-radius:30px;
+    background:transparent;color:var(--muted);
+    cursor:pointer;font-size:12px;letter-spacing:.4px;
+    font-family:inherit;transition:.2s;white-space:nowrap;
+  }
+  .cpill:hover{color:var(--text);border-color:var(--muted)}
+  .cpill.active{background:var(--cream);color:#111;border-color:var(--cream);font-weight:600}
+  .toggle-wrap{display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none}
+  .toggle-wrap input[type=checkbox]{accent-color:var(--gold);width:15px;height:15px;cursor:pointer}
+  .toggle-label{font-size:12px;color:var(--muted);letter-spacing:.4px;transition:.2s}
+  .toggle-wrap:hover .toggle-label{color:var(--text)}
+
+  /* ---- char-mode count bar ---- */
+  .char-count{font-size:13px;color:var(--muted);margin:10px 0 14px}
+  .char-count strong{color:var(--text)}
+
+  /* ---- landing content area (mirrors series.html .content-area) ---- */
+  #landing-app{max-width:var(--maxw);margin:0 auto;padding:0 24px 60px}
+</style>
+</head>
+<body>
+
+<div class="crumbs" id="crumbs"></div>
+<div id="hero-slot"></div>
+<!-- Sticky controls bar: view toggle (landing only; hidden on index) -->
+<div class="landing-controls" id="landing-controls" style="display:none">
+  <div class="view-toggle" id="view-toggle">
+    <button id="btn-bodies" class="active">Body Architectures</button>
+    <button id="btn-chars">Characters</button>
+  </div>
+</div>
+<!-- Chars-mode filter bar (below sticky bar, landing only) -->
+<div id="char-filter-outer" style="display:none">
+  <div class="char-filters" id="char-filter-bar"></div>
+  <div style="max-width:var(--maxw);margin:0 auto;padding:0 24px">
+    <div class="char-count" id="char-count"></div>
+  </div>
+</div>
+<main id="app"><div class="loading">Loading catalog…</div></main>
+<div id="landing-app" style="display:none"></div>
+
+<script src="assets/site.js"></script>
+<script>
+ZX.mountNav('family.html');
+ZX.load().then(m => { render(m); ZX.mountFooter(); }).catch(() => ZX.fail());
+
+/* ── family descriptors (brand-voice one-liners + proportion signatures) ── */
+const FAM_META = {
+  "The Classic": {
+    desc: "The timeless hourglass — balanced curves, centred mass, a body that reads as effortlessly complete. Proportions tuned to the first-time premium buyer who wants confidence, not spectacle.",
+    sig: "Balanced hourglass · WHR 0.68–0.72 · BWR 1.40–1.50",
+    whr: "0.68–0.72", bwr: "1.40–1.50"
+  },
+  "The Icon": {
+    desc: "Glamour-model geometry: dramatic waist suppression, elongated torso, a silhouette built for the lens. The architect's choice for editorial shoots and curated Instagram aesthetics.",
+    sig: "Glamour model · WHR 0.60–0.65 · BWR 1.50–1.60",
+    whr: "0.60–0.65", bwr: "1.50–1.60"
+  },
+  "The Muse": {
+    desc: "Long-lined, hip-dominant, low-waist — the European aesthetic archetype. A tall, serene proportion that carries movement and couture with equal grace.",
+    sig: "Tall hip-dominant · WHR 0.65–0.70 · BWR 1.30–1.40",
+    whr: "0.65–0.70", bwr: "1.30–1.40"
+  },
+  "The Siren": {
+    desc: "Bust-forward fantasy architecture with a dramatically tapered waist. Maximum visual drama — the silhouette that anchors character, anime-crossover, and fantasy collector builds.",
+    sig: "Bust-dominant fantasy · WHR 0.55–0.60 · BWR 1.60–1.75",
+    whr: "0.55–0.60", bwr: "1.60–1.75"
+  },
+  "The Empress": {
+    desc: "Maximum plush abundance — soft, generous proportions that celebrate body-positive opulence. The most tactile family in the architecture, and its most unapologetically feminine.",
+    sig: "Maximum plush · WHR 0.58–0.64 · BWR 1.55–1.65",
+    whr: "0.58–0.64", bwr: "1.55–1.65"
+  },
+  "The Sculpt": {
+    desc: "Athletic musculature rendered in silicone — defined deltoids, articulated abdominals, sculpted glutes. Fitness realism elevated to fine-craft standard.",
+    sig: "Muscular definition · WHR 0.65–0.68 · BWR 1.45–1.55",
+    whr: "0.65–0.68", bwr: "1.45–1.55"
+  }
+};
+
+function render(m) {
+  const raw = ZX.qs('f');
+  const validFams = new Set(ZX.FAMILIES);
+  const f = (raw && validFams.has(raw)) ? raw : null;
+
+  if (!f) {
+    renderIndex(m);
+  } else {
+    renderLanding(m, f);
+  }
+}
+
+/* ═══════════════════════════════════════════════
+   INDEX — grid of all 7 family cards
+═══════════════════════════════════════════════ */
+function renderIndex(m) {
+  document.title = 'ZELEX — Body Families';
+
+  /* breadcrumb */
+  document.getElementById('crumbs').innerHTML =
+    `<a href="index.html">Atlas</a><span>›</span> Body Families`;
+
+  /* stats */
+  const classified = m.characters.filter(c => c.body && c.body.family);
+  const classifiedBodies = new Set(classified.map(c => c.body_code));
+  const indexBdSrc = ZX.repImg(m.characters, 0);
+  document.getElementById('hero-slot').innerHTML = `
+    <header class="hero has-backdrop">
+      ${ZX.heroBackdrop(indexBdSrc)}
+      <div class="eyebrow">Body Families</div>
+      <h1><span class="em-grad">Six</span> Architectures</h1>
+      <p>Every ZELEX body belongs to one of six curated silhouette families — each with a defined proportion signature, named personality, and manufacturing lineage.</p>
+      <div class="stats">
+        <div><span class="n">6</span><span class="l">Families</span></div>
+        <div><span class="n">${classifiedBodies.size}</span><span class="l">Architectures</span></div>
+        <div><span class="n">${classified.length}</span><span class="l">Characters</span></div>
+      </div>
+    </header>`;
+
+  /* build family body/char counts */
+  const famBodies = {}, famChars = {};
+  ZX.FAMILIES.forEach(fam => { famBodies[fam] = new Set(); famChars[fam] = 0; });
+  m.characters.forEach(c => {
+    const fam = c.body && c.body.family;
+    if (fam && famBodies[fam]) {
+      famBodies[fam].add(c.body_code);
+      famChars[fam]++;
+    }
+  });
+
+  /* one representative photo per family — first live, photographed character */
+  const famImg = {};
+  m.characters.forEach(c => {
+    const fam = c.body && c.body.family;
+    if (!fam || famImg[fam] || c.status !== 'live') return;
+    const s = ZX.img(c);
+    if (s) famImg[fam] = s;
+  });
+
+  const cards = ZX.FAMILIES.map((fam, fi) => {
+    const meta = FAM_META[fam] || {};
+    const color = ZX.famColor(fam);
+    const bodyCount = famBodies[fam] ? famBodies[fam].size : 0;
+    const charCount = famChars[fam] || 0;
+    const hasBodies = bodyCount > 0;
+    const d = `d${Math.min(fi + 1, 6)}`;
+
+    if (!hasBodies) {
+      return `<div class="fam-card dev reveal ${d}">
+        <div class="fc-name" style="color:${color}">${ZX.esc(fam)}</div>
+        <div class="fc-sig">${ZX.esc((meta.sig || '').split(' · ').slice(1).join(' · '))}</div>
+        <div class="fc-desc">${ZX.esc(meta.desc || '')}</div>
+        <div class="fc-count"><span class="fc-dev">In development</span></div>
+      </div>`;
+    }
+
+    const bg = famImg[fam]
+      ? `<div class="fc-bg" style="background-image:url('${famImg[fam]}')"></div>` : '';
+    return `<a class="fam-card reveal ${d}" href="family.html?f=${encodeURIComponent(fam)}">
+      ${bg}
+      <div class="fc-name" style="color:${color}">${ZX.esc(fam)}</div>
+      <div class="fc-sig">${ZX.esc((meta.sig || '').split(' · ').slice(1).join(' · '))}</div>
+      <div class="fc-desc">${ZX.esc(meta.desc || '')}</div>
+      <div class="fc-count">${bodyCount} architecture${bodyCount !== 1 ? 's' : ''} &middot; ${charCount} character${charCount !== 1 ? 's' : ''}</div>
+    </a>`;
+  }).join('');
+
+  document.getElementById('app').innerHTML =
+    `<div class="fam-grid">${cards}</div>
+     <div class="actions">
+       <a class="btn" href="quiz.html">Find Your Family</a>
+       <a class="btn ghost" href="browse.html">Browse All</a>
+     </div>`;
+  ZX.revealInit();
+}
+
+/* ═══════════════════════════════════════════════
+   LANDING — single-family detail page
+═══════════════════════════════════════════════ */
+function renderLanding(m, fam) {
+  document.title = `ZELEX — ${fam}`;
+
+  const meta = FAM_META[fam] || {};
+  const color = ZX.famColor(fam);
+
+  /* breadcrumb */
+  document.getElementById('crumbs').innerHTML =
+    `<a href="index.html">Atlas</a><span>›</span><a href="family.html">Families</a><span>›</span> ${ZX.esc(fam)}`;
+
+  /* gather bodies + characters in this family */
+  const famChars = m.characters.filter(c => c.body && c.body.family === fam);
+  const famBodyCodes = [...new Set(famChars.map(c => c.body_code))];
+
+  /* sort bodies by height_cm asc */
+  famBodyCodes.sort((a, b) => {
+    const ca = famChars.find(c => c.body_code === a) || {};
+    const cb = famChars.find(c => c.body_code === b) || {};
+    return ((ca.body || {}).height_cm || 0) - ((cb.body || {}).height_cm || 0);
+  });
+
+  /* derive proportion range from actual data */
+  const whrs = famChars.map(c => c.body && c.body.WHR).filter(v => v != null);
+  const bwrs = famChars.map(c => c.body && c.body.BWR).filter(v => v != null);
+  const fmt = arr => arr.length
+    ? (arr.length === 1
+        ? arr[0].toFixed(2)
+        : `${Math.min(...arr).toFixed(2)}–${Math.max(...arr).toFixed(2)}`)
+    : null;
+  const whrRange = fmt(whrs) || meta.whr || '—';
+  const bwrRange = fmt(bwrs) || meta.bwr || '—';
+
+  /* hero */
+  const landingBdSrc = ZX.repImg(famChars, 0);
+  document.getElementById('hero-slot').innerHTML = `
+    <header class="fam-hero has-backdrop">
+      ${ZX.heroBackdrop(landingBdSrc)}
+      <div class="eyebrow" style="color:${color}">Body Family</div>
+      <h1><span class="em-grad">${ZX.esc(fam)}</span></h1>
+      <div class="sig-line">${ZX.esc(meta.sig ? meta.sig.split(' · ').slice(1).join(' · ') : '')}</div>
+      <p>${ZX.esc(meta.desc || '')}</p>
+      <div class="prop-badge">
+        <div class="pb-item">
+          <span class="pb-label">WHR Range</span>
+          <span class="pb-val" style="color:${color}">${ZX.esc(whrRange)}</span>
+        </div>
+        <div class="pb-item">
+          <span class="pb-label">BWR Range</span>
+          <span class="pb-val" style="color:${color}">${ZX.esc(bwrRange)}</span>
+        </div>
+        <div class="pb-item">
+          <span class="pb-label">Architectures</span>
+          <span class="pb-val" style="color:${color}">${famBodyCodes.length}</span>
+        </div>
+        <div class="pb-item">
+          <span class="pb-label">Characters</span>
+          <span class="pb-val" style="color:${color}">${famChars.length}</span>
+        </div>
+      </div>
+    </header>`;
+
+  /* ---- view toggle state ---- */
+  let currentView = 'bodies'; /* 'bodies' | 'characters' */
+
+  /* chars-mode state */
+  let seriesFilter = 'all'; /* 'all' | series name string */
+  let charPhotoOnly = false;
+
+  /* sibling family pills (shared) */
+  const siblingPills = ZX.FAMILIES
+    .filter(f2 => f2 !== fam)
+    .map(f2 => {
+      const c2 = ZX.famColor(f2);
+      return `<a href="family.html?f=${encodeURIComponent(f2)}" class="fam" style="color:${c2};border:1px solid ${c2};background:transparent">${ZX.esc(f2)}</a>`;
+    }).join('');
+
+  const footerHtml = `
+    <div class="sec">
+      <div class="sec-title">Other Families</div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px">${siblingPills}</div>
+    </div>
+    <div class="actions">
+      <a class="btn" href="quiz.html">Take the Quiz</a>
+      <a class="btn ghost" href="browse.html">Browse All Characters</a>
+      <a class="btn ghost" href="family.html">All Families</a>
+    </div>`;
+
+  /* show sticky controls bar (landing only) */
+  document.getElementById('landing-controls').style.display = '';
+  /* hide the index main, use landing-app instead */
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('landing-app').style.display = '';
+
+  /* wire up sticky toggle buttons */
+  document.getElementById('btn-bodies').addEventListener('click', () => {
+    if (currentView === 'bodies') return;
+    currentView = 'bodies';
+    seriesFilter = 'all';
+    charPhotoOnly = false;
+    document.getElementById('btn-bodies').classList.add('active');
+    document.getElementById('btn-chars').classList.remove('active');
+    renderView();
+  });
+  document.getElementById('btn-chars').addEventListener('click', () => {
+    if (currentView === 'characters') return;
+    currentView = 'characters';
+    seriesFilter = 'all';
+    charPhotoOnly = false;
+    document.getElementById('btn-bodies').classList.remove('active');
+    document.getElementById('btn-chars').classList.add('active');
+    renderView();
+  });
+
+  /* ---- BODY ARCHITECTURES section ---- */
+  function buildBodySec() {
+    if (famBodyCodes.length === 0) {
+      return `<div class="sec">
+        <div class="sec-title">Body Architectures</div>
+        <div class="grid g4"><div class="empty-tile">No architectures catalogued yet — check back soon.</div></div>
+      </div>`;
+    }
+    const bodyCards = famBodyCodes.map((bc, bi) => {
+      const d = `d${Math.min(bi + 1, 6)}`;
+      return ZX.bodyCard(bc, m).replace(/^(<a class=")/, `$1reveal ${d} `);
+    }).join('');
+    return `<div class="sec">
+      <div class="sec-title">Body Architectures</div>
+      <div class="sec-sub">Every ${ZX.esc(fam)} platform — sorted by height, ascending.</div>
+      ${ZX.metricsLegend()}
+      <div class="grid g4">${bodyCards}</div>
+    </div>`;
+  }
+
+  /* ---- CHARACTERS section ---- */
+  function buildCharContent() {
+    /* derive series present in this family, in canonical order */
+    const seriesOrder = ZX.SERIES_ORDER || ['K-Series', 'Inspiration', 'Fusion', 'SLE'];
+    const presentSeries = new Set(famChars.map(c => c.series).filter(Boolean));
+    const orderedSeries = seriesOrder.filter(s => presentSeries.has(s));
+
+    /* apply filters */
+    let pool = famChars.slice();
+    if (seriesFilter !== 'all') {
+      pool = pool.filter(c => c.series === seriesFilter);
+    }
+    if (charPhotoOnly) {
+      pool = pool.filter(c => c.status === 'live');
+    }
+
+    /* sort: live first, then height_cm asc, then slot asc */
+    pool.sort((a, b) => {
+      const aLive = a.status === 'live' ? 0 : 1;
+      const bLive = b.status === 'live' ? 0 : 1;
+      if (aLive !== bLive) return aLive - bLive;
+      const ah = (a.body && a.body.height_cm != null) ? a.body.height_cm : 0;
+      const bh = (b.body && b.body.height_cm != null) ? b.body.height_cm : 0;
+      if (ah !== bh) return ah - bh;
+      return (a.slot || 0) - (b.slot || 0);
+    });
+
+    /* total count (respects photoOnly, ignores seriesFilter for denominator) */
+    const basePool = charPhotoOnly ? famChars.filter(c => c.status === 'live') : famChars;
+    const total = seriesFilter === 'all'
+      ? basePool.length
+      : basePool.filter(c => c.series === seriesFilter).length;
+
+    /* update filter bar */
+    const allActive = seriesFilter === 'all';
+    const chips = `<span class="filter-heading">Series</span>`
+      + `<button class="pill${allActive ? ' active' : ''}" data-series="all">All</button>`
+      + orderedSeries.map(sr => {
+          const n = famChars.filter(c => c.series === sr).length;
+          const isActive = seriesFilter === sr;
+          return `<button class="pill${isActive ? ' active' : ''}" data-series="${ZX.esc(sr)}">${ZX.esc(sr)} <span class="pill-n">${n}</span></button>`;
+        }).join('')
+      + `<label class="toggle-wrap" style="margin-left:8px">
+           <input type="checkbox" id="photo-only-tog"${charPhotoOnly ? ' checked' : ''}>
+           <span class="toggle-label">Photographed only</span>
+         </label>`;
+
+    document.getElementById('char-filter-bar').innerHTML = chips;
+    document.getElementById('char-count').innerHTML =
+      `Showing <strong>${pool.length}</strong> of <strong>${total}</strong> character${total !== 1 ? 's' : ''}`;
+
+    const gridHtml = pool.length === 0
+      ? `<div class="empty-tile">No characters match the current filters.</div>`
+      : pool.map((c, ci) => {
+          const d = `d${Math.min(ci + 1, 6)}`;
+          return ZX.charCard(c).replace(/^(<a class=")/, `$1reveal ${d} `);
+        }).join('');
+
+    return `<div class="sec" id="char-sec">
+      <div class="grid g4" id="char-grid">${gridHtml}</div>
+    </div>`;
+  }
+
+  /* ---- main render ---- */
+  function renderView() {
+    const filterOuter = document.getElementById('char-filter-outer');
+    const landingApp = document.getElementById('landing-app');
+
+    if (currentView === 'bodies') {
+      filterOuter.style.display = 'none';
+      landingApp.innerHTML = buildBodySec() + footerHtml;
+    } else {
+      filterOuter.style.display = '';
+      landingApp.innerHTML = buildCharContent() + footerHtml;
+      bindCharControls();
+    }
+    ZX.revealInit();
+  }
+
+  function bindCharControls() {
+    document.getElementById('char-filter-bar').addEventListener('click', e => {
+      const btn = e.target.closest('.pill');
+      if (!btn) return;
+      const sr = btn.dataset.series;
+      if (sr === undefined) return;
+      seriesFilter = sr;
+      renderCharInPlace();
+    });
+
+    const tog = document.getElementById('photo-only-tog');
+    if (tog) tog.addEventListener('change', e => {
+      charPhotoOnly = e.target.checked;
+      renderCharInPlace();
+    });
+  }
+
+  /* Re-render chars section in place (filter/count bar + grid) */
+  function renderCharInPlace() {
+    const landingApp = document.getElementById('landing-app');
+    /* preserve footer after char-sec */
+    landingApp.innerHTML = buildCharContent() + footerHtml;
+    bindCharControls();
+    ZX.revealInit();
+  }
+
+  renderView();
+}
+</script>
+</body>
+</html>

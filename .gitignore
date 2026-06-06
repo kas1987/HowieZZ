@@ -1,0 +1,77 @@
+# ============================================================
+#  ZELEX Character Atlas — repository hygiene
+#  Repo scope: source code + catalog DATA + docs only.
+#  All imagery/video is delivered via the packaged build (Google Drive),
+#  never committed. See README → "What's in this repo".
+# ============================================================
+
+# ---- All site media lives outside the repo: keep ONLY the shared kit ----
+assets/*
+!assets/site.css
+!assets/site.js
+
+# Belt-and-suspenders: no raster images or video anywhere in the tree
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.webp
+*.bmp
+*.tif
+*.tiff
+*.ico
+*.mp4
+*.mov
+*.webm
+*.avi
+*.mkv
+*.m4v
+
+# ---- Heavy source managed outside git ----
+zelexdoll-theme/
+
+# ---- Build artifacts / distributables ----
+*.zip
+*.pdf
+db/*.db
+db/catalog.db
+_ZELEX-Atlas-dist/
+
+# ---- Confidential business documents — NEVER publish (repo is public) ----
+ZELEX-CEO-Executive-Brief*
+ZELEX-Board-*
+ZELEX-Leadership-Package*
+ZELEX-Redaction-Log*
+ZELEX-PDF-Export-Workflow.md
+
+# ---- Superseded prototypes / scratch pages (kept locally, not shipped) ----
+characters.html
+home-atelier.html
+home-atlas.html
+home-discovery.html
+editorial-cover.html
+editorial-index.html
+editorial-spread.html
+k-series.html
+prototypes.html
+review.html
+regression-checklist.html
+
+# ---- Local tooling / agent state ----
+.claude/
+.superpowers/
+
+# ---- Python ----
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# ---- OS / editor cruft ----
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.swp

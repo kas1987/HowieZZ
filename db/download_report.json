@@ -1,0 +1,336 @@
+{
+  "downloaded": 3745,
+  "failed": 66,
+  "failures": [
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/GE78_1-111_d4671b81-6d15-46dc-a3a3-3ba9e832df8a.jpg",
+      "dest": "I-Series\\GE78_1_2+ZG175E-Fair\\GE78_1-111_d4671b81-6d15-46dc-a3a3-3ba9e832df8a.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/GE78_1-103_6e43d5e5-16e1-49e4-a811-a03ed41f1fad.jpg",
+      "dest": "I-Series\\GE78_1_2+ZG175E-Fair\\GE78_1-103_6e43d5e5-16e1-49e4-a811-a03ed41f1fad.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/GE78_1-104_7f056f74-5791-4d12-a7a5-ef3d494123e8.jpg",
+      "dest": "I-Series\\GE78_1_2+ZG175E-Fair\\GE78_1-104_7f056f74-5791-4d12-a7a5-ef3d494123e8.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/GE78_1-105_0c382ec0-a685-4a6e-8d4b-7950500a1425.jpg",
+      "dest": "I-Series\\GE78_1_2+ZG175E-Fair\\GE78_1-105_0c382ec0-a685-4a6e-8d4b-7950500a1425.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/GE78_1-108_0f1c5678-d644-42c1-8fcd-fad022cdd395.jpg",
+      "dest": "I-Series\\GE78_1_2+ZG175E-Fair\\GE78_1-108_0f1c5678-d644-42c1-8fcd-fad022cdd395.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/GE78_1-110_999e7482-295f-4245-a0ed-c3f02a4638fe.jpg",
+      "dest": "I-Series\\GE78_1_2+ZG175E-Fair\\GE78_1-110_999e7482-295f-4245-a0ed-c3f02a4638fe.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/GE78_1-109_6c4700da-2f2b-4168-9725-d175967ec907.jpg",
+      "dest": "I-Series\\GE78_1_2+ZG175E-Fair\\GE78_1-109_6c4700da-2f2b-4168-9725-d175967ec907.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/GE78_1-107_7c98d25a-8768-4a1a-ab4b-f416b11bf0b7.jpg",
+      "dest": "I-Series\\GE78_1_2+ZG175E-Fair\\GE78_1-107_7c98d25a-8768-4a1a-ab4b-f416b11bf0b7.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/GE78_1-106_84781a68-ef0a-4b7a-a523-ab8220c49426.jpg",
+      "dest": "I-Series\\GE78_1_2+ZG175E-Fair\\GE78_1-106_84781a68-ef0a-4b7a-a523-ab8220c49426.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/GE78_1-102_1c3063ff-9289-45cf-a3f5-1e63b1b66a72.jpg",
+      "dest": "I-Series\\GE78_1_2+ZG175E-Fair\\GE78_1-102_1c3063ff-9289-45cf-a3f5-1e63b1b66a72.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/GE78_1-101_5966ba1c-8b29-41a6-9d26-e393616b4aa7.jpg",
+      "dest": "I-Series\\GE78_1_2+ZG175E-Fair\\GE78_1-101_5966ba1c-8b29-41a6-9d26-e393616b4aa7.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/GE07_1-110_d18c1bad-4dd4-4d56-ae1d-472eaa0ca680.jpg",
+      "dest": "I-Series\\GE07_1_1+ZG170C-Fair\\GE07_1-110_d18c1bad-4dd4-4d56-ae1d-472eaa0ca680.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/GE07_1-105_fdfd5404-7e77-4147-b031-101c8a62cc2c.jpg",
+      "dest": "I-Series\\GE07_1_1+ZG170C-Fair\\GE07_1-105_fdfd5404-7e77-4147-b031-101c8a62cc2c.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/GE07_1-111_9ba0c06a-65d1-41d6-97df-e1da2db3925b.jpg",
+      "dest": "I-Series\\GE07_1_1+ZG170C-Fair\\GE07_1-111_9ba0c06a-65d1-41d6-97df-e1da2db3925b.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/GE07_1-103_e560316b-1e68-466e-a87f-deb4ca6fa3d9.jpg",
+      "dest": "I-Series\\GE07_1_1+ZG170C-Fair\\GE07_1-103_e560316b-1e68-466e-a87f-deb4ca6fa3d9.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/GE07_1-108_51627e71-6a40-49d5-a77c-0400451291b6.jpg",
+      "dest": "I-Series\\GE07_1_1+ZG170C-Fair\\GE07_1-108_51627e71-6a40-49d5-a77c-0400451291b6.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/GE07_1-107_e351d509-c845-4ce0-ac23-ed7587b23a7b.jpg",
+      "dest": "I-Series\\GE07_1_1+ZG170C-Fair\\GE07_1-107_e351d509-c845-4ce0-ac23-ed7587b23a7b.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/GE07_1-101_83158756-23d4-4e26-9076-00350e1b6360.jpg",
+      "dest": "I-Series\\GE07_1_1+ZG170C-Fair\\GE07_1-101_83158756-23d4-4e26-9076-00350e1b6360.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/GE07_1-109_ed874bf8-cc92-42e7-9220-ae680ca0d8b3.jpg",
+      "dest": "I-Series\\GE07_1_1+ZG170C-Fair\\GE07_1-109_ed874bf8-cc92-42e7-9220-ae680ca0d8b3.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/GE07_1-106_a4c33e7c-e8e9-4324-adb2-653c564dd894.jpg",
+      "dest": "I-Series\\GE07_1_1+ZG170C-Fair\\GE07_1-106_a4c33e7c-e8e9-4324-adb2-653c564dd894.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/GE07_1-102_5177a033-e7f7-4b25-9a54-4ac68606eaa8.jpg",
+      "dest": "I-Series\\GE07_1_1+ZG170C-Fair\\GE07_1-102_5177a033-e7f7-4b25-9a54-4ac68606eaa8.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/9_64d4ae4c-b329-4679-b811-23c7b9591963.jpg",
+      "dest": "I-Series\\GE95_1\\9_64d4ae4c-b329-4679-b811-23c7b9591963.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/8_43d13c90-6463-4bc0-811e-e81969a57d96.jpg",
+      "dest": "I-Series\\GE95_1\\8_43d13c90-6463-4bc0-811e-e81969a57d96.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/25.jpg",
+      "dest": "I-Series\\GE95_1\\25.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/11_ac017082-478e-4eb4-9b98-d3038ecf5598.jpg",
+      "dest": "I-Series\\GE95_1\\11_ac017082-478e-4eb4-9b98-d3038ecf5598.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/26.jpg",
+      "dest": "I-Series\\GE95_1\\26.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/10_87811800-c391-4ee0-bdb3-29947569dacd.jpg",
+      "dest": "I-Series\\GE95_1\\10_87811800-c391-4ee0-bdb3-29947569dacd.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/GE76_1-110_94992975-0695-405b-b201-a8e3b0f39ea1.jpg",
+      "dest": "I-Series\\GE76_1\\GE76_1-110_94992975-0695-405b-b201-a8e3b0f39ea1.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/GE53_1-111_94918405-6d61-45ee-af32-39a6a50d627c.jpg",
+      "dest": "I-Series\\GE53_1\\GE53_1-111_94918405-6d61-45ee-af32-39a6a50d627c.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/GE53_1-112_d3a7c337-b0d9-4db9-ad83-13e13a526b7e.jpg",
+      "dest": "I-Series\\GE53_1\\GE53_1-112_d3a7c337-b0d9-4db9-ad83-13e13a526b7e.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/GE53_1-113_0193433a-2971-4aa7-85cc-7e6705acd6c9.jpg",
+      "dest": "I-Series\\GE53_1\\GE53_1-113_0193433a-2971-4aa7-85cc-7e6705acd6c9.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/GE53_1-109_865c8310-ec7c-4eea-aad6-a1dc99145299.jpg",
+      "dest": "I-Series\\GE53_1\\GE53_1-109_865c8310-ec7c-4eea-aad6-a1dc99145299.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/GE53_1-101_32b3fe68-d678-4e2c-9046-04937c6d4611.jpg",
+      "dest": "I-Series\\GE53_1\\GE53_1-101_32b3fe68-d678-4e2c-9046-04937c6d4611.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/GE53_1-102_3fe06de6-39db-448c-9e61-c1db32042efa.jpg",
+      "dest": "I-Series\\GE53_1\\GE53_1-102_3fe06de6-39db-448c-9e61-c1db32042efa.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/GE53_1-103_401416c8-5c87-4e0e-b09c-24ea73db465e.jpg",
+      "dest": "I-Series\\GE53_1\\GE53_1-103_401416c8-5c87-4e0e-b09c-24ea73db465e.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/GE53_1-104_8104cb51-ad92-456b-b52b-c5365bbf6d0b.jpg",
+      "dest": "I-Series\\GE53_1\\GE53_1-104_8104cb51-ad92-456b-b52b-c5365bbf6d0b.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/GE53_1-105_12648ae5-70c8-4557-844c-8bd7185855ec.jpg",
+      "dest": "I-Series\\GE53_1\\GE53_1-105_12648ae5-70c8-4557-844c-8bd7185855ec.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/GE53_1-118_95e41572-ef79-4723-850f-753b5628a6e5.jpg",
+      "dest": "I-Series\\GE53_1\\GE53_1-118_95e41572-ef79-4723-850f-753b5628a6e5.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/GE53_1-117_23a49b58-afd4-41eb-a568-5e5f07863253.jpg",
+      "dest": "I-Series\\GE53_1\\GE53_1-117_23a49b58-afd4-41eb-a568-5e5f07863253.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/GE50_1-105_4326e0a2-aaf7-41ab-9215-99905c6be433.jpg",
+      "dest": "I-Series\\GE50_1\\GE50_1-105_4326e0a2-aaf7-41ab-9215-99905c6be433.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/GE50_1-109_b92f0d42-f0cd-44c7-849e-050b205a55d7.jpg",
+      "dest": "I-Series\\GE50_1\\GE50_1-109_b92f0d42-f0cd-44c7-849e-050b205a55d7.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/GE50_1-101_7836e763-6464-48ea-83ea-a316b2243844.jpg",
+      "dest": "I-Series\\GE50_1\\GE50_1-101_7836e763-6464-48ea-83ea-a316b2243844.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/GE50_1-102_a6a59b5d-7fa2-4af6-b307-79705946a910.jpg",
+      "dest": "I-Series\\GE50_1\\GE50_1-102_a6a59b5d-7fa2-4af6-b307-79705946a910.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/GE50_1-103_e1d353ac-e531-4a2a-8aa0-d1511d5ed624.jpg",
+      "dest": "I-Series\\GE50_1\\GE50_1-103_e1d353ac-e531-4a2a-8aa0-d1511d5ed624.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/GE50_1-106_73523c65-f332-4607-945a-fa4450a45262.jpg",
+      "dest": "I-Series\\GE50_1\\GE50_1-106_73523c65-f332-4607-945a-fa4450a45262.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/GE50_1-110_cee86f26-0251-471f-8eab-a1210bf8aa7b.jpg",
+      "dest": "I-Series\\GE50_1\\GE50_1-110_cee86f26-0251-471f-8eab-a1210bf8aa7b.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/GE50_1-111_cd5b4db8-e2ed-4e41-b554-c8017abba3bb.jpg",
+      "dest": "I-Series\\GE50_1\\GE50_1-111_cd5b4db8-e2ed-4e41-b554-c8017abba3bb.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/GE50_1-114_d45ab0cf-eff1-4888-bee1-a4a7c5673ea0.jpg",
+      "dest": "I-Series\\GE50_1\\GE50_1-114_d45ab0cf-eff1-4888-bee1-a4a7c5673ea0.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/GE45_1-110_153d32e2-4452-4935-95dd-f8567a8542a6.jpg",
+      "dest": "I-Series\\GE45_1+ZG170C-Fair-1\\GE45_1-110_153d32e2-4452-4935-95dd-f8567a8542a6.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/GE45_1-114_cae54d73-aeb1-4284-9d10-a254a5644696.jpg",
+      "dest": "I-Series\\GE45_1+ZG170C-Fair-1\\GE45_1-114_cae54d73-aeb1-4284-9d10-a254a5644696.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/GE45_1-116_3ef27c52-9b77-45c1-98cb-a0bf30ea8c95.jpg",
+      "dest": "I-Series\\GE45_1+ZG170C-Fair-1\\GE45_1-116_3ef27c52-9b77-45c1-98cb-a0bf30ea8c95.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/GE45_1-117_913ca226-3895-4331-9e5c-81d96e6d0dcc.jpg",
+      "dest": "I-Series\\GE45_1+ZG170C-Fair-1\\GE45_1-117_913ca226-3895-4331-9e5c-81d96e6d0dcc.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/GE45_1-115_09dc23a1-5fe9-4be0-ba7b-4575cc5c2468.jpg",
+      "dest": "I-Series\\GE45_1+ZG170C-Fair-1\\GE45_1-115_09dc23a1-5fe9-4be0-ba7b-4575cc5c2468.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/GE45_1-111_e96c13f7-58a4-4efc-8c36-0131c695c96e.jpg",
+      "dest": "I-Series\\GE45_1+ZG170C-Fair-1\\GE45_1-111_e96c13f7-58a4-4efc-8c36-0131c695c96e.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/GE45_1-112_e9622c3a-a1d4-4255-aa04-0d7b9b694268.jpg",
+      "dest": "I-Series\\GE45_1+ZG170C-Fair-1\\GE45_1-112_e9622c3a-a1d4-4255-aa04-0d7b9b694268.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/GE45_1-113_fd8a475d-b3b3-49ec-a28e-c6b3c92944b1.jpg",
+      "dest": "I-Series\\GE45_1+ZG170C-Fair-1\\GE45_1-113_fd8a475d-b3b3-49ec-a28e-c6b3c92944b1.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/GE45_1-118_4349f7e0-4e59-4bac-8330-9a621bc3260a.jpg",
+      "dest": "I-Series\\GE45_1+ZG170C-Fair-1\\GE45_1-118_4349f7e0-4e59-4bac-8330-9a621bc3260a.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/GE45_1-109_28f39e52-f9fa-4f3e-8eae-c299179838a3.jpg",
+      "dest": "I-Series\\GE45_1+ZG170C-Fair-1\\GE45_1-109_28f39e52-f9fa-4f3e-8eae-c299179838a3.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/GE45_1-105_cb79cc24-7f59-46f9-bdce-0f5bf25c0d3d.jpg",
+      "dest": "I-Series\\GE45_1+ZG170C-Fair-1\\GE45_1-105_cb79cc24-7f59-46f9-bdce-0f5bf25c0d3d.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/GE45_1-101_b9103377-a91b-4a3d-81ea-29a0115269bf.jpg",
+      "dest": "I-Series\\GE45_1+ZG170C-Fair-1\\GE45_1-101_b9103377-a91b-4a3d-81ea-29a0115269bf.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/GE45_1-102_7f6e5c88-5c6f-44d6-b655-6c6417fa5634.jpg",
+      "dest": "I-Series\\GE45_1+ZG170C-Fair-1\\GE45_1-102_7f6e5c88-5c6f-44d6-b655-6c6417fa5634.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/GE45_1-103_be959a0b-cfab-4d2b-8f5c-719b6038724e.jpg",
+      "dest": "I-Series\\GE45_1+ZG170C-Fair-1\\GE45_1-103_be959a0b-cfab-4d2b-8f5c-719b6038724e.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/GE45_1-104_a977e14c-7cab-4062-8af2-f78d8944e1b1.jpg",
+      "dest": "I-Series\\GE45_1+ZG170C-Fair-1\\GE45_1-104_a977e14c-7cab-4062-8af2-f78d8944e1b1.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/GE45_1-106_01dfd510-19d3-492e-9f53-1ca561e52b0e.jpg",
+      "dest": "I-Series\\GE45_1+ZG170C-Fair-1\\GE45_1-106_01dfd510-19d3-492e-9f53-1ca561e52b0e.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/GE45_1-108_096b3b6d-da7e-49d0-bdc2-7fd538a580c8.jpg",
+      "dest": "I-Series\\GE45_1+ZG170C-Fair-1\\GE45_1-108_096b3b6d-da7e-49d0-bdc2-7fd538a580c8.jpg",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0661/6059/1091/files/GE45_1-107_c88f1007-7fe9-40e0-a3a6-c512d036b907.jpg",
+      "dest": "I-Series\\GE45_1+ZG170C-Fair-1\\GE45_1-107_c88f1007-7fe9-40e0-a3a6-c512d036b907.jpg",
+      "error": "HTTP Error 404: Not Found"
+    }
+  ]
+}

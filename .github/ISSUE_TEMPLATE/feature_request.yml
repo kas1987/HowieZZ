@@ -1,0 +1,28 @@
+name: Feature / change request
+description: Propose a new page, kit capability, or content/data change.
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What's the need?
+      description: The problem or opportunity, not just a solution.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed approach
+      description: How might it work? Prefer extending the shared kit so all pages stay consistent.
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Scope
+      options:
+        - New page
+        - Shared kit (affects all pages)
+        - Content / data
+        - Tooling / pipeline
+        - Docs
+    validations:
+      required: true

@@ -1,0 +1,10 @@
+# Default owner for everything in this repo.
+* @kas1987
+
+# Shared design system + runtime — review with extra care (all pages depend on it).
+/assets/site.css @kas1987
+/assets/site.js  @kas1987
+
+# Build pipeline + catalog data.
+/scripts/ @kas1987
+/db/      @kas1987

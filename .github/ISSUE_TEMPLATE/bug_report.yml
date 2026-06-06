@@ -1,0 +1,44 @@
+name: Bug report
+description: Something on the site or in the build pipeline is broken.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for the report. Do not include confidential business material or private imagery.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Site page (front-end)
+        - Shared kit (site.css / site.js)
+        - Build pipeline (scripts)
+        - Catalog data (db)
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: page
+    attributes:
+      label: Page / file / URL
+      placeholder: e.g. character.html?id=… or scripts/build_characters.py
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What did you expect, and what actually happened?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Run `python serve.py`
+        2. Open …
+        3. …
+  - type: input
+    id: env
+    attributes:
+      label: Browser / OS
+      placeholder: e.g. Chrome 124 on Windows 11

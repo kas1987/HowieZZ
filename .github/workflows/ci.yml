@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Validate site + data + scripts
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Compile Python build scripts
+        run: |
+          python -m py_compile scripts/*.py
+          echo "Python scripts compiled OK"
+
+      - name: Validate pages, inline JS, and catalog JSON
+        run: node .github/scripts/validate-site.mjs
+
+      - name: Guard — no images, video, or secrets committed
+        run: |
+          set -e
+          # Fail if any binary media slipped into the tree (repo is code+data only)
+          if git ls-files | grep -iE '\.(jpg|jpeg|png|gif|webp|bmp|tif|tiff|ico|mp4|mov|webm|avi|mkv)$'; then
+            echo "::error::Image/video files must not be committed (see .gitignore)."; exit 1
+          fi
+          # Fail if a confidential business doc slipped in
+          if git ls-files | grep -iE '^(ZELEX-CEO-Executive-Brief|ZELEX-Board-|ZELEX-Leadership-Package|ZELEX-Redaction-Log)'; then
+            echo "::error::Confidential business document committed to a public repo."; exit 1
+          fi
+          echo "Hygiene guard passed"

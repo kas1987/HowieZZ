@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Zelex — Collector's Gallery</title>
+  <link rel="stylesheet" href="assets/dual-hero.css">
+  <link rel="stylesheet" href="assets/customization-guide.css">
+</head>
+<body>
+
+<!-- ============================================
+     TOP NAV
+     ============================================ -->
+<nav class="collector-nav" id="collector-nav">
+  <div class="collector-nav__brand">
+    <span class="collector-nav__logo">Zelex</span>
+    <span class="collector-nav__divider">|</span>
+    <span class="collector-nav__tagline">Collector's Gallery</span>
+  </div>
+  <div class="collector-nav__actions">
+    <button class="nav-tab js-tab-hero" data-tab="hero" type="button" aria-pressed="true">Hero Page</button>
+    <a class="nav-tab" href="k-series.html" aria-pressed="false">K-Series</a>
+    <a class="nav-link" href="/account">Login</a>
+    <a class="nav-link nav-link--cart" href="/cart">Cart</a>
+  </div>
+</nav>
+
+<!-- ============================================
+     HERO PANEL — landing view
+     ============================================ -->
+<section id="panel-hero" class="panel panel--hero">
+  <div class="hero-split">
+
+    <!-- LEFT: looping video -->
+    <div class="hero-vid">
+      <div class="vid-strip" id="vid-strip">
+        <div class="vid-strip__bar" id="vid-bar"></div>
+        <div class="vid-strip__list" id="vid-list">
+          <div class="vid-thumb is-active" data-vid="assets/MP4/iseries-vid-08.mp4">
+            <video muted preload="metadata" src="assets/MP4/iseries-vid-08.mp4"></video>
+          </div>
+          <div class="vid-thumb" data-vid="assets/MP4/iseries-vid-04.mp4">
+            <video muted preload="metadata" src="assets/MP4/iseries-vid-04.mp4"></video>
+          </div>
+          <div class="vid-thumb" data-vid="assets/MP4/iseries-vid-06.mp4">
+            <video muted preload="metadata" src="assets/MP4/iseries-vid-06.mp4"></video>
+          </div>
+          <div class="vid-thumb" data-vid="assets/MP4/iseries-vid-02.mp4">
+            <video muted preload="metadata" src="assets/MP4/iseries-vid-02.mp4"></video>
+          </div>
+          <div class="vid-thumb" data-vid="assets/MP4/iseries-vid-07.mp4">
+            <video muted preload="metadata" src="assets/MP4/iseries-vid-07.mp4"></video>
+          </div>
+        </div>
+      </div>
+      <video id="hero-video" preload="metadata" autoplay muted playsinline>
+        <source src="assets/MP4/iseries-vid-08.mp4" type="video/mp4">
+      </video>
+      <div class="hero-vid__text">
+        <h1 class="hero-vid__title">
+          <span class="desire-word">Desire</span><br><span class="grad">Redefined.</span>
+        </h1>
+        <div class="hero-vid__mark">ZELEX</div>
+      </div>
+    </div>
+
+
+    <!-- RIGHT: portrait card plus landscape card -->
+    <article
+      class="hero-img hero-img--a"
+      data-library="assets/K-Series/KE01_1+ZK168B-1/KE01_1_ZK168B-123.jpg,assets/K-Series/KE01_1+ZK168B-1/KE01_1_ZK168B-128.jpg,assets/K-Series/KE01_1+ZK168B-1/KE01_1_ZK168B-133.jpg,assets/K-Series/KE01_1+ZK168B-1/KE01_1_ZK168B-138.jpg,assets/K-Series/KE02_1+ZK159D-1/KE02_1_ZK159D-101.jpg,assets/K-Series/KE02_1+ZK159D-1/KE02_1_ZK159D-104.jpg,assets/K-Series/KE02_1+ZK159D-1/KE02_1_ZK159D-115.jpg,assets/K-Series/KE02_1+ZK159D-1/KE02_1_ZK159D-122.jpg,assets/K-Series/KE03_1+ZK168B-1/KE03_1_ZK168B-101.jpg,assets/K-Series/KE03_1+ZK168B-1/KE03_1_ZK168B-106.jpg,assets/K-Series/KE03_1+ZK168B-1/KE03_1_ZK168B-116.jpg,assets/K-Series/KE03_1+ZK168B-1/KE03_1_ZK168B-123.jpg"
+      data-rotate-ms="9000">
+      <img class="hero-img__media" src="assets/K-Series/KE01_1+ZK168B-1/KE01_1_ZK168B-123.jpg" alt="K-Series glamour photoshoot image">
+      <button class="hero-img__next" type="button" aria-label="Next image">›</button>
+    </article>
+    <div class="hero-k-switch is-peek" id="hero-k-switch" aria-label="K-Series persona switcher"></div>
+    <article
+      class="hero-img hero-img--b"
+      data-library="assets/I-Series/GE98_2_ZG170C/GE98_2_ZG170C-112.jpg,assets/I-Series/GE98_2_ZG170C/GE98_2_ZG170C-113.jpg,assets/I-Series/GE98_2_ZG170C/GE98_2_ZG170C-114.jpg,assets/I-Series/GE98_2_ZG170C/GE98_2_ZG170C-115.jpg,assets/I-Series/GE98_2_ZG170C/GE98_2_ZG170C-116.jpg,assets/I-Series/GE98_2_ZG170C/GE98_2_ZG170C-117.jpg,assets/I-Series/GE98_2_ZG170C/GE98_2_ZG170C-118.jpg,assets/I-Series/GE98_2_ZG170C/GE98_2_ZG170C-119.jpg,assets/I-Series/GE98_2_ZG170C/GE98_2_ZG170C-120.jpg"
+      data-rotate-ms="12000">
+      <img class="hero-img__media" src="assets/I-Series/GE98_2_ZG170C/GE98_2_ZG170C-120.jpg" alt="I-Series gallery image">
+      <button class="hero-img__next" type="button" aria-label="Next image">›</button>
+    </article>
+
+    <div class="trust">
+      <div class="trust__item"><span class="trust__icon">✈</span> Free US Shipping</div>
+      <div class="trust__item"><span class="trust__icon">📦</span> Discreet Packaging</div>
+      <div class="trust__item"><span class="trust__icon">💬</span> 24/7 US Support</div>
+      <div class="trust__item"><span class="trust__icon">💳</span> Klarna Financing</div>
+      <div class="trust__item"><span class="trust__icon">🛡</span> 2-Year Warranty</div>
+    </div>
+  </div>
+
+  <!-- floating quiz card -->
+  <div class="quiz-float glass glass--pur" id="quiz-float">
+    <button class="quiz-float__dismiss" id="quiz-dismiss" aria-label="Dismiss" type="button">✕</button>
+    <div class="quiz-float__inner">
+      <div class="quiz-float__handle"></div>
+      <div class="quiz-float__label">Quick Match</div>
+      <h2 class="quiz-float__heading">Answer 3 questions. Find your doll.</h2>
+      <form id="quiz-form">
+        <div class="quiz__group" id="qg-material">
+          <div class="quiz__group-label">Material preference</div>
+          <div class="quiz__options">
+            <div class="quiz__opt"><input type="radio" name="material" id="m-sil" value="silicone"><label for="m-sil">Silicone</label></div>
+            <div class="quiz__opt"><input type="radio" name="material" id="m-tpe" value="tpe"><label for="m-tpe">TPE</label></div>
+            <div class="quiz__opt"><input type="radio" name="material" id="m-sure" value="unsure"><label for="m-sure">Not sure yet</label></div>
+          </div>
+        </div>
+        <div class="quiz__group" id="qg-size">
+          <div class="quiz__group-label">Body size</div>
+          <div class="quiz__options">
+            <div class="quiz__opt"><input type="radio" name="size" id="s-pet" value="petite"><label for="s-pet">Petite (150–155 cm)</label></div>
+            <div class="quiz__opt"><input type="radio" name="size" id="s-avg" value="average"><label for="s-avg">Average (159–163 cm)</label></div>
+            <div class="quiz__opt"><input type="radio" name="size" id="s-tal" value="tall"><label for="s-tal">Tall (168–170 cm)</label></div>
+          </div>
+        </div>
+        <div class="quiz__group" id="qg-budget">
+          <div class="quiz__group-label">Budget</div>
+          <div class="quiz__options">
+            <div class="quiz__opt"><input type="radio" name="budget" id="b-lo" value="under-3k"><label for="b-lo">Under $3,000</label></div>
+            <div class="quiz__opt"><input type="radio" name="budget" id="b-mid" value="mid"><label for="b-mid">$3,000–$4,000</label></div>
+            <div class="quiz__opt"><input type="radio" name="budget" id="b-hi" value="high"><label for="b-hi">$4,000+</label></div>
+          </div>
+        </div>
+        <button type="submit" class="quiz__submit">Find My Doll →</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     COLLECTOR VIEW — Vertical Carousel + Character Grid
+     ============================================ -->
+<main class="collector-view" id="collector-view">
+
+  <!-- LEFT: Vertical image carousel -->
+  <aside class="v-carousel" id="v-carousel" aria-label="Gallery carousel">
+    <div class="v-carousel__track" id="v-carousel-track">
+      <!-- JS populates -->
+    </div>
+  </aside>
+
+  <!-- CENTER/RIGHT: Character cards stage -->
+  <section class="char-stage" aria-label="Persona collection">
+    <div class="char-grid" id="char-grid">
+
+      <!-- SORA -->
+       <div class="char-card" data-persona="sora" data-k-persona="sora"
+         data-gallery="">
+        <div class="char-card__visual">
+          <img class="char-card__img" src="assets/K-Series/KE02_1+ZK159D-1/KE02_1_ZK159D-101.jpg" alt="Sora">
+          <div class="char-card__overlay"></div>
+          <div class="char-card__num">01</div>
+        </div>
+        <div class="char-card__meta">
+          <h3 class="char-card__name">Sora</h3>
+          <p class="char-card__tag">The Companion</p>
+          <button class="char-card__btn" type="button">Explore →</button>
+        </div>
+      </div>
+
+      <!-- LIAN -->
+       <div class="char-card" data-persona="lian" data-k-persona="lian"
+         data-gallery="">
+        <div class="char-card__visual">
+          <img class="char-card__img" src="assets/K-Series/KE01_1+ZK168B-1/KE01_1_ZK168B-123.jpg" alt="Lian">
+          <div class="char-card__overlay"></div>
+          <div class="char-card__num">02</div>
+        </div>
+        <div class="char-card__meta">
+          <h3 class="char-card__name">Lian</h3>
+          <p class="char-card__tag">The Muse</p>
+          <button class="char-card__btn" type="button">Explore →</button>
+        </div>
+      </div>
+
+      <!-- MIRA -->
+       <div class="char-card" data-persona="mira" data-k-persona="mira"
+         data-gallery="">
+        <div class="char-card__visual">
+          <img class="char-card__img" src="assets/K-Series/KE02_1+ZK168B-1/KE02_1_ZK168B-101.jpg" alt="Mira">
+          <div class="char-card__overlay"></div>
+          <div class="char-card__num">03</div>
+        </div>
+        <div class="char-card__meta">
+          <h3 class="char-card__name">Mira</h3>
+          <p class="char-card__tag">The Icon</p>
+          <button class="char-card__btn" type="button">Explore →</button>
+        </div>
+      </div>
+
+      <!-- ZHEN -->
+       <div class="char-card" data-persona="zhen" data-k-persona="zhen"
+         data-gallery="">
+        <div class="char-card__visual">
+          <img class="char-card__img" src="assets/K-Series/KE03_1+ZK168B-1/KE03_1_ZK168B-101.jpg" alt="Zhen">
+          <div class="char-card__overlay"></div>
+          <div class="char-card__num">04</div>
+        </div>
+        <div class="char-card__meta">
+          <h3 class="char-card__name">Zhen</h3>
+          <p class="char-card__tag">The It-Girl</p>
+          <button class="char-card__btn" type="button">Explore →</button>
+        </div>
+      </div>
+
+      <!-- CLEO -->
+       <div class="char-card" data-persona="cleo"
+         data-gallery="assets/K-Series/KE03_1+ZK168B-2/KE03_1_ZK168B-101.jpg,assets/K-Series/KE03_1+ZK168B-2/KE03_1_ZK168B-106.jpg,assets/Measure/spec-zk159d.webp,assets/Measure/spec-zk168b.webp">
+        <div class="char-card__visual">
+          <img class="char-card__img" src="assets/K-Series/KE03_1+ZK168B-2/KE03_1_ZK168B-101.jpg" alt="Cleo">
+          <div class="char-card__overlay"></div>
+          <div class="char-card__num">05</div>
+        </div>
+        <div class="char-card__meta">
+          <h3 class="char-card__name">Cleo</h3>
+          <p class="char-card__tag">The Golden Hour</p>
+          <button class="char-card__btn" type="button">Explore →</button>
+        </div>
+      </div>
+
+      <!-- MEI -->
+       <div class="char-card" data-persona="mei"
+         data-gallery="assets/Measure/ZGX165F-cm-pc.webp,assets/Measure/ZX166K_pc_3.0.webp,assets/Measure/ZX172E_pc_3.0.webp,assets/Fusion-Series/specs/ZF169C(cm).jpg">
+        <div class="char-card__visual">
+          <img class="char-card__img" src="assets/Measure/ZGX165F-cm-pc.webp" alt="Mei">
+          <div class="char-card__overlay"></div>
+          <div class="char-card__num">06</div>
+        </div>
+        <div class="char-card__meta">
+          <h3 class="char-card__name">Mei</h3>
+          <p class="char-card__tag">Wild Bloom</p>
+          <button class="char-card__btn" type="button">Explore →</button>
+        </div>
+      </div>
+
+    </div><!-- /char-grid -->
+  </section>
+
+</main>
+
+
+<!-- ============================================
+     UNIFIED POPOUT — minimalist single viewer
+     ============================================ -->
+<div class="master-popout" id="master-popout" role="dialog" aria-modal="true" aria-hidden="true" tabindex="-1">
+  <button class="popout-close" id="popout-close" type="button" aria-label="Close">✕</button>
+
+  <div class="popout-viewport" id="popout-viewport">
+    <button class="popout-nav popout-nav--prev" id="popout-prev" type="button" aria-label="Previous">‹</button>
+    <img alt="" id="popout-main-img">
+    <button class="popout-nav popout-nav--next" id="popout-next" type="button" aria-label="Next">›</button>
+  </div>
+
+  <div class="popout-thumbs" id="popout-thumbs"></div>
+
+  <div class="popout-info" id="popout-info">
+    <div class="popout-info__head">
+      <div class="popout-info__title" id="popout-info-title"></div>
+      <div class="popout-info__tags" id="popout-info-tags"></div>
+    </div>
+    <div class="popout-info__stats" id="popout-info-stats"></div>
+    <blockquote class="popout-info__blurb" id="popout-info-blurb"></blockquote>
+    <a href="/collections/all" class="popout-info__cta">Configure →</a>
+  </div>
+</div>
+<!-- ============================================
+     CUSTOMIZATION GUIDE
+     ============================================ -->
+<section class="cguide">
+  <div class="cguide__inner">
+    <div class="cguide__hdr">
+      <h2 class="cguide__title">Customization Guide</h2>
+      <p class="cguide__sub">Every Zelex doll is fully customizable. Here's what you can choose.</p>
+    </div>
+    <div class="cguide__accordions">
+      <div class="cguide__item">
+        <button class="cguide__trigger" aria-expanded="false" aria-controls="cg-material" type="button">
+          <span class="cguide__num">01</span><span class="cguide__lbl">Material</span><span class="cguide__icon" aria-hidden="true">+</span>
+        </button>
+        <div class="cguide__panel" id="cg-material">
+          <div class="cguide__compare">
+            <div class="cguide__col cguide__col--sil">
+              <h3 class="cguide__col-name">Silicone</h3>
+              <ul class="cguide__col-list">
+                <li>Premium firm feel — closer to real skin</li>
+                <li>Non-porous: hygienic, easy to clean</li>
+                <li>Tear-resistant, longer lifespan</li>
+                <li>Higher price — best long-term value</li>
+                <li>Recommended for first-time buyers</li>
+              </ul>
+            </div>
+            <div class="cguide__vs" aria-hidden="true">vs</div>
+            <div class="cguide__col">
+              <h3 class="cguide__col-name">TPE</h3>
+              <ul class="cguide__col-list">
+                <li>Ultra-soft, pillow-like feel</li>
+                <li>More porous — requires thorough drying</li>
+                <li>Flexible, stretchy material</li>
+                <li>Lower entry price point</li>
+                <li>Great for tactile softness preference</li>
+              </ul>
+            </div>
+          </div>
+          <p class="cguide__note">✦ All Zelex SLE and K-Series dolls are silicone. TPE options available on select models.</p>
+        </div>
+      </div>
+      <div class="cguide__item">
+        <button class="cguide__trigger" aria-expanded="false" aria-controls="cg-body" type="button">
+          <span class="cguide__num">02</span><span class="cguide__lbl">Body Type &amp; Size</span><span class="cguide__icon" aria-hidden="true">+</span>
+        </button>
+        <div class="cguide__panel" id="cg-body">
+          <div class="cguide__specs">
+            <div class="cguide__spec-img"><img src="assets/Measure/spec-zk159d.webp" alt="ZK159D — 159 cm spec sheet"></div>
+            <div class="cguide__spec-img"><img src="assets/Measure/spec-zk168b.webp" alt="ZK168B — 168 cm spec sheet"></div>
+          </div>
+          <div class="tbl-wrap">
+            <table class="cguide__tbl">
+              <thead><tr><th>Height</th><th>Weight</th><th>Cup</th><th>Build</th></tr></thead>
+              <tbody>
+                <tr><td>150 cm / 4ft11</td><td>~28 kg</td><td>B–D</td><td>Petite</td></tr>
+                <tr><td>155 cm / 5ft1</td><td>~30 kg</td><td>B–E</td><td>Slim</td></tr>
+                <tr><td>159 cm / 5ft2</td><td>~32 kg</td><td>C–F</td><td>Average</td></tr>
+                <tr><td>163 cm / 5ft4</td><td>~35 kg</td><td>C–G</td><td>Average</td></tr>
+                <tr><td>168 cm / 5ft6</td><td>~38 kg</td><td>B–H</td><td>Tall</td></tr>
+                <tr><td>170 cm / 5ft7</td><td>~40 kg</td><td>C–H</td><td>Tall</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="cguide__note">✦ SLE 3.0 series is 3–4 kg lighter across the entire lineup — easier to lift and hold.</p>
+        </div>
+      </div>
+      <div class="cguide__item">
+        <button class="cguide__trigger" aria-expanded="false" aria-controls="cg-face" type="button">
+          <span class="cguide__num">03</span><span class="cguide__lbl">Face &amp; Features</span><span class="cguide__icon" aria-hidden="true">+</span>
+        </button>
+        <div class="cguide__panel" id="cg-face">
+          <div class="feat-grid">
+            <div class="feat-cell"><h4 class="feat-cell__lbl">Head Style</h4><p class="feat-cell__desc">Choose from 30+ sculpted head options — from natural to fantasy aesthetics. Each head is interchangeable.</p></div>
+            <div class="feat-cell"><h4 class="feat-cell__lbl">Skin Tone</h4><div class="swatches"><span class="swatch" style="background:#f5d5b0" title="Fair"></span><span class="swatch" style="background:#e8bb8a" title="Natural"></span><span class="swatch" style="background:#c8905a" title="Tan"></span><span class="swatch" style="background:#9b6840" title="Dark"></span><span class="swatch" style="background:#6b4226" title="Deep"></span></div></div>
+            <div class="feat-cell"><h4 class="feat-cell__lbl">Eye Color</h4><div class="swatches"><span class="swatch" style="background:#4a90d9" title="Blue"></span><span class="swatch" style="background:#6b8e23" title="Green"></span><span class="swatch" style="background:#8b6914" title="Brown"></span><span class="swatch" style="background:#888888" title="Grey"></span><span class="swatch" style="background:#1a1a2e;border-color:#3a3a5e" title="Dark Brown"></span></div></div>
+            <div class="feat-cell"><h4 class="feat-cell__lbl">Hair</h4><p class="feat-cell__desc">Wig or implanted options. Straight, wavy, curly. Dozens of colors including natural and fashion tones.</p></div>
+          </div>
+          <p class="cguide__note">✦ Full customization is configured at checkout after selecting your base doll model.</p>
+        </div>
+      </div>
+      <div class="cguide__item">
+        <button class="cguide__trigger" aria-expanded="false" aria-controls="cg-skeleton" type="button">
+          <span class="cguide__num">04</span><span class="cguide__lbl">Skeleton System</span><span class="cguide__icon" aria-hidden="true">+</span>
+        </button>
+        <div class="cguide__panel" id="cg-skeleton">
+          <div class="skel-grid">
+            <div class="skel-card"><h3 class="skel-card__name">Standard</h3><ul class="skel-card__list"><li>Fixed joint positions</li><li>Durable steel skeleton</li><li>Standard range of motion</li><li>Entry-level pricing</li></ul><span class="badge">Classic</span></div>
+            <div class="skel-card skel-card--feat"><h3 class="skel-card__name">EVO</h3><ul class="skel-card__list"><li>Enhanced joint flexibility</li><li>Shrug &amp; articulated fingers</li><li>360° wrist rotation</li><li>More natural posing range</li></ul><span class="badge badge--feat">Popular</span></div>
+            <div class="skel-card skel-card--prem"><h3 class="skel-card__name">SLE 3.0</h3><ul class="skel-card__list"><li>Smoother, quieter joint motion</li><li>3–4 kg lighter across lineup</li><li>Standing foot — no bolt needed</li><li>Reinforced tear-resistant silicone</li><li>Longest-lasting durability</li></ul><span class="badge badge--prem">Premium</span></div>
+          </div>
+          <div class="video-wrap"><p class="video-lbl">See the SLE 3.0 joint system in action:</p><a href="https://www.zelexdoll.com" class="video-link" target="_blank" rel="noopener">▶ Watch Joint Movement Tutorial</a></div>
+        </div>
+      </div>
+    </div>
+    <div class="cguide__cta-wrap"><a href="/collections/all" class="cguide__cta">Start Customizing →</a></div>
+  </div>
+</section>
+
+<script src="assets/dual-hero.js" defer></script>
+<script src="assets/customization-guide.js" defer></script>
+</body>
+</html>

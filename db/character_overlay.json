@@ -1,0 +1,49 @@
+{
+  "_comment": "Hand-curation overlay, keyed by character_id. Wins over generated content. Supported keys: name, title, tagline, energy, story, profile (persona overrides); use_product (reassign this slot's photoshoot to another product_code); story_from (pull story/profile from another character_id); hero ('last' | 'first' | 0-based index — moves that gallery image to the front so it leads). Stories below were rewritten after the Empress/Icon lead swaps so each matches its person's NEW role.",
+
+  "SLE-ZX164G-01": {
+    "name": "Layla",
+    "use_product": "ZXE219_1_ZX164G",
+    "story_from": "SLE-ZX164G-04",
+    "story": "Layla is the Empress of this body family — abundance made architectural. At 164cm with a G-cup Empress frame, she carries volume the way a grand room carries silence: deliberately, generously, without ever straining for it. Layla does not perform opulence; she sets the standard for it, the lead character against whom the rest of the family is measured. Her silhouette is considered excess — full, weighted, beautifully resolved, a form that knows exactly what it is. There is a warmth to her presence that keeps all that scale inviting rather than imposing; she gives a space something to settle into. Layla is for the collector who believes that more — when it is precise, intentional, and crafted at this level — is genuinely, unapologetically more."
+  },
+  "SLE-ZX164G-04": {
+    "name": "Ivy",
+    "use_product": "ZXE201_4_ZX164G",
+    "story_from": "SLE-ZX164G-01",
+    "hero": "last",
+    "story": "Ivy takes the Empress architecture and pushes it further — the maximalist edge of an already generous family. At 164cm with a G-cup frame, she wears abundance as a statement rather than a given: bolder, more declared, the variant who turns the volume past full. Where the family's lead is serene, Ivy is exuberant; she does not settle into a room so much as fill it. Her silhouette is unapologetic excess, precise and intentional, built for the collector who wants nothing held back. Ivy is for the one who looked at the Empress and thought: more — more presence, more heat, more of everything that makes this body family impossible to ignore — and found her in the character who refuses moderation on principle."
+  },
+
+  "SLE-ZX165D-01": {
+    "name": "Nadia",
+    "use_product": "ZXE216_3_ZX165D",
+    "story_from": "SLE-ZX165D-02",
+    "story": "Nadia is the Icon in its classic form — the glamour-model silhouette at its most composed. At 165cm with a D-cup Icon frame, she carries the family's hallmark balance: the aspirational ratio that reads as effortless on her precisely because she never forces it. Nadia is the lead character of this architecture, the reference point — poised, cinematic, and quietly certain of her own appeal. Her presence has the discipline of a professional and the warmth of someone entirely at ease; she is the woman whose entrance needs no announcement. The glamour here is fully present but never loud — turned on, then refined. Nadia is for the collector who wants the Icon at its definitive: the silhouette worn as a standard, not a costume."
+  },
+  "SLE-ZX165D-02": {
+    "name": "Monica",
+    "use_product": "ZXE224_2_ZX165D",
+    "story_from": "SLE-ZX165D-01",
+    "hero": "last",
+    "story": "Monica is the starlet variant of the Icon — the same glamour-model architecture, lived with more heat and more declared intention. At 165cm with a D-cup Icon frame, she takes the family's classic balance and turns it cinematic: louder, warmer, the character whose entrance has a soundtrack. Where the lead is composed, Monica is theatrical; she was built for the lens and she knows it. Her proportions give her the Icon's aspirational ratio, and she uses that foundation to perform — glamour fully turned on, color and confidence declared without apology. Monica is for the collector who wants the Icon as a calling card: the silhouette at its most expressive, a starlet who treats presence as a language she happens to speak fluently."
+  },
+
+  "I-ZG170C-02": {
+    "_note": "Quinn — GE53_3 folder was contaminated with GE49_2 images (different face); filter to her real shoot, then lead with its last frame.",
+    "gallery_prefix": "GE53_3",
+    "hero": "last"
+  },
+  "I-ZG170C-03": {
+    "_note": "Faye — lead with her last gallery image.",
+    "hero": "last"
+  },
+  "SLE-ZX153B-02": {
+    "_note": "Roxanne — lead with her last gallery image.",
+    "hero": "last"
+  },
+  "SLE-ZX172E-01": {
+    "_note": "Dita — lead with her last gallery image.",
+    "hero": "last"
+  }
+}

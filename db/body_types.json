@@ -1,0 +1,494 @@
+{
+  "body_types": [
+    {
+      "body_code": "ZF161D",
+      "series": "Fusion",
+      "family": "The Muse",
+      "height_cm": 161,
+      "cup": "D",
+      "WHR": 0.66,
+      "BWR": 1.371,
+      "spec_card": null,
+      "characters": [
+        "Fusion-ZF161D-01",
+        "Fusion-ZF161D-02",
+        "Fusion-ZF161D-03",
+        "Fusion-ZF161D-04"
+      ],
+      "photoshoot_count": 1,
+      "live_slots": 1,
+      "additional_photoshoots": []
+    },
+    {
+      "body_code": "ZF168B",
+      "series": "Fusion",
+      "family": "The Muse",
+      "height_cm": 168,
+      "cup": "B",
+      "WHR": 0.653,
+      "BWR": 1.25,
+      "spec_card": null,
+      "characters": [
+        "Fusion-ZF168B-01",
+        "Fusion-ZF168B-02",
+        "Fusion-ZF168B-03",
+        "Fusion-ZF168B-04"
+      ],
+      "photoshoot_count": 3,
+      "live_slots": 3,
+      "additional_photoshoots": []
+    },
+    {
+      "body_code": "ZF169C",
+      "series": "Fusion",
+      "family": "The Muse",
+      "height_cm": 169,
+      "cup": "C",
+      "WHR": 0.672,
+      "BWR": 1.292,
+      "spec_card": null,
+      "characters": [
+        "Fusion-ZF169C-01",
+        "Fusion-ZF169C-02",
+        "Fusion-ZF169C-03",
+        "Fusion-ZF169C-04"
+      ],
+      "photoshoot_count": 1,
+      "live_slots": 1,
+      "additional_photoshoots": []
+    },
+    {
+      "body_code": "ZG162D",
+      "series": "Inspiration",
+      "family": "The Muse",
+      "height_cm": 162,
+      "cup": "D",
+      "WHR": 0.658,
+      "BWR": 1.382,
+      "spec_card": null,
+      "characters": [
+        "I-ZG162D-01",
+        "I-ZG162D-02",
+        "I-ZG162D-03",
+        "I-ZG162D-04"
+      ],
+      "photoshoot_count": 3,
+      "live_slots": 3,
+      "additional_photoshoots": []
+    },
+    {
+      "body_code": "ZGX165F",
+      "series": "Inspiration",
+      "family": "The Muse",
+      "height_cm": 165,
+      "cup": "F",
+      "WHR": 0.663,
+      "BWR": 1.391,
+      "spec_card": null,
+      "characters": [
+        "I-ZGX165F-01",
+        "I-ZGX165F-02",
+        "I-ZGX165F-03",
+        "I-ZGX165F-04"
+      ],
+      "photoshoot_count": 9,
+      "live_slots": 4,
+      "additional_photoshoots": [
+        "GE125_1_ZGX165F",
+        "GE64_1_GE24MJ_ZGX165F",
+        "GE14_3",
+        "GE81_1",
+        "GE86_1"
+      ]
+    },
+    {
+      "body_code": "ZG170C",
+      "series": "Inspiration",
+      "family": "The Muse",
+      "height_cm": 170,
+      "cup": "C",
+      "WHR": 0.686,
+      "BWR": 1.357,
+      "spec_card": null,
+      "characters": [
+        "I-ZG170C-01",
+        "I-ZG170C-02",
+        "I-ZG170C-03",
+        "I-ZG170C-04"
+      ],
+      "photoshoot_count": 43,
+      "live_slots": 4,
+      "additional_photoshoots": [
+        "GE97_1",
+        "GE95_7_GE53MJ_ZG170C",
+        "GE173_1_GE110MJ_ZG170C",
+        "GE24_1_ZG170C",
+        "GE49_2",
+        "GE48_1",
+        "GE49_1",
+        "GE88_2_ZG170C",
+        "GE95_6_GE53MJ_ZG170C",
+        "GE146_1_GE88MJ_ZG170C",
+        "GE52_2",
+        "GE57Z_4",
+        "GE109_1",
+        "GE124_2_ZG170C",
+        "GE98_2_ZG170C",
+        "GE07_3",
+        "GE94_1",
+        "GE03_2",
+        "GE125_1",
+        "GE139_1_GE08MJ_ZG170C",
+        "GE122_2_ZG170C",
+        "GE94_2",
+        "GE100_1",
+        "GE122_1",
+        "GE45_5",
+        "GE46_5",
+        "GE55_3",
+        "GE07_1_ZG170C",
+        "GE123_1",
+        "GE14_2",
+        "GE78_1",
+        "GE95_1",
+        "GE14_1",
+        "GE78_2",
+        "GE95_3",
+        "GE95_2",
+        "GE53_2",
+        "GE50_1",
+        "GE45_1"
+      ]
+    },
+    {
+      "body_code": "ZG170D",
+      "series": "Inspiration",
+      "family": "The Muse",
+      "height_cm": 170,
+      "cup": "D",
+      "WHR": 0.655,
+      "BWR": 1.289,
+      "spec_card": null,
+      "characters": [
+        "I-ZG170D-01",
+        "I-ZG170D-02",
+        "I-ZG170D-03",
+        "I-ZG170D-04"
+      ],
+      "photoshoot_count": 2,
+      "live_slots": 2,
+      "additional_photoshoots": []
+    },
+    {
+      "body_code": "ZG175E",
+      "series": "Inspiration",
+      "family": "The Muse",
+      "height_cm": 175,
+      "cup": "E",
+      "WHR": 0.679,
+      "BWR": 1.351,
+      "spec_card": null,
+      "characters": [
+        "I-ZG175E-01",
+        "I-ZG175E-02",
+        "I-ZG175E-03",
+        "I-ZG175E-04"
+      ],
+      "photoshoot_count": 26,
+      "live_slots": 4,
+      "additional_photoshoots": [
+        "GE59_1_GE58MJ_ZG175E",
+        "GE114_1_GE52MJ_ZG175E",
+        "GE45_7_ZG175E",
+        "GE137_1_GE125MJ_ZG175E",
+        "GE111_2",
+        "GE16_1",
+        "GE98_1_ZG175E",
+        "GE113_1_GE50MJ",
+        "GE111_1_ZG175E",
+        "GE111_3_ZGE175E",
+        "GE58_1_ZG175E",
+        "GE95_4_GE53MJ_ZG175E",
+        "GE125_2",
+        "GE95_5_ZG175E",
+        "GE16_2",
+        "GE116_1_ZG175E",
+        "GE03_1_GE70MJ_ZG175E",
+        "GE03_2_GE70MJ_ZG175E"
+      ]
+    },
+    {
+      "body_code": "ZK159D",
+      "series": "K-Series",
+      "family": "The Icon",
+      "height_cm": 159,
+      "cup": "D",
+      "WHR": 0.624,
+      "BWR": 1.438,
+      "spec_card": null,
+      "characters": [
+        "K-ZK159D-01",
+        "K-ZK159D-02",
+        "K-ZK159D-03",
+        "K-ZK159D-04"
+      ],
+      "photoshoot_count": 1,
+      "live_slots": 1,
+      "additional_photoshoots": []
+    },
+    {
+      "body_code": "ZK168B",
+      "series": "K-Series",
+      "family": "The Muse",
+      "height_cm": 168,
+      "cup": "B",
+      "WHR": 0.649,
+      "BWR": 1.238,
+      "spec_card": null,
+      "characters": [
+        "K-ZK168B-01",
+        "K-ZK168B-02",
+        "K-ZK168B-03",
+        "K-ZK168B-04"
+      ],
+      "photoshoot_count": 5,
+      "live_slots": 3,
+      "additional_photoshoots": []
+    },
+    {
+      "body_code": "ZX153B",
+      "series": "SLE",
+      "family": "The Muse",
+      "height_cm": 153,
+      "cup": "B",
+      "WHR": 0.671,
+      "BWR": 1.415,
+      "spec_card": null,
+      "characters": [
+        "SLE-ZX153B-01",
+        "SLE-ZX153B-02",
+        "SLE-ZX153B-03",
+        "SLE-ZX153B-04"
+      ],
+      "photoshoot_count": 2,
+      "live_slots": 2,
+      "additional_photoshoots": []
+    },
+    {
+      "body_code": "ZX160J",
+      "series": "SLE",
+      "family": "The Siren",
+      "height_cm": 160,
+      "cup": "J",
+      "WHR": 0.507,
+      "BWR": 1.718,
+      "spec_card": null,
+      "characters": [
+        "SLE-ZX160J-01",
+        "SLE-ZX160J-02",
+        "SLE-ZX160J-03",
+        "SLE-ZX160J-04"
+      ],
+      "photoshoot_count": 15,
+      "live_slots": 4,
+      "additional_photoshoots": [
+        "ZXE216_2_ZX160J",
+        "ZXE218_1_ZX160J",
+        "ZXE205_1_ZX160J",
+        "ZXE206_1_ZX160J",
+        "ZXE200_2_ZX160J",
+        "ZXE201_1_ZX160J",
+        "ZXE202_1_ZX160J",
+        "ZXE203_1_ZX160J",
+        "ZXE206_Z1_ZX160J",
+        "ZXE207_Z1_ZX160J",
+        "ZXE202_Z1_ZX160J"
+      ]
+    },
+    {
+      "body_code": "ZX163E",
+      "series": "SLE",
+      "family": "The Icon",
+      "height_cm": 163,
+      "cup": "E",
+      "WHR": 0.63,
+      "BWR": 1.466,
+      "spec_card": null,
+      "characters": [
+        "SLE-ZX163E-01",
+        "SLE-ZX163E-02",
+        "SLE-ZX163E-03",
+        "SLE-ZX163E-04"
+      ],
+      "photoshoot_count": 6,
+      "live_slots": 4,
+      "additional_photoshoots": [
+        "ZXE203_3_ZX163E",
+        "ZXE206_3_ZX163E"
+      ]
+    },
+    {
+      "body_code": "ZX164G",
+      "series": "SLE",
+      "family": "The Empress",
+      "height_cm": 164,
+      "cup": "G",
+      "WHR": 0.552,
+      "BWR": 1.595,
+      "spec_card": null,
+      "characters": [
+        "SLE-ZX164G-01",
+        "SLE-ZX164G-02",
+        "SLE-ZX164G-03",
+        "SLE-ZX164G-04"
+      ],
+      "photoshoot_count": 15,
+      "live_slots": 4,
+      "additional_photoshoots": [
+        "ZXE212_2_ZX164G",
+        "ZXE211_2_ZX164G",
+        "ZXE221_2_ZX164G",
+        "ZXE200_1_ZX164G",
+        "ZXE205_2_ZX164G",
+        "ZXE203_1_ZX164G",
+        "ZXE207_3_ZX164G",
+        "ZXE202_1_ZX164G",
+        "ZXE204_1_ZX164G",
+        "ZXE200_Z1_ZX164G",
+        "ZXE220_2_ZX164G"
+      ]
+    },
+    {
+      "body_code": "ZX165D",
+      "series": "SLE",
+      "family": "The Icon",
+      "height_cm": 165,
+      "cup": "D",
+      "WHR": 0.541,
+      "BWR": 1.547,
+      "spec_card": null,
+      "characters": [
+        "SLE-ZX165D-01",
+        "SLE-ZX165D-02",
+        "SLE-ZX165D-03",
+        "SLE-ZX165D-04"
+      ],
+      "photoshoot_count": 6,
+      "live_slots": 4,
+      "additional_photoshoots": [
+        "ZXE209_2_ZX165D",
+        "ZXE203_Z1_ZX165D"
+      ]
+    },
+    {
+      "body_code": "ZX166K",
+      "series": "SLE",
+      "family": "The Siren",
+      "height_cm": 166,
+      "cup": "K",
+      "WHR": 0.597,
+      "BWR": 1.741,
+      "spec_card": null,
+      "characters": [
+        "SLE-ZX166K-01",
+        "SLE-ZX166K-02",
+        "SLE-ZX166K-03",
+        "SLE-ZX166K-04"
+      ],
+      "photoshoot_count": 15,
+      "live_slots": 4,
+      "additional_photoshoots": [
+        "ZXE216_4_ZX166K",
+        "ZXE215_1_ZX166K",
+        "ZXE203_2_ZX166K",
+        "ZXE208-1_ZX166K",
+        "ZXE213_1_ZX166K",
+        "ZXE220_1_ZX166K",
+        "ZXE209_1_ZX166K",
+        "ZXE212_1_ZX166K",
+        "ZXE208_Z1_ZX166K",
+        "ZXE218_2_ZX166K",
+        "ZXE205_Z1_ZX166K"
+      ]
+    },
+    {
+      "body_code": "ZX170A",
+      "series": "SLE",
+      "family": "The Muse",
+      "height_cm": 170,
+      "cup": "A",
+      "WHR": 0.67,
+      "BWR": 1.262,
+      "spec_card": null,
+      "characters": [
+        "SLE-ZX170A-01",
+        "SLE-ZX170A-02",
+        "SLE-ZX170A-03",
+        "SLE-ZX170A-04"
+      ],
+      "photoshoot_count": 1,
+      "live_slots": 1,
+      "additional_photoshoots": []
+    },
+    {
+      "body_code": "ZX171C",
+      "series": "SLE",
+      "family": "The Muse",
+      "height_cm": 171,
+      "cup": "C",
+      "WHR": 0.639,
+      "BWR": 1.361,
+      "spec_card": null,
+      "characters": [
+        "SLE-ZX171C-01",
+        "SLE-ZX171C-02",
+        "SLE-ZX171C-03",
+        "SLE-ZX171C-04"
+      ],
+      "photoshoot_count": 9,
+      "live_slots": 4,
+      "additional_photoshoots": [
+        "ZXE203_1_ZX171C",
+        "ZXE216_W1_ZX171C",
+        "ZXE200_W1_ZX171C",
+        "ZXE211_1_ZX171C",
+        "ZXE203_W1_ZX171C"
+      ]
+    },
+    {
+      "body_code": "ZX172E",
+      "series": "SLE",
+      "family": "The Icon",
+      "height_cm": 172,
+      "cup": "E",
+      "WHR": 0.608,
+      "BWR": 1.504,
+      "spec_card": null,
+      "characters": [
+        "SLE-ZX172E-01",
+        "SLE-ZX172E-02",
+        "SLE-ZX172E-03",
+        "SLE-ZX172E-04"
+      ],
+      "photoshoot_count": 19,
+      "live_slots": 4,
+      "additional_photoshoots": [
+        "ZXE200_W2_ZX172E",
+        "ZXE218_W1_ZX172E",
+        "ZXE204_1_ZX172E",
+        "ZXE209_W1_ZX172E",
+        "ZXE215_W1_ZX172E",
+        "ZXE201_W2_ZX172E",
+        "ZX204_1_ZX172E",
+        "ZXE204_Z1_ZX172E",
+        "ZX207_1_ZX172E",
+        "ZXE203_2_ZX172E",
+        "ZXE206_W2_ZX172E",
+        "ZXE209_Z1_ZX172E",
+        "ZX201_2_ZX172E",
+        "ZXE201_Z1_ZX172E",
+        "ZXE205_1_ZX172E"
+      ]
+    }
+  ]
+}

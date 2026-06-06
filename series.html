@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ZELEX Series</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+  /* ---- hero (tightened, less top-heavy) ---- */
+  .hero{padding:34px 32px 20px;text-align:center;background:radial-gradient(ellipse at top,#1c1c1c,#121212 70%)}
+  .hero .eyebrow{margin-bottom:9px;font-size:11px}
+  .hero h1{font-size:clamp(26px,4.4vw,44px);font-weight:700;letter-spacing:.5px}
+  .hero p{color:var(--muted);max-width:600px;margin:9px auto 0;font-size:14px}
+  .stats{display:flex;gap:28px;justify-content:center;flex-wrap:wrap;margin-top:18px;color:var(--muted)}
+  .stats .n{font-family:'Playfair Display',serif;font-size:23px;color:var(--cream);display:block;line-height:1}
+  .stats .l{font-size:9px;letter-spacing:2px;text-transform:uppercase;margin-top:5px}
+
+  /* ---- consolidated sticky controls bar (series switcher + view toggle) ---- */
+  .controls-bar{position:sticky;top:58px;z-index:40;display:flex;align-items:center;
+    justify-content:space-between;gap:14px 18px;flex-wrap:wrap;padding:11px 24px;
+    background:rgba(18,18,18,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .series-tabs{display:flex;gap:7px;flex-wrap:wrap;align-items:center}
+  .tab{padding:6px 16px;border:1px solid var(--line);border-radius:30px;background:transparent;
+    color:var(--muted);font-size:12px;letter-spacing:.5px;font-family:inherit;transition:.2s;cursor:pointer;display:inline-block}
+  .tab:hover{color:var(--text);border-color:var(--text)}
+  .tab.active{background:var(--cream);color:#111;border-color:var(--cream);font-weight:600}
+
+  /* ---- view-mode toggle (segmented pill) ---- */
+  .view-toggle{display:inline-flex;border:1px solid var(--line);border-radius:30px;overflow:hidden;
+    background:var(--panel2);flex-shrink:0}
+  .view-toggle button{padding:6px 18px;border:none;background:transparent;
+    color:var(--muted);font-size:11px;letter-spacing:1.2px;text-transform:uppercase;
+    font-family:inherit;cursor:pointer;transition:.2s;white-space:nowrap}
+  .view-toggle button:first-child{border-right:1px solid var(--line)}
+  .view-toggle button.active{background:var(--cream);color:#111;font-weight:600}
+  .view-toggle button:not(.active):hover{color:var(--text)}
+  @media(max-width:600px){.controls-bar{justify-content:center}}
+
+  /* ---- body-architecture mode ---- */
+  .body-group{border-top:1px solid var(--line);padding:32px 0 8px}
+  .body-group-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:20px}
+  .body-group-head h3{font-size:22px}
+  .body-group-head .meta{color:var(--muted);font-size:12px}
+
+  /* ---- characters mode filter bar ---- */
+  .char-filterbar{
+    max-width:var(--maxw);margin:16px auto 0;padding:0 24px;
+    display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+  }
+  .chip-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .pill{
+    padding:6px 16px;border:1px solid var(--line);border-radius:30px;
+    background:transparent;color:var(--muted);
+    cursor:pointer;font-size:12px;letter-spacing:.5px;
+    font-family:inherit;transition:.2s;white-space:nowrap;
+  }
+  .pill:hover{color:var(--text);border-color:var(--muted)}
+  .pill.active{background:var(--cream);color:#111;border-color:var(--cream);font-weight:600}
+  .filter-sep{width:1px;height:20px;background:var(--line);margin:0 4px;flex-shrink:0;align-self:center}
+  .toggle-wrap{display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none}
+  .toggle-wrap input[type=checkbox]{accent-color:var(--gold);width:15px;height:15px;cursor:pointer}
+  .toggle-label{font-size:12px;color:var(--muted);letter-spacing:.5px;transition:.2s}
+  .toggle-wrap:hover .toggle-label{color:var(--text)}
+
+  /* ---- count bar ---- */
+  .count-bar{
+    max-width:var(--maxw);margin:14px auto 4px;padding:0 24px;
+    display:flex;align-items:center;gap:8px;
+  }
+  .count-text{font-size:13px;color:var(--muted)}
+  .count-text strong{color:var(--text)}
+
+  /* ---- shared grid wrapper ---- */
+  .content-area{max-width:var(--maxw);margin:0 auto;padding:0 24px 60px}
+</style>
+</head>
+<body>
+
+<div class="crumbs" id="crumbs"></div>
+
+<header class="hero has-backdrop" id="hero">
+  <div class="eyebrow">ZELEX Series</div>
+  <h1 id="series-title">—</h1>
+  <p id="series-desc"></p>
+  <div class="stats" id="stats"></div>
+</header>
+
+<!-- Consolidated sticky controls: series switcher (left) + view toggle (right) -->
+<div class="controls-bar">
+  <div class="series-tabs" id="series-tabs"></div>
+  <div class="view-toggle" id="view-toggle">
+    <button id="btn-bodies" class="active" onclick="setView('bodies')">Body Architectures</button>
+    <button id="btn-chars" onclick="setView('chars')">Characters</button>
+  </div>
+</div>
+
+<!-- Characters-mode filter bar (hidden until Characters mode is active) -->
+<div id="char-filters" style="display:none">
+  <div class="char-filterbar">
+    <span class="filter-heading">Series Family</span>
+    <div class="chip-row" id="body-chips"></div>
+  </div>
+  <div class="count-bar">
+    <div class="count-text" id="count-text"></div>
+  </div>
+</div>
+
+<main id="app" class="content-area"><div class="loading">Loading catalog…</div></main>
+
+<script src="assets/site.js"></script>
+<script>
+/* ---- page-local state ---- */
+const pageState = {
+  view: 'bodies',     // 'bodies' | 'chars'
+  familyFilter: 'all', // Body Family name or 'all'
+  photoOnly: false,
+  // set during render
+  series: null,
+  sortedBodies: []
+};
+
+/* ---- boot ---- */
+ZX.mountNav('index.html');
+let _m = null;
+ZX.load().then(m => { _m = m; render(m); ZX.mountFooter(); }).catch(() => ZX.fail());
+
+/* ============================================================
+   MAIN RENDER (called once on load; view switches re-render content only)
+   ============================================================ */
+function render(m) {
+  /* ---- resolve series ---- */
+  const raw = ZX.qs('s');
+  const s = (raw && m.bySeries[raw]) ? raw : (m.series[0] || 'K-Series');
+  pageState.series = s;
+
+  /* ---- breadcrumb ---- */
+  document.getElementById('crumbs').innerHTML =
+    `<a href="index.html">Atlas</a><span>›</span> ${ZX.esc(s)}`;
+
+  /* ---- hero ---- */
+  document.title = `ZELEX — ${s}`;
+  document.getElementById('series-title').innerHTML = `<span class="em-grad">${ZX.esc(s)}</span>`;
+  document.getElementById('series-desc').textContent = m.SERIES_SUB[s] || '';
+
+  /* ---- hero backdrop ---- */
+  const hero = document.getElementById('hero');
+  // Remove any previous backdrop before re-inserting (render may be called once, but be safe)
+  const prevBd = hero.querySelector('.backdrop');
+  if (prevBd) prevBd.remove();
+  const chars = m.bySeries[s] || [];
+  const bdHtml = ZX.heroBackdrop(ZX.repImg(chars, 0));
+  if (bdHtml) hero.insertAdjacentHTML('afterbegin', bdHtml);
+  const bodies = [...new Set(chars.map(c => c.body_code))];
+  const photographed = chars.filter(c => c.status === 'live').length;
+  document.getElementById('stats').innerHTML = [
+    [bodies.length, 'Body Architectures'],
+    [chars.length, 'Characters'],
+    [photographed, 'Photographed']
+  ].map(([n, l]) =>
+    `<div><span class="n">${n}</span><span class="l">${l}</span></div>`
+  ).join('');
+
+  /* ---- series-switcher tab pills ---- */
+  document.getElementById('series-tabs').innerHTML = m.series.map(sr =>
+    `<a class="tab${sr === s ? ' active' : ''}" href="series.html?s=${encodeURIComponent(sr)}">${ZX.esc(sr)}</a>`
+  ).join('');
+
+  /* ---- pre-compute sorted body list (shared by both modes) ---- */
+  const sortedBodies = bodies.slice().sort((a, b) => {
+    const bdA = (chars.find(c => c.body_code === a) || {}).body || {};
+    const bdB = (chars.find(c => c.body_code === b) || {}).body || {};
+    return (bdA.height_cm || 0) - (bdB.height_cm || 0);
+  });
+  pageState.sortedBodies = sortedBodies;
+
+  /* ---- build character-mode filter chips (once) ---- */
+  buildBodyChips(m, chars, sortedBodies);
+
+  /* ---- render the initial view ---- */
+  renderContent();
+}
+
+/* ============================================================
+   VIEW TOGGLE
+   ============================================================ */
+function setView(v) {
+  pageState.view = v;
+  pageState.familyFilter = 'all';
+  pageState.photoOnly = false;
+
+  document.getElementById('btn-bodies').classList.toggle('active', v === 'bodies');
+  document.getElementById('btn-chars').classList.toggle('active', v === 'chars');
+  document.getElementById('char-filters').style.display = (v === 'chars') ? '' : 'none';
+
+  /* reset chips when switching back to chars */
+  if (v === 'chars') {
+    resetChips();
+    const photoChk = document.getElementById('photo-chk');
+    if (photoChk) photoChk.checked = false;
+  }
+
+  renderContent();
+}
+
+/* ============================================================
+   CONTENT RENDER (called on view switch + filter change)
+   ============================================================ */
+function renderContent() {
+  if (pageState.view === 'bodies') {
+    renderBodies();
+  } else {
+    renderChars();
+  }
+}
+
+/* ---- BODY ARCHITECTURES mode ---- */
+function renderBodies() {
+  const m = _m;
+  const app = document.getElementById('app');
+  app.innerHTML = '';
+  app.style.paddingTop = '20px';
+
+  app.insertAdjacentHTML('beforeend', ZX.metricsLegend());
+
+  const grid = document.createElement('div');
+  grid.className = 'grid g4';
+
+  pageState.sortedBodies.forEach((bc, i) => {
+    const d = `d${(i % 6) + 1}`;
+    const tmp = document.createElement('div');
+    tmp.innerHTML = ZX.bodyCard(bc, m);
+    const card = tmp.firstElementChild;
+    if (card) { card.classList.add('reveal', d); grid.appendChild(card); }
+    else grid.insertAdjacentHTML('beforeend', ZX.bodyCard(bc, m));
+  });
+
+  app.appendChild(grid);
+  ZX.revealInit();
+}
+
+/* ---- CHARACTERS mode ---- */
+function renderChars() {
+  const m = _m;
+  const s = pageState.series;
+  const allChars = m.bySeries[s] || [];
+
+  /* apply filters */
+  let chars = allChars.slice();
+
+  if (pageState.familyFilter !== 'all') {
+    chars = chars.filter(c => ((c.body && c.body.family) || 'Unclassified') === pageState.familyFilter);
+  }
+  if (pageState.photoOnly) {
+    chars = chars.filter(c => c.status === 'live');
+  }
+
+  /* sort: live first, then by height asc, then slot */
+  chars.sort((a, b) => {
+    const aLive = a.status === 'live' ? 0 : 1;
+    const bLive = b.status === 'live' ? 0 : 1;
+    if (aLive !== bLive) return aLive - bLive;
+    const ah = (a.body && a.body.height_cm != null) ? a.body.height_cm : 0;
+    const bh = (b.body && b.body.height_cm != null) ? b.body.height_cm : 0;
+    if (ah !== bh) return ah - bh;
+    return (a.slot || 0) - (b.slot || 0);
+  });
+
+  /* count bar */
+  const countEl = document.getElementById('count-text');
+  if (countEl) {
+    countEl.innerHTML = `Showing <strong>${chars.length}</strong> of <strong>${allChars.length}</strong> characters`;
+  }
+
+  /* grid */
+  const app = document.getElementById('app');
+  app.innerHTML = '';
+  app.style.paddingTop = '8px';
+
+  if (chars.length === 0) {
+    app.innerHTML = '<div style="text-align:center;padding:60px 24px;color:var(--muted);font-size:14px">No characters match the current filters.</div>';
+    return;
+  }
+
+  const grid = document.createElement('div');
+  grid.className = 'grid g4';
+  chars.forEach((c, i) => {
+    const d = `d${(i % 6) + 1}`;
+    const tmp = document.createElement('div');
+    tmp.innerHTML = ZX.charCard(c);
+    const card = tmp.firstElementChild;
+    if (card) { card.classList.add('reveal', d); grid.appendChild(card); }
+    else grid.insertAdjacentHTML('beforeend', ZX.charCard(c));
+  });
+  app.appendChild(grid);
+  ZX.revealInit();
+}
+
+/* ============================================================
+   FILTER CHIP BUILDER (runs once after model loads)
+   ============================================================ */
+function buildBodyChips(m, chars, sortedBodies) {
+  const container = document.getElementById('body-chips');
+  container.innerHTML = '';
+
+  /* "All" chip */
+  const allBtn = document.createElement('button');
+  allBtn.className = 'pill active';
+  allBtn.textContent = 'All';
+  allBtn.dataset.fam = 'all';
+  allBtn.addEventListener('click', () => { setFamilyFilter('all'); });
+  container.appendChild(allBtn);
+
+  /* one chip per BODY FAMILY present in this series (canonical order), color-coded.
+     Filtering by family — not individual body code — keeps the bar short and meaningful. */
+  const present = new Set(chars.map(c => (c.body && c.body.family) || 'Unclassified'));
+  const ordered = ZX.FAMILIES.filter(f => present.has(f));
+  if (present.has('Unclassified')) ordered.push('Unclassified');
+
+  ordered.forEach(fam => {
+    const fc = ZX.famColor(fam === 'Unclassified' ? null : fam);
+    const n = chars.filter(c => ((c.body && c.body.family) || 'Unclassified') === fam).length;
+    const btn = document.createElement('button');
+    btn.className = 'pill';
+    btn.innerHTML = `<span class="fam-dot" style="background:${fc}"></span>${ZX.esc(fam)} <span class="pill-n">${n}</span>`;
+    btn.dataset.fam = fam;
+    btn.addEventListener('click', () => { setFamilyFilter(fam); });
+    container.appendChild(btn);
+  });
+
+  /* separator + "Photographed only" toggle */
+  const sep = document.createElement('span');
+  sep.className = 'filter-sep';
+  container.appendChild(sep);
+
+  const lbl = document.createElement('label');
+  lbl.className = 'toggle-wrap';
+  lbl.innerHTML = `<input type="checkbox" id="photo-chk"><span class="toggle-label">Photographed only</span>`;
+  container.appendChild(lbl);
+
+  document.getElementById('photo-chk').addEventListener('change', e => {
+    pageState.photoOnly = e.target.checked;
+    renderChars();
+  });
+}
+
+/* ---- set active family chip ---- */
+function setFamilyFilter(fam) {
+  pageState.familyFilter = fam;
+  document.querySelectorAll('#body-chips .pill').forEach(p => {
+    p.classList.toggle('active', p.dataset.fam === fam);
+  });
+  renderChars();
+}
+
+function resetChips() {
+  pageState.familyFilter = 'all';
+  document.querySelectorAll('#body-chips .pill').forEach(p => {
+    p.classList.toggle('active', p.dataset.fam === 'all');
+  });
+}
+</script>
+</body>
+</html>
