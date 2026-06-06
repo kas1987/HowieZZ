@@ -54,6 +54,27 @@
 .swatch.on{color:var(--gold)}
 .swatch.on .dot{border-color:var(--gold);transform:scale(1.08)}
 
+/* head gallery (db/heads.json) */
+.head-gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(82px,1fr));gap:10px;
+  max-height:340px;overflow-y:auto;padding:2px 2px 6px}
+.hg{background:none;border:none;cursor:pointer;padding:0;display:flex;flex-direction:column;gap:5px;color:var(--muted);font-family:inherit}
+.hg-img{position:relative;aspect-ratio:3/4;border-radius:10px;overflow:hidden;border:2px solid var(--line);
+  background:var(--panel2);display:flex;align-items:center;justify-content:center;transition:.18s}
+.hg-img img{width:100%;height:100%;object-fit:cover;display:block}
+.hg-mono{font-family:'Playfair Display',serif;font-size:22px;color:var(--muted)}
+.hg-mj{position:absolute;top:5px;right:5px;background:rgba(0,0,0,.72);color:var(--gold);border:1px solid var(--gold);
+  border-radius:5px;font-size:8px;letter-spacing:1px;padding:1px 4px}
+.hg-cross{position:absolute;bottom:5px;left:5px;right:5px;background:rgba(0,0,0,.72);color:var(--blue);
+  border:1px solid var(--blue);border-radius:5px;font-size:8px;letter-spacing:.5px;padding:1px 4px;text-align:center;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hg.cross .hg-img{border-style:dashed}
+.rc-cross{color:var(--blue)}
+.hg-code{font-family:ui-monospace,monospace;font-size:10px;letter-spacing:.3px;text-align:center;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hg:hover .hg-img{border-color:var(--gold)}
+.hg.on .hg-img{border-color:var(--gold);box-shadow:0 0 0 2px color-mix(in srgb,var(--gold) 35%,transparent)}
+.hg.on{color:var(--gold)}
+
 /* slider */
 .cfg-axis input[type=range]{width:100%;accent-color:var(--gold);cursor:pointer}
 .rangerow{display:flex;justify-content:space-between;color:var(--muted);font-size:10px;margin-top:4px;letter-spacing:1px}
@@ -77,6 +98,13 @@
 .rc-code{font-family:ui-monospace,monospace;font-size:26px;color:var(--cream);margin:8px 0 4px}
 .rc-line{display:flex;align-items:center;gap:8px;flex-wrap:wrap;color:var(--muted);font-size:13px}
 .rc-fam{padding:3px 10px;border-radius:20px;font-size:11px}
+.rc-head{display:flex;align-items:center;gap:11px;margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+.rc-head-img{width:44px;height:58px;border-radius:8px;overflow:hidden;flex:0 0 auto;background:var(--panel2);
+  border:1px solid var(--line);display:flex;align-items:center;justify-content:center}
+.rc-head-img img{width:100%;height:100%;object-fit:cover}
+.rc-head-mono{font-family:'Playfair Display',serif;color:var(--muted);font-size:20px}
+.rc-head-meta{display:flex;flex-direction:column;gap:2px;font-size:12px;color:var(--muted)}
+.rc-head-meta b{font-family:ui-monospace,monospace;color:var(--cream);font-size:13px;font-weight:600}
 .rc-body{padding:22px 24px}
 .rc-sec-title{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin:0 0 10px}
 .rc-sig.kv dt{color:var(--muted)}.rc-sig.kv dd{color:var(--text);text-align:right;font-variant-numeric:tabular-nums}
@@ -116,14 +144,15 @@ Promise.all([
   fetch('db/configurator_schema.json').then(r=>r.json()),
   fetch('db/body_measurements.json').then(r=>r.json()),
   fetch('db/live_variants.json').then(r=>r.json()),
-  fetch('db/product_overrides.json').then(r=>r.json()).catch(()=>({}))
-]).then(([m, schema, meas, variants, overrides]) => {
-  render(m, { schema, bodies: meas.bodies||{}, variants: variants||[], overrides: overrides||{} });
+  fetch('db/product_overrides.json').then(r=>r.json()).catch(()=>({})),
+  fetch('db/heads.json').then(r=>r.json()).catch(()=>({heads:{}}))
+]).then(([m, schema, meas, variants, overrides, headsDoc]) => {
+  render(m, { schema, bodies: meas.bodies||{}, variants: variants||[], overrides: overrides||{}, heads: headsDoc.heads||{} });
   ZX.mountFooter();
 }).catch(() => ZX.fail());
 
 function render(m, DATA){
-  const { schema, bodies, variants, overrides } = DATA;
+  const { schema, bodies, variants, overrides, heads } = DATA;
   const app = document.getElementById('app');
 
   // ---- helpers reading the spec (so logic stays declarative) ----
@@ -132,14 +161,40 @@ function render(m, DATA){
   const deriv = {}; (schema.derivations||[]).forEach(d => deriv[d.id] = d);
   const prefixesFor = line => { const p = (axisById.line.code_prefix||{})[line]; return p ? (Array.isArray(p)?p:[p]) : []; };
 
-  // distinct heads that co-occur with a line's bodies in the live catalog (drives the head picker)
-  function headsForLine(line){
-    const pre = prefixesFor(line);
-    const hit = b => pre.some(p => (b||'').indexOf(p) === 0);
-    const set = new Set();
-    variants.forEach(v => { if (v.head && hit(v.body)) set.add(v.head); });
-    return [...set].sort();
+  // ---- neck-connector classes: the basis for interchangeable heads (db/heads.json#/neck_classes) ----
+  // Heads attach at the neck; the connector size — not the marketing line — is the constraint.
+  const NECK_SLIM_MAX = 29; // cm — below this is the narrow (K-Series) connector
+  const LINE_NECK = { 'K-Series':'slim', 'I-Series':'standard', 'Fusion':'standard', 'SLE 3.0':'standard' };
+  function neckClassOfCm(cm){ return cm==null ? null : (cm < NECK_SLIM_MAX ? 'slim' : 'standard'); }
+  function bodyNeckClass(code, line){
+    const b = bodies[code];
+    return neckClassOfCm(b && b.neck) || LINE_NECK[line] || 'standard';
   }
+
+  // Head records for a build, from the reverse-engineered catalog (db/heads.json,
+  // built by scripts/build_heads.py). Cast/imaged heads lead; bodies-on-this-code first.
+  // When `crossLine` is on, show every head whose neck_class fits the body (across lines),
+  // same-line first; each rec is tagged `_cross` when its line differs from the body's.
+  // Falls back to variant-derived codes if heads.json is unavailable.
+  const hasHeads = heads && Object.keys(heads).length > 0;
+  function headRecsForLine(line, bodyCode, crossLine){
+    if(!hasHeads){
+      const pre = prefixesFor(line);
+      const hit = b => pre.some(p => (b||'').indexOf(p) === 0);
+      const set = new Set(); variants.forEach(v => { if(v.head && hit(v.body)) set.add(v.head); });
+      return [...set].sort().map(code => ({head_code:code, line, face_variants:['Standard'], skin_tones:[], bodies:[], characters:[], representative_image:null, _cross:false}));
+    }
+    const nclass = bodyNeckClass(bodyCode, line);
+    const recs = Object.values(heads)
+      .filter(h => crossLine ? (h.neck_class === nclass) : (h.line === line))
+      .map(h => ({ ...h, _cross: h.line !== line }));
+    const rank = h => (h._cross ? 1000 : 0)                       // same-line block first
+                    + (bodyCode && h.bodies.includes(bodyCode) ? 0 : 100)
+                    - (h.characters.length?20:0) - (h.representative_image?5:0);
+    return recs.sort((a,b)=> rank(a)-rank(b) || a.head_code.localeCompare(b.head_code));
+  }
+  function headsForLine(line, bodyCode, crossLine){ return headRecsForLine(line, bodyCode, crossLine).map(h=>h.head_code); }
+  const headRec = code => (heads && heads[code]) || null;
 
   // ---- resolver: runs the schema's derivations on the current build ----
   function resolveBodyCode(b){
@@ -213,6 +268,11 @@ function render(m, DATA){
       switch(rule.id){
         case 'bespoke_combination': hit = !code; break;
         case 'mj_unsupported': hit = st.head.face_variant==='Movable Jaw' && !mjOverrideFor(st.head.head_code, code); break;
+        case 'neck_incompatible': { const hr=headRec(st.head.head_code);
+          hit = !!hr && hr.neck_class && hr.neck_class !== bodyNeckClass(code, st.body.line); break; }
+        case 'cross_line_head': { const hr=headRec(st.head.head_code);
+          hit = !!hr && hr.line && hr.line !== st.body.line &&
+                (!hr.neck_class || hr.neck_class === bodyNeckClass(code, st.body.line)); break; }
         case 'skeleton_scope': hit = !!st.body.skeleton_version && st.body.line!=='SLE 3.0'; break;
         case 'torso_excluded': hit = st.body.height_cm < 120; break;
         case 'dev_line': hit = ['The Classic','The Sculpt'].includes(st.body.line); break;
@@ -234,18 +294,39 @@ function render(m, DATA){
   }));
   // start on a catalogued architecture for a confident first impression (ZG170C — the Muse)
   st.body.line='I-Series'; st.body.height_cm=170; st.body.cup='C'; st.body.material='Silicone';
-  st.head.head_code = headsForLine('I-Series')[0] || st.head.head_code;
+  // pin to a head with a clean catalogued SKU for the opening view (GE52_2+ZG170C-Tan)
+  st.head.head_code = (hasHeads && heads['GE52_2']) ? 'GE52_2'
+                    : (headsForLine('I-Series','ZG170C')[0] || st.head.head_code);
   st.components.skin_tone='Tan';
 
   // ---- generic control renderers (driven by axis.control) ----
   function ctrl(a){
     const g=st[a._group]; const cur=g[a.id];
+    // head_code → an image gallery driven by db/heads.json (falls back to a select)
+    if(a.id==='head_code'){
+      const recs = headRecsForLine(st.body.line, resolveBodyCode(st.body), st.head.cross_line_heads);
+      if(hasHeads){
+        return `<div class="head-gallery" data-axis="head_code">`+recs.map(h=>{
+          const img = h.representative_image;
+          const mj = h.face_variants.includes('Movable Jaw') ? `<span class="hg-mj" title="Movable-jaw build available">MJ</span>` : '';
+          const cross = h._cross ? `<span class="hg-cross" title="Cross-line — neck-compatible custom pairing">${ZX.esc(h.line)}</span>` : '';
+          const tile = img ? `<img loading="lazy" src="${img}" alt="${ZX.esc(h.head_code)}">`
+                           : `<span class="hg-mono">${ZX.esc(h.head_code.charAt(0))}</span>`;
+          return `<button class="hg ${h.head_code===cur?'on':''} ${h._cross?'cross':''}" data-v="${ZX.esc(h.head_code)}" title="${ZX.esc(h.head_code)}${h._cross?' · cross-line ('+ZX.esc(h.line)+')':''}${h.characters.length?' · '+h.characters.length+' cast':''}">
+            <span class="hg-img">${tile}${mj}${cross}</span><span class="hg-code">${ZX.esc(h.head_code)}</span></button>`;
+        }).join('')+`</div>`;
+      }
+      return `<select data-axis="head_code">`+recs.map(h=>`<option value="${ZX.esc(h.head_code)}"${h.head_code===cur?' selected':''}>${ZX.esc(h.head_code)}${h._cross?' (cross-line)':''}</option>`).join('')+`</select>`;
+    }
     if(a.control==='select' || a.control==='gallery-select'){
-      const opts = a.id==='head_code' ? headsForLine(st.body.line) : (a.enum||[]);
+      const opts = a.enum||[];
       return `<select data-axis="${a.id}">`+opts.map(o=>`<option value="${ZX.esc(o)}"${o===cur?' selected':''}>${ZX.esc(o)}${devTag(a,o)}</option>`).join('')+`</select>`;
     }
     if(a.control==='radio'){
-      return `<div class="seg" data-axis="${a.id}">`+(a.enum||[]).map(o=>`<button data-v="${ZX.esc(o)}" class="${o===cur?'on':''}">${ZX.esc(o)}</button>`).join('')+`</div>`;
+      // face_variant is gated to what the chosen head actually supports
+      let opts = a.enum||[];
+      if(a.id==='face_variant'){ const r=headRec(st.head.head_code); if(r) opts = r.face_variants; }
+      return `<div class="seg" data-axis="${a.id}">`+opts.map(o=>`<button data-v="${ZX.esc(o)}" class="${o===cur?'on':''}">${ZX.esc(o)}</button>`).join('')+`</div>`;
     }
     if(a.control==='swatch'){
       const tones={Fair:'#e9d4bf',Tan:'#c79a6e',White:'#f1e6da'};
@@ -309,6 +390,22 @@ function render(m, DATA){
 
     const ratio = fam.WHR!=null ? `<span>WHR ${fam.WHR} · BWR ${fam.BWR}</span>` : '';
 
+    const hr = headRec(st.head.head_code);
+    const crossLine = !!(hr && hr.line && hr.line !== st.body.line);
+    const headThumb = hr ? (hr.representative_image
+        ? `<img loading="lazy" src="${hr.representative_image}" alt="${ZX.esc(hr.head_code)}">`
+        : `<span class="rc-head-mono">${ZX.esc(hr.head_code.charAt(0))}</span>`) : '';
+    const neckBit = hr && hr.neck_class ? ` · neck ${ZX.esc(hr.neck_class)}` : '';
+    const lineBit = hr ? (crossLine
+        ? `<span class="rc-cross">${ZX.esc(hr.line)} → ${ZX.esc(st.body.line)} body · custom</span>`
+        : ZX.esc(hr.line)) : '';
+    const headBlock = hr ? `<div class="rc-head">
+        <span class="rc-head-img">${headThumb}</span>
+        <span class="rc-head-meta"><b>${ZX.esc(hr.head_code)}</b>
+          <span>${ZX.esc(st.head.face_variant)}${neckBit}</span>
+          <span>${lineBit}${hr.characters.length?` · ${hr.characters.length} cast`:''}</span></span>
+      </div>` : '';
+
     const noticeHtml = notices.length ? `<div class="notices">`+notices.map(n=>`<div class="notice ${n.sev}">${ZX.esc(n.msg)}</div>`).join('')+`</div>` : '';
 
     return `<div class="resolve-card">
@@ -317,6 +414,7 @@ function render(m, DATA){
         <div class="rc-code">${code?ZX.esc(code):'— bespoke —'}</div>
         <div class="rc-line">${famChip}<span>${st.body.height_cm}cm · ${ZX.esc(st.body.cup)}-cup · ${ZX.esc(st.body.material)}</span></div>
         <div class="rc-line" style="margin-top:6px">${ratio}</div>
+        ${headBlock}
       </div>
       <div class="rc-body">
         ${sig ? `<div class="rc-sec-title">Measurement signature</div><dl class="kv rc-sig">${sigRows}</dl>` :
@@ -375,15 +473,36 @@ function render(m, DATA){
     st[group][id] = value;
     // changing line can invalidate the head + skeleton scope → reconcile, then full repaint
     if(id==='line'){
-      const heads = headsForLine(value);
-      if(!heads.includes(st.head.head_code)) st.head.head_code = heads[0] || st.head.head_code;
+      const hs = headsForLine(value, resolveBodyCode(st.body));
+      if(!hs.includes(st.head.head_code)) st.head.head_code = hs[0] || st.head.head_code;
       if(value!=='SLE 3.0') delete st.body.skeleton_version;
       else if(!st.body.skeleton_version) st.body.skeleton_version = axisById.skeleton_version.default;
       paint();
+    } else if(id==='head_code'){
+      // a new head can change which face builds (Standard / Movable Jaw) are valid
+      const r = headRec(value);
+      if(r && !r.face_variants.includes(st.head.face_variant)) st.head.face_variant = 'Standard';
+      document.querySelectorAll('.head-gallery .hg').forEach(b=>b.classList.toggle('on', b.dataset.v===value));
+      rerenderAxis('face_variant');
+      repaintLive();
+    } else if(id==='cross_line_heads'){
+      // toggling interchangeability changes the head pool; if turning off and the current
+      // head is now out of pool (cross-line), fall back to the first same-line head
+      const pool = headsForLine(st.body.line, resolveBodyCode(st.body), value);
+      if(!pool.includes(st.head.head_code)) st.head.head_code = pool[0] || st.head.head_code;
+      rerenderAxis('head_code');
+      repaintLive();
     } else {
       repaintLive();
       syncControlChrome();
     }
+  }
+  // replace one axis's control in place (used when head choice re-gates face_variant)
+  function rerenderAxis(id){
+    const wrap = document.querySelector(`[data-wrap="${id}"]`);
+    if(!wrap || !visible(axisById[id])) return;
+    wrap.outerHTML = axisHtml(axisById[id]);
+    wireAxis(document.querySelector(`[data-wrap="${id}"]`));
   }
   // keep value-chips / toggle labels / segmented 'on' states in sync without a full repaint
   function syncControlChrome(){
@@ -397,23 +516,28 @@ function render(m, DATA){
     });
   }
 
-  function wire(){
-    app.querySelectorAll('select[data-axis]').forEach(el=>el.addEventListener('change',e=>{
-      const a=axisById[el.dataset.axis]; set(a._group,a.id,e.target.value);
+  function wireAxis(root){
+    if(!root) return;
+    root.querySelectorAll('select[data-axis]').forEach(el=>el.addEventListener('change',()=>{
+      const a=axisById[el.dataset.axis]; set(a._group,a.id,el.value);
     }));
-    app.querySelectorAll('input[type=range][data-axis]').forEach(el=>el.addEventListener('input',e=>{
-      const a=axisById[el.dataset.axis]; set(a._group,a.id, a.type==='integer'?parseInt(e.target.value,10):+e.target.value);
+    root.querySelectorAll('input[type=range][data-axis]').forEach(el=>el.addEventListener('input',()=>{
+      const a=axisById[el.dataset.axis]; set(a._group,a.id, a.type==='integer'?parseInt(el.value,10):+el.value);
     }));
-    app.querySelectorAll('.seg[data-axis] button').forEach(el=>el.addEventListener('click',e=>{
-      const seg=el.closest('.seg'); const a=axisById[seg.dataset.axis]; set(a._group,a.id, el.dataset.v);
+    root.querySelectorAll('.seg[data-axis] button').forEach(el=>el.addEventListener('click',()=>{
+      const a=axisById[el.closest('.seg').dataset.axis]; set(a._group,a.id, el.dataset.v);
     }));
-    app.querySelectorAll('.swatches[data-axis] .swatch').forEach(el=>el.addEventListener('click',()=>{
-      const sw=el.closest('.swatches'); const a=axisById[sw.dataset.axis]; set(a._group,a.id, el.dataset.v);
+    root.querySelectorAll('.swatches[data-axis] .swatch').forEach(el=>el.addEventListener('click',()=>{
+      const a=axisById[el.closest('.swatches').dataset.axis]; set(a._group,a.id, el.dataset.v);
     }));
-    app.querySelectorAll('input[type=checkbox][data-axis]').forEach(el=>el.addEventListener('change',e=>{
-      const a=axisById[el.dataset.axis]; set(a._group,a.id, e.target.checked);
+    root.querySelectorAll('.head-gallery[data-axis] .hg').forEach(el=>el.addEventListener('click',()=>{
+      set('head','head_code', el.dataset.v);
+    }));
+    root.querySelectorAll('input[type=checkbox][data-axis]').forEach(el=>el.addEventListener('change',()=>{
+      const a=axisById[el.dataset.axis]; set(a._group,a.id, el.checked);
     }));
   }
+  function wire(){ app.querySelectorAll('[data-wrap]').forEach(wireAxis); }
 
   paint();
 }

@@ -104,6 +104,12 @@
           "id": "head_tone_match", "label": "Match head tone to body", "control": "toggle", "type": "boolean",
           "required": false, "provenance": "catalog", "default": true,
           "note": "When true, head skin_tone follows the body skin_tone component; otherwise selectable independently."
+        },
+        {
+          "id": "cross_line_heads", "label": "Interchangeable heads (cross-line)", "control": "toggle", "type": "boolean",
+          "required": false, "provenance": "proposed", "default": false,
+          "compat_basis": "neck_class (db/heads.json#/neck_classes) — heads attach at the neck; the connector size, not the marketing line, is the constraint.",
+          "note": "Show every head that physically fits this body's neck connector, across lines. A cross-line pairing is a CUSTOM build (neck-class is estimated from spec cards), never a catalogued SKU — it resolves to a bespoke inquiry."
         }
       ]
     },
@@ -179,6 +185,8 @@
   "validation": [
     { "id": "bespoke_combination", "severity": "warn", "when": "resolve_body_code finds no catalogued body_code", "message": "This line + height + cup is not a catalogued architecture. Treat as a bespoke inquiry, not an instant SKU." },
     { "id": "mj_unsupported", "severity": "error", "when": "face_variant == 'Movable Jaw' and head_code has no MJ face_code in product_overrides", "message": "Selected head has no Movable-Jaw build." },
+    { "id": "neck_incompatible", "severity": "error", "when": "head neck_class != body neck_class", "message": "This head's neck connector does not fit this body — different neck class." },
+    { "id": "cross_line_head", "severity": "warn", "when": "head line != body line (but neck_class matches)", "message": "Cross-line head pairing — neck-compatible but not a catalogued combination. Custom build / bespoke inquiry, not an instant SKU. Neck fit is estimated; confirm before order." },
     { "id": "skeleton_scope", "severity": "error", "when": "skeleton_version is set and line != 'SLE 3.0'", "message": "Skeleton version applies to the SLE line only." },
     { "id": "torso_excluded", "severity": "error", "when": "height_cm < 120", "message": "Torso / mini bodies are out of scope." },
     { "id": "dev_line", "severity": "warn", "when": "line in ['The Classic','The Sculpt']", "message": "This line is in development — route to notify-me, not checkout (see PDR-003)." }
@@ -207,7 +215,8 @@
         "properties": {
           "head_code": { "type": "string" },
           "face_variant": { "enum": ["Standard", "Movable Jaw"] },
-          "head_tone_match": { "type": "boolean" }
+          "head_tone_match": { "type": "boolean" },
+          "cross_line_heads": { "type": "boolean" }
         }
       },
       "components": {

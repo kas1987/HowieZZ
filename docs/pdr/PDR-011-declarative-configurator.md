@@ -212,6 +212,18 @@ without bespoke code:
   prototype's logic was sanity-checked against `db/` for all three worked
   examples plus the bespoke case.
 
+- **The head generator** — `scripts/build_heads.py` → `db/heads.json`. Heads were
+  the one axis with no structured model: 189 sculpts scattered across the product
+  feed, variants, character casts, and movable-jaw overrides. The script
+  reverse-engineers them (mirroring `body_measurements.json`) into one record per
+  sculpt: line, movable-jaw availability, skin tones, paired bodies, cast
+  characters, a representative image, and price range. The configurator's
+  `head_code` axis now renders as an **image gallery** driven by that file
+  (replacing the dropdown), ranks heads that pair with the resolved body first,
+  gates the **Movable Jaw** face variant to heads that actually offer it, and
+  shows the chosen head's thumbnail in the resolve panel. Falls back to the
+  variant-derived dropdown if `heads.json` is absent.
+
 **Deliberately not in this package (next step):**
 
 - Backfilling the `proposed` component axes (standing feet, articulated fingers)
@@ -219,15 +231,61 @@ without bespoke code:
 - A `build_configurator.py` pipeline step that pre-resolves every catalogued
   combination into a lookup table (so the runtime resolver is a map, not a
   search).
-- A head **gallery** picker with imagery (the prototype renders `head_code` as a
-  filtered dropdown; the spec already declares it `gallery-select`).
+- Per-head feature attributes (eyes, makeup, hair) — `heads.json` currently
+  carries identity + pairing data, not a face-feature breakdown.
 - Adding the configurator to the global nav in `assets/site.js` (kept out to keep
   this change off the shared runtime; reachable via breadcrumb / direct link for
   now).
 
 ---
 
-## 8. Strategic conclusion
+## 8. How heads tie to lines — and the interchangeability pathway
+
+A core question for any head picker: **are heads locked to a product line, or
+can they be swapped across lines?** The data answers both halves.
+
+**The catalog sells heads line-locked.** Every one of the 189 heads pairs with
+bodies of exactly one line (174 heads → one line; 15 → none, having no measured
+body). No catalogued product or SKU crosses lines. So a naive picker — the line
+filter the first version shipped — is *commercially* correct but physically
+over-restrictive.
+
+**Physically, the constraint is the neck connector, not the marketing line.**
+Heads attach at the neck, and the spec-card neck circumferences fall into two
+clean clusters:
+
+| Neck class | Neck circ. | Lines |
+|---|---|---|
+| `slim` | ~26.5–27.5 cm | K-Series |
+| `standard` | ~31–33 cm | Fusion · I-Series · SLE 3.0 |
+
+So a head whose body neck is ~32 cm physically fits *any* `standard`-neck body
+regardless of line — Fusion / I-Series / SLE heads are mutually interchangeable —
+while K-Series stands alone on the narrow connector. `build_heads.py` derives a
+`neck_class` per head from the necks of the bodies it pairs with (falling back to
+a line default), and `db/heads.json#/neck_classes` documents the threshold.
+
+**The pathway.** The configurator adds an *Interchangeable heads (cross-line)*
+toggle (declared in the schema, `provenance: proposed`). Off, the gallery shows
+only same-line heads (the catalogued, instant-SKU path). On, it shows every head
+whose `neck_class` matches the body — same-line heads first, cross-line heads
+flagged with their origin line and a dashed frame. Selecting a cross-line head:
+
+- never resolves to a catalogued SKU (none exist), so price is **estimated** and
+  the build is a **custom / bespoke inquiry** (`cross_line_head` warning);
+- is blocked outright if neck classes differ (`neck_incompatible` error — e.g. a
+  K-Series head on an SLE body);
+- carries an explicit honesty note: neck fit is *estimated from spec cards* and
+  must be confirmed against the physical joint before order.
+
+This keeps the catalogued path clean and instant, while opening a principled,
+clearly-labelled custom path — and it surfaces a real commercial insight: a
+K-Series body buyer has only 3 interchangeable heads, whereas a `standard`-neck
+body opens up 186.
+
+---
+
+## 9. Strategic conclusion
 
 1. Declarative beats hand-coded for a catalog that already regenerates from JSON:
    new bodies/tones/heads become **data** changes, not code changes.
@@ -246,7 +304,7 @@ every build is a measured architecture or an honest inquiry."*
 
 ---
 
-## 9. Acceptance Review
+## 10. Acceptance Review
 
 | Criterion | Status |
 |---|---|
@@ -260,4 +318,7 @@ every build is a measured architecture or an honest inquiry."*
 | Bespoke / failure path defined | ✓ `bespoke_combination` rule + worked bespoke example |
 | Reuses existing patterns (no new design system, notify-me reuse) | ✓ `configurator.html` reuses `site-kit-contract` head/boot + `ZX` helpers; dev lines reuse PDR-003 notify-me |
 | Working prototype generated from the spec (not hand-coded per axis) | ✓ `configurator.html` walks `groups[].axes[]` + `derivations`; resolver verified against `db/` for all 3 examples + bespoke |
+| Heads given a structured model (the head generator) | ✓ `scripts/build_heads.py` → `db/heads.json` (189 heads: line, neck_class, MJ, tones, paired bodies, cast, image, price) |
+| Head picker is an image gallery driven by that data | ✓ `head_code` renders as a thumbnail gallery; MJ gated to capable heads; falls back to a dropdown if `heads.json` missing |
+| Head↔line coupling understood + interchangeability pathway | ✓ neck-class model (slim vs standard); cross-line toggle; `cross_line_head` warn + `neck_incompatible` error; verified no slim/standard leakage |
 | Both JSON artifacts parse; new page passes site validation | ✓ `validate-site.mjs` green (page added to its KIT_PAGES list) |

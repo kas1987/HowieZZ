@@ -1,0 +1,4512 @@
+{
+  "version": "1.0.0",
+  "_comment": "Head catalog reverse-engineered from products + variants + characters + movable-jaw overrides (scripts/build_heads.py). One record per head sculpt: line, movable-jaw availability, skin tones, paired bodies, cast characters, a representative image, and price range. Feeds the configurator head gallery (PDR-011). Regenerate after build_characters.py / make_thumbs.py.",
+  "generated_from": [
+    "db/catalog.json",
+    "db/live_variants.json",
+    "db/product_overrides.json",
+    "db/characters.json"
+  ],
+  "series_line_map": {
+    "Fusion": "Fusion",
+    "I": "I-Series",
+    "K": "K-Series",
+    "SLE": "SLE 3.0"
+  },
+  "neck_classes": {
+    "_basis": "Neck-connector class is the interchangeability constraint, not the marketing line. Threshold: neck circumference < 29.0cm = 'slim', else 'standard'. ESTIMATED from spec-card neck measurements — confirm against the physical neck joint.",
+    "slim": "Narrow connector — K-Series (~27cm).",
+    "standard": "Standard connector — Fusion / I-Series / SLE 3.0 (~31-33cm). Heads here are mutually swappable."
+  },
+  "count": 189,
+  "heads": {
+    "GE02_1": {
+      "head_code": "GE02_1",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard",
+        "Movable Jaw"
+      ],
+      "mj_face_codes": [
+        "GE46MJ"
+      ],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZG170C"
+      ],
+      "characters": [
+        "I-ZG170C-01"
+      ],
+      "product_count": 1,
+      "representative_image": "assets/thumbs/I-Series/GE02_1/GE02_1-101.jpg",
+      "price_range": [
+        3599.0,
+        3599.0
+      ]
+    },
+    "GE03_1": {
+      "head_code": "GE03_1",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard",
+        "Movable Jaw"
+      ],
+      "mj_face_codes": [
+        "GE70MJ"
+      ],
+      "skin_tones": [
+        "Fair"
+      ],
+      "bodies": [
+        "ZG170C",
+        "ZG175E"
+      ],
+      "characters": [],
+      "product_count": 2,
+      "representative_image": "assets/I-Series/GE03_1/GE03_1-101.jpg",
+      "price_range": [
+        3599.0,
+        3899.0
+      ]
+    },
+    "GE03_2": {
+      "head_code": "GE03_2",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard",
+        "Movable Jaw"
+      ],
+      "mj_face_codes": [
+        "GE70MJ"
+      ],
+      "skin_tones": [
+        "Fair"
+      ],
+      "bodies": [
+        "ZG170C",
+        "ZG175E"
+      ],
+      "characters": [],
+      "product_count": 2,
+      "representative_image": "assets/I-Series/GE03_2/GE03_2-101.jpg",
+      "price_range": [
+        3599.0,
+        3899.0
+      ]
+    },
+    "GE07_1": {
+      "head_code": "GE07_1",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Fair"
+      ],
+      "bodies": [
+        "ZG170C"
+      ],
+      "characters": [],
+      "product_count": 2,
+      "representative_image": "assets/I-Series/GE07_1_ZG170C/GE07_1_ZG170C-101.jpg",
+      "price_range": [
+        3599.0,
+        3599.0
+      ]
+    },
+    "GE07_3": {
+      "head_code": "GE07_3",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Fair"
+      ],
+      "bodies": [
+        "ZG170C"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/I-Series/GE07_3/GE07_3-101.jpg",
+      "price_range": [
+        3599.0,
+        3599.0
+      ]
+    },
+    "GE100_1": {
+      "head_code": "GE100_1",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Fair"
+      ],
+      "bodies": [
+        "ZG170C"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/I-Series/GE100_1/GE100_1-101.jpg",
+      "price_range": [
+        3599.0,
+        3599.0
+      ]
+    },
+    "GE101_1": {
+      "head_code": "GE101_1",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 30,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZG175E"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": null,
+      "price_range": [
+        3899.0,
+        3899.0
+      ]
+    },
+    "GE109_1": {
+      "head_code": "GE109_1",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Fair"
+      ],
+      "bodies": [
+        "ZG170C"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/I-Series/GE109_1/GE109_1-101.jpg",
+      "price_range": [
+        3599.0,
+        3599.0
+      ]
+    },
+    "GE111_1": {
+      "head_code": "GE111_1",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 30,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Fair"
+      ],
+      "bodies": [
+        "ZG175E"
+      ],
+      "characters": [],
+      "product_count": 3,
+      "representative_image": "assets/I-Series/GE111_1/GE111_1-109.jpg",
+      "price_range": [
+        3899.0,
+        3899.0
+      ]
+    },
+    "GE111_2": {
+      "head_code": "GE111_2",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 30,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZG175E"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/I-Series/GE111_2/GE111_2-101.jpg",
+      "price_range": [
+        3899.0,
+        3899.0
+      ]
+    },
+    "GE111_3": {
+      "head_code": "GE111_3",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 30,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Fair"
+      ],
+      "bodies": [
+        "ZG175E"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/I-Series/GE111_3_ZGE175E/GE111_3_ZGE175E-101.jpg",
+      "price_range": [
+        3899.0,
+        3899.0
+      ]
+    },
+    "GE113_1": {
+      "head_code": "GE113_1",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 30,
+      "face_variants": [
+        "Standard",
+        "Movable Jaw"
+      ],
+      "mj_face_codes": [
+        "GE50MJ"
+      ],
+      "skin_tones": [
+        "Fair"
+      ],
+      "bodies": [
+        "ZG175E"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/I-Series/GE113_1_GE50MJ/GE113_1_GE50MJ_-101.jpg",
+      "price_range": [
+        3899.0,
+        3899.0
+      ]
+    },
+    "GE114_1": {
+      "head_code": "GE114_1",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 30,
+      "face_variants": [
+        "Standard",
+        "Movable Jaw"
+      ],
+      "mj_face_codes": [
+        "GE52MJ"
+      ],
+      "skin_tones": [
+        "Fair"
+      ],
+      "bodies": [
+        "ZG175E"
+      ],
+      "characters": [],
+      "product_count": 2,
+      "representative_image": "assets/I-Series/GE114_1/GE114_1-101.jpg",
+      "price_range": [
+        3899.0,
+        3899.0
+      ]
+    },
+    "GE115_1": {
+      "head_code": "GE115_1",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard",
+        "Movable Jaw"
+      ],
+      "mj_face_codes": [
+        "GE55MJ"
+      ],
+      "skin_tones": [
+        "Fair"
+      ],
+      "bodies": [
+        "ZG170C",
+        "ZG175E"
+      ],
+      "characters": [
+        "I-ZG175E-01"
+      ],
+      "product_count": 2,
+      "representative_image": "assets/thumbs/I-Series/GE115_1/GE115_1-101.jpg",
+      "price_range": [
+        3599.0,
+        3899.0
+      ]
+    },
+    "GE116_1": {
+      "head_code": "GE116_1",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 30,
+      "face_variants": [
+        "Standard",
+        "Movable Jaw"
+      ],
+      "mj_face_codes": [
+        "GE49MJ"
+      ],
+      "skin_tones": [
+        "Fair"
+      ],
+      "bodies": [
+        "ZG175E"
+      ],
+      "characters": [],
+      "product_count": 2,
+      "representative_image": "assets/I-Series/GE116_1/GE116_1-101.jpg",
+      "price_range": [
+        3899.0,
+        3899.0
+      ]
+    },
+    "GE122_1": {
+      "head_code": "GE122_1",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Fair"
+      ],
+      "bodies": [
+        "ZG170C"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/I-Series/GE122_1/GE122_1-115.jpg",
+      "price_range": [
+        3599.0,
+        3599.0
+      ]
+    },
+    "GE122_2": {
+      "head_code": "GE122_2",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZG170C"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/I-Series/GE122_2_ZG170C/GE122_2_ZG170C-101.jpg",
+      "price_range": [
+        3599.0,
+        3599.0
+      ]
+    },
+    "GE123_1": {
+      "head_code": "GE123_1",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Fair"
+      ],
+      "bodies": [
+        "ZG170C"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/I-Series/GE123_1/GE123_1-101.jpg",
+      "price_range": [
+        3599.0,
+        3599.0
+      ]
+    },
+    "GE124_1": {
+      "head_code": "GE124_1",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Fair"
+      ],
+      "bodies": [
+        "ZG170C"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/I-Series/GE124_1/GE124_1-101.jpg",
+      "price_range": [
+        3599.0,
+        3599.0
+      ]
+    },
+    "GE124_2": {
+      "head_code": "GE124_2",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Fair"
+      ],
+      "bodies": [
+        "ZG170C"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/I-Series/GE124_2_ZG170C/GE124_2_ZG170C-101.jpg",
+      "price_range": [
+        3599.0,
+        3599.0
+      ]
+    },
+    "GE125_1": {
+      "head_code": "GE125_1",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Fair"
+      ],
+      "bodies": [
+        "ZG170C",
+        "ZGX165F"
+      ],
+      "characters": [],
+      "product_count": 2,
+      "representative_image": "assets/I-Series/GE125_1/GE125_1-102.jpg",
+      "price_range": [
+        3599.0,
+        3599.0
+      ]
+    },
+    "GE125_2": {
+      "head_code": "GE125_2",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 30,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZG175E"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/I-Series/GE125_2/GE125_2-101.jpg",
+      "price_range": [
+        3899.0,
+        3899.0
+      ]
+    },
+    "GE125_3": {
+      "head_code": "GE125_3",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 30,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Fair"
+      ],
+      "bodies": [
+        "ZGX165F"
+      ],
+      "characters": [],
+      "product_count": 0,
+      "representative_image": null,
+      "price_range": [
+        3599.0,
+        3599.0
+      ]
+    },
+    "GE127_1": {
+      "head_code": "GE127_1",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 32,
+      "face_variants": [
+        "Standard",
+        "Movable Jaw"
+      ],
+      "mj_face_codes": [
+        "GE78MJ"
+      ],
+      "skin_tones": [
+        "Fair"
+      ],
+      "bodies": [
+        "ZG170D"
+      ],
+      "characters": [
+        "I-ZG170D-01"
+      ],
+      "product_count": 1,
+      "representative_image": "assets/thumbs/I-Series/GE127_1_GE78MJ_ZG170D/GE127_1_GE78MJ_ZG170D-101.jpg",
+      "price_range": [
+        3899.0,
+        3899.0
+      ]
+    },
+    "GE134_1": {
+      "head_code": "GE134_1",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 30,
+      "face_variants": [
+        "Standard",
+        "Movable Jaw"
+      ],
+      "mj_face_codes": [
+        "GE122MJ"
+      ],
+      "skin_tones": [
+        "Fair"
+      ],
+      "bodies": [
+        "ZGX165F"
+      ],
+      "characters": [
+        "I-ZGX165F-03"
+      ],
+      "product_count": 1,
+      "representative_image": "assets/thumbs/I-Series/GE134_1_GE122MJ_ZGX165F/GE134_1_GE122MJ_ZGX165F-101.jpg",
+      "price_range": [
+        3599.0,
+        3599.0
+      ]
+    },
+    "GE137_1": {
+      "head_code": "GE137_1",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 30,
+      "face_variants": [
+        "Standard",
+        "Movable Jaw"
+      ],
+      "mj_face_codes": [
+        "GE125MJ"
+      ],
+      "skin_tones": [
+        "Fair"
+      ],
+      "bodies": [
+        "ZG175E"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/I-Series/GE137_1_GE125MJ_ZG175E/GE137_1_GE125MJ_ZG175E-101.jpg",
+      "price_range": [
+        3899.0,
+        3899.0
+      ]
+    },
+    "GE138_1": {
+      "head_code": "GE138_1",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 30,
+      "face_variants": [
+        "Standard",
+        "Movable Jaw"
+      ],
+      "mj_face_codes": [
+        "GE106MJ"
+      ],
+      "skin_tones": [
+        "Fair"
+      ],
+      "bodies": [
+        "ZG175E"
+      ],
+      "characters": [
+        "I-ZG175E-03"
+      ],
+      "product_count": 1,
+      "representative_image": "assets/thumbs/I-Series/GE138_1_GE106MJ_ZG175E/GE138_1_GE106MJ_ZG175E-101.jpg",
+      "price_range": [
+        3899.0,
+        3899.0
+      ]
+    },
+    "GE139_1": {
+      "head_code": "GE139_1",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard",
+        "Movable Jaw"
+      ],
+      "mj_face_codes": [
+        "GE08MJ"
+      ],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZG170C",
+        "ZGX165F"
+      ],
+      "characters": [
+        "I-ZGX165F-02"
+      ],
+      "product_count": 2,
+      "representative_image": "assets/thumbs/I-Series/GE139_1_GE08MJ_ZGX165F/GE139_1_GE08MJ_ZGX165F-101.jpg",
+      "price_range": [
+        3599.0,
+        3599.0
+      ]
+    },
+    "GE139_2": {
+      "head_code": "GE139_2",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 30,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Fair"
+      ],
+      "bodies": [
+        "ZGX165F"
+      ],
+      "characters": [],
+      "product_count": 0,
+      "representative_image": null,
+      "price_range": [
+        3599.0,
+        3599.0
+      ]
+    },
+    "GE141_1": {
+      "head_code": "GE141_1",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 30,
+      "face_variants": [
+        "Standard",
+        "Movable Jaw"
+      ],
+      "mj_face_codes": [
+        "GE72MJ"
+      ],
+      "skin_tones": [
+        "Fair"
+      ],
+      "bodies": [
+        "ZGX165F"
+      ],
+      "characters": [
+        "I-ZGX165F-01"
+      ],
+      "product_count": 1,
+      "representative_image": "assets/thumbs/I-Series/GE141_1_GE72MJ_ZGX165F/GE141_1_GE72MJ_ZGX165F-101.jpg",
+      "price_range": [
+        3599.0,
+        3599.0
+      ]
+    },
+    "GE146_1": {
+      "head_code": "GE146_1",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard",
+        "Movable Jaw"
+      ],
+      "mj_face_codes": [
+        "GE88MJ"
+      ],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZG170C"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/I-Series/GE146_1_GE88MJ_ZG170C/GE146_1_GE88MJ_ZG170C-101.jpg",
+      "price_range": [
+        3599.0,
+        3599.0
+      ]
+    },
+    "GE149_1": {
+      "head_code": "GE149_1",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 32,
+      "face_variants": [
+        "Standard",
+        "Movable Jaw"
+      ],
+      "mj_face_codes": [
+        "GE74MJ"
+      ],
+      "skin_tones": [
+        "Fair"
+      ],
+      "bodies": [
+        "ZG170D"
+      ],
+      "characters": [
+        "I-ZG170D-02"
+      ],
+      "product_count": 1,
+      "representative_image": "assets/thumbs/I-Series/GE149_1_GE74MJ_ZG170D/GE149_1_GE74MJ_ZG170D-101.jpg",
+      "price_range": [
+        3899.0,
+        3899.0
+      ]
+    },
+    "GE14_1": {
+      "head_code": "GE14_1",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard",
+        "Movable Jaw"
+      ],
+      "mj_face_codes": [
+        "GE109MJ"
+      ],
+      "skin_tones": [
+        "Fair"
+      ],
+      "bodies": [
+        "ZG170C"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/I-Series/GE14_1/GE14_1-101.jpg",
+      "price_range": [
+        3599.0,
+        3599.0
+      ]
+    },
+    "GE14_2": {
+      "head_code": "GE14_2",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard",
+        "Movable Jaw"
+      ],
+      "mj_face_codes": [
+        "GE109MJ"
+      ],
+      "skin_tones": [
+        "Fair"
+      ],
+      "bodies": [
+        "ZG170C"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/I-Series/GE14_2/GE14_2-101.jpg",
+      "price_range": [
+        3599.0,
+        3599.0
+      ]
+    },
+    "GE14_3": {
+      "head_code": "GE14_3",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 30,
+      "face_variants": [
+        "Standard",
+        "Movable Jaw"
+      ],
+      "mj_face_codes": [
+        "GE109MJ"
+      ],
+      "skin_tones": [
+        "Fair"
+      ],
+      "bodies": [
+        "ZGX165F"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/I-Series/GE14_3/GE14_3-101.jpg",
+      "price_range": [
+        3599.0,
+        3599.0
+      ]
+    },
+    "GE16_1": {
+      "head_code": "GE16_1",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 30,
+      "face_variants": [
+        "Standard",
+        "Movable Jaw"
+      ],
+      "mj_face_codes": [
+        "GE76MJ"
+      ],
+      "skin_tones": [
+        "Fair"
+      ],
+      "bodies": [
+        "ZG175E"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/I-Series/GE16_1/GE16_1-101.jpg",
+      "price_range": [
+        3899.0,
+        3899.0
+      ]
+    },
+    "GE16_2": {
+      "head_code": "GE16_2",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 30,
+      "face_variants": [
+        "Standard",
+        "Movable Jaw"
+      ],
+      "mj_face_codes": [
+        "GE76MJ"
+      ],
+      "skin_tones": [
+        "Fair"
+      ],
+      "bodies": [
+        "ZG175E"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/I-Series/GE16_2/GE16_2-101.jpg",
+      "price_range": [
+        3899.0,
+        3899.0
+      ]
+    },
+    "GE173_1": {
+      "head_code": "GE173_1",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard",
+        "Movable Jaw"
+      ],
+      "mj_face_codes": [
+        "GE110MJ"
+      ],
+      "skin_tones": [
+        "Fair"
+      ],
+      "bodies": [
+        "ZG170C"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/I-Series/GE173_1_GE110MJ_ZG170C/GE173_1_GE110MJ_ZG170C-101.jpg",
+      "price_range": [
+        3599.0,
+        3599.0
+      ]
+    },
+    "GE24_1": {
+      "head_code": "GE24_1",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Fair"
+      ],
+      "bodies": [
+        "ZG170C"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/I-Series/GE24_1_ZG170C/GE24_1_ZG170C-101.jpg",
+      "price_range": [
+        3599.0,
+        3599.0
+      ]
+    },
+    "GE41_1": {
+      "head_code": "GE41_1",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 30,
+      "face_variants": [
+        "Standard",
+        "Movable Jaw"
+      ],
+      "mj_face_codes": [
+        "GE98MJ"
+      ],
+      "skin_tones": [
+        "Fair"
+      ],
+      "bodies": [
+        "ZG175E"
+      ],
+      "characters": [
+        "I-ZG175E-02"
+      ],
+      "product_count": 2,
+      "representative_image": "assets/thumbs/I-Series/GE41_1_GE98MJ_ZG175E/GE41_1_GE98MJ_ZG175E-101.jpg",
+      "price_range": [
+        3899.0,
+        3899.0
+      ]
+    },
+    "GE45_1": {
+      "head_code": "GE45_1",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Fair"
+      ],
+      "bodies": [
+        "ZG170C"
+      ],
+      "characters": [],
+      "product_count": 2,
+      "representative_image": "assets/I-Series/GE45_1/GE45_1-105.jpg",
+      "price_range": [
+        3599.0,
+        3599.0
+      ]
+    },
+    "GE45_2": {
+      "head_code": "GE45_2",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZG170C"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/I-Series/GE45_2/GE45_2-101.jpg",
+      "price_range": [
+        3599.0,
+        3599.0
+      ]
+    },
+    "GE45_5": {
+      "head_code": "GE45_5",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZG170C"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/I-Series/GE45_5/GE45_5-101.jpg",
+      "price_range": [
+        3599.0,
+        3599.0
+      ]
+    },
+    "GE45_6": {
+      "head_code": "GE45_6",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Fair"
+      ],
+      "bodies": [
+        "ZG170C"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/I-Series/GE45_6/GE45_6-101.jpg",
+      "price_range": [
+        3599.0,
+        3599.0
+      ]
+    },
+    "GE45_7": {
+      "head_code": "GE45_7",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 30,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Fair"
+      ],
+      "bodies": [
+        "ZG175E"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/I-Series/GE45_7_ZG175E/GE45_7_ZG175E-101.jpg",
+      "price_range": [
+        3899.0,
+        3899.0
+      ]
+    },
+    "GE45_8": {
+      "head_code": "GE45_8",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 30,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Fair"
+      ],
+      "bodies": [
+        "ZGX165F"
+      ],
+      "characters": [
+        "I-ZGX165F-04"
+      ],
+      "product_count": 1,
+      "representative_image": "assets/thumbs/I-Series/GE45_8_ZGX165F/GE45_8_ZGX165F-101.jpg",
+      "price_range": [
+        3599.0,
+        3599.0
+      ]
+    },
+    "GE46_2": {
+      "head_code": "GE46_2",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Fair"
+      ],
+      "bodies": [
+        "ZG170C"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/I-Series/GE46_2/GE46_2-101.jpg",
+      "price_range": [
+        3599.0,
+        3599.0
+      ]
+    },
+    "GE46_3": {
+      "head_code": "GE46_3",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZG170C"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/I-Series/GE46_3/GE46_3-101.jpg",
+      "price_range": [
+        3599.0,
+        3599.0
+      ]
+    },
+    "GE46_4": {
+      "head_code": "GE46_4",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZG170C"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/I-Series/GE46_4/GE46_4-101.jpg",
+      "price_range": [
+        3599.0,
+        3599.0
+      ]
+    },
+    "GE46_5": {
+      "head_code": "GE46_5",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Fair"
+      ],
+      "bodies": [
+        "ZG170C"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/I-Series/GE46_5/GE46_5-101.jpg",
+      "price_range": [
+        3599.0,
+        3599.0
+      ]
+    },
+    "GE47_1": {
+      "head_code": "GE47_1",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 31.5,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Fair"
+      ],
+      "bodies": [
+        "ZG162D"
+      ],
+      "characters": [
+        "I-ZG162D-01"
+      ],
+      "product_count": 1,
+      "representative_image": "assets/thumbs/I-Series/GE47_1_ZG162D/GE47_1_ZG162D-101.jpg",
+      "price_range": [
+        3899.0,
+        3899.0
+      ]
+    },
+    "GE48_1": {
+      "head_code": "GE48_1",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZG170C"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/I-Series/GE48_1/GE48_1-101.jpg",
+      "price_range": [
+        3599.0,
+        3599.0
+      ]
+    },
+    "GE48_2": {
+      "head_code": "GE48_2",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Fair"
+      ],
+      "bodies": [
+        "ZG170C"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/I-Series/GE48_2/GE48_2-101.jpg",
+      "price_range": [
+        3599.0,
+        3599.0
+      ]
+    },
+    "GE49_1": {
+      "head_code": "GE49_1",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Fair"
+      ],
+      "bodies": [
+        "ZG170C"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/I-Series/GE49_1/GE49_1-101.jpg",
+      "price_range": [
+        3599.0,
+        3599.0
+      ]
+    },
+    "GE49_2": {
+      "head_code": "GE49_2",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZG170C"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/I-Series/GE49_2/GE49_2-101.jpg",
+      "price_range": [
+        3599.0,
+        3599.0
+      ]
+    },
+    "GE50_1": {
+      "head_code": "GE50_1",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZG170C"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/I-Series/GE50_1/GE50_1-123.jpg",
+      "price_range": [
+        3599.0,
+        3599.0
+      ]
+    },
+    "GE51_2": {
+      "head_code": "GE51_2",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZG170C"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/I-Series/GE51_2/GE51_2-101.jpg",
+      "price_range": [
+        3599.0,
+        3599.0
+      ]
+    },
+    "GE52_1": {
+      "head_code": "GE52_1",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Fair"
+      ],
+      "bodies": [
+        "ZG170C"
+      ],
+      "characters": [
+        "I-ZG170C-03"
+      ],
+      "product_count": 1,
+      "representative_image": "assets/thumbs/I-Series/GE52_1/GE52_1-108.jpg",
+      "price_range": [
+        3599.0,
+        3599.0
+      ]
+    },
+    "GE52_2": {
+      "head_code": "GE52_2",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZG170C"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/I-Series/GE52_2/GE52_2-101.jpg",
+      "price_range": [
+        3599.0,
+        3599.0
+      ]
+    },
+    "GE53_1": {
+      "head_code": "GE53_1",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZG170C"
+      ],
+      "characters": [
+        "I-ZG170C-04"
+      ],
+      "product_count": 1,
+      "representative_image": "assets/thumbs/I-Series/GE53_1/GE53_1-101.jpg",
+      "price_range": [
+        3599.0,
+        3599.0
+      ]
+    },
+    "GE53_2": {
+      "head_code": "GE53_2",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Fair"
+      ],
+      "bodies": [
+        "ZG170C"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/I-Series/GE53_2/GE53_2-101.jpg",
+      "price_range": [
+        3599.0,
+        3599.0
+      ]
+    },
+    "GE53_3": {
+      "head_code": "GE53_3",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZG170C"
+      ],
+      "characters": [
+        "I-ZG170C-02"
+      ],
+      "product_count": 2,
+      "representative_image": "assets/thumbs/I-Series/GE53_3/GE53_3-108.jpg",
+      "price_range": [
+        3599.0,
+        3599.0
+      ]
+    },
+    "GE55_3": {
+      "head_code": "GE55_3",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZG170C"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/I-Series/GE55_3/GE55_3-101.jpg",
+      "price_range": [
+        3599.0,
+        3599.0
+      ]
+    },
+    "GE58_1": {
+      "head_code": "GE58_1",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 30,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZG175E"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/I-Series/GE58_1_ZG175E/GE58_1_ZG175E-101.jpg",
+      "price_range": [
+        3899.0,
+        3899.0
+      ]
+    },
+    "GE59_1": {
+      "head_code": "GE59_1",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 30,
+      "face_variants": [
+        "Standard",
+        "Movable Jaw"
+      ],
+      "mj_face_codes": [
+        "GE58MJ"
+      ],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZG175E"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/I-Series/GE59_1_GE58MJ_ZG175E/GE59_1_GE58MJ_ZG175E-101.jpg",
+      "price_range": [
+        3899.0,
+        3899.0
+      ]
+    },
+    "GE60_1": {
+      "head_code": "GE60_1",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 31.5,
+      "face_variants": [
+        "Standard",
+        "Movable Jaw"
+      ],
+      "mj_face_codes": [
+        "GE06MJ"
+      ],
+      "skin_tones": [
+        "Fair"
+      ],
+      "bodies": [
+        "ZG162D"
+      ],
+      "characters": [
+        "I-ZG162D-02"
+      ],
+      "product_count": 1,
+      "representative_image": "assets/thumbs/I-Series/GE60_1_GE06MJ_ZG162D/GE60_1_GE06MJ_ZG162D-101.jpg",
+      "price_range": [
+        3899.0,
+        3899.0
+      ]
+    },
+    "GE64_1": {
+      "head_code": "GE64_1",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 30,
+      "face_variants": [
+        "Standard",
+        "Movable Jaw"
+      ],
+      "mj_face_codes": [
+        "GE24MJ"
+      ],
+      "skin_tones": [
+        "Fair"
+      ],
+      "bodies": [
+        "ZGX165F"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/I-Series/GE64_1_GE24MJ_ZGX165F/GE64_1_GE24MJ_ZGX165F-101.jpg",
+      "price_range": [
+        3599.0,
+        3599.0
+      ]
+    },
+    "GE68_1": {
+      "head_code": "GE68_1",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 31.5,
+      "face_variants": [
+        "Standard",
+        "Movable Jaw"
+      ],
+      "mj_face_codes": [
+        "GE37MJ"
+      ],
+      "skin_tones": [
+        "Fair"
+      ],
+      "bodies": [
+        "ZG162D"
+      ],
+      "characters": [
+        "I-ZG162D-03"
+      ],
+      "product_count": 1,
+      "representative_image": "assets/thumbs/I-Series/GE68_1_GE37MJ_ZG162D/GE68_1_GE37MJ_ZG162D-101.jpg",
+      "price_range": [
+        3899.0,
+        3899.0
+      ]
+    },
+    "GE76_1": {
+      "head_code": "GE76_1",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Fair"
+      ],
+      "bodies": [
+        "ZG170C"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/I-Series/GE76_1/GE76_1-101.jpg",
+      "price_range": [
+        3599.0,
+        3599.0
+      ]
+    },
+    "GE78_1": {
+      "head_code": "GE78_1",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Fair"
+      ],
+      "bodies": [
+        "ZG170C",
+        "ZG175E"
+      ],
+      "characters": [],
+      "product_count": 3,
+      "representative_image": "assets/I-Series/GE78_1/GE78_1-101.jpg",
+      "price_range": [
+        3599.0,
+        3899.0
+      ]
+    },
+    "GE78_2": {
+      "head_code": "GE78_2",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZG170C"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/I-Series/GE78_2/GE78_2-101.jpg",
+      "price_range": [
+        3599.0,
+        3599.0
+      ]
+    },
+    "GE81_1": {
+      "head_code": "GE81_1",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 30,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Fair"
+      ],
+      "bodies": [
+        "ZGX165F"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/I-Series/GE81_1/GE81_1-101.jpg",
+      "price_range": [
+        3599.0,
+        3599.0
+      ]
+    },
+    "GE82_1": {
+      "head_code": "GE82_1",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 30,
+      "face_variants": [
+        "Standard",
+        "Movable Jaw"
+      ],
+      "mj_face_codes": [
+        "GE47MJ"
+      ],
+      "skin_tones": [
+        "Fair"
+      ],
+      "bodies": [
+        "ZG175E"
+      ],
+      "characters": [
+        "I-ZG175E-04"
+      ],
+      "product_count": 1,
+      "representative_image": "assets/thumbs/I-Series/GE82_1_GE47MJ_ZG175E/GE82_1_GE47MJ_ZG175E-101.jpg",
+      "price_range": [
+        3899.0,
+        3899.0
+      ]
+    },
+    "GE86_1": {
+      "head_code": "GE86_1",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 30,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Fair"
+      ],
+      "bodies": [
+        "ZGX165F"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/I-Series/GE86_1/GE86_1-101.jpg",
+      "price_range": [
+        3599.0,
+        3599.0
+      ]
+    },
+    "GE88_2": {
+      "head_code": "GE88_2",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZG170C"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/I-Series/GE88_2_ZG170C/GE88_2_ZG170C-101.jpg",
+      "price_range": [
+        3599.0,
+        3599.0
+      ]
+    },
+    "GE94_1": {
+      "head_code": "GE94_1",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZG170C"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/I-Series/GE94_1/GE94_1-101.jpg",
+      "price_range": [
+        3599.0,
+        3599.0
+      ]
+    },
+    "GE94_2": {
+      "head_code": "GE94_2",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard",
+        "Movable Jaw"
+      ],
+      "mj_face_codes": [
+        "GE45MJ"
+      ],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZG170C"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/I-Series/GE94_2/GE94_2-101.jpg",
+      "price_range": [
+        3599.0,
+        3599.0
+      ]
+    },
+    "GE95_1": {
+      "head_code": "GE95_1",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard",
+        "Movable Jaw"
+      ],
+      "mj_face_codes": [
+        "GE53MJ"
+      ],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZG170C"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/I-Series/GE95_1/GE95_1-101.jpg",
+      "price_range": [
+        3599.0,
+        3599.0
+      ]
+    },
+    "GE95_2": {
+      "head_code": "GE95_2",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard",
+        "Movable Jaw"
+      ],
+      "mj_face_codes": [
+        "GE53MJ"
+      ],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZG170C"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/I-Series/GE95_2/GE95_2-101.jpg",
+      "price_range": [
+        3599.0,
+        3599.0
+      ]
+    },
+    "GE95_3": {
+      "head_code": "GE95_3",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard",
+        "Movable Jaw"
+      ],
+      "mj_face_codes": [
+        "GE53MJ"
+      ],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZG170C"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/I-Series/GE95_3/GE95_3-101.jpg",
+      "price_range": [
+        3599.0,
+        3599.0
+      ]
+    },
+    "GE95_4": {
+      "head_code": "GE95_4",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 30,
+      "face_variants": [
+        "Standard",
+        "Movable Jaw"
+      ],
+      "mj_face_codes": [
+        "GE53MJ"
+      ],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZG175E"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/I-Series/GE95_4_GE53MJ_ZG175E/GE95_4_GE53MJ_ZG175E-101.jpg",
+      "price_range": [
+        3899.0,
+        3899.0
+      ]
+    },
+    "GE95_5": {
+      "head_code": "GE95_5",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 30,
+      "face_variants": [
+        "Standard",
+        "Movable Jaw"
+      ],
+      "mj_face_codes": [
+        "GE53MJ"
+      ],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZG175E"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/I-Series/GE95_5_ZG175E/GE95_5_ZG175E-101.jpg",
+      "price_range": [
+        3899.0,
+        3899.0
+      ]
+    },
+    "GE95_6": {
+      "head_code": "GE95_6",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard",
+        "Movable Jaw"
+      ],
+      "mj_face_codes": [
+        "GE53MJ"
+      ],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZG170C"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/I-Series/GE95_6_GE53MJ_ZG170C/GE95_6_GE53MJ_ZG170C-101.jpg",
+      "price_range": [
+        3599.0,
+        3599.0
+      ]
+    },
+    "GE95_7": {
+      "head_code": "GE95_7",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard",
+        "Movable Jaw"
+      ],
+      "mj_face_codes": [
+        "GE53MJ"
+      ],
+      "skin_tones": [
+        "Fair"
+      ],
+      "bodies": [
+        "ZG170C"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/I-Series/GE95_7_GE53MJ_ZG170C/GE95_7_GE53MJ_ZG170C-101.jpg",
+      "price_range": [
+        3599.0,
+        3599.0
+      ]
+    },
+    "GE97_1": {
+      "head_code": "GE97_1",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard",
+        "Movable Jaw"
+      ],
+      "mj_face_codes": [
+        "GE07MJ"
+      ],
+      "skin_tones": [
+        "Fair"
+      ],
+      "bodies": [
+        "ZG170C"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/I-Series/GE97_1/GE97_1-101.jpg",
+      "price_range": [
+        3599.0,
+        3599.0
+      ]
+    },
+    "GE98_1": {
+      "head_code": "GE98_1",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 30,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Fair"
+      ],
+      "bodies": [
+        "ZG175E"
+      ],
+      "characters": [],
+      "product_count": 2,
+      "representative_image": "assets/I-Series/GE98_1/GE98_1-101.jpg",
+      "price_range": [
+        3899.0,
+        3899.0
+      ]
+    },
+    "GE98_2": {
+      "head_code": "GE98_2",
+      "line": "I-Series",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZG170C"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/I-Series/GE98_2_ZG170C/GE98_2_ZG170C-101.jpg",
+      "price_range": [
+        3599.0,
+        3599.0
+      ]
+    },
+    "KE01_1": {
+      "head_code": "KE01_1",
+      "line": "K-Series",
+      "neck_class": "slim",
+      "neck_cm": 27.5,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [],
+      "bodies": [
+        "ZK168B"
+      ],
+      "characters": [
+        "K-ZK168B-01"
+      ],
+      "product_count": 2,
+      "representative_image": "assets/thumbs/K-Series/KE01_1+ZK168B-1/KE01_1_ZK168B-101.jpg",
+      "price_range": [
+        3869.1,
+        3869.1
+      ]
+    },
+    "KE02_1": {
+      "head_code": "KE02_1",
+      "line": "K-Series",
+      "neck_class": "slim",
+      "neck_cm": 27.5,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [],
+      "bodies": [
+        "ZK159D",
+        "ZK168B"
+      ],
+      "characters": [
+        "K-ZK159D-01",
+        "K-ZK168B-03"
+      ],
+      "product_count": 2,
+      "representative_image": "assets/thumbs/K-Series/KE02_1+ZK168B-1/KE02_1_ZK168B-101.jpg",
+      "price_range": [
+        3869.1,
+        3869.1
+      ]
+    },
+    "KE03_1": {
+      "head_code": "KE03_1",
+      "line": "K-Series",
+      "neck_class": "slim",
+      "neck_cm": 27.5,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [],
+      "bodies": [
+        "ZK168B"
+      ],
+      "characters": [
+        "K-ZK168B-02"
+      ],
+      "product_count": 2,
+      "representative_image": "assets/thumbs/K-Series/KE03_1+ZK168B-2/KE03_1_ZK168B-101.jpg",
+      "price_range": [
+        3869.1,
+        3869.1
+      ]
+    },
+    "ZFE01_1": {
+      "head_code": "ZFE01_1",
+      "line": "Fusion",
+      "neck_class": "standard",
+      "neck_cm": 31,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Fair"
+      ],
+      "bodies": [
+        "ZF161D",
+        "ZF168B"
+      ],
+      "characters": [
+        "Fusion-ZF161D-01",
+        "Fusion-ZF168B-01"
+      ],
+      "product_count": 2,
+      "representative_image": "assets/thumbs/Fusion-Series/ZFE01_1+ZF168B/ZFE01_1+ZF168B-101.jpg",
+      "price_range": [
+        4299.0,
+        4299.0
+      ]
+    },
+    "ZFE01_2": {
+      "head_code": "ZFE01_2",
+      "line": "Fusion",
+      "neck_class": "standard",
+      "neck_cm": 32,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZF169C"
+      ],
+      "characters": [
+        "Fusion-ZF169C-01"
+      ],
+      "product_count": 1,
+      "representative_image": "assets/thumbs/Fusion-Series/ZFE01_2+ZF169C/ZFE01_2+ZF169C-101.jpg",
+      "price_range": [
+        4299.0,
+        4299.0
+      ]
+    },
+    "ZFE03_1": {
+      "head_code": "ZFE03_1",
+      "line": "Fusion",
+      "neck_class": "standard",
+      "neck_cm": 31,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Fair"
+      ],
+      "bodies": [
+        "ZF168B"
+      ],
+      "characters": [
+        "Fusion-ZF168B-02"
+      ],
+      "product_count": 1,
+      "representative_image": "assets/thumbs/Fusion-Series/ZFE03_1+ZF168B/ZFE03_1+ZF168B-101.jpg",
+      "price_range": [
+        4299.0,
+        4299.0
+      ]
+    },
+    "ZFE05_1": {
+      "head_code": "ZFE05_1",
+      "line": "Fusion",
+      "neck_class": "standard",
+      "neck_cm": 31,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Fair"
+      ],
+      "bodies": [
+        "ZF168B"
+      ],
+      "characters": [
+        "Fusion-ZF168B-03"
+      ],
+      "product_count": 1,
+      "representative_image": "assets/thumbs/Fusion-Series/ZFE05_1+ZF168B/ZFE05_1_ZF168B-101.jpg",
+      "price_range": [
+        4299.0,
+        4299.0
+      ]
+    },
+    "ZX201_2": {
+      "head_code": "ZX201_2",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32.5,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [],
+      "bodies": [
+        "ZX172E"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/SLE-Series/ZX201_2_ZX172E/ZX201_2_ZX172E-102.jpg",
+      "price_range": null
+    },
+    "ZX204_1": {
+      "head_code": "ZX204_1",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32.5,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [],
+      "bodies": [
+        "ZX172E"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/SLE-Series/ZX204_1_ZX172E/ZX204_1_ZX172E-102.jpg",
+      "price_range": null
+    },
+    "ZX207_1": {
+      "head_code": "ZX207_1",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32.5,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [],
+      "bodies": [
+        "ZX172E"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/SLE-Series/ZX207_1_ZX172E/ZX207_1_ZX172E-105.jpg",
+      "price_range": null
+    },
+    "ZXE200_1": {
+      "head_code": "ZXE200_1",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32.5,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX164G",
+        "ZX165D"
+      ],
+      "characters": [
+        "SLE-ZX165D-04"
+      ],
+      "product_count": 2,
+      "representative_image": "assets/thumbs/SLE-Series/ZXE200_1_ZX165D/ZXE200_1_ZX165D-101.jpg",
+      "price_range": [
+        1600.0,
+        2000.0
+      ]
+    },
+    "ZXE200_2": {
+      "head_code": "ZXE200_2",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX160J"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/SLE-Series/ZXE200_2_ZX160J/ZXE200_2_ZX160J-104.jpg",
+      "price_range": [
+        2000.0,
+        2000.0
+      ]
+    },
+    "ZXE200_3": {
+      "head_code": "ZXE200_3",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX166K"
+      ],
+      "characters": [
+        "SLE-ZX166K-01"
+      ],
+      "product_count": 1,
+      "representative_image": "assets/thumbs/SLE-Series/ZXE200_3_ZX166K/ZXE200_3_ZX166K-101.jpg",
+      "price_range": [
+        2000.0,
+        2000.0
+      ]
+    },
+    "ZXE200_W1": {
+      "head_code": "ZXE200_W1",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [],
+      "bodies": [
+        "ZX171C"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/SLE-Series/ZXE200_W1_ZX171C/ZXE200_W1_ZX171C-102.jpg",
+      "price_range": null
+    },
+    "ZXE200_W2": {
+      "head_code": "ZXE200_W2",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32.5,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [],
+      "bodies": [
+        "ZX172E"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/SLE-Series/ZXE200_W2_ZX172E/ZXE200_W2_ZX172E-101.jpg",
+      "price_range": null
+    },
+    "ZXE200_Z1": {
+      "head_code": "ZXE200_Z1",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32.5,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [],
+      "bodies": [
+        "ZX164G"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/SLE-Series/ZXE200_Z1_ZX164G/ZXE200_Z1_ZX164G-101.jpg",
+      "price_range": null
+    },
+    "ZXE201_1": {
+      "head_code": "ZXE201_1",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32.5,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX160J",
+        "ZX163E",
+        "ZX166K",
+        "ZX171C",
+        "ZX172E",
+        "ZX84J"
+      ],
+      "characters": [
+        "SLE-ZX163E-04",
+        "SLE-ZX166K-03",
+        "SLE-ZX172E-02"
+      ],
+      "product_count": 5,
+      "representative_image": "assets/thumbs/SLE-Series/ZXE201_1_ZX172E/ZXE201_1_ZX172E-101.jpg",
+      "price_range": [
+        1000.0,
+        2000.0
+      ]
+    },
+    "ZXE201_2": {
+      "head_code": "ZXE201_2",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32.5,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX172E"
+      ],
+      "characters": [],
+      "product_count": 0,
+      "representative_image": null,
+      "price_range": [
+        1600.0,
+        2000.0
+      ]
+    },
+    "ZXE201_3": {
+      "head_code": "ZXE201_3",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32.5,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX165D",
+        "ZX85G"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/SLE-Series/ZXE201_3_ZX85G/ZXE201_3_ZX85G-101.jpg",
+      "price_range": [
+        1000.0,
+        2000.0
+      ]
+    },
+    "ZXE201_4": {
+      "head_code": "ZXE201_4",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32.5,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX108J",
+        "ZX109G",
+        "ZX111K",
+        "ZX117E",
+        "ZX164G",
+        "ZX172E"
+      ],
+      "characters": [
+        "SLE-ZX164G-04"
+      ],
+      "product_count": 5,
+      "representative_image": "assets/thumbs/SLE-Series/ZXE201_4_ZX164G/ZXE201_4_ZX164G-108.jpg",
+      "price_range": [
+        1000.0,
+        2000.0
+      ]
+    },
+    "ZXE201_5": {
+      "head_code": "ZXE201_5",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": null,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX84J",
+        "ZX91E"
+      ],
+      "characters": [],
+      "product_count": 2,
+      "representative_image": "assets/SLE-Series/ZXE201_5_ZX84J/ZXE201_5_ZX84J-102.jpg",
+      "price_range": [
+        1000.0,
+        1000.0
+      ]
+    },
+    "ZXE201_W2": {
+      "head_code": "ZXE201_W2",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32.5,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [],
+      "bodies": [
+        "ZX153B",
+        "ZX172E"
+      ],
+      "characters": [
+        "SLE-ZX153B-01"
+      ],
+      "product_count": 2,
+      "representative_image": "assets/thumbs/SLE-Series/ZXE201_W2_ZX153B/ZXE201_W2_ZX153B-101.jpg",
+      "price_range": null
+    },
+    "ZXE201_Z1": {
+      "head_code": "ZXE201_Z1",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32.5,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [],
+      "bodies": [
+        "ZX172E"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/SLE-Series/ZXE201_Z1_ZX172E/ZXE201_Z1_ZX172E-103.jpg",
+      "price_range": null
+    },
+    "ZXE202_1": {
+      "head_code": "ZXE202_1",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32.5,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX160J",
+        "ZX164G"
+      ],
+      "characters": [],
+      "product_count": 2,
+      "representative_image": "assets/SLE-Series/ZXE202_1_ZX160J/ZXE202_1_ZX160J-101.jpg",
+      "price_range": [
+        1600.0,
+        2000.0
+      ]
+    },
+    "ZXE202_2": {
+      "head_code": "ZXE202_2",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32.5,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX165D"
+      ],
+      "characters": [],
+      "product_count": 0,
+      "representative_image": null,
+      "price_range": [
+        1600.0,
+        2000.0
+      ]
+    },
+    "ZXE202_Z1": {
+      "head_code": "ZXE202_Z1",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [],
+      "bodies": [
+        "ZX160J"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/SLE-Series/ZXE202_Z1_ZX160J/ZXE202_Z1_ZX160J-101.jpg",
+      "price_range": null
+    },
+    "ZXE203_1": {
+      "head_code": "ZXE203_1",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32.5,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX108J",
+        "ZX109G",
+        "ZX111K",
+        "ZX117E",
+        "ZX160J",
+        "ZX164G",
+        "ZX171C"
+      ],
+      "characters": [],
+      "product_count": 7,
+      "representative_image": "assets/SLE-Series/ZXE203_1_ZX108J/ZXE203_1_ZX108J-101.jpg",
+      "price_range": [
+        1000.0,
+        2000.0
+      ]
+    },
+    "ZXE203_2": {
+      "head_code": "ZXE203_2",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32.5,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX166K",
+        "ZX172E"
+      ],
+      "characters": [],
+      "product_count": 2,
+      "representative_image": "assets/SLE-Series/ZXE203_2_ZX166K/ZXE203_2_ZX166K-101.jpg",
+      "price_range": [
+        1600.0,
+        2000.0
+      ]
+    },
+    "ZXE203_3": {
+      "head_code": "ZXE203_3",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": null,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [],
+      "bodies": [
+        "ZX163E"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/SLE-Series/ZXE203_3_ZX163E/ZXE203_3_ZX163E-101.jpg",
+      "price_range": [
+        1799.0,
+        1799.0
+      ]
+    },
+    "ZXE203_4": {
+      "head_code": "ZXE203_4",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": null,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX91E"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/SLE-Series/ZXE203_4_ZX91E/ZXE203_4_ZX91E-101.jpg",
+      "price_range": [
+        1000.0,
+        1000.0
+      ]
+    },
+    "ZXE203_5": {
+      "head_code": "ZXE203_5",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": null,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX84J"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/SLE-Series/ZXE203_5_ZX84J/ZXE203_5_ZX84J-101.jpg",
+      "price_range": [
+        1000.0,
+        1000.0
+      ]
+    },
+    "ZXE203_W1": {
+      "head_code": "ZXE203_W1",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [],
+      "bodies": [
+        "ZX117E",
+        "ZX171C",
+        "ZX172E"
+      ],
+      "characters": [
+        "SLE-ZX172E-03"
+      ],
+      "product_count": 3,
+      "representative_image": "assets/thumbs/SLE-Series/ZXE203_W1_ZX172E/ZXE203_W1_ZX172E-101.jpg",
+      "price_range": null
+    },
+    "ZXE203_Z1": {
+      "head_code": "ZXE203_Z1",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32.5,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [],
+      "bodies": [
+        "ZX165D"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/SLE-Series/ZXE203_Z1_ZX165D/ZXE203_Z1_ZX165D-101.jpg",
+      "price_range": null
+    },
+    "ZXE204_1": {
+      "head_code": "ZXE204_1",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32.5,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX108J",
+        "ZX109G",
+        "ZX111K",
+        "ZX160J",
+        "ZX163E",
+        "ZX164G",
+        "ZX166K",
+        "ZX172E",
+        "ZX91E"
+      ],
+      "characters": [
+        "SLE-ZX160J-04",
+        "SLE-ZX163E-03",
+        "SLE-ZX166K-02"
+      ],
+      "product_count": 9,
+      "representative_image": "assets/thumbs/SLE-Series/ZXE204_1_ZX166K/ZXE204_1_ZX166k-101.jpg",
+      "price_range": [
+        1000.0,
+        2000.0
+      ]
+    },
+    "ZXE204_2": {
+      "head_code": "ZXE204_2",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": null,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX84J"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/SLE-Series/ZXE204_2_ZX84J/ZXE204_2_ZX84J-101.jpg",
+      "price_range": [
+        1000.0,
+        1000.0
+      ]
+    },
+    "ZXE204_Z1": {
+      "head_code": "ZXE204_Z1",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32.5,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [],
+      "bodies": [
+        "ZX172E"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/SLE-Series/ZXE204_Z1_ZX172E/ZXE204_Z1_ZX172E-101.jpg",
+      "price_range": null
+    },
+    "ZXE205_1": {
+      "head_code": "ZXE205_1",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32.5,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX160J",
+        "ZX172E"
+      ],
+      "characters": [],
+      "product_count": 2,
+      "representative_image": "assets/SLE-Series/ZXE205_1_ZX160J/ZXE205_1_ZX160J-102.jpg",
+      "price_range": [
+        1600.0,
+        2000.0
+      ]
+    },
+    "ZXE205_2": {
+      "head_code": "ZXE205_2",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32.5,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX164G"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/SLE-Series/ZXE205_2_ZX164G/ZXE205_2_ZX164G-101.jpg",
+      "price_range": [
+        1600.0,
+        2000.0
+      ]
+    },
+    "ZXE205_Z1": {
+      "head_code": "ZXE205_Z1",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [],
+      "bodies": [
+        "ZX166K"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/SLE-Series/ZXE205_Z1_ZX166K/ZXE205_Z1_ZX166K-102.jpg",
+      "price_range": null
+    },
+    "ZXE206_1": {
+      "head_code": "ZXE206_1",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX160J"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/SLE-Series/ZXE206_1_ZX160J/ZXE206_1_ZX160J-101.jpg",
+      "price_range": [
+        2000.0,
+        2000.0
+      ]
+    },
+    "ZXE206_2": {
+      "head_code": "ZXE206_2",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32.5,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX172E",
+        "ZX86K"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/SLE-Series/ZXE206_2_ZX86K/ZXE206_2_ZX86K-101.jpg",
+      "price_range": [
+        1000.0,
+        2000.0
+      ]
+    },
+    "ZXE206_3": {
+      "head_code": "ZXE206_3",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": null,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [],
+      "bodies": [
+        "ZX163E"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/SLE-Series/ZXE206_3_ZX163E/ZXE206_3_ZX163E-101.jpg",
+      "price_range": [
+        1799.0,
+        1799.0
+      ]
+    },
+    "ZXE206_4": {
+      "head_code": "ZXE206_4",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": null,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX109G"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/SLE-Series/ZXE206_4_ZX109G/ZXE206_4_ZX109G-101.jpg",
+      "price_range": [
+        1000.0,
+        1000.0
+      ]
+    },
+    "ZXE206_5": {
+      "head_code": "ZXE206_5",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": null,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX117E"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/SLE-Series/ZXE206_5_ZX117E/ZXE206_5_ZX117E-101.jpg",
+      "price_range": [
+        1000.0,
+        1000.0
+      ]
+    },
+    "ZXE206_W1": {
+      "head_code": "ZXE206_W1",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": null,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [],
+      "bodies": [
+        "ZX109G",
+        "ZX153B"
+      ],
+      "characters": [
+        "SLE-ZX153B-02"
+      ],
+      "product_count": 2,
+      "representative_image": "assets/thumbs/SLE-Series/ZXE206_W1_ZX153B/ZXE206_W1_ZX153B-120_195fc9d2-52b2-453a-b899-69d67c0ec99c.jpg",
+      "price_range": null
+    },
+    "ZXE206_W2": {
+      "head_code": "ZXE206_W2",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32.5,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [],
+      "bodies": [
+        "ZX117E",
+        "ZX172E"
+      ],
+      "characters": [],
+      "product_count": 2,
+      "representative_image": "assets/SLE-Series/ZXE206_W2_ZX117E/ZXE206_W2_ZX117E-101.jpg",
+      "price_range": null
+    },
+    "ZXE206_Z1": {
+      "head_code": "ZXE206_Z1",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [],
+      "bodies": [
+        "ZX160J"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/SLE-Series/ZXE206_Z1_ZX160J/ZXE206_Z1_ZX160J-101.jpg",
+      "price_range": null
+    },
+    "ZXE207_1": {
+      "head_code": "ZXE207_1",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32.5,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX172E"
+      ],
+      "characters": [],
+      "product_count": 0,
+      "representative_image": null,
+      "price_range": [
+        1600.0,
+        2000.0
+      ]
+    },
+    "ZXE207_2": {
+      "head_code": "ZXE207_2",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32.5,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX165D"
+      ],
+      "characters": [],
+      "product_count": 0,
+      "representative_image": null,
+      "price_range": [
+        1600.0,
+        2000.0
+      ]
+    },
+    "ZXE207_3": {
+      "head_code": "ZXE207_3",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32.5,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX164G"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/SLE-Series/ZXE207_3_ZX164G/ZXE207_3_ZX164G-101.jpg",
+      "price_range": [
+        1600.0,
+        2000.0
+      ]
+    },
+    "ZXE207_Z1": {
+      "head_code": "ZXE207_Z1",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [],
+      "bodies": [
+        "ZX160J"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/SLE-Series/ZXE207_Z1_ZX160J/ZXE207_Z1_ZX160J-101.jpg",
+      "price_range": null
+    },
+    "ZXE208_1": {
+      "head_code": "ZXE208_1",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX166K"
+      ],
+      "characters": [],
+      "product_count": 0,
+      "representative_image": null,
+      "price_range": [
+        2000.0,
+        2000.0
+      ]
+    },
+    "ZXE208_4": {
+      "head_code": "ZXE208_4",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": null,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX86K"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/SLE-Series/ZXE208_4_ZX86K/ZXE208_4_ZX86K-101.jpg",
+      "price_range": [
+        1000.0,
+        1000.0
+      ]
+    },
+    "ZXE208_5": {
+      "head_code": "ZXE208_5",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX160J",
+        "ZX85G",
+        "ZX91E"
+      ],
+      "characters": [
+        "SLE-ZX160J-03"
+      ],
+      "product_count": 3,
+      "representative_image": "assets/thumbs/SLE-Series/ZXE208_5_ZX160J/ZXE208_5_ZX160J-101.jpg",
+      "price_range": [
+        1000.0,
+        2000.0
+      ]
+    },
+    "ZXE208_W1": {
+      "head_code": "ZXE208_W1",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [],
+      "bodies": [
+        "ZX171C"
+      ],
+      "characters": [
+        "SLE-ZX171C-04"
+      ],
+      "product_count": 1,
+      "representative_image": "assets/thumbs/SLE-Series/ZXE208_W1_ZX171C/ZXE208_W1_ZX171C-101.jpg",
+      "price_range": null
+    },
+    "ZXE208_Z1": {
+      "head_code": "ZXE208_Z1",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [],
+      "bodies": [
+        "ZX166K"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/SLE-Series/ZXE208_Z1_ZX166K/ZXE208_Z1_ZX166K-101.jpg",
+      "price_range": null
+    },
+    "ZXE209_1": {
+      "head_code": "ZXE209_1",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX166K"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/SLE-Series/ZXE209_1_ZX166K/ZXE209_1_ZX166K-101.jpg",
+      "price_range": [
+        1799.0,
+        2000.0
+      ]
+    },
+    "ZXE209_2": {
+      "head_code": "ZXE209_2",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32.5,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX165D"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/SLE-Series/ZXE209_2_ZX165D/ZXE209_2_ZX165D-101.jpg",
+      "price_range": [
+        1600.0,
+        2000.0
+      ]
+    },
+    "ZXE209_W1": {
+      "head_code": "ZXE209_W1",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32.5,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [],
+      "bodies": [
+        "ZX172E"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/SLE-Series/ZXE209_W1_ZX172E/ZXE209_W1_ZX172E-101.jpg",
+      "price_range": null
+    },
+    "ZXE209_Z1": {
+      "head_code": "ZXE209_Z1",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32.5,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [],
+      "bodies": [
+        "ZX172E"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/SLE-Series/ZXE209_Z1_ZX172E/ZXE209_Z1_ZX172E-101.jpg",
+      "price_range": null
+    },
+    "ZXE210_1": {
+      "head_code": "ZXE210_1",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX171C"
+      ],
+      "characters": [],
+      "product_count": 0,
+      "representative_image": null,
+      "price_range": [
+        1600.0,
+        2000.0
+      ]
+    },
+    "ZXE210_2": {
+      "head_code": "ZXE210_2",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32.5,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX165D"
+      ],
+      "characters": [],
+      "product_count": 0,
+      "representative_image": null,
+      "price_range": [
+        1600.0,
+        2000.0
+      ]
+    },
+    "ZXE211_1": {
+      "head_code": "ZXE211_1",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX171C"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/SLE-Series/ZXE211_1_ZX171C/ZXE211_1_ZX171C-101.jpg",
+      "price_range": [
+        1600.0,
+        2000.0
+      ]
+    },
+    "ZXE211_2": {
+      "head_code": "ZXE211_2",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32.5,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX164G"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/SLE-Series/ZXE211_2_ZX164G/ZXE211_2_ZX164G-101.jpg",
+      "price_range": [
+        1600.0,
+        2000.0
+      ]
+    },
+    "ZXE212_1": {
+      "head_code": "ZXE212_1",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX166K",
+        "ZX171C"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/SLE-Series/ZXE212_1_ZX166K/ZXE212_1_ZX166K-101.jpg",
+      "price_range": [
+        1600.0,
+        2000.0
+      ]
+    },
+    "ZXE212_2": {
+      "head_code": "ZXE212_2",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32.5,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX164G"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/SLE-Series/ZXE212_2_ZX164G/ZXE212_2_ZX164G-101.jpg",
+      "price_range": [
+        1600.0,
+        2000.0
+      ]
+    },
+    "ZXE212_W1": {
+      "head_code": "ZXE212_W1",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": null,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [],
+      "bodies": [],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/SLE-Series/ZXE212_W1-ZX172E/ZXE212_W1-ZX172E-101.jpg",
+      "price_range": null
+    },
+    "ZXE212_W2": {
+      "head_code": "ZXE212_W2",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [],
+      "bodies": [
+        "ZX171C"
+      ],
+      "characters": [
+        "SLE-ZX171C-02"
+      ],
+      "product_count": 1,
+      "representative_image": "assets/thumbs/SLE-Series/ZXE212_W2_ZX171C/ZXE212_W2_ZX171C-101.jpg",
+      "price_range": null
+    },
+    "ZXE213_1": {
+      "head_code": "ZXE213_1",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX166K",
+        "ZX85G"
+      ],
+      "characters": [],
+      "product_count": 2,
+      "representative_image": "assets/SLE-Series/ZXE213_1_ZX166K/ZXE213_1_ZX166K-101.jpg",
+      "price_range": [
+        1000.0,
+        2000.0
+      ]
+    },
+    "ZXE213_2": {
+      "head_code": "ZXE213_2",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX165D",
+        "ZX171C",
+        "ZX86K"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/SLE-Series/ZXE213_2_ZX86K/ZXE213_2_ZX86K-101.jpg",
+      "price_range": [
+        1000.0,
+        2000.0
+      ]
+    },
+    "ZXE214_1": {
+      "head_code": "ZXE214_1",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX171C"
+      ],
+      "characters": [],
+      "product_count": 0,
+      "representative_image": null,
+      "price_range": [
+        1600.0,
+        2000.0
+      ]
+    },
+    "ZXE214_2": {
+      "head_code": "ZXE214_2",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32.5,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX165D"
+      ],
+      "characters": [],
+      "product_count": 0,
+      "representative_image": null,
+      "price_range": [
+        1600.0,
+        2000.0
+      ]
+    },
+    "ZXE215_1": {
+      "head_code": "ZXE215_1",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32.5,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX108J",
+        "ZX109G",
+        "ZX111K",
+        "ZX117E",
+        "ZX165D",
+        "ZX166K",
+        "ZX171C",
+        "ZX172E"
+      ],
+      "characters": [
+        "SLE-ZX172E-01"
+      ],
+      "product_count": 6,
+      "representative_image": "assets/thumbs/SLE-Series/ZXE215_1_ZX172E/ZXE215_1_ZX172E-108.jpg",
+      "price_range": [
+        1000.0,
+        2000.0
+      ]
+    },
+    "ZXE215_2": {
+      "head_code": "ZXE215_2",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": null,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX84J"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/SLE-Series/ZXE215_2_ZX84J/ZXE215_2_ZX84J-101.jpg",
+      "price_range": [
+        1000.0,
+        1000.0
+      ]
+    },
+    "ZXE215_3": {
+      "head_code": "ZXE215_3",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": null,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX91E"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/SLE-Series/ZXE215_3_ZX91E/ZXE215_3_ZX91E-101.jpg",
+      "price_range": [
+        1000.0,
+        1000.0
+      ]
+    },
+    "ZXE215_W1": {
+      "head_code": "ZXE215_W1",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [],
+      "bodies": [
+        "ZX171C",
+        "ZX172E"
+      ],
+      "characters": [
+        "SLE-ZX171C-03"
+      ],
+      "product_count": 2,
+      "representative_image": "assets/thumbs/SLE-Series/ZXE215_W1_ZX171C/ZXE215_W1_ZX171C-101.jpg",
+      "price_range": null
+    },
+    "ZXE216_1": {
+      "head_code": "ZXE216_1",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32.5,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX108J",
+        "ZX109G",
+        "ZX111K",
+        "ZX117E",
+        "ZX163E",
+        "ZX164G",
+        "ZX85G"
+      ],
+      "characters": [
+        "SLE-ZX163E-01",
+        "SLE-ZX164G-02"
+      ],
+      "product_count": 7,
+      "representative_image": "assets/thumbs/SLE-Series/ZXE216_1_ZX164G/ZXE216_1_ZX164G-101.jpg",
+      "price_range": [
+        1000.0,
+        2000.0
+      ]
+    },
+    "ZXE216_2": {
+      "head_code": "ZXE216_2",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX160J",
+        "ZX84J"
+      ],
+      "characters": [],
+      "product_count": 2,
+      "representative_image": "assets/SLE-Series/ZXE216_2_ZX160J/ZXE216_2_ZX160J-101.jpg",
+      "price_range": [
+        1000.0,
+        2000.0
+      ]
+    },
+    "ZXE216_3": {
+      "head_code": "ZXE216_3",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32.5,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX109G",
+        "ZX165D",
+        "ZX86K"
+      ],
+      "characters": [
+        "SLE-ZX165D-01"
+      ],
+      "product_count": 3,
+      "representative_image": "assets/thumbs/SLE-Series/ZXE216_3_ZX165D/ZXE216_3_ZX165D-101.jpg",
+      "price_range": [
+        1000.0,
+        2000.0
+      ]
+    },
+    "ZXE216_4": {
+      "head_code": "ZXE216_4",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX166K",
+        "ZX91E"
+      ],
+      "characters": [],
+      "product_count": 2,
+      "representative_image": "assets/SLE-Series/ZXE216_4_ZX166K/ZXE216_4_ZX166K-101.jpg",
+      "price_range": [
+        1000.0,
+        2000.0
+      ]
+    },
+    "ZXE216_W1": {
+      "head_code": "ZXE216_W1",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [],
+      "bodies": [
+        "ZX171C",
+        "ZX172E"
+      ],
+      "characters": [
+        "SLE-ZX172E-04"
+      ],
+      "product_count": 2,
+      "representative_image": "assets/thumbs/SLE-Series/ZXE216_W1_ZX172E/ZXE216_W1_ZX172E-101.jpg",
+      "price_range": null
+    },
+    "ZXE217_1": {
+      "head_code": "ZXE217_1",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX160J"
+      ],
+      "characters": [
+        "SLE-ZX160J-02"
+      ],
+      "product_count": 1,
+      "representative_image": "assets/thumbs/SLE-Series/ZXE217_1_ZX160J/ZXE217_1_ZX160J-101_d32a9ded-3b83-4bc1-b5c3-0463117f63b0.jpg",
+      "price_range": [
+        2000.0,
+        2000.0
+      ]
+    },
+    "ZXE217_2": {
+      "head_code": "ZXE217_2",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32.5,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX164G"
+      ],
+      "characters": [
+        "SLE-ZX164G-03"
+      ],
+      "product_count": 1,
+      "representative_image": "assets/thumbs/SLE-Series/ZXE217_2_ZX164G/ZXE217_2_ZX164G-101.jpg",
+      "price_range": [
+        1600.0,
+        2000.0
+      ]
+    },
+    "ZXE217_4": {
+      "head_code": "ZXE217_4",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": null,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX84J"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/SLE-Series/ZXE217_4_ZX84J/ZXE217_4_ZX84J-101.jpg",
+      "price_range": [
+        1000.0,
+        1000.0
+      ]
+    },
+    "ZXE217_5": {
+      "head_code": "ZXE217_5",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": null,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX86K"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/SLE-Series/ZXE217_5_ZX86K/ZXE217_5_ZX86K-101.jpg",
+      "price_range": [
+        1000.0,
+        1000.0
+      ]
+    },
+    "ZXE218_1": {
+      "head_code": "ZXE218_1",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX160J",
+        "ZX171C"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/SLE-Series/ZXE218_1_ZX160J/ZXE218_1_ZX160J-102.jpg",
+      "price_range": [
+        1600.0,
+        2000.0
+      ]
+    },
+    "ZXE218_2": {
+      "head_code": "ZXE218_2",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX166K"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/SLE-Series/ZXE218_2_ZX166K/ZXE218_2_ZX166K-101.jpg",
+      "price_range": [
+        2000.0,
+        2000.0
+      ]
+    },
+    "ZXE218_W1": {
+      "head_code": "ZXE218_W1",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 33,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [],
+      "bodies": [
+        "ZX171C",
+        "ZX172E"
+      ],
+      "characters": [
+        "SLE-ZX171C-01"
+      ],
+      "product_count": 2,
+      "representative_image": "assets/thumbs/SLE-Series/ZXE218_W1_ZX171C/ZXE218_W1_ZX171C-101.jpg",
+      "price_range": null
+    },
+    "ZXE218_W2": {
+      "head_code": "ZXE218_W2",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": null,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [],
+      "bodies": [
+        "ZX117E"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/SLE-Series/ZXE218_W2_ZX117E/ZXE218_W2_ZX117E-101.jpg",
+      "price_range": null
+    },
+    "ZXE219_1": {
+      "head_code": "ZXE219_1",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32.5,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX163E",
+        "ZX164G"
+      ],
+      "characters": [
+        "SLE-ZX163E-02",
+        "SLE-ZX164G-01"
+      ],
+      "product_count": 2,
+      "representative_image": "assets/thumbs/SLE-Series/ZXE219_1_ZX164G/ZXE219_1_ZX164G-101.jpg",
+      "price_range": [
+        1600.0,
+        2000.0
+      ]
+    },
+    "ZXE219_2": {
+      "head_code": "ZXE219_2",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32.5,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX165D"
+      ],
+      "characters": [],
+      "product_count": 0,
+      "representative_image": null,
+      "price_range": [
+        1600.0,
+        2000.0
+      ]
+    },
+    "ZXE220_1": {
+      "head_code": "ZXE220_1",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX166K"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/SLE-Series/ZXE220_1_ZX166K/ZXE220_1_ZX166K-101.jpg",
+      "price_range": [
+        2000.0,
+        2000.0
+      ]
+    },
+    "ZXE220_2": {
+      "head_code": "ZXE220_2",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32.5,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX164G"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/SLE-Series/ZXE220_2_ZX164G/ZXE220_2_ZX164G-101.jpg",
+      "price_range": [
+        1600.0,
+        2000.0
+      ]
+    },
+    "ZXE221_2": {
+      "head_code": "ZXE221_2",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32.5,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX164G"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/SLE-Series/ZXE221_2_ZX164G/ZXE221_2_ZX164G-101.jpg",
+      "price_range": [
+        1600.0,
+        2000.0
+      ]
+    },
+    "ZXE222_1": {
+      "head_code": "ZXE222_1",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32.5,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX165D"
+      ],
+      "characters": [
+        "SLE-ZX165D-03"
+      ],
+      "product_count": 1,
+      "representative_image": "assets/thumbs/SLE-Series/ZXE222_1_ZX165D/ZXE222_1_ZX165D-101.jpg",
+      "price_range": [
+        1600.0,
+        2000.0
+      ]
+    },
+    "ZXE223_1": {
+      "head_code": "ZXE223_1",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX111K",
+        "ZX160J",
+        "ZX166K"
+      ],
+      "characters": [
+        "SLE-ZX160J-01"
+      ],
+      "product_count": 3,
+      "representative_image": "assets/thumbs/SLE-Series/ZXE223_1_ZX160J/ZXE223_1_ZX160J-101.jpg",
+      "price_range": [
+        1000.0,
+        2000.0
+      ]
+    },
+    "ZXE223_2": {
+      "head_code": "ZXE223_2",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": null,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX86K"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/SLE-Series/ZXE223_2_ZX86K/ZXE223_2_ZX86K-101.jpg",
+      "price_range": [
+        1000.0,
+        1000.0
+      ]
+    },
+    "ZXE223_3": {
+      "head_code": "ZXE223_3",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": null,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX85G"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/SLE-Series/ZXE223_3_ZX85G/ZXE223_3_ZX85G-101.jpg",
+      "price_range": [
+        1000.0,
+        1000.0
+      ]
+    },
+    "ZXE224_1": {
+      "head_code": "ZXE224_1",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32.5,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX164G"
+      ],
+      "characters": [],
+      "product_count": 1,
+      "representative_image": "assets/SLE-Series/ZXE224_1_ZG164G/ZXE224_1_ZG164G-101.jpg",
+      "price_range": [
+        1600.0,
+        2000.0
+      ]
+    },
+    "ZXE224_2": {
+      "head_code": "ZXE224_2",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32.5,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX165D"
+      ],
+      "characters": [
+        "SLE-ZX165D-02"
+      ],
+      "product_count": 1,
+      "representative_image": "assets/thumbs/SLE-Series/ZXE224_2_ZX165D/ZXE224_2_ZX165D-108.jpg",
+      "price_range": [
+        1600.0,
+        2000.0
+      ]
+    },
+    "ZXE226_1": {
+      "head_code": "ZXE226_1",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX166K"
+      ],
+      "characters": [
+        "SLE-ZX166K-04"
+      ],
+      "product_count": 1,
+      "representative_image": "assets/thumbs/SLE-Series/ZXE226_1_ZX166K/ZXE226_1_ZX166K-101.jpg",
+      "price_range": [
+        1600.0,
+        2000.0
+      ]
+    },
+    "ZXE231_1": {
+      "head_code": "ZXE231_1",
+      "line": "SLE 3.0",
+      "neck_class": "standard",
+      "neck_cm": 32.5,
+      "face_variants": [
+        "Standard"
+      ],
+      "mj_face_codes": [],
+      "skin_tones": [
+        "Tan"
+      ],
+      "bodies": [
+        "ZX170A"
+      ],
+      "characters": [
+        "SLE-ZX170A-01"
+      ],
+      "product_count": 1,
+      "representative_image": "assets/thumbs/SLE-Series/ZXE231_1_ZX170A/ZXE231_1_ZX170A-101.jpg",
+      "price_range": [
+        2000.0,
+        2000.0
+      ]
+    }
+  }
+}
