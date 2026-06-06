@@ -26,6 +26,9 @@ DB_PATH = ROOT / "db" / "independent_competitor.sqlite"
 OUT_CSV = ROOT / "docs" / "research" / "independent-catalog-grouping-matrix.csv"
 OUT_MD = ROOT / "docs" / "research" / "independent-catalog-grouping-heatmap.md"
 OUT_JSON = ROOT / "db" / "independent_catalog_groupings.json"
+OUT_LINE_PNG = ROOT / "docs" / "research" / "independent-catalog-line-heatmap.png"
+OUT_PRICE_PNG = ROOT / "docs" / "research" / "independent-catalog-price-heatmap.png"
+OUT_PDR_BRIEF = ROOT / "docs" / "PDR-010-competitor-lineup-brief.md"
 
 LINE_COLUMNS = [
     "full-body",
@@ -395,6 +398,9 @@ def main() -> None:
         )
 
     OUT_MD.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+    write_png_heatmaps(line_matrix, price_matrix)
+    write_pdr_brief(line_matrix, full_body_rows, price_matrix, wm_row)
 
     OUT_JSON.write_text(
         json.dumps(
