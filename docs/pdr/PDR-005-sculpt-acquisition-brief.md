@@ -1,7 +1,7 @@
 # PDR-005: The Sculpt — Acquisition Brief
 
 **Branch:** feat/pdr-010-ceo-roi-analysis  
-**Date:** 2026-06-05  
+**Date:** 2026-06-06  
 **Status:** Draft — Pending CEO Review
 
 ---
@@ -96,6 +96,20 @@ FunWest (17 bodies, $1,599 median) and 6YE ($1,490) define the commodity floor. 
 
 These are sculpt-level requirements not derivable from WHR/BWR alone. A body can pass the measurement ranges with a smooth surface and still fail the family entry criteria. Prototype sign-off must include a surface geometry review gated on these three criteria.
 
+### 4.1 Prototype Review Criteria
+
+Each surface geometry criterion is evaluated during a physical or high-resolution photographic prototype review before production sign-off. The review is conducted before the production order is placed — not after the first production unit ships.
+
+| Criterion | Pass Definition | Fail Indicator | Documentation |
+|---|---|---|---|
+| Articulated abdominals | ≥2 rectus abdominis segments visible as distinct surface relief under neutral forward lighting; individual segment boundaries are palpable under fingertip pressure | Smooth or mildly textured belly surface that does not show muscular segmentation | Annotated photograph (front-face, raking light); reviewer initials + date |
+| Defined deltoids | Anterior and lateral deltoid heads visible as raised surface geometry at the shoulder; the shoulder cap has a multi-plane profile when viewed from front or 45° angle | Smooth, rounded shoulder cap with single-plane profile | Annotated photograph (front or 3/4 view); comparison to approved reference silhouette |
+| Sculpted posterior | Gluteal separation visible at medial crease; gluteal shelf has an upward curvature distinguishable from a flat or only slightly contoured surface when viewed from posterior angle | Flat or smooth posterior without visible gluteal separation | Annotated rear photograph; reviewer initials + date |
+
+**Sign-off protocol:** The reviewer who grants prototype approval is named in the production order. A single failing criterion blocks production. The supplier revises and resubmits the prototype — a second review is triggered before sign-off is granted. All annotated photographs are retained in the production file; they are the audit trail if a buyer-reported quality complaint surfaces post-shipment.
+
+Measurement sign-off (WHR/BWR against target) is a separate step that precedes surface geometry review. A prototype that fails measurement is rejected before surface geometry is assessed. Both gates must pass for production to proceed.
+
 ---
 
 ## 5. Differentiation Strategy
@@ -107,6 +121,20 @@ ZELEX's existing advantage is the named-character architecture: each body is a c
 The buyer for a Sculpt body is different from the Muse or Icon buyer in one specific way: **they arrived with a concrete physical idea.** They are not browsing aesthetics; they know they want definition. A quiz that identifies this preference and routes them to a character — rather than a scrollable measurement table — closes the sale that MD Doll's grid leaves open.
 
 The differentiation is not a larger Sculpt catalogue than MD Doll. It is one Sculpt character, launched with ZELEX's full character-skin-quiz treatment, at a price point ($2,099) that the silicone-first mid-premium segment has not yet occupied for this family.
+
+### Competitive Positioning Summary
+
+| Dimension | ZELEX Sculpt (debut) | MD Doll | Gynoid |
+|---|---|---|---|
+| **Material** | Silicone (100%) | Mixed — 33% silicone, 67% TPE | Silicone (100%) |
+| **Sculpt body count** | 1 (debut) | 37 | 4 |
+| **Price** | $2,099 | $2,599 median (silicone variants: same) | $4,401–$7,038 |
+| **Named character** | Yes — full name, profile, narrative, skin pairing | No — product variant / SKU designation only | Partial — named product line, no per-body narrative |
+| **Quiz routing** | Yes — WHR/BWR-matched Sculpt destination, activates on debut day | No — no quiz or measurement-based routing | No — no quiz; buyer selects from manual browse |
+| **Documented WHR/BWR** | Yes — published, buyer-verifiable | No — no WHR/BWR published for any Sculpt body | No — no WHR/BWR published |
+| **Character count at debut** | 2 skins | N/A (SKU-based model) | N/A |
+
+**Reading the table:** MD Doll wins on catalog volume and is accessible to the broadest buyer; it cannot win on documented measurement, character narrative, or routing intelligence. Gynoid wins on premium material and price signal; it does not compete at the $2,099 corridor and has no quiz routing or character architecture. ZELEX's opening position — measurement-documented, narrative-grounded, quiz-routed silicone at the mid-premium price — is structurally unoccupied at debut.
 
 ---
 

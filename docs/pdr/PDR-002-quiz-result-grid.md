@@ -105,7 +105,7 @@ The global fallback is annotated with `fromSecond` count so `splitAt` is calcula
 
 ---
 
-## 6. Event Binding and Progress Bar Completion
+## 6. Event Binding, Retake Flow, and Progress Bar
 
 The retake button uses `addEventListener` rather than an inline `onclick` attribute:
 
@@ -120,13 +120,28 @@ document.getElementById('retake-btn')
 
 This keeps quiz state management in the JS module rather than distributed across HTML attributes, avoids Content Security Policy conflicts with inline handlers, and makes the binding inspectable in DevTools. The button is bound once per result render, not re-bound on retake, so there is no handler accumulation.
 
-Before the result screen is shown, the progress bar advances to 100%:
+**Retake is a two-phase operation.** The retake button performs only navigation — it does not reset quiz state. The `answers` array and `step` counter remain at their end-of-quiz values when the intro screen is shown. State reset happens in the second phase, when the buyer clicks Begin:
+
+```js
+function startQuiz() {
+  answers = [];
+  step = 0;
+  hide('intro');
+  hide('rscreen');
+  showSection('qscreen');
+  renderQ();
+}
+```
+
+`renderQ()` at `step = 0` resets the progress bar to 0% (`step / QUESTIONS.length * 100 = 0`) and re-renders all question UI. A buyer who clicks retake but leaves the page before clicking Begin will find stale state if the page JS context persists, but this has no user-visible consequence — the intro screen shows no quiz progress indicators.
+
+**Progress bar at result time.** Before the result screen renders, the progress bar is set to 100%:
 
 ```js
 document.getElementById('pbar').style.width = '100%';
 ```
 
-The progress bar was at the quiz's final question step before this call. Advancing to 100% at result time signals completion — the quiz is done, results are ready — without an artificial "calculating…" delay.
+The bar was at `(QUESTIONS.length - 1) / QUESTIONS.length × 100` — one step short of complete — after the final answer. The explicit 100% advance signals quiz completion before the result cards render, eliminating any perception of a stalled final step.
 
 ---
 

@@ -30,10 +30,11 @@ The Muse is the most broadly covered family in the 30-brand competitive dataset.
 | Angel Kiss | 5 | 50.0% | Silicone 100% | $2,390 | Secondary |
 | Jarliet | 5 | 50.0% | TPE 100% | $1,558 | Secondary |
 | SE Doll | 5 | 50.0% | Mixed (20% silicone) | $1,690 | Secondary |
+| SM Doll | 4 | 40.0% | TPE 100% | $1,763 | Secondary |
 | Irokebijin | 4 | 40.0% | Mixed (70% silicone) | $940 | Secondary |
 | HR Doll | 4 | 40.0% | Silicone 90% | $1,890 | Secondary |
 
-Nine additional brands carry 1–3 Muse bodies each (6YE Premium, AS Doll, Game Lady, Gynoid, Hitdoll, ILdoll, Irontech Doll, JK Doll, JY Doll, Jiusheng, Piper Doll, Real Lady, SM Doll, Sanhui, WM Doll, XT Doll).
+Nine additional brands carry 1–3 Muse bodies each (6YE Premium, AS Doll, Game Lady, Gynoid, Hitdoll, ILdoll, Irontech Doll, JK Doll, JY Doll, Jiusheng, Piper Doll, Real Lady, Sanhui, WM Doll, XT Doll).
 
 **No brand owns this family at premium silicone with published measurements.** FunWest and Dime Doll dominate by count but serve the sub-$1,800 tier. Lusandy is the only brand near ZELEX's price point with real silicone depth — and Lusandy's entire 35-body catalog is classified as near-confidence, with no exact-measurement bodies and no published WHR or BWR.
 
@@ -45,28 +46,39 @@ Nine additional brands carry 1–3 Muse bodies each (6YE Premium, AS Doll, Game 
 
 **12 bodies across 4 series:**
 
-| Body code | Series | Height | Cup | WHR | BWR | Confidence |
-|---|---|---:|---|---:|---:|---|
-| ZF161D | Fusion | 161 cm | D | 0.660 | 1.371 | exact (est.) |
-| ZF168B | Fusion | 168 cm | B | 0.653 | 1.250 | near |
-| ZF169C | Fusion | 169 cm | C | 0.672 | 1.292 | near |
-| ZG162D | Inspiration | 162 cm | D | 0.658 | 1.382 | exact |
-| ZGX165F | Inspiration | 165 cm | F | 0.663 | 1.391 | exact |
-| ZG170C | Inspiration | 170 cm | C | 0.686 | 1.357 | exact |
-| ZG170D | Inspiration | 170 cm | D | 0.655 | 1.289 | near |
-| ZG175E | Inspiration | 175 cm | E | 0.679 | 1.351 | exact |
-| ZK168B | K-Series | 168 cm | B | 0.649 | 1.238 | loose |
-| ZX153B | SLE | 153 cm | B | 0.671 | 1.415 | near (est.) |
-| ZX170A | SLE | 170 cm | A | 0.670 | 1.262 | near |
-| ZX171C | SLE | 171 cm | C | 0.639 | 1.361 | near |
+| Body code | Series | Height | Cup | WHR | BWR | Confidence | Est. |
+|---|---|---:|---|---:|---:|---|---|
+| ZF161D | Fusion | 161 cm | D | 0.660 | 1.371 | exact | yes |
+| ZF168B | Fusion | 168 cm | B | 0.653 | 1.250 | near | no |
+| ZF169C | Fusion | 169 cm | C | 0.672 | 1.292 | near | no |
+| ZG162D | Inspiration | 162 cm | D | 0.658 | 1.382 | exact | no |
+| ZGX165F | Inspiration | 165 cm | F | 0.663 | 1.391 | exact | no |
+| ZG170C | Inspiration | 170 cm | C | 0.686 | 1.357 | exact | no |
+| ZG170D | Inspiration | 170 cm | D | 0.655 | 1.289 | near | no |
+| ZG175E | Inspiration | 175 cm | E | 0.679 | 1.351 | exact | no |
+| ZK168B | K-Series | 168 cm | B | 0.649 | 1.238 | loose | no |
+| ZX153B | SLE | 153 cm | B | 0.671 | 1.415 | near | yes |
+| ZX170A | SLE | 170 cm | A | 0.670 | 1.262 | near | no |
+| ZX171C | SLE | 171 cm | C | 0.639 | 1.361 | near | no |
+
+The `Est.` flag indicates that at least one measurement axis is derived from inference rather than direct source measurement. ZF161D is confidence-exact but carries the estimated flag because its bust/waist/hip values were reconstructed from secondary sources; the WHR and BWR are within the exact range but not yet manufacturer-verified. ZX153B is near-confidence with estimated measurements at the short SLE end. Both should be confirmed before they appear as primary quiz results.
+
+**Four-series breakdown:**
+
+| Series | Bodies | Height range | Cup range | WHR range | BWR range | Exact/near count |
+|---|---:|---|---|---|---|---|
+| Inspiration | 5 | 162–175 cm | C–F | 0.655–0.686 | 1.289–1.391 | 4 exact, 1 near |
+| Fusion | 3 | 161–169 cm | B–D | 0.653–0.672 | 1.250–1.292 | 1 exact, 2 near |
+| SLE | 3 | 153–171 cm | A–C | 0.639–0.671 | 1.262–1.415 | 0 exact, 3 near |
+| K-Series | 1 | 168 cm | B | 0.649 | 1.238 | 0 exact, 0 near (loose) |
 
 **Series coverage notes:**
-- **Inspiration series (5 bodies)** covers the widest height range within Muse — 162–175 cm. GX165F at F cup is the most voluminous Muse body; GX175E at 175 cm is the height ceiling of the family. The Inspiration series anchors the editorial and European aesthetic interpretation.
-- **Fusion series (3 bodies)** clusters at 161–169 cm. ZF168B and ZF169C have BWRs of 1.250 and 1.292 — near the lower bound of the Muse BWR range (1.30), which gives these bodies a more modest, balanced read relative to the hip-dominant upper end.
-- **SLE series (3 bodies)** spans 153–171 cm with cups A–C. ZX153B is the shortest Muse body in the catalog; its near-confidence/estimated classification reflects measurement uncertainty at the shorter SLE end.
+- **Inspiration series (5 bodies)** covers the widest height range within Muse — 162–175 cm. ZGX165F at F cup is the most voluminous Muse body; ZG175E at 175 cm is the height ceiling of the family. The Inspiration series anchors the editorial and European aesthetic interpretation. Four of five bodies are exact-confidence and none carry the estimated flag — this series is the measurement anchor for the Muse landing page.
+- **Fusion series (3 bodies)** clusters at 161–169 cm. ZF168B and ZF169C have BWRs of 1.250 and 1.292 — near the lower bound of the Muse BWR range (1.30), which gives these bodies a more modest, balanced read relative to the hip-dominant upper end. ZF161D is exact-confidence but estimated; quiz routing should confirm source measurements before promoting it to primary result status.
+- **SLE series (3 bodies)** spans 153–171 cm with cups A–C. ZX153B is the shortest Muse body in the catalog; its near-confidence/estimated classification reflects measurement uncertainty at the shorter SLE end. All three SLE Muse bodies are near-confidence. ZX171C (WHR 0.639) sits at the lower boundary of the Muse WHR range and is the most "border" body in the family.
 - **K-Series (1 body)** ZK168B is classified as loose-confidence — its WHR (0.649) falls at the lower Muse WHR boundary and its BWR (1.238) sits outside the formal Muse BWR range. Inclusion reflects its overall hip-dominant proportion and series design intent, but quiz routing should weight ZK168B as a secondary result rather than primary Muse recommendation.
 
-**7 of 12 bodies are exact or near confidence.** No competitor at any price tier can match this measurement resolution for the Muse family.
+**7 of 12 bodies are exact or near confidence with no estimated flag.** No competitor at any price tier can match this measurement resolution for the Muse family.
 
 ---
 
@@ -97,6 +109,7 @@ ZELEX is the only brand in the premium silicone Muse tier that publishes body me
 | Brand | Muse bodies | Silicone share | Median price | Notes |
 |---|---:|---:|---:|---|
 | FunWest | 38 | 46% | $1,599 | Volume leader; mixed material; catalog breadth is the product |
+| SM Doll | 4 | 0% TPE | $1,763 | TPE specialist; Muse + Siren focus |
 | Jarliet | 5 | 0% TPE | $1,558 | TPE specialist; Classic/Muse secondary |
 | 6YE Premium | 3 | 0% TPE | $1,490 | TPE; budget tier |
 
@@ -136,13 +149,30 @@ Hero: The Muse — "Tall. Hip-dominant. Measured."
 [Secondary copy: "12 bodies. Four series. Every WHR published."]
 ```
 
+### Launch Hierarchy: When Does The Muse Yield the Hero Position?
+
+The Muse holds the primary hero position at launch and retains it until one of the following explicit triggers is met. These triggers are evaluated in sequence; the first met governs the transition.
+
+| Trigger | Condition | Hero transition |
+|---|---|---|
+| Classic depth threshold | The Classic reaches 3+ active bodies in `db/family_taxonomy.json` (currently 0 — `status: in_development`) | The Classic takes primary hero; The Muse moves to secondary hero position |
+| Sculpt launch | The Sculpt reaches 2+ active bodies (currently 0 — `status: in_development`) | Sculpt takes a co-hero editorial slot; The Muse remains primary hero but shares above-the-fold space with a Sculpt feature block |
+| Catalog rebalance | The Muse falls below 50% of total active catalog bodies | Hero position reassignment at next quarterly PDR review cycle |
+| Competitor measurement parity | A direct competitor (Lusandy-tier or above) publishes WHR/BWR for 5+ Muse bodies | Measurement differentiation argument requires refresh; trigger a competitive review before next hero commitment |
+
+**Until The Classic has 3+ bodies, The Muse is the only family with enough catalog depth and buyer-resonance breadth to anchor the homepage.** The Classic is ZELEX's natural successor hero — hourglass, timeless, first-time premium buyer — but it requires roster depth before it can serve as a primary discovery surface. At launch, routing first-time buyers through The Muse and using The Classic's in-development status as a "coming soon" signal is the correct sequencing.
+
+**Sculpt launch does not displace The Muse.** The Sculpt targets a fitness-realism segment that is adjacent to but distinct from the European aesthetic buyer. When Sculpt launches, the homepage should present a dual-hero layout (Muse + Sculpt) rather than replacing Muse outright. This holds until Sculpt achieves 4+ bodies and its own quiz routing depth.
+
+**Operational rule:** Any change to The Muse's hero status requires a PDR amendment with CEO sign-off. The trigger conditions above define when that amendment is warranted, not when it is automatic.
+
 ### Quiz Routing
 
 | Family | Quiz eligibility | Current bodies | Branching logic |
 |---|---|---:|---|
 | The Muse | Yes — primary | 12 | Height preference (153–175 cm) → cup preference (A–F) → series filter → character result |
 
-The Muse provides the highest-resolution quiz routing in the catalog. 12 bodies across a 22 cm height span and 6 cup sizes allow the quiz to branch meaningfully on buyer-stated preference before surfacing a character. ZK168B (loose-confidence) should be weighted as a tertiary result; the 7 exact/near bodies should anchor quiz results.
+The Muse provides the highest-resolution quiz routing in the catalog. 12 bodies across a 22 cm height span and 6 cup sizes allow the quiz to branch meaningfully on buyer-stated preference before surfacing a character. ZK168B (loose-confidence) should be weighted as a tertiary result; ZF161D and ZX153B (estimated) should be weighted as secondary results. The 7 non-estimated exact/near bodies should anchor all primary quiz results.
 
 ### Compare Filter
 
@@ -195,9 +225,12 @@ Three findings govern the Muse positioning:
 | Competitor Muse coverage documented (brand count, silicone/TPE split) | ✓ Section 1 — 26/28 competitor brands |
 | ZELEX Muse roster verified against db/family_taxonomy.json | ✓ Section 2 — 12 bodies, 4 series |
 | WHR/BWR and confidence for all 12 bodies recorded | ✓ Section 2 table |
-| Pricing landscape with silicone/TPE split | ✓ Section 3 |
+| Estimated flag column added to Section 2 roster table | ✓ Section 2 — ZF161D and ZX153B flagged |
+| Four-series summary table with body counts, ranges, confidence breakdown | ✓ Section 2 — Inspiration (5), Fusion (3), SLE (3), K-Series (1) |
+| Pricing landscape with silicone/TPE split | ✓ Section 3 — SM Doll added to volume/TPE tier |
 | Lusandy measurement weakness documented | ✓ Section 4 — 100% near-confidence, 0 published specs |
 | Buyer scenarios covering style-first, upgrader, collector | ✓ Section 5 |
+| Launch hierarchy yield triggers documented | ✓ Section 6 — Classic 3+ bodies, Sculpt launch, catalog rebalance, competitor parity |
 | Commercial translation: homepage, quiz, compare, SEO, inquiry | ✓ Section 6 |
 | Direct answer to positioning question | ✓ Decision: measurement-documented Muse vs undocumented premium tier |
 
@@ -207,6 +240,8 @@ Three findings govern the Muse positioning:
 - Lusandy Doll pricing ($2,599–$2,699) is from secondary aggregator (SiliconWives). Measurement confidence classification (near-confidence across all 35 rows) is sourced from `db/competitor_family_coverage.json`.
 - Tayu Muse pricing ($3,800 median) is from the official Tayu source (tayu-doll.com). The "$1,980–$4,700" range reflects the full Tayu catalog; Muse-specific pricing may differ.
 - ZK168B loose-confidence classification is noted; quiz routing weighting should exclude it from primary Muse results until measurement verification is completed.
+- ZF161D and ZX153B carry the estimated flag. Both should be manufacturer-verified before appearing as primary quiz results. Their WHR/BWR values are within the correct Muse ranges but are based on reconstructed or inferred measurements.
+- SM Doll (4 Muse bodies, TPE 100%, $1,763 median) was absent from the Section 1 table in the prior draft. Added to the volume/TPE tier in Section 3. The Section 1 table now reflects all brands with 4+ Muse bodies; SM Doll qualifies at 4 bodies.
 
 ---
 

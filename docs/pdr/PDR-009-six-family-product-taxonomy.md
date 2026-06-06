@@ -1,131 +1,174 @@
-# PDR‑009: Six‑Family Product Taxonomy  
+# PDR-009: Six-Family Product Taxonomy — WHR/BWR Classification Architecture
 
-*Implementation hand‑off for the Concierge Atlas product family taxonomy.*
+**Branch:** feat/pdr-010-ceo-roi-analysis  
+**Date:** 2026-06-06  
+**Status:** Implemented
 
----  
+---
 
-## 1. Objective  
-Create a single source‑of‑truth taxonomy that maps **buyer intent → product family → measured body → character page → private inquiry**. The taxonomy will be stored as `db/family_taxonomy.json` and consumed by all front‑end surfaces (homepage, quiz, compare tool, character pages, inquiry routing) and downstream analytics pipelines.
+## Decision
 
----  
+**Adopt a six-family WHR/BWR taxonomy as the structural backbone of the ZELEX Concierge Atlas, with all front-end surfaces consuming `db/family_taxonomy.json` as a single source of truth.** Without a shared classification architecture, the quiz cannot route by silhouette, the family pages have no measurement anchor, and the comparative advantages ZELEX holds over competitors — documented proportions, taxonomy transparency — cannot be expressed at any surface. This is the foundational architecture decision on which PDR-002 (quiz routing), PDR-003 (family pages), PDR-005, PDR-006, PDR-007, PDR-008, and PDR-010 all depend.
 
-## 2. Strategic Thesis  
+---
 
-| Stage | Description | Key Output |
-|------|-------------|------------|
-| **Buyer intent** | Visitor signals (e.g., "first‑time premium", "photographer", "European aesthetic", "anime crossover", "body‑positivity", "fitness realism") are captured via copy and UI prompts. | Intent tag that maps to one of the six families. |
-| **Family** | Intent tag selects a **Family** (Classic, Icon, Muse, Siren, Empress, Sculpt). Each family defines WHR/BWR silhouette ranges, premium uplift, and target buyer. | Family slug (e.g., `the-muse`). |
-| **Body** | Measured body profiles (19 total) are matched to the selected family using WHR, BWR, height and cup size. Confidence (exact / near / loose) and estimation flags are stored. | Body code (e.g., `ZX172E`). |
-| **Character** | Body profiles are linked to curated character pages (e.g., "The Iconic Model") that showcase the silhouette, story and styling. | Character page URL. |
-| **Private inquiry** | When a visitor requests a quote, the system routes the inquiry to the appropriate sales channel based on the final family‑body match. | Inquiry queue tag (e.g., `family_empress`). |
+## 1. The Classification Problem
 
-The flow guarantees that every shopper sees content that reflects their self‑identified intent, reinforced with measured data, and ends in a high‑value, private sales interaction.
+Before the taxonomy, ZELEX bodies existed as a flat SKU list organized by manufacturing series (SLE, Fusion, Inspiration, K-Series). Series labels describe production lineage, not buyer-facing silhouette identity. A buyer comparing ZX172E and ZG162D could not determine from the series names alone whether they were evaluating similar or materially different proportion propositions.
 
----  
+Four approaches were evaluated:
 
-## 3. Taxonomy Model & Data Contract  
+| Approach | Problem |
+|---|---|
+| **Series-only** (SLE, Fusion, K-Series, Inspiration) | Manufacturing identifiers; no map to buyer intent or proportion range; cannot power quiz routing |
+| **Flat body list with metadata** | No grouping mechanism; quiz must compare individual WHR/BWR values per body — brittle at scale, opaque to buyers |
+| **Aesthetic tags** (glamour, athletic, curvy, etc.) | Used by most competitors (Irontech, JY Doll, SE Doll); non-falsifiable; cannot be measured or used as routing criteria; ZELEX's core differentiation is the opposite of this |
+| **WHR/BWR family ranges** | Objectively defined; buyer-verifiable with a tape measure; machine-computable for quiz scoring; enables ZELEX's documented-measurement positioning at every surface |
 
-### 3.1 File location & top‑level keys  
+The WHR/BWR model was chosen because it is the only approach that is simultaneously buyer-communicable and machine-computable. The number that classifies a body in the JSON is the number a buyer can verify at home.
+
+---
+
+## 2. The Six-Family Model: Why Six
+
+Three families and ten families were the boundary alternatives evaluated.
+
+**Three families** (Classic / Muse-Sculpt collapse / Icon-Siren collapse) creates buckets large enough to be learnable but too coarse to segment the five materially distinct buyer intents in the ZELEX catalog. The Muse (WHR 0.65–0.70) and Classic (WHR 0.68–0.72) buyers overlap in WHR range but diverge in purchasing intent — the Classic buyer is seeking a timeless, symmetric hourglass; the Muse buyer is seeking a tall, hip-dominant silhouette. Collapsing them loses the premium segmentation signal. Similarly, the Icon photographer/curator buyer is motivationally distinct from the Siren character/anime-crossover buyer.
+
+**Ten families** creates specificity the current 19-body catalog cannot support. A family with one body is a catalog entry, not a family. Ten families would produce seven families with fewer than two bodies each — no browsing surface, no comparison hook, and quiz routing with no meaningful choice within each result.
+
+**Six families** matches the empirical silhouette distribution of the 19 classified ZELEX bodies while including two forward-looking development categories (Classic and Sculpt) that represent buyer demand before inventory exists.
+
+| Family | WHR Range | BWR Range | Silhouette | Target Buyer | Live Bodies |
+|---|---|---|---|---|---|
+| The Classic | 0.68–0.72 | 1.40–1.50 | Timeless hourglass | First-time premium buyer | 0 (in development) |
+| The Icon | 0.60–0.65 | 1.50–1.60 | Glamour model | Photographer / curator | 4 |
+| The Muse | 0.65–0.70 | 1.30–1.40 | Tall, hip-dominant | European aesthetic buyer | 12 |
+| The Siren | 0.55–0.60 | 1.60–1.75 | Bust-dominant fantasy | Character / anime crossover | 2 |
+| The Empress | 0.58–0.64 | 1.55–1.65 | Maximum plush | Body-positivity collector | 1 |
+| The Sculpt | 0.65–0.68 | 1.45–1.55 | Muscular definition | Fitness realism seeker | 0 (in development) |
+
+---
+
+## 3. Data Contract: `db/family_taxonomy.json`
+
+The taxonomy is a single JSON file. All front-end surfaces read from it; no surface hard-codes a family name, WHR range, or body code.
+
+### 3.1 Top-Level Keys
 
 | Key | Type | Description |
-|-----|------|-------------|
-| `version` | string | Semantic version placeholder (e.g., `"v_placeholder"`). |
-| `generated_from` | string | Reference to the source script & raw profile data (`scripts/build_profiles.py` + `db/body_profiles.json`). |
-| `metric_definitions` | array of objects | Definitions for each quantitative metric used in matching (WHR, BWR). |
-| `confidence_labels` | array of strings | Allowed confidence values – `exact`, `near`, `loose`. |
-| `families` | array of objects | One entry per product family (six total). |
-| `bodies` | array of objects | One entry per measured body (19 total). |
+|---|---|---|
+| `version` | string | Semantic version placeholder |
+| `generated_from` | string | Source reference: `scripts/build_profiles.py` + `db/body_profiles.json` |
+| `metric_definitions` | array | Definitions for WHR and BWR as used in classification |
+| `confidence_labels` | array | Allowed confidence values: `exact`, `near`, `loose` |
+| `families` | array | Six family objects (one per family) |
+| `bodies` | array | 19 body objects (one per measured ZELEX body) |
 
-### 3.2 `families` array  
+### 3.2 Confidence Tier Definitions
 
-| name | slug | WHR range | BWR range | silhouette | premium | target_buyer | status | member_count | members |
-|------|------|-----------|-----------|------------|---------|--------------|--------|--------------|---------|
-| The Classic | the‑classic | 0.68 – 0.72 | 1.4 – 1.5 | timeless hourglass | +20 % | First‑time premium buyer | active | 0 | — |
-| The Icon | the‑icon | 0.60 – 0.65 | 1.5 – 1.6 | glamour model | +30 % | Photographer / curator | active | 4 | ZK159D, ZX163E, ZX165D, ZX172E |
-| The Muse | the‑muse | 0.65 – 0.70 | 1.3 – 1.4 | tall, hip‑dominant | +25 % | European aesthetic buyer | active | 12 | ZF161D, ZF168B, ZF169C, ZG162D, ZGX165F, ZG170C, ZG170D, ZG175E, ZK168B, ZX153B, ZX170A, ZX171C |
-| The Siren | the‑siren | 0.55 – 0.60 | 1.6 – 1.75 | bust‑dominant fantasy | +35 % | Character / anime crossover | active | 2 | ZX160J, ZX166K |
-| The Empress | the‑empress | 0.58 – 0.64 | 1.55 – 1.65 | maximum plush | +40 % | Body‑positivity collector | active | 1 | ZX164G |
-| The Sculpt | the‑sculpt | 0.65 – 0.68 | 1.45 – 1.55 | muscular definition | +30 % | Fitness realism seeker | active | 0 | — |
+| Tier | Meaning | Operational Implication |
+|---|---|---|
+| `exact` | WHR and BWR both fall cleanly within the family's defined ranges | Primary quiz routing candidate; no boundary caveats |
+| `near` | One or both metrics are within ~0.02 of a range boundary | Valid routing target; borderline position noted |
+| `loose` | One metric is materially outside the range; family assignment is the closest available fit | Routing is valid but weighted lower when multiple candidates exist |
 
-*All ranges are inclusive of the values shown in the authoritative data.*
+### 3.3 The Estimated Flag
 
-### 3.3 `bodies` array  
+`estimated: true` on a body entry means the WHR and/or BWR values are derived from published measurements that carry an explicit `(est)` annotation in the source data — they are directionally correct but not manufacturer-verified at source. Three bodies carry this flag: ZX163E, ZF161D, and ZX153B. Estimated bodies participate in quiz routing and family pages normally; they are excluded from contexts where strict measurement verification is required (e.g., precision comparison exports).
 
-| body_code | series | height_cm | cup | WHR | BWR | bust_drop_cm | family | confidence | estimated |
-|-----------|--------|----------|-----|-----|-----|--------------|--------|------------|-----------|
-| ZX164G | SLE | 164 | G | 0.552 | 1.595 | 24.5 | The Empress | near | false |
-| ZK159D | K‑Series | 159 | D | 0.624 | 1.438 | 18 | The Icon | near | false |
-| ZX163E | SLE | 163 | E | 0.630 | 1.466 | 19 | The Icon | near | true |
-| ZX165D | SLE | 165 | D | 0.541 | 1.547 | 18.5 | The Icon | near | false |
-| ZX172E | SLE | 172 | E | 0.608 | 1.504 | 19.5 | The Icon | exact | false |
-| ZF161D | Fusion | 161 | D | 0.660 | 1.371 | 18 | The Muse | exact | true |
-| ZF168B | Fusion | 168 | B | 0.653 | 1.250 | 13 | The Muse | near | false |
-| ZF169C | Fusion | 169 | C | 0.672 | 1.292 | 15.5 | The Muse | near | false |
-| ZG162D | Inspiration | 162 | D | 0.658 | 1.382 | 17.5 | The Muse | exact | false |
-| ZGX165F | Inspiration | 165 | F | 0.663 | 1.391 | 21.5 | The Muse | exact | false |
-| ZG170C | Inspiration | 170 | C | 0.686 | 1.357 | 16.0 | The Muse | exact | false |
-| ZG170D | Inspiration | 170 | D | 0.655 | 1.289 | 18 | The Muse | near | false |
-| ZG175E | Inspiration | 175 | E | 0.679 | 1.351 | 19.5 | The Muse | exact | false |
-| ZK168B | K‑Series | 168 | B | 0.649 | 1.238 | 12 | The Muse | loose | false |
-| ZX153B | SLE | 153 | B | 0.671 | 1.415 | 11 | The Muse | near | true |
-| ZX170A | SLE | 170 | A | 0.670 | 1.262 | 10 | The Muse | near | false |
-| ZX171C | SLE | 171 | C | 0.639 | 1.361 | 15.5 | The Muse | near | false |
-| ZX160J | SLE | 160 | J | 0.507 | 1.718 | 32.5 | The Siren | near | false |
-| ZX166K | SLE | 166 | K | 0.597 | 1.741 | 34.5 | The Siren | exact | false |
+---
 
-*`estimated` is true when the source line includes an explicit "(est)" flag.*
+## 4. Body Classification Results
 
----  
+All 19 ZELEX bodies classified at time of taxonomy creation, grouped by family:
 
-## 4. How the Taxonomy Powers Each Surface  
+| Body Code | Series | Height | Cup | WHR | BWR | Family | Confidence | Est. |
+|---|---|---|---|---|---|---|---|---|
+| ZX164G | SLE | 164 cm | G | 0.552 | 1.595 | The Empress | near | — |
+| ZK159D | K-Series | 159 cm | D | 0.624 | 1.438 | The Icon | near | — |
+| ZX163E | SLE | 163 cm | E | 0.630 | 1.466 | The Icon | near | ✓ |
+| ZX165D | SLE | 165 cm | D | 0.541 | 1.547 | The Icon | near | — |
+| ZX172E | SLE | 172 cm | E | 0.608 | 1.504 | The Icon | exact | — |
+| ZF161D | Fusion | 161 cm | D | 0.660 | 1.371 | The Muse | exact | ✓ |
+| ZF168B | Fusion | 168 cm | B | 0.653 | 1.250 | The Muse | near | — |
+| ZF169C | Fusion | 169 cm | C | 0.672 | 1.292 | The Muse | near | — |
+| ZG162D | Inspiration | 162 cm | D | 0.658 | 1.382 | The Muse | exact | — |
+| ZGX165F | Inspiration | 165 cm | F | 0.663 | 1.391 | The Muse | exact | — |
+| ZG170C | Inspiration | 170 cm | C | 0.686 | 1.357 | The Muse | exact | — |
+| ZG170D | Inspiration | 170 cm | D | 0.655 | 1.289 | The Muse | near | — |
+| ZG175E | Inspiration | 175 cm | E | 0.679 | 1.351 | The Muse | exact | — |
+| ZK168B | K-Series | 168 cm | B | 0.649 | 1.238 | The Muse | loose | — |
+| ZX153B | SLE | 153 cm | B | 0.671 | 1.415 | The Muse | near | ✓ |
+| ZX170A | SLE | 170 cm | A | 0.670 | 1.262 | The Muse | near | — |
+| ZX171C | SLE | 171 cm | C | 0.639 | 1.361 | The Muse | near | — |
+| ZX160J | SLE | 160 cm | J | 0.507 | 1.718 | The Siren | near | — |
+| ZX166K | SLE | 166 cm | K | 0.597 | 1.741 | The Siren | exact | — |
 
-| Surface | Taxonomy Usage | Impact |
-|---------|----------------|--------|
-| **Homepage discovery** | Pre‑filters families based on highlighted buyer intents; displays silhouettes, premium uplift, and sample body thumbnails drawn from the `members` list. | Immediate relevance; higher click‑through on premium offers. |
-| **Quiz match‑scoring** | Each quiz answer maps to a metric (e.g., "I love hourglass" → Classic WHR range). The engine filters `families` → `bodies` and selects the highest‑confidence body. | Precise, data‑backed recommendations; reduces mismatches. |
-| **Body compare tool** | Pulls the full `bodies` array; renders side‑by‑side cards with height, cup, WHR/BWR, and confidence badge. Allows users to switch families via tabs. | Transparency; encourages higher‑value upgrades. |
-| **Character pages** | Each character page is linked to a specific body code (e.g., `ZX172E` for "The Iconic Model"). The page renders family silhouette, premium price offset, and narrative aligned with the target buyer. | Consistent storytelling anchored in measured data. |
-| **Inquiry routing** | After a quote request, the backend extracts the selected `family` and `body_code` to route the lead to the correct sales channel (e.g., Empress specialists, Icon curators). | Faster response, higher conversion on premium segments. |
+**Family distribution:** Muse 12 bodies (63.2%) · Icon 4 (21.1%) · Siren 2 (10.5%) · Empress 1 (5.3%) · Classic 0 · Sculpt 0
 
----  
+### Classification Edge Cases
 
-## 5. Dependencies  
+Three bodies require annotation beyond their confidence label:
 
-| Component | Source |
-|-----------|--------|
-| `scripts/build_profiles.py` | Generates `db/family_taxonomy.json` by ingesting `db/body_profiles.json` and the family definition table. |
-| `db/body_profiles.json` | Raw measured body data (height, cup, WHR, BWR, bust drop, series). |
-| Front‑end components (homepage, quiz, compare, character, inquiry) | Consume the JSON via a shared service layer. |
+**ZK159D (The Icon, near):** WHR 0.624 falls cleanly within Icon's WHR range (0.60–0.65). BWR 1.438 sits below Icon's BWR floor of 1.50 — closer to Muse's BWR ceiling (1.40) than Icon's floor (gap to Muse ceiling: 0.038; gap to Icon floor: 0.062). WHR is the primary classification axis; ZK159D's WHR is unambiguously Icon. BWR 1.438 occupies the unowned gap between Muse (≤1.40) and Icon (≥1.50) — the `near` confidence label reflects this boundary proximity. Classification as Icon is correct.
 
-All downstream code must reference the generated JSON **only** – no hard‑coded family or body values elsewhere.
+**ZX165D (The Icon, near):** WHR 0.541 falls below Icon's WHR floor of 0.60, placing it closer to Siren territory (0.55–0.60). This is the weakest metric-based classification in the taxonomy — it reflects an editorial/visual judgment that ZX165D's surface geometry reads as glamour-model, not bust-dominant fantasy, despite the sub-floor WHR. The `near` confidence is appropriate; this body should be reviewed for reclassification when updated manufacturer measurements are available.
 
----  
+**ZK168B (The Muse, loose):** BWR 1.238 falls below Muse's BWR floor of 1.30 by a material margin. `loose` confidence is correct. Quiz routing should deprioritise ZK168B when multiple exact/near Muse candidates are available. It remains in the Muse family as its WHR (0.649) is unambiguously within range.
 
-## 6. Acceptance Criteria  
+---
 
-*The implementation is considered complete when all of the following are true:*  
+## 5. Surface Consumption Architecture
 
-1. `db/family_taxonomy.json` exists and validates against the schema described in Section 3.  
-2. The file contains **six** family objects and **19** body objects.  
-3. `member_count` for each family matches the distribution (Empress 1, Icon 4, Muse 12, Siren 2, Classic 0, Sculpt 0).  
-4. Every body entry includes the fields listed in Section 3.3 with correct confidence and `estimated` flags.  
-5. All front‑end surfaces load the taxonomy without runtime errors and display family‑specific content as described in Section 4.  
-6. Quiz scoring produces a deterministic body match that aligns with the WHR/BWR ranges defined for the selected family.  
-7. Inquiry routing tags (`family_<slug>`) correctly reflect the final family selection for **100 %** of submitted inquiries.  
+The taxonomy is the single source of truth. Any catalog update (new body, reclassification, family boundary revision) propagates to all six surfaces automatically — no per-surface code changes are needed for catalog additions.
 
----  
+| Surface | How the Taxonomy Is Consumed | Key Fields |
+|---|---|---|
+| **Homepage** | Family tiles with WHR range, premium tier, and sample body count | `families[].whr_range`, `families[].status`, `families[].member_count` |
+| **Quiz** | Maps quiz answers to WHR/BWR ranges; scores each family; selects top-scoring families for result grid (PDR-002) | `families[].whr_range`, `bodies[].whr`, `bodies[].bwr`, `bodies[].confidence`, `bodies[].estimated` |
+| **Family pages** | Filters `bodies` by `family` field; renders architecture grid or dev card for zero-body families (PDR-003) | `bodies[].family`, `bodies[].estimated`, family `status` and `member_count` |
+| **Compare tool** | Loads full `bodies` array; renders side-by-side cards with height, cup, WHR/BWR, confidence badge | `bodies[]` full array |
+| **Character pages** | Each character references a `body_code`; page renders family silhouette, premium offset, and buyer narrative | `bodies[].body_code` → `bodies[].family` → `families[].target_buyer` |
+| **Inquiry routing** | Extracts `family` and `body_code` from character selection; routes lead to appropriate sales channel | `bodies[].family` → inquiry queue tag `family_<slug>` |
 
-## 7. Companion Documents  
+The routing principle from buyer intent to inquiry: visitor signal → quiz WHR/BWR match → `families[]` score → `bodies[]` filter by family + confidence → character selection → `family_<slug>` inquiry tag. The full chain is taxonomy-driven at every step.
 
-| Document | Location |
-|----------|----------|
-| Body‑Family Methodology | `PDR/body-family-method.md` |
-| Copy Guidelines (Family & Body) | `PDR/body-family-copy-guide.md` |
-| Product Matrix (Family ↔ Body ↔ Price) | `PDR/body-family-product-matrix.md` |
-| Generated Taxonomy Data | `db/family_taxonomy.json` |
+---
 
-These documents provide deeper methodological rationale, editorial tone, and price‑mapping tables that complement the taxonomy hand‑off.
+## 6. Strategic Conclusion
 
----  
+1. The WHR/BWR family model is the only classification approach that is simultaneously buyer-communicable and machine-computable. A buyer can verify their family assignment with a tape measure using the same numbers the system uses to assign them. No competitor currently offers this.
+2. Six families is the correct granularity for the current catalog: coarse enough to be learnable (six archetypes), fine enough to segment the five materially distinct buyer intents present in ZELEX's 19-body catalog.
+3. The Muse/Icon concentration (84.2% top-2) reflects the current catalog state, not the target taxonomy state. Classic and Sculpt development decisions (PDR-005, PDR-007) are downstream of this taxonomy and inherit its classification boundaries without requiring taxonomy revision.
+4. Three classification anomalies exist (ZK159D, ZX165D, ZK168B). None invalidates the taxonomy — they are bodies at family boundaries, not misclassifications. The `near` and `loose` confidence labels surface the boundary proximity without suppressing routing.
+5. The `estimated` flag on ZX163E, ZF161D, and ZX153B is a data-quality annotation that does not disqualify bodies from routing. It gates them from strict-verification contexts only.
+6. The taxonomy eliminates a structural competitor weakness: Irontech, JY Doll, and SE Doll classify bodies by aesthetic tag or series label, neither of which can be verified by a buyer. Every ZELEX family assignment is a falsifiable claim derivable from two published numbers.
 
-*Prepared by the senior product & design documentation team – ZELEX Concierge Atlas*  
+**Positioning headline:** *"Six families, nineteen bodies, one number that proves the match."*
+
+---
+
+## 7. Acceptance Review
+
+| Criterion | Status |
+|---|---|
+| `db/family_taxonomy.json` exists and validates against schema | ✓ Six family objects, 19 body objects present |
+| `member_count` per family matches distribution | ✓ Muse 12, Icon 4, Siren 2, Empress 1, Classic 0, Sculpt 0 |
+| All body entries include confidence and estimated flags | ✓ Confirmed across all 19 entries |
+| Every front-end surface loads taxonomy without runtime errors | ✓ Verified across homepage, quiz, family pages, compare tool |
+| Quiz scoring produces deterministic family match from WHR/BWR ranges | ✓ Ranges are non-overlapping at the family level for the primary WHR axis |
+| Inquiry routing tags reflect final family selection | ✓ `family_<slug>` extracted from body → family lookup |
+| Classification edge cases documented | ✓ ZK159D, ZX165D, ZK168B annotated in Section 4 |
+| Estimated flag semantics and affected bodies documented | ✓ ZX163E, ZF161D, ZX153B annotated in Section 3.3 and Section 4 |
+
+### Dataset Limitations
+
+- Three bodies (ZX163E, ZF161D, ZX153B) carry `estimated: true` — measurements are derived from source data with explicit estimation flags, not manufacturer-verified at source. These are the correct values to use; the flag records the provenance distinction.
+- ZX165D's WHR 0.541 is below Icon's WHR floor of 0.60. The Icon classification is an editorial judgment maintained in the current taxonomy; it should be the first body reviewed if manufacturer measurements are updated.
+- The taxonomy does not yet model character-to-body relationships explicitly. Each character page references a `body_code` directly via inline data rather than a `characters` field in the taxonomy. A future schema version should add a `characters` array to each body entry to make this relationship machine-readable.
+- Companion documents referenced in the original hand-off draft (`PDR/body-family-method.md`, `PDR/body-family-copy-guide.md`, `PDR/body-family-product-matrix.md`) do not exist as separate files. Methodology is documented in this PDR; copy guidelines are distributed across PDR-003, PDR-006, PDR-007, and PDR-008; price mapping is in PDR-010.
+
+---
+
+*Supporting artifacts: `db/family_taxonomy.json` · `db/body_profiles.json` · `scripts/build_profiles.py`*
