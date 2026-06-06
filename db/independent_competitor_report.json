@@ -1,0 +1,903 @@
+{
+  "generated_at": "2026-06-06T02:57:19.032Z",
+  "sources": [
+    {
+      "name": "SiliconWives",
+      "product_count": 1731,
+      "priced_count": 1731,
+      "method": "shopify_api"
+    },
+    {
+      "name": "BestRealDoll",
+      "product_count": 0,
+      "priced_count": 0,
+      "method": "playwright_dom"
+    },
+    {
+      "name": "FantasyWives",
+      "product_count": 60,
+      "priced_count": 60,
+      "method": "playwright_dom"
+    }
+  ],
+  "totals": {
+    "raw_products": 1791,
+    "normalised_rows": 1791,
+    "full_body_rows": 1374,
+    "brands_found": 28
+  },
+  "brands_not_found": [
+    "Gynoid",
+    "Tayu",
+    "Game Lady",
+    "Doll Forever",
+    "JK Doll"
+  ],
+  "brands": [
+    {
+      "brand": "AI Tech",
+      "tier": "ultra-premium",
+      "full_body_skus": 1,
+      "price": {
+        "count": 1,
+        "median": 4499,
+        "mean": 4499,
+        "min": 4499,
+        "max": 4499,
+        "p25": 4499,
+        "p75": 4499
+      },
+      "height": {
+        "count": 0,
+        "median": null,
+        "mean": null,
+        "min": null,
+        "max": null,
+        "p25": null,
+        "p75": null
+      },
+      "cup_sizes": [],
+      "sources": [
+        "SiliconWives"
+      ]
+    },
+    {
+      "brand": "Real Lady",
+      "tier": "premium",
+      "full_body_skus": 64,
+      "price": {
+        "count": 64,
+        "median": 3149,
+        "mean": 3107,
+        "min": 600,
+        "max": 3499,
+        "p25": 3050,
+        "p75": 3299
+      },
+      "height": {
+        "count": 63,
+        "median": 168,
+        "mean": 164,
+        "min": 150,
+        "max": 170,
+        "p25": 159,
+        "p75": 170
+      },
+      "cup_sizes": [
+        "H"
+      ],
+      "sources": [
+        "SiliconWives"
+      ]
+    },
+    {
+      "brand": "Sino Doll",
+      "tier": "premium",
+      "full_body_skus": 12,
+      "price": {
+        "count": 12,
+        "median": 2999,
+        "mean": 3057,
+        "min": 2299,
+        "max": 3899,
+        "p25": 2999,
+        "p75": 2999
+      },
+      "height": {
+        "count": 11,
+        "median": 161,
+        "mean": 158,
+        "min": 148,
+        "max": 162,
+        "p25": 148,
+        "p75": 162
+      },
+      "cup_sizes": [],
+      "sources": [
+        "SiliconWives"
+      ]
+    },
+    {
+      "brand": "Lusandy",
+      "tier": "mid",
+      "full_body_skus": 35,
+      "price": {
+        "count": 35,
+        "median": 2699,
+        "mean": 2679,
+        "min": 2599,
+        "max": 2699,
+        "p25": 2699,
+        "p75": 2699
+      },
+      "height": {
+        "count": 35,
+        "median": 165,
+        "mean": 163,
+        "min": 159,
+        "max": 170,
+        "p25": 159,
+        "p75": 167
+      },
+      "cup_sizes": [
+        "B",
+        "D",
+        "G",
+        "H"
+      ],
+      "sources": [
+        "SiliconWives"
+      ]
+    },
+    {
+      "brand": "MD Doll",
+      "tier": "mid",
+      "full_body_skus": 69,
+      "price": {
+        "count": 69,
+        "median": 2599,
+        "mean": 2396,
+        "min": 1674,
+        "max": 2599,
+        "p25": 2499,
+        "p75": 2599
+      },
+      "height": {
+        "count": 69,
+        "median": 166,
+        "mean": 162,
+        "min": 150,
+        "max": 168,
+        "p25": 160,
+        "p75": 166
+      },
+      "cup_sizes": [
+        "A",
+        "C",
+        "E",
+        "G"
+      ],
+      "sources": [
+        "SiliconWives"
+      ]
+    },
+    {
+      "brand": "Sanhui",
+      "tier": "premium",
+      "full_body_skus": 7,
+      "price": {
+        "count": 7,
+        "median": 2599,
+        "mean": 2713,
+        "min": 2499,
+        "max": 3199,
+        "p25": 2499,
+        "p75": 2999
+      },
+      "height": {
+        "count": 7,
+        "median": 165,
+        "mean": 166,
+        "min": 163,
+        "max": 168,
+        "p25": 163,
+        "p75": 168
+      },
+      "cup_sizes": [],
+      "sources": [
+        "SiliconWives"
+      ]
+    },
+    {
+      "brand": "XT Doll",
+      "tier": "mid",
+      "full_body_skus": 50,
+      "price": {
+        "count": 50,
+        "median": 2399,
+        "mean": 2289,
+        "min": 1899,
+        "max": 2499,
+        "p25": 2099,
+        "p75": 2399
+      },
+      "height": {
+        "count": 50,
+        "median": 163,
+        "mean": 161,
+        "min": 150,
+        "max": 168,
+        "p25": 157,
+        "p75": 164
+      },
+      "cup_sizes": [
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "H",
+        "I"
+      ],
+      "sources": [
+        "SiliconWives"
+      ]
+    },
+    {
+      "brand": "Irontech",
+      "tier": "mid",
+      "full_body_skus": 122,
+      "price": {
+        "count": 122,
+        "median": 2386,
+        "mean": 2329,
+        "min": 600,
+        "max": 2999,
+        "p25": 2199,
+        "p75": 2449
+      },
+      "height": {
+        "count": 121,
+        "median": 164,
+        "mean": 162,
+        "min": 151,
+        "max": 169,
+        "p25": 160,
+        "p75": 165
+      },
+      "cup_sizes": [
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "J"
+      ],
+      "sources": [
+        "SiliconWives"
+      ]
+    },
+    {
+      "brand": "Jiusheng",
+      "tier": "mid",
+      "full_body_skus": 25,
+      "price": {
+        "count": 25,
+        "median": 2299,
+        "mean": 2239,
+        "min": 1599,
+        "max": 2599,
+        "p25": 2199,
+        "p75": 2399
+      },
+      "height": {
+        "count": 25,
+        "median": 158,
+        "mean": 155,
+        "min": 148,
+        "max": 168,
+        "p25": 148,
+        "p75": 158
+      },
+      "cup_sizes": [
+        "B",
+        "D",
+        "E",
+        "F"
+      ],
+      "sources": [
+        "SiliconWives"
+      ]
+    },
+    {
+      "brand": "SE Doll",
+      "tier": "mid",
+      "full_body_skus": 135,
+      "price": {
+        "count": 135,
+        "median": 2199,
+        "mean": 1890,
+        "min": 1099,
+        "max": 2299,
+        "p25": 1499,
+        "p75": 2199
+      },
+      "height": {
+        "count": 124,
+        "median": 161,
+        "mean": 161,
+        "min": 150,
+        "max": 168,
+        "p25": 160,
+        "p75": 165
+      },
+      "cup_sizes": [
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "H",
+        "I",
+        "J"
+      ],
+      "sources": [
+        "SiliconWives"
+      ]
+    },
+    {
+      "brand": "Cyber Girl",
+      "tier": "mid",
+      "full_body_skus": 4,
+      "price": {
+        "count": 4,
+        "median": 2199,
+        "mean": 2212,
+        "min": 2149,
+        "max": 2299,
+        "p25": 2149,
+        "p75": 2299
+      },
+      "height": {
+        "count": 4,
+        "median": 164,
+        "mean": 164,
+        "min": 160,
+        "max": 167,
+        "p25": 160,
+        "p75": 167
+      },
+      "cup_sizes": [
+        "C",
+        "E"
+      ],
+      "sources": [
+        "SiliconWives"
+      ]
+    },
+    {
+      "brand": "Angel Kiss",
+      "tier": "budget",
+      "full_body_skus": 49,
+      "price": {
+        "count": 49,
+        "median": 2199,
+        "mean": 2179,
+        "min": 1999,
+        "max": 2199,
+        "p25": 2199,
+        "p75": 2199
+      },
+      "height": {
+        "count": 49,
+        "median": 165,
+        "mean": 165,
+        "min": 150,
+        "max": 175,
+        "p25": 162,
+        "p75": 168
+      },
+      "cup_sizes": [
+        "A",
+        "C",
+        "D",
+        "E",
+        "G"
+      ],
+      "sources": [
+        "SiliconWives"
+      ]
+    },
+    {
+      "brand": "Qita",
+      "tier": "mid",
+      "full_body_skus": 2,
+      "price": {
+        "count": 2,
+        "median": 2099,
+        "mean": 2099,
+        "min": 1999,
+        "max": 2199,
+        "p25": 1999,
+        "p75": 2199
+      },
+      "height": {
+        "count": 2,
+        "median": 178,
+        "mean": 178,
+        "min": 175,
+        "max": 180,
+        "p25": 175,
+        "p75": 180
+      },
+      "cup_sizes": [],
+      "sources": [
+        "SiliconWives"
+      ]
+    },
+    {
+      "brand": "YL Doll",
+      "tier": "mid",
+      "full_body_skus": 32,
+      "price": {
+        "count": 32,
+        "median": 2049,
+        "mean": 2008,
+        "min": 1599,
+        "max": 2399,
+        "p25": 1849,
+        "p75": 2049
+      },
+      "height": {
+        "count": 32,
+        "median": 158,
+        "mean": 158,
+        "min": 140,
+        "max": 170,
+        "p25": 151,
+        "p75": 168
+      },
+      "cup_sizes": [
+        "B",
+        "D",
+        "E",
+        "F",
+        "G",
+        "J"
+      ],
+      "sources": [
+        "SiliconWives"
+      ]
+    },
+    {
+      "brand": "ZELEX",
+      "tier": "premium",
+      "full_body_skus": 156,
+      "price": {
+        "count": 156,
+        "median": 1999,
+        "mean": 1952,
+        "min": 500,
+        "max": 2799,
+        "p25": 1799,
+        "p75": 2299
+      },
+      "height": {
+        "count": 119,
+        "median": 166,
+        "mean": 166,
+        "min": 153,
+        "max": 175,
+        "p25": 164,
+        "p75": 170
+      },
+      "cup_sizes": [
+        "B",
+        "C",
+        "D",
+        "E",
+        "G",
+        "J",
+        "K"
+      ],
+      "sources": [
+        "SiliconWives"
+      ]
+    },
+    {
+      "brand": "JM Doll",
+      "tier": "mid",
+      "full_body_skus": 1,
+      "price": {
+        "count": 1,
+        "median": 1999,
+        "mean": 1999,
+        "min": 1999,
+        "max": 1999,
+        "p25": 1999,
+        "p75": 1999
+      },
+      "height": {
+        "count": 1,
+        "median": 160,
+        "mean": 160,
+        "min": 160,
+        "max": 160,
+        "p25": 160,
+        "p75": 160
+      },
+      "cup_sizes": [],
+      "sources": [
+        "SiliconWives"
+      ]
+    },
+    {
+      "brand": "Starpery",
+      "tier": "mid",
+      "full_body_skus": 46,
+      "price": {
+        "count": 46,
+        "median": 1949,
+        "mean": 1936,
+        "min": 1000,
+        "max": 2599,
+        "p25": 1899,
+        "p75": 1949
+      },
+      "height": {
+        "count": 45,
+        "median": 171,
+        "mean": 166,
+        "min": 148,
+        "max": 176,
+        "p25": 161,
+        "p75": 172
+      },
+      "cup_sizes": [
+        "B",
+        "D",
+        "E"
+      ],
+      "sources": [
+        "SiliconWives"
+      ]
+    },
+    {
+      "brand": "SY Doll",
+      "tier": "mid",
+      "full_body_skus": 4,
+      "price": {
+        "count": 4,
+        "median": 1949,
+        "mean": 1949,
+        "min": 1899,
+        "max": 1999,
+        "p25": 1899,
+        "p75": 1999
+      },
+      "height": {
+        "count": 4,
+        "median": 169,
+        "mean": 169,
+        "min": 167,
+        "max": 170,
+        "p25": 167,
+        "p75": 170
+      },
+      "cup_sizes": [
+        "H"
+      ],
+      "sources": [
+        "SiliconWives"
+      ]
+    },
+    {
+      "brand": "6Ye",
+      "tier": "budget",
+      "full_body_skus": 22,
+      "price": {
+        "count": 22,
+        "median": 1899,
+        "mean": 1906,
+        "min": 1499,
+        "max": 2199,
+        "p25": 1899,
+        "p75": 1999
+      },
+      "height": {
+        "count": 22,
+        "median": 163,
+        "mean": 162,
+        "min": 150,
+        "max": 171,
+        "p25": 158,
+        "p75": 165
+      },
+      "cup_sizes": [
+        "A",
+        "C",
+        "D",
+        "F",
+        "K"
+      ],
+      "sources": [
+        "SiliconWives"
+      ]
+    },
+    {
+      "brand": "Magic Moment",
+      "tier": "mid",
+      "full_body_skus": 3,
+      "price": {
+        "count": 3,
+        "median": 1899,
+        "mean": 1866,
+        "min": 1799,
+        "max": 1899,
+        "p25": 1799,
+        "p75": 1899
+      },
+      "height": {
+        "count": 3,
+        "median": 168,
+        "mean": 166,
+        "min": 160,
+        "max": 170,
+        "p25": 160,
+        "p75": 170
+      },
+      "cup_sizes": [],
+      "sources": [
+        "SiliconWives"
+      ]
+    },
+    {
+      "brand": "CY Doll",
+      "tier": "budget",
+      "full_body_skus": 83,
+      "price": {
+        "count": 83,
+        "median": 1799,
+        "mean": 1856,
+        "min": 1499,
+        "max": 2499,
+        "p25": 1799,
+        "p75": 1799
+      },
+      "height": {
+        "count": 79,
+        "median": 168,
+        "mean": 168,
+        "min": 150,
+        "max": 176,
+        "p25": 167,
+        "p75": 172
+      },
+      "cup_sizes": [
+        "A",
+        "C",
+        "D",
+        "E",
+        "F"
+      ],
+      "sources": [
+        "SiliconWives"
+      ]
+    },
+    {
+      "brand": "WM Doll",
+      "tier": "budget",
+      "full_body_skus": 271,
+      "price": {
+        "count": 271,
+        "median": 1777,
+        "mean": 1759,
+        "min": 400,
+        "max": 2249,
+        "p25": 1733,
+        "p75": 1777
+      },
+      "height": {
+        "count": 269,
+        "median": 164,
+        "mean": 164,
+        "min": 148,
+        "max": 175,
+        "p25": 160,
+        "p75": 171
+      },
+      "cup_sizes": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "J",
+        "K"
+      ],
+      "sources": [
+        "SiliconWives"
+      ]
+    },
+    {
+      "brand": "Dime Doll",
+      "tier": "budget",
+      "full_body_skus": 35,
+      "price": {
+        "count": 35,
+        "median": 1699,
+        "mean": 1542,
+        "min": 699,
+        "max": 1799,
+        "p25": 1499,
+        "p75": 1699
+      },
+      "height": {
+        "count": 32,
+        "median": 169,
+        "mean": 166,
+        "min": 78,
+        "max": 172,
+        "p25": 168,
+        "p75": 170
+      },
+      "cup_sizes": [],
+      "sources": [
+        "SiliconWives"
+      ]
+    },
+    {
+      "brand": "FunWest",
+      "tier": "budget",
+      "full_body_skus": 107,
+      "price": {
+        "count": 107,
+        "median": 1599,
+        "mean": 1809,
+        "min": 450,
+        "max": 2499,
+        "p25": 1499,
+        "p75": 2199
+      },
+      "height": {
+        "count": 106,
+        "median": 159,
+        "mean": 159,
+        "min": 150,
+        "max": 168,
+        "p25": 157,
+        "p75": 160
+      },
+      "cup_sizes": [
+        "A",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G"
+      ],
+      "sources": [
+        "SiliconWives"
+      ]
+    },
+    {
+      "brand": "Sigafun",
+      "tier": "budget",
+      "full_body_skus": 7,
+      "price": {
+        "count": 7,
+        "median": 1425,
+        "mean": 1457,
+        "min": 1425,
+        "max": 1499,
+        "p25": 1425,
+        "p75": 1499
+      },
+      "height": {
+        "count": 7,
+        "median": 163,
+        "mean": 162,
+        "min": 159,
+        "max": 164,
+        "p25": 159,
+        "p75": 164
+      },
+      "cup_sizes": [],
+      "sources": [
+        "SiliconWives"
+      ]
+    },
+    {
+      "brand": "Arcana",
+      "tier": "mid",
+      "full_body_skus": 4,
+      "price": {
+        "count": 4,
+        "median": 1336,
+        "mean": 1336,
+        "min": 1274,
+        "max": 1399,
+        "p25": 1274,
+        "p75": 1399
+      },
+      "height": {
+        "count": 0,
+        "median": null,
+        "mean": null,
+        "min": null,
+        "max": null,
+        "p25": null,
+        "p75": null
+      },
+      "cup_sizes": [],
+      "sources": [
+        "SiliconWives"
+      ]
+    },
+    {
+      "brand": "LilyDoll",
+      "tier": "budget",
+      "full_body_skus": 14,
+      "price": {
+        "count": 14,
+        "median": 1199,
+        "mean": 1242,
+        "min": 1199,
+        "max": 1299,
+        "p25": 1199,
+        "p75": 1299
+      },
+      "height": {
+        "count": 14,
+        "median": 166,
+        "mean": 163,
+        "min": 157,
+        "max": 168,
+        "p25": 158,
+        "p75": 168
+      },
+      "cup_sizes": [
+        "C",
+        "D",
+        "F"
+      ],
+      "sources": [
+        "SiliconWives"
+      ]
+    },
+    {
+      "brand": "Silicon Wives",
+      "tier": "mid",
+      "full_body_skus": 14,
+      "price": {
+        "count": 14,
+        "median": 1199,
+        "mean": 1289,
+        "min": 229,
+        "max": 2499,
+        "p25": 249,
+        "p75": 2397
+      },
+      "height": {
+        "count": 7,
+        "median": 168,
+        "mean": 170,
+        "min": 166,
+        "max": 176,
+        "p25": 166,
+        "p75": 172
+      },
+      "cup_sizes": [
+        "B",
+        "E"
+      ],
+      "sources": [
+        "SiliconWives"
+      ]
+    }
+  ]
+}
