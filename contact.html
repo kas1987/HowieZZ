@@ -31,7 +31,7 @@
     .form-group label{display:block;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
     .form-group label .req{color:var(--coral);margin-left:2px}
     .form-group input,.form-group textarea,.form-group select{
-      width:100%;background:var(--panel2);border:1px solid var(--line);border-radius:8px;
+      width:100%;background:var(--panel2);border:1px solid var(--line);border-radius:var(--r-md);
       color:var(--text);font-family:'Montserrat',sans-serif;font-size:14px;padding:11px 14px;
       transition:.2s;outline:none;appearance:none;-webkit-appearance:none}
     .form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:var(--gold);box-shadow:0 0 0 2px rgba(212,165,116,.15)}
@@ -42,7 +42,7 @@
     @media(max-width:600px){.form-row{grid-template-columns:1fr}}
     .field-err{font-size:11px;color:var(--coral);margin-top:5px;display:none}
     .field-err.show{display:block}
-    .readonly-field{background:var(--panel);border:1px solid var(--line);border-radius:8px;color:var(--muted);font-size:13px;padding:11px 14px;letter-spacing:.3px}
+    .readonly-field{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-md);color:var(--muted);font-size:13px;padding:11px 14px;letter-spacing:.3px}
 
     /* consent */
     .consent-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:24px}
@@ -112,7 +112,7 @@
       <!-- error state -->
       <div id="form-error">
         <h3>Something went wrong.</h3>
-        <p id="form-error-msg">We couldn't send your message right now. Please try again, or reach us directly at
+        <p id="form-error-msg"><span id="form-error-text">We couldn't send your message right now. Please try again, or reach us directly at</span>
           <a id="error-email-link" href="#"><!-- filled by JS --></a>.</p>
       </div>
 
@@ -437,6 +437,7 @@ function showSuccess(usedMailto) {
   var success = document.getElementById('form-success');
   var chipArea= document.getElementById('char-chip-area');
   if (form)     form.style.display    = 'none';
+  if (chipArea) chipArea.style.display = 'none';
   if (success)  success.style.display = 'block';
   if (!usedMailto) {
     // endpoint path: hide the direct-email fallback line
@@ -454,7 +455,7 @@ function showError(msg) {
   var msgEl  = document.getElementById('form-error-msg');
   var email  = ZX.INQUIRY_EMAIL || 'inquiries@zelexdoll.com';
   if (errDiv) errDiv.style.display = 'block';
-  if (msgEl && msg) msgEl.textContent = msg;
+  if (msg) { var t = document.getElementById('form-error-text'); if (t) t.textContent = msg; }
   var el = document.getElementById('error-email-link');
   if (el) { el.href = 'mailto:' + email; el.textContent = email; }
   // Re-enable submit

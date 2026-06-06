@@ -91,8 +91,8 @@
 <div class="controls-bar">
   <div class="series-tabs" id="series-tabs"></div>
   <div class="view-toggle" id="view-toggle">
-    <button id="btn-bodies" class="active" onclick="setView('bodies')">Body Architectures</button>
-    <button id="btn-chars" onclick="setView('chars')">Characters</button>
+    <button id="btn-bodies" class="active">Body Architectures</button>
+    <button id="btn-chars">Characters</button>
   </div>
 </div>
 
@@ -360,6 +360,10 @@ function resetChips() {
     p.classList.toggle('active', p.dataset.fam === 'all');
   });
 }
+
+/* ---- view toggle wiring ---- */
+document.getElementById('btn-bodies').addEventListener('click', () => setView('bodies'));
+document.getElementById('btn-chars').addEventListener('click', () => setView('chars'));
 </script>
 </body>
 </html>
