@@ -26,6 +26,12 @@
     .char-chip .chip-name{font-family:'Playfair Display',serif;font-size:18px;font-weight:600;line-height:1.2}
     .char-chip .chip-sub{font-size:11px;color:var(--muted);margin-top:2px;letter-spacing:.5px}
 
+    .compare-chip{background:var(--panel2);border:1px solid color-mix(in srgb,var(--blue) 35%,transparent);border-radius:var(--r-md);padding:12px 16px;margin-bottom:24px}
+    .compare-chip .chip-label{font-size:var(--t-xs);letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:6px}
+    .compare-list{display:flex;gap:8px;flex-wrap:wrap}
+    .compare-list .bcode{font-size:12px}
+    .compare-sub{margin-top:8px;font-size:11px;color:var(--muted);letter-spacing:.3px;line-height:1.4}
+
     /* form */
     .form-group{margin-bottom:20px}
     .form-group label{display:block;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
@@ -160,6 +166,41 @@
           </select>
         </div>
 
+        <div class="form-row">
+          <div class="form-group">
+            <label for="f-intent">Inquiry intent <span style="color:var(--muted);font-size:10px">(optional)</span></label>
+            <select id="f-intent" name="intent">
+              <option value="">Select intent</option>
+              <option value="First purchase guidance">First purchase guidance</option>
+              <option value="Body comparison support">Body comparison support</option>
+              <option value="Character recommendation">Character recommendation</option>
+              <option value="Customization and options">Customization and options</option>
+              <option value="Returning buyer consultation">Returning buyer consultation</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="f-timeline">Purchase timeline <span style="color:var(--muted);font-size:10px">(optional)</span></label>
+            <select id="f-timeline" name="timeline">
+              <option value="">Select timeline</option>
+              <option value="Ready now (0-2 weeks)">Ready now (0-2 weeks)</option>
+              <option value="Near term (1-2 months)">Near term (1-2 months)</option>
+              <option value="Planning phase (3+ months)">Planning phase (3+ months)</option>
+              <option value="Just exploring">Just exploring</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="f-use">Primary use context <span style="color:var(--muted);font-size:10px">(optional)</span></label>
+          <select id="f-use" name="use_context">
+            <option value="">Select context</option>
+            <option value="Private collection">Private collection</option>
+            <option value="Photography and content">Photography and content</option>
+            <option value="Display and styling">Display and styling</option>
+            <option value="Not sure yet">Not sure yet</option>
+          </select>
+        </div>
+
         <div class="form-group">
           <label for="f-message">Message <span class="req">*</span></label>
           <textarea id="f-message" name="message" placeholder="Tell us what you're looking for — any questions, customisation requests, or details that help us assist you." required></textarea>
@@ -282,48 +323,137 @@ ZX.load().then(function(m) {
 
 // ── Prefill from ?id= ────────────────────────────────────────
 function prefill(m) {
-  var id = ZX.qs('id');
-  if (!id || !m || !m.byId) return;
-  var c = m.byId[id];
-  if (!c) return;
+  if (!m || !m.byId) return;
 
-  var persona = c.persona || {};
-  var body    = c.body    || {};
-  var ph      = c.photoshoot || {};
-  var name    = persona.name  || '';
+  var id = ZX.qs('id');
+  var c = (id && m.byId[id]) ? m.byId[id] : null;
+
+  function parseCodes(raw) {
+    if (!raw) return [];
+    return String(raw)
+      .split(',')
+      .map(function(x) { return (x || '').trim(); })
+      .filter(function(x) {
+        return x && x !== '.' && /^[A-Za-z0-9_-]+$/.test(x);
+      });
+  }
+
+  function storedCodes() {
+    try {
+      var parsed = JSON.parse(localStorage.getItem('zx_compare_bodies') || '[]');
+      if (!Array.isArray(parsed)) return [];
+      return parsed
+        .map(function(x) { return String(x || '').trim(); })
+        .filter(function(x) { return x && x !== '.' && /^[A-Za-z0-9_-]+$/.test(x); });
+    } catch (e) {
+      return [];
+    }
+  }
+
+  var compareCodes = parseCodes(ZX.qs('compare'));
+  if (!compareCodes.length) compareCodes = storedCodes();
+
+  if (c && c.body_code && !compareCodes.includes(c.body_code)) {
+    compareCodes.unshift(c.body_code);
+  }
+  compareCodes = compareCodes.slice(0, 4);
+
+  if (!c && !compareCodes.length) return;
+
+  var persona = c ? (c.persona || {}) : {};
+  var body    = c ? (c.body || {}) : {};
+  var ph      = c ? (c.photoshoot || {}) : {};
+  var name    = persona.name || '';
   var title   = persona.title || '';
-  var bc      = c.body_code   || '';
-  var series  = c.series      || '';
+  var bc      = c ? (c.body_code || '') : '';
+  var series  = c ? (c.series || '') : '';
   var price   = ph.price ? ' · $' + ph.price : '';
   var family  = body.family ? ' · ' + body.family : '';
 
   // character chip
   var chipArea = document.getElementById('char-chip-area');
   if (chipArea) {
-    var thumbUrl = ZX.img(c);
-    var thumbHtml = thumbUrl
-      ? '<img src="' + ZX.esc(thumbUrl) + '" alt="' + ZX.esc(name) + '">'
-      : '<div class="chip-thumb-ph">' + ZX.esc((name || '?').charAt(0).toUpperCase()) + '</div>';
-    chipArea.innerHTML =
-      '<div class="char-chip">' +
-        thumbHtml +
-        '<div class="chip-info">' +
-          '<div class="chip-label">You\'re inquiring about</div>' +
-          '<div class="chip-name">' + ZX.esc(name) + '</div>' +
-          '<div class="chip-sub">' + ZX.esc(title) + (title && (bc || series) ? ' · ' : '') + ZX.esc(bc) + (bc && series ? ' · ' : '') + ZX.esc(series) + ZX.esc(price) + '</div>' +
-        '</div>' +
-      '</div>';
+    var chunks = [];
+    if (c) {
+      var thumbUrl = ZX.img(c);
+      var thumbHtml = thumbUrl
+        ? '<img src="' + ZX.esc(thumbUrl) + '" alt="' + ZX.esc(name) + '">'
+        : '<div class="chip-thumb-ph">' + ZX.esc((name || '?').charAt(0).toUpperCase()) + '</div>';
+      chunks.push(
+        '<div class="char-chip">' +
+          thumbHtml +
+          '<div class="chip-info">' +
+            '<div class="chip-label">You\'re inquiring about</div>' +
+            '<div class="chip-name">' + ZX.esc(name) + '</div>' +
+            '<div class="chip-sub">' + ZX.esc(title) + (title && (bc || series) ? ' · ' : '') + ZX.esc(bc) + (bc && series ? ' · ' : '') + ZX.esc(series) + ZX.esc(price) + '</div>' +
+          '</div>' +
+        '</div>'
+      );
+    }
+
+    if (compareCodes.length) {
+      var compareItems = compareCodes.map(function(code) {
+        return '<span class="bcode">' + ZX.esc(code) + '</span>';
+      }).join('');
+      var compareRead = compareCodes.map(function(code) {
+        var bucket = m.byBody[code] || [];
+        var lead = bucket.find(function(x) { return x.status === 'live'; }) || bucket[0] || null;
+        if (!lead || !lead.body) return code;
+        var fam = lead.body.family ? (' - ' + lead.body.family.replace('The ', '')) : '';
+        return code + fam;
+      }).join(' | ');
+
+      chunks.push(
+        '<div class="compare-chip">' +
+          '<div class="chip-label">Compare set attached</div>' +
+          '<div class="compare-list">' + compareItems + '</div>' +
+          '<div class="compare-sub">' + ZX.esc(compareRead) + '</div>' +
+        '</div>'
+      );
+    }
+
+    chipArea.innerHTML = chunks.join('');
   }
 
   // Replace free-text char field with readonly prefilled value
   var charGroup = document.getElementById('char-field-group');
   if (charGroup) {
-    var prefillVal = name + (bc ? ' — ' + bc : '') + (series ? ' (' + series + ')' : '') + family;
+    var prefillVal = '';
+    if (c) {
+      prefillVal = name + (bc ? ' - ' + bc : '') + (series ? ' (' + series + ')' : '') + family;
+    }
+    if (compareCodes.length) {
+      var compareText = 'Compare set: ' + compareCodes.join(', ');
+      prefillVal = prefillVal ? (prefillVal + ' | ' + compareText) : compareText;
+    }
+
     charGroup.innerHTML =
       '<label>Character of interest</label>' +
       '<div class="readonly-field">' + ZX.esc(prefillVal) + '</div>' +
       '<input type="hidden" name="character" value="' + ZX.esc(prefillVal) + '">';
   }
+
+  var msgField = document.getElementById('f-message');
+  if (msgField && !msgField.value.trim() && compareCodes.length) {
+    msgField.value = 'I would like guidance on these body architectures: ' + compareCodes.join(', ') + '.';
+  }
+}
+
+function getEntryMeta() {
+  function parseCodes(raw) {
+    if (!raw) return [];
+    return String(raw)
+      .split(',')
+      .map(function(x) { return (x || '').trim(); })
+      .filter(function(x) { return x && x !== '.' && /^[A-Za-z0-9_-]+$/.test(x); });
+  }
+  return {
+    entry_source: String(ZX.qs('src') || '').trim(),
+    entry_cta: String(ZX.qs('cta') || '').trim(),
+    entry_context: String(ZX.qs('context') || '').trim(),
+    entry_channel: String(ZX.qs('channel') || '').trim(),
+    entry_compare_count: parseCodes(ZX.qs('compare')).length
+  };
 }
 
 // ── Validation ───────────────────────────────────────────────
@@ -401,6 +531,9 @@ function buildMailto(fields) {
     fields.country ? 'Country: ' + fields.country : null,
     fields.character ? 'Character of interest: ' + fields.character : null,
     fields.budget  ? 'Budget: '  + fields.budget  : null,
+    fields.intent  ? 'Intent: '  + fields.intent  : null,
+    fields.timeline? 'Timeline: '+ fields.timeline: null,
+    fields.use_context ? 'Use context: ' + fields.use_context : null,
     '',
     'Message:',
     fields.message || ''
@@ -427,6 +560,9 @@ function collectFields() {
     country:   val('f-country'),
     character: charVal,
     budget:    val('f-budget'),
+    intent:    val('f-intent'),
+    timeline:  val('f-timeline'),
+    use_context: val('f-use'),
     message:   val('f-message')
   };
 }
@@ -448,6 +584,7 @@ function showSuccess(usedMailto) {
   var email = ZX.INQUIRY_EMAIL || 'inquiries@zelexdoll.com';
   var sl = document.getElementById('success-email-link');
   if (sl) { sl.href = 'mailto:' + email; sl.textContent = email; }
+  ZX.track('inquiry_submit_success', Object.assign({ channel: usedMailto ? 'mailto' : 'endpoint', context: 'contact_form', source_page: 'contact' }, getEntryMeta()));
 }
 
 function showError(msg) {
@@ -462,6 +599,7 @@ function showError(msg) {
   var spinner = document.getElementById('submit-spinner');
   if (btn) btn.disabled = false;
   if (spinner) spinner.style.display = 'none';
+  ZX.track('inquiry_submit_error', Object.assign({ message: msg || '', context: 'contact_form', source_page: 'contact' }, getEntryMeta()));
 }
 
 // ── Form submit ──────────────────────────────────────────────
@@ -469,7 +607,10 @@ document.getElementById('inquiry-form').addEventListener('submit', function(e) {
   e.preventDefault();
   clearErrors();
 
-  if (!validate()) return;
+  if (!validate()) {
+    ZX.track('inquiry_validation_failed', Object.assign({ context: 'contact_form', source_page: 'contact' }, getEntryMeta()));
+    return;
+  }
 
   var btn     = document.getElementById('submit-btn');
   var spinner = document.getElementById('submit-spinner');
@@ -482,6 +623,14 @@ document.getElementById('inquiry-form').addEventListener('submit', function(e) {
 
   var fields   = collectFields();
   var endpoint = (typeof ZX !== 'undefined' && ZX.FORM_ENDPOINT) ? ZX.FORM_ENDPOINT : '';
+  ZX.track('inquiry_submit_attempt', Object.assign({
+    has_character_context: !!fields.character,
+    has_compare_context: (fields.character || '').indexOf('Compare set:') >= 0,
+    intent: fields.intent || '',
+    timeline: fields.timeline || '',
+    context: 'contact_form',
+    source_page: 'contact'
+  }, getEntryMeta()));
 
   if (endpoint) {
     // ── Real backend path ──────────────────────────────────

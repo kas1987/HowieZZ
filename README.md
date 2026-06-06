@@ -93,6 +93,7 @@ In `assets/site.js`:
 - `INQUIRY_EMAIL` — the real inquiry address (placeholder: `inquiries@zelexdoll.com`).
 - `FORM_ENDPOINT` — optional Formspree/Getform URL; when empty, the contact form
   falls back to a prefilled `mailto:`.
+- `docs/pdr/PDR-analytics-sanity-thresholds.json` — single source of truth for analytics sanity fixture paths and threshold defaults.
 
 ---
 

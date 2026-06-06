@@ -29,6 +29,132 @@ window.ZX = (function () {
   function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
   function img(c){ return (c.photoshoot && (c.photoshoot.hero_thumb || c.photoshoot.hero)) || ''; }
 
+  const ANALYTICS_SCHEMA_VERSION = '2026-06-06';
+  const ANALYTICS_SESSION_KEY = 'zx_analytics_session_id';
+  const ANALYTICS_DEBUG_KEY = 'zx_analytics_debug';
+  const EVENT_ALIASES = {
+    compare_add_from_body: 'compare_add',
+    compare_add_from_character: 'compare_add',
+    compare_add_from_compare_page: 'compare_add',
+    compare_to_contact_click: 'compare_handoff_click',
+    compare_to_quiz_click: 'compare_handoff_click',
+    compare_view_empty: 'compare_view'
+  };
+
+  function createSessionId() {
+    const t = Date.now().toString(36);
+    const r = Math.random().toString(36).slice(2, 10);
+    return 'zx_' + t + '_' + r;
+  }
+
+  function getSessionId() {
+    try {
+      let sid = '';
+      try { sid = sessionStorage.getItem(ANALYTICS_SESSION_KEY) || ''; } catch (e) {}
+      if (!sid) {
+        try { sid = localStorage.getItem(ANALYTICS_SESSION_KEY) || ''; } catch (e) {}
+      }
+      if (!sid) sid = createSessionId();
+      try { sessionStorage.setItem(ANALYTICS_SESSION_KEY, sid); } catch (e) {}
+      try { localStorage.setItem(ANALYTICS_SESSION_KEY, sid); } catch (e) {}
+      return sid;
+    } catch (e) {
+      return createSessionId();
+    }
+  }
+
+  function parseCodeList(raw) {
+    if (!raw) return [];
+    if (Array.isArray(raw)) {
+      return raw.map(x => String(x || '').trim()).filter(x => x && /^[A-Za-z0-9_-]+$/.test(x));
+    }
+    return String(raw)
+      .split(',')
+      .map(x => (x || '').trim())
+      .filter(x => x && /^[A-Za-z0-9_-]+$/.test(x));
+  }
+
+  function analyticsDebugEnabled() {
+    try {
+      const flag = String(qs('zx_analytics_debug') || '').toLowerCase();
+      if (flag === '1' || flag === 'true' || flag === 'on') {
+        try { localStorage.setItem(ANALYTICS_DEBUG_KEY, '1'); } catch (e) {}
+        return true;
+      }
+      if (flag === '0' || flag === 'false' || flag === 'off') {
+        try { localStorage.removeItem(ANALYTICS_DEBUG_KEY); } catch (e) {}
+        return false;
+      }
+      return localStorage.getItem(ANALYTICS_DEBUG_KEY) === '1';
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function normalizeTrackPayload(eventName, payload) {
+    const canonicalEvent = EVENT_ALIASES[eventName] || eventName;
+    const clean = Object.assign({}, payload || {});
+    const codes = parseCodeList(clean.body_codes || clean.compare_codes);
+
+    if (codes.length) {
+      clean.body_codes = codes.join(',');
+      if (!(typeof clean.compare_count === 'number')) clean.compare_count = codes.length;
+    }
+
+    if (typeof clean.message === 'string') {
+      clean.error_message = clean.message.trim().slice(0, 180);
+      delete clean.message;
+    }
+
+    ['body_code','family','series','channel','context','cta','intent','timeline','source_page','view_state'].forEach(function(k) {
+      if (clean[k] != null) clean[k] = String(clean[k]).trim();
+    });
+
+    return Object.assign({
+      event: canonicalEvent,
+      event_original: eventName,
+      source: 'howiezz-web',
+      schema_version: ANALYTICS_SCHEMA_VERSION,
+      session_id: getSessionId(),
+      ts: new Date().toISOString(),
+      page: (location.pathname.split('/').pop() || 'index.html').toLowerCase(),
+      path: location.pathname
+    }, clean);
+  }
+
+  // Lightweight analytics hook. Emits to dataLayer when present and dispatches a
+  // custom event for any local listeners. Safe no-op when analytics is absent.
+  function track(eventName, payload){
+    const eventPayload = normalizeTrackPayload(eventName, payload);
+    try {
+      if (Array.isArray(window.dataLayer)) window.dataLayer.push(eventPayload);
+    } catch (e) {}
+    try {
+      window.dispatchEvent(new CustomEvent('zx:track', { detail: eventPayload }));
+    } catch (e) {}
+    if (analyticsDebugEnabled()) {
+      try { console.debug('[ZX analytics]', eventPayload); } catch (e) {}
+    }
+  }
+
+  function trackPageViewOnce() {
+    if (window.__zxPageViewTracked) return;
+    window.__zxPageViewTracked = true;
+    const pageName = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+    track('page_view', {
+      context: 'navigation',
+      source_page: pageName.replace('.html', '')
+    });
+  }
+
+  try {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', trackPageViewOnce, { once: true });
+    } else {
+      trackPageViewOnce();
+    }
+  } catch (e) {}
+
   // Link to the on-site contact form, prefilled for this character.
   function contactHref(c){ return `contact.html?id=${encodeURIComponent(c.character_id)}`; }
 
@@ -124,6 +250,7 @@ window.ZX = (function () {
   function mountNav(active){
     const items = [
       ['index.html','Atlas'], ['browse.html','Browse'], ['family.html','Families'],
+      ['compare.html','Compare'],
       ['quiz.html','Find Yours'], ['contact.html','Contact']
     ];
     const links = items.map(([h,l])=>`<a href="${h}" class="${active===h?'active':''}">${l}</a>`).join('');
@@ -231,6 +358,7 @@ window.ZX = (function () {
   }
 
   return { load, famColor, qs, esc, img, inquireHref, contactHref, INQUIRY_EMAIL, FORM_ENDPOINT,
+           track,
            mountNav, mountFooter, fail, charCard, bodyCard, metricsLegend,
            repImg, heroBackdrop, revealInit,
            SERIES_ORDER, SERIES_SUB, FAMILIES };

@@ -262,6 +262,7 @@ function render(m) {
 
           <div class="char-actions">
             <a class="btn" href="body.html?b=${encodeURIComponent(c.body_code)}">View Body Architecture</a>
+            <button class="btn ghost" type="button" id="add-compare-char">Add to Compare</button>
             <a class="btn ghost" href="series.html?s=${encodeURIComponent(c.series)}">← ${ZX.esc(c.series)}</a>
           </div>
         </div>
@@ -404,6 +405,29 @@ function render(m) {
 
   // update page title
   document.title = `${p.name} · ZELEX Atlas`;
+
+  const compareCharBtn = document.getElementById('add-compare-char');
+  if (compareCharBtn) {
+    compareCharBtn.addEventListener('click', () => {
+      const key = 'zx_compare_bodies';
+      let cur = [];
+      try { cur = JSON.parse(localStorage.getItem(key) || '[]'); } catch (e) { cur = []; }
+      if (!Array.isArray(cur)) cur = [];
+      cur = cur.filter(Boolean).filter(x => x !== '.');
+      if (!cur.includes(c.body_code)) cur.push(c.body_code);
+      localStorage.setItem(key, JSON.stringify(cur.slice(0, 4)));
+      ZX.track('compare_add', {
+        character_id: c.character_id,
+        body_code: c.body_code,
+        family: (c.body && c.body.family) ? c.body.family : '',
+        series: c.series || '',
+        compare_count: cur.slice(0, 4).length,
+        context: 'character_detail',
+        source_page: 'character'
+      });
+      location.href = 'compare.html';
+    });
+  }
 
   ZX.revealInit();
 }

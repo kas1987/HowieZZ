@@ -65,10 +65,18 @@
     <div class="cta">
       <a class="btn solid" href="#explore">Explore the Atlas</a>
       <a class="btn" href="quiz.html">Find your character</a>
+      <a class="btn ghost" href="compare.html">Compare Bodies</a>
     </div>
     <div class="stats" id="stats"></div>
   </div>
 </header>
+
+<section class="trust-strip" aria-label="Buyer confidence signals">
+  <div class="trust-item"><b>Made to order</b><span>No standing-stock confusion</span></div>
+  <div class="trust-item"><b>Measured bodies</b><span>WHR/BWR silhouette logic</span></div>
+  <div class="trust-item"><b>Private inquiry</b><span>Concierge-first decision path</span></div>
+  <div class="trust-item"><b>Adults only</b><span>18+ collector experience</span></div>
+</section>
 
 <main>
   <!-- three doors -->
@@ -96,6 +104,32 @@
   <!-- series rail -->
   <div class="section-head reveal" id="explore">The Four Series</div>
   <div class="section-sub reveal d1">Each series is a distinct design language. Step into one to see its body architectures.</div>
+
+  <div class="section-head reveal">Choose by silhouette family</div>
+  <div class="section-sub reveal d1">The fastest path is not product code first - it is buyer intent, silhouette, and handling confidence.</div>
+  <div class="family-chooser reveal d2">
+    <a class="family-tile" style="--fam-color:var(--Classic)" href="family.html?f=The%20Classic"><div class="k">Balanced</div><h3>The Classic</h3><p>Timeless hourglass for first-time premium buyers.</p><span class="status-note">In development</span></a>
+    <a class="family-tile" style="--fam-color:var(--Icon)" href="family.html?f=The%20Icon"><div class="k">Editorial</div><h3>The Icon</h3><p>Camera-forward glamour and polished visual presence.</p></a>
+    <a class="family-tile" style="--fam-color:var(--Muse)" href="family.html?f=The%20Muse"><div class="k">Naturalism</div><h3>The Muse</h3><p>Hip-led realism and believable everyday elegance.</p></a>
+    <a class="family-tile" style="--fam-color:var(--Siren)" href="family.html?f=The%20Siren"><div class="k">Fantasy</div><h3>The Siren</h3><p>Bust-forward drama and high-presence character energy.</p></a>
+    <a class="family-tile" style="--fam-color:var(--Empress)" href="family.html?f=The%20Empress"><div class="k">Plush</div><h3>The Empress</h3><p>Soft-dominant abundance, fullness, and regal weight.</p></a>
+    <a class="family-tile" style="--fam-color:var(--Sculpt)" href="family.html?f=The%20Sculpt"><div class="k">Defined</div><h3>The Sculpt</h3><p>Athletic realism and deliberately structured presence.</p><span class="status-note">In development</span></a>
+  </div>
+
+  <section class="compare-preview reveal d2">
+    <div>
+      <div class="eyebrow no-rule">Compare before contact</div>
+      <h3>Body architecture is the real decision layer.</h3>
+      <p>Compare up to four bodies by height, weight, cup, family, WHR/BWR, bust drop, and handling class before asking concierge.</p>
+      <div style="margin-top:18px"><a class="btn solid" href="compare.html">Open body compare</a></div>
+    </div>
+    <div class="compare-points">
+      <span>Natural vs dramatic silhouette</span>
+      <span>Solo-manageable vs dedicated-space handling</span>
+      <span>Verified vs estimated family confidence</span>
+    </div>
+  </section>
+
   <div class="seriesrail" id="seriesRail"></div>
 
   <!-- featured characters -->
@@ -105,6 +139,18 @@
   </div>
   <div class="section-sub">A rotating cast from across the collection.</div>
   <div class="grid g4" id="featured"></div>
+
+  <section class="concierge-band reveal d2">
+    <div>
+      <div class="eyebrow no-rule">Private next step</div>
+      <h3>Still deciding? Let the body architecture narrow it down.</h3>
+      <p>Use the quiz or compare tool first, then send a cleaner inquiry with the exact bodies, family, and buyer intent attached.</p>
+    </div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:flex-end">
+      <a class="btn solid" href="quiz.html">Find your match</a>
+      <a class="btn concierge" href="contact.html">Begin concierge inquiry</a>
+    </div>
+  </section>
 </main>
 
 <script src="assets/site.js"></script>

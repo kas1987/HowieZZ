@@ -222,6 +222,7 @@ function render(m) {
     ? `<a class="btn ghost" href="series.html?s=${encodeURIComponent(series)}">← ${ZX.esc(series)}</a>`
     : '';
   const quizBtn = `<a class="btn" href="quiz.html">Find Your Match</a>`;
+  const compareBtn = `<button class="btn ghost" id="add-compare-body" type="button">Add to Compare</button>`;
 
   /* ---- hero injection ---- */
   const repSrc = ZX.repImg(chars, 0);
@@ -248,6 +249,7 @@ function render(m) {
       ${archiveNote}
       <div class="crosslinks reveal d2">
         ${seriesBtn}
+        ${compareBtn}
         ${quizBtn}
       </div>
     </div>
@@ -261,6 +263,21 @@ function render(m) {
     <div class="section-sub reveal d4">The four characters built on the ${ZX.esc(bc)} architecture, each a distinct persona.</div>
     <div class="grid g4 reveal d5">${castHTML}</div>
   `;
+
+  const compareBtnEl = document.getElementById('add-compare-body');
+  if (compareBtnEl) {
+    compareBtnEl.addEventListener('click', () => {
+      const key = 'zx_compare_bodies';
+      let cur = [];
+      try { cur = JSON.parse(localStorage.getItem(key) || '[]'); } catch (e) { cur = []; }
+      if (!Array.isArray(cur)) cur = [];
+      cur = cur.filter(Boolean).filter(x => x !== '.');
+      if (!cur.includes(bc)) cur.push(bc);
+      localStorage.setItem(key, JSON.stringify(cur.slice(0, 4)));
+      ZX.track('compare_add', { body_code: bc, family: family || '', series: series || '', compare_count: cur.slice(0, 4).length, context: 'body_detail', source_page: 'body' });
+      location.href = 'compare.html';
+    });
+  }
 
   ZX.revealInit();
 }
