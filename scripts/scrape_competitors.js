@@ -107,21 +107,6 @@ async function fetchShopifyCatalog(baseUrl) {
   return all;
 }
 
-// ── Playwright: product page deep-dive for measurements ──────────────────────
-async function deepMeasurements(page, productUrl, baseUrl) {
-  try {
-    await page.goto(productUrl.startsWith('http') ? productUrl : baseUrl + productUrl, {
-      waitUntil: 'domcontentloaded', timeout: 20000,
-    });
-    await page.waitForTimeout(1500);
-    const bodyHtml = await page.evaluate(() => document.body.innerHTML);
-    return parseMeasurements(bodyHtml);
-  } catch (err) {
-    console.error(`[deepMeasurements] ${productUrl}: ${err.message}`);
-    return {};
-  }
-}
-
 // ── Playwright: full catalog scrape fallback ──────────────────────────────────
 async function playwrightCatalog(browser, target) {
   const ctx = await browser.newContext({ userAgent: UA, locale: 'en-US' });

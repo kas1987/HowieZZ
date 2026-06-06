@@ -1,6 +1,6 @@
 """
 Build independent competitor database from web-scraped catalog data.
-Sources: SiliconWives (Shopify API, 1731 products), FantasyWives (60 products)
+Sources: SiliconWives (Shopify API), FantasyWives, BestRealDoll
 Output: db/independent_competitor.sqlite + db/independent_competitor_report.json
 """
 
