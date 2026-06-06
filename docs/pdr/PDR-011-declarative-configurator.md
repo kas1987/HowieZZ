@@ -315,6 +315,14 @@ instead of global proposals. This mirrors the existing `proposed` component axes
 (standing feet, fingers) — surfaced as real options, flagged honestly as
 not-yet-backed-by-data.
 
+**Closing the data gap.** Both open dependencies — `neck_joint_mm` per body and
+`face_features` per head — need manufacturer input. `scripts/build_data_request.py`
+generates ready-to-send fill-in templates (`docs/data-requests/`): one row per
+real body/head, pre-filled with what we know, blank columns for what we're asking
+for, sorted so the heads buyers actually see come first. Returned values load
+straight into `db/neck_compatibility.json` and the `face_features` slot in
+`db/heads.json` — no schema change; the configurator picks them up automatically.
+
 ---
 
 ## 10. Strategic conclusion
