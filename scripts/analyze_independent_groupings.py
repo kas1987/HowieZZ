@@ -37,6 +37,7 @@ PRICE_BANDS = [
 ]
 
 HEAT_CHARS = " .:-=+*#%@"
+ZELEX_FULL_BODY_LINES = {"Inspiration", "SLE", "ZFE"}
 
 
 def pct(part: int, whole: int) -> float:
@@ -58,6 +59,20 @@ def price_band(value: float | None) -> str:
         if lo <= value < hi:
             return label
     return "unknown"
+
+
+def normalize_line(brand: str, line: str | None) -> str:
+    if brand == "ZELEX" and (line in ZELEX_FULL_BODY_LINES):
+        return "full-body"
+    return line or "unknown"
+
+
+def dominant_price_band(row: dict) -> str:
+    keys = [label for label, _, _ in PRICE_BANDS]
+    best = max(keys, key=lambda k: row.get(k, 0))
+    if row.get(best, 0) == 0:
+        return "unknown"
+    return best
 
 
 def strategy_group(full_body_skus: int, line_counts: dict[str, int], median_price: float | None) -> str:
@@ -97,9 +112,6 @@ def main() -> None:
 
     for brand in brands:
         total = cur.execute("SELECT COUNT(*) c FROM products WHERE brand=?", (brand,)).fetchone()["c"]
-        full_body = cur.execute(
-            "SELECT COUNT(*) c FROM products WHERE brand=? AND line='full-body'", (brand,)
-        ).fetchone()["c"]
         median_price = cur.execute(
             "SELECT price_median FROM brand_summary WHERE brand=?", (brand,)
         ).fetchone()
@@ -109,8 +121,11 @@ def main() -> None:
         for row in cur.execute(
             "SELECT line, COUNT(*) c FROM products WHERE brand=? GROUP BY line", (brand,)
         ):
-            line = row["line"] if row["line"] in line_counts else "unknown"
-            line_counts[line] = row["c"]
+            line = normalize_line(brand, row["line"])
+            line = line if line in line_counts else "unknown"
+            line_counts[line] += row["c"]
+
+        full_body = line_counts["full-body"]
 
         line_matrix.append(
             {
@@ -150,6 +165,12 @@ def main() -> None:
 
     conn.close()
 
+    full_body_rows = [
+        r
+        for r in line_matrix
+        if r["full_body_skus"] > 0 and r["strategy_group"] != "Retail Aggregator"
+    ]
+
     OUT_CSV.parent.mkdir(parents=True, exist_ok=True)
     with OUT_CSV.open("w", newline="", encoding="utf-8") as f:
         fieldnames = [
@@ -173,8 +194,6 @@ def main() -> None:
             merged = dict(row)
             merged.update(price_by_brand[row["brand"]])
             writer.writerow(merged)
-
-    max_line = max((row["total_products"] for row in line_matrix), default=1)
 
     lines = []
     lines.append("# Independent Catalog Groupings")
@@ -212,6 +231,43 @@ def main() -> None:
         )
 
     lines.append("")
+    lines.append("## Full-Body Competitor Heatmap")
+    lines.append("Excludes retail aggregators and accessory-only catalogs; focuses on full-body competitor line architecture.")
+    lines.append("")
+    lines.append("| Brand | full-body | torso | male | unknown | Strategy |")
+    lines.append("|---|---:|---:|---:|---:|---|")
+
+    fb_cols = ["full-body", "torso", "male", "unknown"]
+    fb_col_max = {k: max((r[k] for r in full_body_rows), default=1) for k in fb_cols}
+
+    for row in sorted(full_body_rows, key=lambda r: (-r["full_body_skus"], r["brand"])):
+        cell = {}
+        for col in fb_cols:
+            c = row[col]
+            cell[col] = f"{c} {heat_char(c, fb_col_max[col])}"
+        lines.append(
+            "| {brand} | {full-body} | {torso} | {male} | {unknown} | {strategy} |".format(
+                brand=row["brand"],
+                strategy=row["strategy_group"],
+                **cell,
+            )
+        )
+
+    lines.append("")
+    lines.append("## Competitor Line Archetypes")
+    lines.append("Compact view of how each brand structures catalog depth, extensions, and price-ladder center.")
+    lines.append("")
+    lines.append("| Brand | Archetype | Full-body SKUs | Full-body share | Dominant price band |")
+    lines.append("|---|---|---:|---:|---|")
+
+    price_by_brand = {row["brand"]: row for row in price_matrix}
+    for row in sorted(full_body_rows, key=lambda r: (r["strategy_group"], -r["full_body_skus"], r["brand"])):
+        p = price_by_brand[row["brand"]]
+        lines.append(
+            f"| {row['brand']} | {row['strategy_group']} | {row['full_body_skus']} | {row['full_body_share_pct']}% | {dominant_price_band(p)} |"
+        )
+
+    lines.append("")
     lines.append("## Price-Band Matrix")
     lines.append("")
     lines.append("| Brand | <1200 | 1200-1799 | 1800-2499 | 2500-3499 | 3500+ | Unknown |")
@@ -229,6 +285,7 @@ def main() -> None:
                 "generated_from": str(DB_PATH.relative_to(ROOT)),
                 "line_columns": LINE_COLUMNS,
                 "line_matrix": line_matrix,
+                "full_body_competitor_matrix": full_body_rows,
                 "price_matrix": price_matrix,
                 "strategy_groups": sorted(strategies, key=lambda r: (r["strategy_group"], r["brand"])),
             },
