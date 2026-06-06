@@ -283,6 +283,45 @@
         }
         .brief-link:hover { color:var(--cyan); }
 
+        /* ── PDR DECISION CHARTS ── */
+        .pdr-charts-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-bottom: 28px;
+        }
+        .pdr-chart-full { grid-column: 1 / -1; }
+        .pdr-chart-card {
+            background: var(--bg1);
+            border: 1px solid var(--bg4);
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+        .pdr-chart-header {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--bg4);
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        .pdr-dp-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 9px; font-weight: 600;
+            letter-spacing: 0.8px; text-transform: uppercase;
+            padding: 2px 8px; border-radius: 3px;
+            background: var(--purple-dim);
+            border: 1px solid rgba(124,92,252,0.30);
+            color: var(--purple);
+            white-space: nowrap; flex-shrink: 0;
+            margin-top: 1px;
+        }
+        .pdr-chart-info { flex: 1; }
+        .pdr-chart-title { font-size: 13px; font-weight: 600; line-height: 1.2; margin-bottom: 2px; }
+        .pdr-chart-desc { font-size: 11px; color: var(--text-muted); line-height: 1.4; }
+        .pdr-chart-body { padding: 16px; overflow-x: auto; }
+        .pdr-chart-body .mermaid { display: flex; justify-content: center; }
+        .pdr-chart-body .mermaid svg { max-width: 100% !important; background: transparent !important; }
+
         /* ── FOOTER ── */
         footer {
             margin-top:40px; padding:20px 32px;
@@ -291,6 +330,33 @@
             font-family:'JetBrains Mono',monospace; line-height:1.7;
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.0/dist/mermaid.min.js"></script>
+    <script>
+    mermaid.initialize({
+        startOnLoad: true,
+        theme: 'dark',
+        fontFamily: "'Space Grotesk', system-ui, sans-serif",
+        fontSize: 13,
+        flowchart: { curve: 'basis', padding: 20, useMaxWidth: true },
+        themeVariables: {
+            darkMode: true,
+            background: '#0d0f1a',
+            mainBkg: '#111326',
+            nodeBorder: '#1e2340',
+            primaryColor: '#1e2340',
+            primaryTextColor: '#e2e4f0',
+            primaryBorderColor: '#1e2340',
+            secondaryColor: '#111326',
+            tertiaryColor: '#161829',
+            lineColor: '#6b7494',
+            edgeLabelBackground: '#0d0f1a',
+            clusterBkg: '#111326',
+            clusterBorder: '#1e2340',
+            titleColor: '#e2e4f0',
+            nodeTextColor: '#e2e4f0',
+        }
+    });
+    </script>
 </head>
 <body>
 
@@ -368,6 +434,146 @@
             <div class="brief-desc">Sculpt is PILOT-only with ROI 2.1. Q3 gate: scale to full launch, expand pilot, or hold. Dead-end rate is 100% until bodies are commissioned.</div>
             <a href="01-dedicated-brief-library.md" class="brief-link">→ Open brief library</a>
         </div>
+    </div>
+
+    <div class="section-header">
+        <span class="section-title">Decision Paths · PDR-010</span>
+        <div class="section-line"></div>
+    </div>
+
+    <div class="pdr-charts-grid">
+
+        <div class="pdr-chart-card pdr-chart-full">
+            <div class="pdr-chart-header">
+                <div class="pdr-dp-badge">Phase Map</div>
+                <div class="pdr-chart-info">
+                    <div class="pdr-chart-title">Epic Phase Sequence — PDR-010</div>
+                    <div class="pdr-chart-desc">Five-phase journey: market intelligence foundation (done) through dead-end elimination, tooling investments, manufacturing intelligence, to predictive production.</div>
+                </div>
+            </div>
+            <div class="pdr-chart-body">
+<pre class="mermaid">
+flowchart LR
+    P0["Phase 0 · Done\nMarket Intel\n30 brands · 495 bodies"]:::done
+    P1["Phase 1 · Active\nDead-End\nElimination"]:::active
+    P2["Phase 2 · Planned\nTooling\nInvestments"]:::planned
+    P3["Phase 3 · Planned\nMfg Intelligence"]:::planned
+    P4["Phase 4 · Future\nPredictive\nProduction"]:::future
+    P0 --> P1 --> P2 --> P3 --> P4
+    classDef done fill:#10d98a22,stroke:#10d98a,color:#10d98a
+    classDef active fill:#f59e0b22,stroke:#f59e0b,color:#f59e0b
+    classDef planned fill:#7c5cfc22,stroke:#7c5cfc,color:#c4b5fd
+    classDef future fill:#6b749422,stroke:#6b7494,color:#9195aa
+</pre>
+            </div>
+        </div>
+
+        <div class="pdr-chart-card">
+            <div class="pdr-chart-header">
+                <div class="pdr-dp-badge">DP-1</div>
+                <div class="pdr-chart-info">
+                    <div class="pdr-chart-title">Classic + Sculpt Activation Paths</div>
+                    <div class="pdr-chart-desc">Three paths to eliminate 100% dead-end rate. Path A is immediate action; Path B is the Q3 follow-on; Path C should be avoided.</div>
+                </div>
+            </div>
+            <div class="pdr-chart-body">
+<pre class="mermaid">
+flowchart TD
+    START["Classic + Sculpt\n100% Dead-End Rate"]
+    PA["Path A · Zero Tooling\n$20-40K · 4-8 wks"]:::good
+    PB["Path B · Convergence Frame\n$80-150K · 90-120d"]:::good
+    PC["Path C · Separate Frames\n$160-300K · 6-9 mo"]:::bad
+    VA["Do now.\nDoes not preclude B."]:::verdict
+    VB["Best capital efficiency.\nCommission Q3."]:::verdict
+    VC["Avoid. Fallback only."]:::bad
+    START --> PA --> VA
+    START --> PB --> VB
+    START --> PC --> VC
+    classDef good fill:#10d98a22,stroke:#10d98a,color:#e2e4f0
+    classDef bad fill:#f43f5e22,stroke:#f43f5e,color:#e2e4f0
+    classDef verdict fill:#1e234088,stroke:#6b7494,color:#9195aa
+</pre>
+            </div>
+        </div>
+
+        <div class="pdr-chart-card">
+            <div class="pdr-chart-header">
+                <div class="pdr-dp-badge">DP-2</div>
+                <div class="pdr-chart-info">
+                    <div class="pdr-chart-title">Q3 Tooling Investment Options</div>
+                    <div class="pdr-chart-desc">Which frame commissions generate the most cross-family yield. Capital allocation decision for Q3.</div>
+                </div>
+            </div>
+            <div class="pdr-chart-body">
+<pre class="mermaid">
+flowchart LR
+    subgraph OPT1["Option 1 — Convergence Frame"]
+        CF["H160 B82 W57 Hip88\n$80-150K · 90-120 days\nClassic + Sculpt at 160cm"]
+    end
+    subgraph OPT2["Option 2 — Bridge Frame"]
+        BF["H161 B83 W55 Hip91\n$100-150K · 90-120 days\nSculpt + Icon 160cm"]
+    end
+    subgraph OPT3["Option 3 — Both Parallel"]
+        BP["$180-300K combined\nAll families seeded\n3 height bands covered"]
+    end
+    OPT1 --> R1["Best ROI\nif capital constrained"]:::rec
+    OPT2 --> R2["Best ROI\nif Icon is priority"]:::rec
+    OPT3 --> R3["Best ROI\nif timeline priority"]:::rec
+    classDef rec fill:#7c5cfc22,stroke:#7c5cfc,color:#c4b5fd
+</pre>
+            </div>
+        </div>
+
+        <div class="pdr-chart-card">
+            <div class="pdr-chart-header">
+                <div class="pdr-dp-badge">DP-3</div>
+                <div class="pdr-chart-info">
+                    <div class="pdr-chart-title">Manufacturing Model Transition</div>
+                    <div class="pdr-chart-desc">Make-to-Order (status quo) vs. Build-to-Stage (target). Pre-built finished inventory is not viable for configurable products.</div>
+                </div>
+            </div>
+            <div class="pdr-chart-body">
+<pre class="mermaid">
+flowchart LR
+    subgraph MTO["Model A — Make-to-Order (Now)"]
+        M1["Order arrives — cold start\n8-12 weeks to ship\nIndustry standard — no edge"]
+    end
+    subgraph BTS["Model B — Build-to-Stage (Target)"]
+        M2["Demand signal — pre-stage L1+L2\nOrder arrives — L3+L4 only\n2-3 weeks to ship"]
+    end
+    MTO -.->|"Phase 3 transition"| BTS
+    BTS --> ADV["Lead time is\na product feature.\n6x speed vs. industry."]:::adv
+    classDef adv fill:#22d3ee22,stroke:#22d3ee,color:#22d3ee
+</pre>
+            </div>
+        </div>
+
+        <div class="pdr-chart-card">
+            <div class="pdr-chart-header">
+                <div class="pdr-dp-badge">DP-4</div>
+                <div class="pdr-chart-info">
+                    <div class="pdr-chart-title">Family Expansion Sequence</div>
+                    <div class="pdr-chart-desc">After Classic and Sculpt dead-ends are eliminated — which families to prioritize and in what order.</div>
+                </div>
+            </div>
+            <div class="pdr-chart-body">
+<pre class="mermaid">
+flowchart TD
+    NOW["Classic + Sculpt\ndead-ends eliminated"]
+    ZA["Zone A Depth\nClassic/Sculpt bands\nQ3 · ROI 3.1-3.7"]:::ok
+    ZB["Zone B — Icon\nBridge frame dual-use\nQ3 · ROI 3.9 highest"]:::ok
+    EM["Empress re-route\nZX163E styling\nQ4 · no new tooling"]:::ok
+    SR["Siren · 2027\nDedicated commission\nPurpose-built mold"]:::hold
+    NOW --> ZA
+    NOW --> ZB
+    ZB --> EM
+    ZA -.->|"defer"| SR
+    classDef ok fill:#7c5cfc22,stroke:#7c5cfc,color:#c4b5fd
+    classDef hold fill:#6b749422,stroke:#6b7494,color:#9195aa
+</pre>
+            </div>
+        </div>
+
     </div>
 
 </main>
