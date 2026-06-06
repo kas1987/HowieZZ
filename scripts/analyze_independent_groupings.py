@@ -11,9 +11,15 @@ import json
 import sqlite3
 from pathlib import Path
 
-import matplotlib.pyplot as plt
-import pandas as pd
-import seaborn as sns
+try:
+    import matplotlib.pyplot as plt
+    import pandas as pd
+    import seaborn as sns
+except ImportError as exc:
+    raise SystemExit(
+        "This script requires matplotlib, pandas, and seaborn. "
+        "Install with: pip install matplotlib pandas seaborn"
+    ) from exc
 
 ROOT = Path(__file__).parent.parent
 DB_PATH = ROOT / "db" / "independent_competitor.sqlite"
@@ -180,10 +186,10 @@ def write_pdr_brief(
 
     lines.append("## Visual Matrix Artifacts")
     lines.append("")
-    lines.append(f"- Line architecture heatmap: {OUT_LINE_PNG.relative_to(ROOT)}")
-    lines.append(f"- Price-band heatmap: {OUT_PRICE_PNG.relative_to(ROOT)}")
-    lines.append(f"- Full matrix CSV: {OUT_CSV.relative_to(ROOT)}")
-    lines.append(f"- Narrative matrix report: {OUT_MD.relative_to(ROOT)}")
+    lines.append(f"- Line architecture heatmap: {OUT_LINE_PNG.relative_to(ROOT).as_posix()}")
+    lines.append(f"- Price-band heatmap: {OUT_PRICE_PNG.relative_to(ROOT).as_posix()}")
+    lines.append(f"- Full matrix CSV: {OUT_CSV.relative_to(ROOT).as_posix()}")
+    lines.append(f"- Narrative matrix report: {OUT_MD.relative_to(ROOT).as_posix()}")
 
     OUT_PDR_BRIEF.parent.mkdir(parents=True, exist_ok=True)
     OUT_PDR_BRIEF.write_text("\n".join(lines) + "\n", encoding="utf-8")
@@ -414,8 +420,8 @@ def main() -> None:
 
     print(
         "Wrote "
-        f"{OUT_CSV.relative_to(ROOT)}, {OUT_MD.relative_to(ROOT)}, {OUT_JSON.relative_to(ROOT)}, "
-        f"{OUT_LINE_PNG.relative_to(ROOT)}, {OUT_PRICE_PNG.relative_to(ROOT)}, and {OUT_PDR_BRIEF.relative_to(ROOT)}"
+        f"{OUT_CSV.relative_to(ROOT).as_posix()}, {OUT_MD.relative_to(ROOT).as_posix()}, {OUT_JSON.relative_to(ROOT).as_posix()}, "
+        f"{OUT_LINE_PNG.relative_to(ROOT).as_posix()}, {OUT_PRICE_PNG.relative_to(ROOT).as_posix()}, and {OUT_PDR_BRIEF.relative_to(ROOT).as_posix()}"
     )
 
 

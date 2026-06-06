@@ -106,7 +106,7 @@ main{max-width:var(--maxw);margin:0 auto;padding:10px 24px 70px}
   position:relative;overflow:hidden}
 .btn.concierge::before{content:"";position:absolute;inset:0;
   background:linear-gradient(135deg,rgba(50,38,22,.95),rgba(65,48,25,.95));
-  opacity:0;transition:opacity .25s;pointer-events:none}
+  opacity:0;transition:opacity .25s;pointer-events:none;z-index:-1}
 .btn.concierge:hover::before{opacity:1}
 .btn.concierge:hover{color:var(--gold);box-shadow:inset 0 0 0 1px rgba(212,165,116,.5),0 8px 28px rgba(0,0,0,.55)}
 

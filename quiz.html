@@ -37,7 +37,7 @@
   padding: 16px 42px;
   background: var(--gold);
   border: none;
-  border-radius: 10px;
+  border-radius: var(--r-md);
   color: #111;
   font-family: 'Montserrat', sans-serif;
   font-size: 13px;
@@ -51,7 +51,7 @@
 .intro .note {
   margin-top: 20px;
   color: var(--muted);
-  font-size: 12px;
+  font-size: var(--t-sm);
   letter-spacing: 1px;
 }
 
@@ -77,7 +77,7 @@
 .qprogress-track {
   flex: 1;
   height: 3px;
-  background: var(--panel2);
+  background: var(--s3);
   border-radius: 3px;
   overflow: hidden;
 }
@@ -98,8 +98,8 @@
 }
 
 .qcard {
-  background: var(--panel);
-  border: 1px solid var(--line);
+  background: var(--s2);
+  border: 1px solid var(--b-subtle);
   border-radius: 16px;
   padding: 36px;
 }
@@ -205,6 +205,10 @@
   .qcard { padding: 22px 18px; }
   .qprogress-label { min-width: auto; }
 }
+
+.match-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-bottom:28px}
+.match-divider{grid-column:1/-1;display:flex;align-items:center;gap:12px;margin:4px 0;color:var(--muted);font-size:11px;letter-spacing:1.8px;text-transform:uppercase}
+.match-divider::before,.match-divider::after{content:'';flex:1;height:1px;background:var(--line)}
 </style>
 </head>
 <body>
@@ -367,39 +371,57 @@ function render(m) {
     // pick winner — highest-scoring family with at least one live char
     const win = ranked.find(f => liveByFam(f).length > 0) || ranked[0];
 
-    // pick up to 3 matches — diversified by body_code
+    // pick up to 4 matches from the top family — diversified by body_code first
     const pool = liveByFam(win);
     const seenBody = new Set();
     const matches = [];
     for (const c of pool) {
       if (!seenBody.has(c.body_code)) { matches.push(c); seenBody.add(c.body_code); }
-      if (matches.length === 3) break;
+      if (matches.length === 4) break;
     }
-    // if still < 3, fill from same family without body-code diversity
     for (const c of pool) {
-      if (matches.length >= 3) break;
+      if (matches.length >= 4) break;
       if (!matches.includes(c)) matches.push(c);
     }
-    // final fallback: any live character
+
+    // fill remaining slots from second-ranked family before any cross-family fallback
+    const runner = ranked.find(f => f !== win && liveByFam(f).length > 0);
+    const fillFrom = runner ? liveByFam(runner) : [];
+    let fromSecond = 0;
+    for (const c of fillFrom) {
+      if (matches.length >= 4) break;
+      if (!matches.includes(c)) { matches.push(c); fromSecond++; }
+    }
+
+    // final fallback: any remaining live character
     if (matches.length < 3) {
       const anyLive = m.characters.filter(c => c.status === 'live');
       for (const c of anyLive) {
-        if (matches.length >= 3) break;
-        if (!matches.includes(c)) matches.push(c);
+        if (matches.length >= 4) break;
+        if (!matches.includes(c)) { matches.push(c); fromSecond++; }
       }
     }
+
+    const splitAt = matches.length - fromSecond;
 
     // update progress bar to 100%
     document.getElementById('pbar').style.width = '100%';
 
     hide('qscreen');
-    showResult(win, matches);
+    showResult(win, runner, matches, splitAt);
   }
 
-  function showResult(win, matches) {
+  function showResult(win, runner, matches, splitAt) {
     const famColor = ZX.famColor(win);
     const desc = FAM_DESC[win] || '';
     const rscreen = document.getElementById('rscreen');
+
+    const cardItems = matches.map((c, i) => {
+      const divider = (i === splitAt && i > 0 && runner)
+        ? `<div class="match-divider">Also from ${ZX.esc(runner)}</div>`
+        : '';
+      return `${divider}<div class="reveal d${i + 1}">${ZX.charCard(c)}</div>`;
+    }).join('');
 
     rscreen.innerHTML = `
       <div class="rhead">
@@ -408,12 +430,13 @@ function render(m) {
         <p class="rdesc">${ZX.esc(desc)}</p>
         <div class="rfam-accent" style="background:${famColor}"></div>
       </div>
-      <div class="grid g3" id="match-grid">
-        ${matches.map((c, i) => `<div class="reveal d${i + 1}">${ZX.charCard(c)}</div>`).join('')}
+      <div class="match-grid" id="match-grid">
+        ${cardItems}
       </div>
       <div class="ractions">
         <button class="btn ghost" id="retake-btn">↻ Retake the quiz</button>
-        <a class="btn" href="index.html">Browse the full Atlas</a>
+        <a class="btn" href="family.html?f=${encodeURIComponent(win)}">Browse ${ZX.esc(win)}</a>
+        <a class="btn ghost" href="index.html">Full Atlas</a>
       </div>
     `;
 
