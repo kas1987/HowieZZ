@@ -1,8 +1,8 @@
 {
-  "generated_utc": "2026-06-16T15:51:05.1015897Z",
+  "generated_utc": "2026-06-16T15:53:46.3583274Z",
   "source_root": "C:\\Users\\kas41\\archived\\HowieZZ",
   "destination": "C:\\Users\\kas41\\archived\\HowieZZ\\v2 HTML",
-  "file_count": 13,
+  "file_count": 14,
   "loop_count": 1,
   "files": [
     {
@@ -24,10 +24,16 @@
       "modified_utc": "2026-06-16T15:13:43.4951321Z"
     },
     {
+      "file": "community-events.html",
+      "size_bytes": 4080,
+      "sha256": "9d588204a9cf00b6a3d24168c3b562c9c42db8bb6a9d83836db5f77c4dd84c94",
+      "modified_utc": "2026-06-16T15:53:11.6266703Z"
+    },
+    {
       "file": "community.html",
-      "size_bytes": 7245,
-      "sha256": "4d65b509e6eb31ee0acc06bbac440f65092d9e6b8cb2fa1a74080283b102a9cc",
-      "modified_utc": "2026-06-16T15:50:46.9944960Z"
+      "size_bytes": 7537,
+      "sha256": "c5fca24b1be14cbc38365bfd5b23db4d95d6233ccb4150fcee2509867af9aa9c",
+      "modified_utc": "2026-06-16T15:53:18.0858356Z"
     },
     {
       "file": "compare.html",

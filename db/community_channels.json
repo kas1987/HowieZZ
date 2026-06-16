@@ -1,4 +1,22 @@
 {
+  "meta": {
+    "generated_utc": "2026-06-16T00:00:00Z",
+    "source_refs": [
+      {
+        "path": "_local/reference/zelexdoll-theme",
+        "kind": "downloaded-theme-reference"
+      },
+      {
+        "path": "db/competitor_web_scrape.json",
+        "kind": "downloaded-catalog-scrape"
+      },
+      {
+        "path": "docs/research/source-log.md",
+        "kind": "research-log"
+      }
+    ],
+    "notes": "Community links are curated with concierge-confirmation paths when direct canonical endpoints are not stable for machine fetch."
+  },
   "channels": [
     {
       "name": "ZELEX Blog",
