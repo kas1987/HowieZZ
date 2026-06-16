@@ -3,8 +3,8 @@
     "generated_utc": "2026-06-16T00:00:00Z",
     "source_refs": [
       {
-        "path": "_local/reference/zelexdoll-theme",
-        "kind": "downloaded-theme-reference"
+        "path": "docs/research/community-kb-linkage.md",
+        "kind": "kb-linkage-doc"
       },
       {
         "path": "db/competitor_web_scrape.json",
