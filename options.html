@@ -30,6 +30,7 @@
 .option-filters label{display:block;font-size:10px;letter-spacing:1.4px;text-transform:uppercase;color:var(--muted);margin:0 0 6px}
 .option-filters select,.option-filters input{width:100%;border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:10px;padding:9px 10px;font-size:13px}
 .option-empty{padding:14px;border:1px dashed var(--line);border-radius:12px;color:var(--muted)}
+.option-noscript{margin-top:18px;padding:14px;border:1px dashed var(--line);border-radius:12px;color:var(--muted);line-height:1.6;background:var(--panel2)}
 @media(max-width:900px){.option-grid{grid-template-columns:1fr}}
 @media(max-width:900px){.option-filters{grid-template-columns:1fr}}
 </style>
@@ -112,6 +113,15 @@
       <a class="btn" href="quiz.html">Find Your Match</a>
       <a class="btn concierge" href="contact.html?src=options&cta=customization_guide&context=options&channel=contact">Ask concierge</a>
     </div>
+
+    <noscript>
+      <div class="option-noscript">
+        <strong style="color:var(--cream)">Quick fallback guidance:</strong><br>
+        Body options: Classic/ Icon/ Muse/ Siren/ Empress/ Sculpt map to distinct silhouette intents, so choose the family that matches your visual direction first.<br>
+        Head options: prioritize codes with broader series and body pairing coverage for easier availability.<br>
+        Continue with <a href="compare.html">Compare Bodies</a> or <a href="contact.html?src=options&cta=customization_guide_noscript&context=options&channel=contact">Ask concierge</a> for manual guidance.
+      </div>
+    </noscript>
   </section>
 </main>
 
@@ -132,8 +142,10 @@ function render(model, catalog){
   var headRows = buildHeadRows(catalog);
   initBodyFilters(bodyRows, model);
   initHeadFilters(headRows);
+  applyInitialFilters(model);
   renderBodyCards(bodyRows, getBodyFilterState());
   renderHeadCards(headRows, getHeadFilterState());
+  trackInitialState();
 }
 
 function initTabs(){
@@ -149,7 +161,64 @@ function initTabs(){
       tab.setAttribute('aria-selected', 'true');
       var pane = document.getElementById(tab.getAttribute('data-target'));
       if (pane) pane.classList.add('active');
+      ZX.track('options_tab_changed', {
+        tab: tab.getAttribute('data-target') === 'pane-head' ? 'head' : 'body',
+        context: 'options',
+        source_page: 'options'
+      });
     });
+  });
+}
+
+function getParams(){
+  return new URLSearchParams(location.search || '');
+}
+
+function activateTab(tabName){
+  var t = String(tabName || '').toLowerCase();
+  if (t === 'head') {
+    var headBtn = document.getElementById('tab-head');
+    if (headBtn) headBtn.click();
+    return;
+  }
+  var bodyBtn = document.getElementById('tab-body');
+  if (bodyBtn) bodyBtn.click();
+}
+
+function applyInitialFilters(model){
+  var p = getParams();
+  var family = String(p.get('family') || '').trim();
+  var bodyCode = String(p.get('body') || '').trim();
+  var tab = String(p.get('tab') || '').trim().toLowerCase();
+  var head = String(p.get('head') || '').trim();
+
+  if (tab === 'head' || head) activateTab('head');
+  else activateTab('body');
+
+  if (family && (model.FAMILIES || []).indexOf(family) !== -1) {
+    document.getElementById('body-family-filter').value = family;
+  }
+
+  if (bodyCode) {
+    // Pre-select family by body code when provided from compare flows.
+    var bodyChars = (model.characters || []).filter(function(c){ return c.body_code === bodyCode; });
+    var fam = bodyChars[0] && bodyChars[0].body && bodyChars[0].body.family;
+    if (fam) document.getElementById('body-family-filter').value = fam;
+  }
+
+  if (head) {
+    document.getElementById('head-search').value = head;
+  }
+}
+
+function trackInitialState(){
+  var p = getParams();
+  var seeded = ['tab','family','body','head'].some(function(k){ return p.get(k); });
+  ZX.track('options_view', {
+    seeded: seeded ? 'true' : 'false',
+    tab: document.getElementById('tab-head').classList.contains('active') ? 'head' : 'body',
+    context: 'options',
+    source_page: 'options'
   });
 }
 
@@ -256,6 +325,13 @@ function initBodyFilters(rows, model){
   });
   ['body-family-filter', 'body-height-filter', 'body-handling-filter'].forEach(function(id){
     document.getElementById(id).addEventListener('change', function(){
+      ZX.track('options_filter_changed', {
+        tab: 'body',
+        filter_name: id.replace('body-', '').replace('-filter', ''),
+        filter_value: document.getElementById(id).value,
+        context: 'options',
+        source_page: 'options'
+      });
       renderBodyCards(rows, getBodyFilterState());
     });
   });
@@ -324,10 +400,24 @@ function initHeadFilters(rows){
   });
   ['head-series-filter', 'head-pairing-filter'].forEach(function(id){
     document.getElementById(id).addEventListener('change', function(){
+      ZX.track('options_filter_changed', {
+        tab: 'head',
+        filter_name: id.replace('head-', '').replace('-filter', ''),
+        filter_value: document.getElementById(id).value,
+        context: 'options',
+        source_page: 'options'
+      });
       renderHeadCards(rows, getHeadFilterState());
     });
   });
   document.getElementById('head-search').addEventListener('input', function(){
+    ZX.track('options_filter_changed', {
+      tab: 'head',
+      filter_name: 'search',
+      filter_value: document.getElementById('head-search').value.trim().slice(0, 40),
+      context: 'options',
+      source_page: 'options'
+    });
     renderHeadCards(rows, getHeadFilterState());
   });
 }

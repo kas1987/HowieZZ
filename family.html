@@ -262,6 +262,7 @@ function renderIndex(m) {
   document.getElementById('app').innerHTML =
     `<div class="fam-grid">${cards}</div>
      <div class="actions">
+       <a class="btn solid" href="options.html?tab=body">Explore Body Options</a>
        <a class="btn" href="quiz.html">Find Your Family</a>
        <a class="btn ghost" href="browse.html">Browse All</a>
      </div>`;
@@ -352,6 +353,7 @@ function renderLanding(m, fam) {
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px">${siblingPills}</div>
     </div>
     <div class="actions">
+      <a class="btn solid" href="options.html?tab=body&family=${encodeURIComponent(fam)}">Open Options For This Family</a>
       <a class="btn" href="quiz.html">Take the Quiz</a>
       <a class="btn ghost" href="browse.html">Browse All Characters</a>
       <a class="btn ghost" href="family.html">All Families</a>

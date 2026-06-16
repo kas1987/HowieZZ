@@ -68,6 +68,9 @@ function ratioLabel(v, estimated) {
 
 function compareSummaryCard(b) {
   const fam = b.family ? '<span class="fam ' + ZX.famClass(b.family) + '">' + ZX.esc(b.family) + '</span>' : '<span class="fam fam--unclassified">Unclassified</span>';
+  const optionsHref = 'options.html?tab=body' +
+    (b.family ? '&family=' + encodeURIComponent(b.family) : '') +
+    '&body=' + encodeURIComponent(b.body_code || '');
   return '<article class="compare-summary-card">' +
     '<div class="top"><h3>' + ZX.esc(b.body_code) + '</h3>' + fam + '</div>' +
     '<div class="grid">' +
@@ -76,6 +79,7 @@ function compareSummaryCard(b) {
       '<div><span class="k">Shape signal</span><b>WHR ' + ratioLabel(b.WHR, b.estimated) + ' · BWR ' + ratioLabel(b.BWR, b.estimated) + '</b></div>' +
       '<div><span class="k">Data state</span>' + confidenceChip(b) + '</div>' +
     '</div>' +
+    '<div style="margin-top:12px"><a class="btn ghost compare-options-link" data-body-code="' + ZX.esc(b.body_code || '') + '" data-family="' + ZX.esc(b.family || '') + '" href="' + optionsHref + '">Open options for this body</a></div>' +
   '</article>';
 }
 
@@ -200,6 +204,21 @@ function paint(m) {
       ZX.track('compare_handoff_click', { compare_count: codes.length, body_codes: codes.join(','), channel: 'quiz', cta: 'take_match_quiz', context: 'compare', source_page: 'compare' });
     });
   }
+
+  document.querySelectorAll('.compare-options-link').forEach(function(link){
+    link.addEventListener('click', function(){
+      ZX.track('compare_handoff_click', {
+        compare_count: codes.length,
+        body_codes: codes.join(','),
+        body_code: link.getAttribute('data-body-code') || '',
+        family: link.getAttribute('data-family') || '',
+        channel: 'options',
+        cta: 'open_options_for_body',
+        context: 'compare',
+        source_page: 'compare'
+      });
+    });
+  });
 }
 </script>
 </body>
