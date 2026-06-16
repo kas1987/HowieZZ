@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Contact & Inquiries — ZELEX</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/site.css">
+  <style>
+    /* ---- page-scoped contact styles ---- */
+    .contact-hero{padding:52px 0 36px;text-align:left;position:relative}
+    .contact-hero h1{font-size:clamp(32px,5vw,56px);font-weight:700;line-height:1.1;margin:10px 0 18px}
+    .contact-hero p{color:var(--muted);font-size:15px;line-height:1.75;max-width:560px}
+
+    /* two-column layout */
+    .contact-layout{display:grid;grid-template-columns:1fr 400px;gap:52px;align-items:start;margin-top:48px}
+    @media(max-width:900px){.contact-layout{grid-template-columns:1fr;gap:36px}}
+
+    /* character chip (prefill) */
+    .char-chip{display:flex;align-items:center;gap:14px;background:var(--panel2);border:1px solid color-mix(in srgb,var(--gold) 35%,transparent);border-radius:var(--r-md);padding:12px 16px;margin-bottom:24px}
+    .char-chip img{width:52px;height:70px;object-fit:cover;object-position:top center;border-radius:var(--r-sm);flex-shrink:0;background:#0d0d0d}
+    .char-chip .chip-thumb-ph{width:52px;height:70px;border-radius:var(--r-sm);flex-shrink:0;background:var(--s2);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:22px;color:var(--gold)}
+    .char-chip .chip-info{}
+    .char-chip .chip-label{font-size:var(--t-xs);letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:3px}
+    .char-chip .chip-name{font-family:'Playfair Display',serif;font-size:18px;font-weight:600;line-height:1.2}
+    .char-chip .chip-sub{font-size:11px;color:var(--muted);margin-top:2px;letter-spacing:.5px}
+
+    .compare-chip{background:var(--panel2);border:1px solid color-mix(in srgb,var(--blue) 35%,transparent);border-radius:var(--r-md);padding:12px 16px;margin-bottom:24px}
+    .compare-chip .chip-label{font-size:var(--t-xs);letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:6px}
+    .compare-list{display:flex;gap:8px;flex-wrap:wrap}
+    .compare-list .bcode{font-size:12px}
+    .compare-sub{margin-top:8px;font-size:11px;color:var(--muted);letter-spacing:.3px;line-height:1.4}
+
+    /* form */
+    .form-group{margin-bottom:20px}
+    .form-group label{display:block;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+    .form-group label .req{color:var(--coral);margin-left:2px}
+    .form-group input,.form-group textarea,.form-group select{
+      width:100%;background:var(--panel2);border:1px solid var(--line);border-radius:var(--r-md);
+      color:var(--text);font-family:'Montserrat',sans-serif;font-size:14px;padding:11px 14px;
+      transition:.2s;outline:none;appearance:none;-webkit-appearance:none}
+    .form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:var(--gold);box-shadow:0 0 0 2px rgba(212,165,116,.15)}
+    .form-group input.err-field,.form-group textarea.err-field,.form-group select.err-field{border-color:var(--coral)}
+    .form-group textarea{resize:vertical;min-height:120px}
+    .form-group select option{background:var(--panel2)}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    @media(max-width:600px){.form-row{grid-template-columns:1fr}}
+    .field-err{font-size:11px;color:var(--coral);margin-top:5px;display:none}
+    .field-err.show{display:block}
+    .readonly-field{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-md);color:var(--muted);font-size:13px;padding:11px 14px;letter-spacing:.3px}
+
+    /* consent */
+    .consent-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:24px}
+    .consent-row input[type=checkbox]{width:17px;height:17px;flex-shrink:0;margin-top:2px;accent-color:var(--gold);cursor:pointer}
+    .consent-row label{font-size:12px;color:var(--muted);line-height:1.55;cursor:pointer}
+    .consent-row label a{color:var(--gold);text-decoration:underline}
+
+    /* submit + states */
+    #submit-btn{width:100%;padding:15px;font-size:13px;letter-spacing:3px;position:relative}
+    #submit-btn:disabled{opacity:.55;cursor:not-allowed}
+    #submit-spinner{display:none;width:16px;height:16px;border:2px solid rgba(212,165,116,.3);border-top-color:var(--gold);border-radius:50%;animation:spin .7s linear infinite;position:absolute;right:20px;top:50%;transform:translateY(-50%)}
+    @keyframes spin{to{transform:translateY(-50%) rotate(360deg)}}
+
+    /* success / error banners */
+    #form-success,#form-error{display:none;border-radius:10px;padding:24px 28px;margin-top:0}
+    #form-success{background:rgba(159,214,182,.1);border:1px solid rgba(159,214,182,.35)}
+    #form-success h3{font-family:'Playfair Display',serif;font-size:22px;color:var(--Muse);margin-bottom:8px}
+    #form-success p{font-size:14px;color:var(--muted);line-height:1.7}
+    #form-success a{color:var(--gold);text-decoration:underline}
+    #form-error{background:rgba(225,139,115,.08);border:1px solid rgba(225,139,115,.3)}
+    #form-error h3{font-family:'Playfair Display',serif;font-size:18px;color:var(--coral);margin-bottom:8px}
+    #form-error p{font-size:14px;color:var(--muted);line-height:1.7}
+    #form-error a{color:var(--gold);text-decoration:underline}
+
+    /* info panel */
+    .info-panel{background:var(--panel);border:1px solid rgba(212,165,116,.22);border-radius:14px;padding:32px 28px;position:sticky;top:86px}
+    .info-panel h3{font-family:'Playfair Display',serif;font-size:20px;font-weight:600;margin-bottom:20px;color:var(--cream)}
+    .info-item{display:flex;gap:14px;margin-bottom:22px;align-items:flex-start}
+    .info-item:last-child{margin-bottom:0}
+    .info-icon{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px;background:rgba(212,165,116,.12);border:1px solid rgba(212,165,116,.22)}
+    .info-item h4{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+    .info-item p{font-size:13px;color:var(--muted);line-height:1.6}
+    .info-divider{border:none;border-top:1px solid var(--line);margin:24px 0}
+    .info-email-row{font-size:13px;color:var(--muted);text-align:center}
+    .info-email-row a{color:var(--gold)}
+  </style>
+</head>
+<body>
+
+<div class="crumbs">
+  <a href="index.html">Atlas</a><span>›</span> Contact
+</div>
+
+<main>
+  <div class="contact-hero has-backdrop">
+    <div class="eyebrow reveal">Inquiries</div>
+    <h1 class="reveal d1">Begin a <span class="em-grad">Conversation</span></h1>
+    <p class="reveal d2">Every ZELEX character is made to order — crafted individually, never from standing stock.
+       Share a little about what you're looking for and we'll respond personally, with care and without pressure.</p>
+  </div>
+
+  <div class="contact-layout">
+
+    <!-- LEFT: form column -->
+    <div class="reveal d2">
+      <!-- character chip injected here when ?id= present -->
+      <div id="char-chip-area"></div>
+
+      <!-- success state -->
+      <div id="form-success">
+        <h3>Your inquiry has been received.</h3>
+        <p>We will be in touch discreetly within one business day.<br>
+          You may also reach us directly at
+          <a id="success-email-link" href="#"><!-- filled by JS --></a>.</p>
+      </div>
+
+      <!-- error state -->
+      <div id="form-error">
+        <h3>Something went wrong.</h3>
+        <p id="form-error-msg"><span id="form-error-text">We couldn't send your message right now. Please try again, or reach us directly at</span>
+          <a id="error-email-link" href="#"><!-- filled by JS --></a>.</p>
+      </div>
+
+      <!-- the form itself -->
+      <form id="inquiry-form" novalidate>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="f-name">Name <span class="req">*</span></label>
+            <input type="text" id="f-name" name="name" placeholder="Your name" autocomplete="name" required>
+            <div class="field-err" id="err-name">Please enter your name.</div>
+          </div>
+          <div class="form-group">
+            <label for="f-email">Email <span class="req">*</span></label>
+            <input type="email" id="f-email" name="email" placeholder="your@email.com" autocomplete="email" required>
+            <div class="field-err" id="err-email">Please enter a valid email address.</div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="f-phone">Phone <span style="color:var(--muted);font-size:10px">(optional)</span></label>
+            <input type="tel" id="f-phone" name="phone" placeholder="+1 555 000 0000" autocomplete="tel">
+          </div>
+          <div class="form-group">
+            <label for="f-country">Country / Region <span style="color:var(--muted);font-size:10px">(optional)</span></label>
+            <input type="text" id="f-country" name="country" placeholder="United States" autocomplete="country-name">
+          </div>
+        </div>
+
+        <!-- character of interest — toggled by JS between readonly prefill and free-text -->
+        <div class="form-group" id="char-field-group">
+          <label for="f-character">Character or series of interest <span style="color:var(--muted);font-size:10px">(optional)</span></label>
+          <input type="text" id="f-character" name="character" placeholder="e.g. Fusion ZF161D, or K-Series">
+        </div>
+
+        <div class="form-group">
+          <label for="f-budget">Budget range <span style="color:var(--muted);font-size:10px">(optional)</span></label>
+          <select id="f-budget" name="budget">
+            <option value="">Prefer not to say / not sure</option>
+            <option value="$3,000–4,000">$3,000 – $4,000</option>
+            <option value="$4,000–5,000">$4,000 – $5,000</option>
+            <option value="$5,000+">$5,000 and above</option>
+            <option value="Not sure">I'm not sure yet</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="f-intent">Inquiry intent <span style="color:var(--muted);font-size:10px">(optional)</span></label>
+            <select id="f-intent" name="intent">
+              <option value="">Select intent</option>
+              <option value="First purchase guidance">First purchase guidance</option>
+              <option value="Body comparison support">Body comparison support</option>
+              <option value="Character recommendation">Character recommendation</option>
+              <option value="Customization and options">Customization and options</option>
+              <option value="Returning buyer consultation">Returning buyer consultation</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="f-timeline">Purchase timeline <span style="color:var(--muted);font-size:10px">(optional)</span></label>
+            <select id="f-timeline" name="timeline">
+              <option value="">Select timeline</option>
+              <option value="Ready now (0-2 weeks)">Ready now (0-2 weeks)</option>
+              <option value="Near term (1-2 months)">Near term (1-2 months)</option>
+              <option value="Planning phase (3+ months)">Planning phase (3+ months)</option>
+              <option value="Just exploring">Just exploring</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="f-use">Primary use context <span style="color:var(--muted);font-size:10px">(optional)</span></label>
+          <select id="f-use" name="use_context">
+            <option value="">Select context</option>
+            <option value="Private collection">Private collection</option>
+            <option value="Photography and content">Photography and content</option>
+            <option value="Display and styling">Display and styling</option>
+            <option value="Not sure yet">Not sure yet</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="f-message">Message <span class="req">*</span></label>
+          <textarea id="f-message" name="message" placeholder="Tell us what you're looking for — any questions, customisation requests, or details that help us assist you." required></textarea>
+          <div class="field-err" id="err-message">Please include a short message so we can assist you.</div>
+        </div>
+
+        <div class="consent-row">
+          <input type="checkbox" id="f-consent" name="consent" required>
+          <label for="f-consent">I confirm that I am 18 years of age or older and I agree to be contacted regarding this inquiry. I understand my information will not be shared with third parties.</label>
+        </div>
+        <div class="field-err" id="err-consent" style="margin-top:-16px;margin-bottom:18px">Please confirm you are 18+ to proceed.</div>
+
+        <button type="submit" class="btn solid" id="submit-btn">
+          Send Inquiry
+          <span id="submit-spinner"></span>
+        </button>
+
+      </form>
+    </div>
+
+    <!-- RIGHT: info panel -->
+    <aside class="info-panel reveal d3" aria-label="Inquiry information">
+      <h3>What to expect</h3>
+
+      <div class="info-item">
+        <div class="info-icon">✦</div>
+        <div>
+          <h4>Response time</h4>
+          <p>We reply to every inquiry personally, typically within one business day.</p>
+        </div>
+      </div>
+
+      <div class="info-item">
+        <div class="info-icon">◈</div>
+        <div>
+          <h4>Made to order</h4>
+          <p>Every ZELEX character is produced individually — no standing stock. Lead times vary by series and configuration; we'll outline these clearly.</p>
+        </div>
+      </div>
+
+      <div class="info-item">
+        <div class="info-icon">⬡</div>
+        <div>
+          <h4>What to include</h4>
+          <p>The body code or character you're interested in, any customisation questions (skin tone, head, options), and a rough sense of timing. Even a vague starting point is fine.</p>
+        </div>
+      </div>
+
+      <div class="info-item">
+        <div class="info-icon">◎</div>
+        <div>
+          <h4>No pressure</h4>
+          <p>An inquiry is exactly that — a conversation, not a commitment. We're happy to walk you through options before you decide anything.</p>
+        </div>
+      </div>
+
+      <hr class="info-divider">
+      <div class="info-email-row">
+        Or email us directly:<br>
+        <a id="panel-email-link" href="#"><!-- filled by JS --></a>
+      </div>
+    </aside>
+
+  </div><!-- /.contact-layout -->
+</main>
+
+<script src="assets/site.js"></script>
+<script>
+/*
+ * ─────────────────────────────────────────────────────────────
+ * HOW TO ENABLE A REAL FORM BACKEND
+ * ─────────────────────────────────────────────────────────────
+ * 1. Sign up for a free Formspree account at https://formspree.io
+ *    (or Getform at https://getform.io, or any endpoint that
+ *    accepts a JSON POST and returns { ok: true }).
+ * 2. Create a form and copy the endpoint URL it gives you.
+ *    Example Formspree URL: https://formspree.io/f/xabc1234
+ * 3. Open assets/site.js and find the line:
+ *       const FORM_ENDPOINT = '';
+ *    Replace the empty string with your endpoint URL:
+ *       const FORM_ENDPOINT = 'https://formspree.io/f/xabc1234';
+ * 4. Save the file. The contact form will now POST as JSON to
+ *    that endpoint and show the success state on a 2xx response.
+ *    The mailto fallback is automatically disabled.
+ * ─────────────────────────────────────────────────────────────
+ */
+
+// Wire static email links before catalog loads
+(function wireEmailLinks() {
+  const email = ZX.INQUIRY_EMAIL || 'inquiries@zelexdoll.com';
+  const mailto = 'mailto:' + email;
+  const els = ['success-email-link','error-email-link','panel-email-link'];
+  els.forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) { el.href = mailto; el.textContent = email; }
+  });
+}());
+
+// Boot: mount nav, load catalog, prefill, backdrop, mount footer
+ZX.mountNav('contact.html');
+
+ZX.load().then(function(m) {
+  prefill(m);
+
+  // ── Header backdrop ─────────────────────────────────────────
+  var hero = document.querySelector('.contact-hero');
+  if (hero && !hero.querySelector('.backdrop')) {
+    var id  = ZX.qs('id');
+    var src = (id && m.byId && m.byId[id]) ? ZX.img(m.byId[id]) : ZX.repImg(m.characters, 0);
+    var html = ZX.heroBackdrop(src);
+    if (html) hero.insertAdjacentHTML('afterbegin', html);
+  }
+
+  ZX.revealInit();
+  ZX.mountFooter();
+}).catch(function() {
+  // Catalog failed — form still works, prefill/backdrop skipped
+  try { ZX.revealInit(); ZX.mountFooter(); } catch(e) {}
+});
+
+// ── Prefill from ?id= ────────────────────────────────────────
+function prefill(m) {
+  if (!m || !m.byId) return;
+
+  var id = ZX.qs('id');
+  var c = (id && m.byId[id]) ? m.byId[id] : null;
+
+  function parseCodes(raw) {
+    if (!raw) return [];
+    return String(raw)
+      .split(',')
+      .map(function(x) { return (x || '').trim(); })
+      .filter(function(x) {
+        return x && x !== '.' && /^[A-Za-z0-9_-]+$/.test(x);
+      });
+  }
+
+  function storedCodes() {
+    try {
+      var parsed = JSON.parse(localStorage.getItem('zx_compare_bodies') || '[]');
+      if (!Array.isArray(parsed)) return [];
+      return parsed
+        .map(function(x) { return String(x || '').trim(); })
+        .filter(function(x) { return x && x !== '.' && /^[A-Za-z0-9_-]+$/.test(x); });
+    } catch (e) {
+      return [];
+    }
+  }
+
+  var compareCodes = parseCodes(ZX.qs('compare'));
+  if (!compareCodes.length) compareCodes = storedCodes();
+
+  if (c && c.body_code && !compareCodes.includes(c.body_code)) {
+    compareCodes.unshift(c.body_code);
+  }
+  compareCodes = compareCodes.slice(0, 4);
+
+  if (!c && !compareCodes.length) return;
+
+  var persona = c ? (c.persona || {}) : {};
+  var body    = c ? (c.body || {}) : {};
+  var ph      = c ? (c.photoshoot || {}) : {};
+  var name    = persona.name || '';
+  var title   = persona.title || '';
+  var bc      = c ? (c.body_code || '') : '';
+  var series  = c ? (c.series || '') : '';
+  var price   = ph.price ? ' · $' + ph.price : '';
+  var family  = body.family ? ' · ' + body.family : '';
+
+  // character chip
+  var chipArea = document.getElementById('char-chip-area');
+  if (chipArea) {
+    var chunks = [];
+    if (c) {
+      var thumbUrl = ZX.img(c);
+      var thumbHtml = thumbUrl
+        ? '<img src="' + ZX.esc(thumbUrl) + '" alt="' + ZX.esc(name) + '">'
+        : '<div class="chip-thumb-ph">' + ZX.esc((name || '?').charAt(0).toUpperCase()) + '</div>';
+      chunks.push(
+        '<div class="char-chip">' +
+          thumbHtml +
+          '<div class="chip-info">' +
+            '<div class="chip-label">You\'re inquiring about</div>' +
+            '<div class="chip-name">' + ZX.esc(name) + '</div>' +
+            '<div class="chip-sub">' + ZX.esc(title) + (title && (bc || series) ? ' · ' : '') + ZX.esc(bc) + (bc && series ? ' · ' : '') + ZX.esc(series) + ZX.esc(price) + '</div>' +
+          '</div>' +
+        '</div>'
+      );
+    }
+
+    if (compareCodes.length) {
+      var compareItems = compareCodes.map(function(code) {
+        return '<span class="bcode">' + ZX.esc(code) + '</span>';
+      }).join('');
+      var compareRead = compareCodes.map(function(code) {
+        var bucket = m.byBody[code] || [];
+        var lead = bucket.find(function(x) { return x.status === 'live'; }) || bucket[0] || null;
+        if (!lead || !lead.body) return code;
+        var fam = lead.body.family ? (' - ' + lead.body.family.replace('The ', '')) : '';
+        return code + fam;
+      }).join(' | ');
+
+      chunks.push(
+        '<div class="compare-chip">' +
+          '<div class="chip-label">Compare set attached</div>' +
+          '<div class="compare-list">' + compareItems + '</div>' +
+          '<div class="compare-sub">' + ZX.esc(compareRead) + '</div>' +
+        '</div>'
+      );
+    }
+
+    chipArea.innerHTML = chunks.join('');
+  }
+
+  // Replace free-text char field with readonly prefilled value
+  var charGroup = document.getElementById('char-field-group');
+  if (charGroup) {
+    var prefillVal = '';
+    if (c) {
+      prefillVal = name + (bc ? ' - ' + bc : '') + (series ? ' (' + series + ')' : '') + family;
+    }
+    if (compareCodes.length) {
+      var compareText = 'Compare set: ' + compareCodes.join(', ');
+      prefillVal = prefillVal ? (prefillVal + ' | ' + compareText) : compareText;
+    }
+
+    charGroup.innerHTML =
+      '<label>Character of interest</label>' +
+      '<div class="readonly-field">' + ZX.esc(prefillVal) + '</div>' +
+      '<input type="hidden" name="character" value="' + ZX.esc(prefillVal) + '">';
+  }
+
+  var msgField = document.getElementById('f-message');
+  if (msgField && !msgField.value.trim() && compareCodes.length) {
+    msgField.value = 'I would like guidance on these body architectures: ' + compareCodes.join(', ') + '.';
+  }
+}
+
+function getEntryMeta() {
+  function parseCodes(raw) {
+    if (!raw) return [];
+    return String(raw)
+      .split(',')
+      .map(function(x) { return (x || '').trim(); })
+      .filter(function(x) { return x && x !== '.' && /^[A-Za-z0-9_-]+$/.test(x); });
+  }
+  return {
+    entry_source: String(ZX.qs('src') || '').trim(),
+    entry_cta: String(ZX.qs('cta') || '').trim(),
+    entry_context: String(ZX.qs('context') || '').trim(),
+    entry_channel: String(ZX.qs('channel') || '').trim(),
+    entry_compare_count: parseCodes(ZX.qs('compare')).length
+  };
+}
+
+// ── Validation ───────────────────────────────────────────────
+function validateEmail(v) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test((v || '').trim());
+}
+
+function showFieldError(fieldId, errId, show) {
+  var field = document.getElementById(fieldId);
+  var err   = document.getElementById(errId);
+  if (field) {
+    if (show) { field.classList.add('err-field'); }
+    else      { field.classList.remove('err-field'); }
+  }
+  if (err) {
+    if (show) { err.classList.add('show'); }
+    else      { err.classList.remove('show'); }
+  }
+}
+
+function clearErrors() {
+  ['f-name','f-email','f-message','f-consent'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.classList.remove('err-field');
+  });
+  ['err-name','err-email','err-message','err-consent'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.classList.remove('show');
+  });
+}
+
+function validate() {
+  var ok = true;
+  var firstBad = null;
+
+  var name = (document.getElementById('f-name') || {}).value || '';
+  if (!name.trim()) {
+    showFieldError('f-name','err-name',true);
+    if (!firstBad) firstBad = document.getElementById('f-name');
+    ok = false;
+  } else { showFieldError('f-name','err-name',false); }
+
+  var email = (document.getElementById('f-email') || {}).value || '';
+  if (!validateEmail(email)) {
+    showFieldError('f-email','err-email',true);
+    if (!firstBad) firstBad = document.getElementById('f-email');
+    ok = false;
+  } else { showFieldError('f-email','err-email',false); }
+
+  var msg = (document.getElementById('f-message') || {}).value || '';
+  if (msg.trim().length < 10) {
+    showFieldError('f-message','err-message',true);
+    if (!firstBad) firstBad = document.getElementById('f-message');
+    ok = false;
+  } else { showFieldError('f-message','err-message',false); }
+
+  var consent = document.getElementById('f-consent');
+  if (!consent || !consent.checked) {
+    showFieldError('f-consent','err-consent',true);
+    if (!firstBad) firstBad = consent;
+    ok = false;
+  } else { showFieldError('f-consent','err-consent',false); }
+
+  if (firstBad) { try { firstBad.focus(); } catch(e) {} }
+  return ok;
+}
+
+// ── Build mailto body ────────────────────────────────────────
+function buildMailto(fields) {
+  var subject = 'ZELEX Inquiry' + (fields.character ? ' — ' + fields.character : '');
+  var lines = [
+    'Name: '      + (fields.name    || ''),
+    'Email: '     + (fields.email   || ''),
+    fields.phone   ? 'Phone: '   + fields.phone   : null,
+    fields.country ? 'Country: ' + fields.country : null,
+    fields.character ? 'Character of interest: ' + fields.character : null,
+    fields.budget  ? 'Budget: '  + fields.budget  : null,
+    fields.intent  ? 'Intent: '  + fields.intent  : null,
+    fields.timeline? 'Timeline: '+ fields.timeline: null,
+    fields.use_context ? 'Use context: ' + fields.use_context : null,
+    '',
+    'Message:',
+    fields.message || ''
+  ].filter(function(l) { return l !== null; });
+  var email = ZX.INQUIRY_EMAIL || 'inquiries@zelexdoll.com';
+  return 'mailto:' + email +
+    '?subject=' + encodeURIComponent(subject) +
+    '&body='    + encodeURIComponent(lines.join('\n'));
+}
+
+// ── Collect form data ────────────────────────────────────────
+function collectFields() {
+  function val(id) {
+    var el = document.getElementById(id);
+    return el ? (el.value || '').trim() : '';
+  }
+  // character may be hidden input (prefilled) or text input
+  var charInput = document.querySelector('#inquiry-form [name="character"]');
+  var charVal   = charInput ? (charInput.value || '').trim() : '';
+  return {
+    name:      val('f-name'),
+    email:     val('f-email'),
+    phone:     val('f-phone'),
+    country:   val('f-country'),
+    character: charVal,
+    budget:    val('f-budget'),
+    intent:    val('f-intent'),
+    timeline:  val('f-timeline'),
+    use_context: val('f-use'),
+    message:   val('f-message')
+  };
+}
+
+// ── Show/hide success & error states ────────────────────────
+function showSuccess(usedMailto) {
+  var form    = document.getElementById('inquiry-form');
+  var success = document.getElementById('form-success');
+  var chipArea= document.getElementById('char-chip-area');
+  if (form)     form.style.display    = 'none';
+  if (chipArea) chipArea.style.display = 'none';
+  if (success)  success.style.display = 'block';
+  if (!usedMailto) {
+    // endpoint path: hide the direct-email fallback line
+    var p = success.querySelector('p');
+    if (p) p.innerHTML = 'We will be in touch discreetly within one business day.';
+  }
+  // Update success email link with real href
+  var email = ZX.INQUIRY_EMAIL || 'inquiries@zelexdoll.com';
+  var sl = document.getElementById('success-email-link');
+  if (sl) { sl.href = 'mailto:' + email; sl.textContent = email; }
+  ZX.track('inquiry_submit_success', Object.assign({ channel: usedMailto ? 'mailto' : 'endpoint', context: 'contact_form', source_page: 'contact' }, getEntryMeta()));
+}
+
+function showError(msg) {
+  var errDiv = document.getElementById('form-error');
+  var email  = ZX.INQUIRY_EMAIL || 'inquiries@zelexdoll.com';
+  if (errDiv) errDiv.style.display = 'block';
+  if (msg) { var t = document.getElementById('form-error-text'); if (t) t.textContent = msg; }
+  var el = document.getElementById('error-email-link');
+  if (el) { el.href = 'mailto:' + email; el.textContent = email; }
+  // Re-enable submit
+  var btn = document.getElementById('submit-btn');
+  var spinner = document.getElementById('submit-spinner');
+  if (btn) btn.disabled = false;
+  if (spinner) spinner.style.display = 'none';
+  ZX.track('inquiry_submit_error', Object.assign({ message: msg || '', context: 'contact_form', source_page: 'contact' }, getEntryMeta()));
+}
+
+// ── Form submit ──────────────────────────────────────────────
+document.getElementById('inquiry-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  clearErrors();
+
+  if (!validate()) {
+    ZX.track('inquiry_validation_failed', Object.assign({ context: 'contact_form', source_page: 'contact' }, getEntryMeta()));
+    return;
+  }
+
+  var btn     = document.getElementById('submit-btn');
+  var spinner = document.getElementById('submit-spinner');
+  if (btn)     btn.disabled = true;
+  if (spinner) spinner.style.display = 'inline-block';
+
+  // Hide any previous error banner
+  var errDiv = document.getElementById('form-error');
+  if (errDiv) errDiv.style.display = 'none';
+
+  var fields   = collectFields();
+  var endpoint = (typeof ZX !== 'undefined' && ZX.FORM_ENDPOINT) ? ZX.FORM_ENDPOINT : '';
+  ZX.track('inquiry_submit_attempt', Object.assign({
+    has_character_context: !!fields.character,
+    has_compare_context: (fields.character || '').indexOf('Compare set:') >= 0,
+    intent: fields.intent || '',
+    timeline: fields.timeline || '',
+    context: 'contact_form',
+    source_page: 'contact'
+  }, getEntryMeta()));
+
+  if (endpoint) {
+    // ── Real backend path ──────────────────────────────────
+    fetch(endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(fields)
+    }).then(function(res) {
+      if (res.ok) {
+        showSuccess(false);
+      } else {
+        return res.text().then(function() {
+          showError('The server returned an error (HTTP ' + res.status + '). Please try again or email us directly at ');
+        });
+      }
+    }).catch(function() {
+      showError('We couldn\'t reach the server. Please check your connection and try again, or email us directly at ');
+    });
+
+  } else {
+    // ── mailto fallback path ───────────────────────────────
+    var mailto = buildMailto(fields);
+    try { window.location.href = mailto; } catch(err) { /* ignore */ }
+    // Brief delay so the email client has a moment to open
+    setTimeout(function() {
+      if (btn)     btn.disabled = false;
+      if (spinner) spinner.style.display = 'none';
+      showSuccess(true);
+    }, 400);
+  }
+});
+</script>
+</body>
+</html>

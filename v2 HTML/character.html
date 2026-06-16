@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Character · ZELEX Atlas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+/* ---- character page layout ---- */
+.char-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--sp7);align-items:start;margin-top:28px}
+@media(max-width:820px){.char-layout{grid-template-columns:1fr;gap:32px}}
+
+/* ---- gallery ---- */
+.galmain{width:100%;aspect-ratio:3/4;object-fit:cover;object-position:top center;border-radius:13px;display:block;
+  background:#0d0d0d;cursor:zoom-in;transition:opacity .2s}
+.galmain:hover{opacity:.92}
+.galmain-wrap{position:relative;border-radius:13px;overflow:hidden;background:#0d0d0d}
+.galmain-wrap .repbadge{position:absolute;top:12px;left:12px;font-size:var(--t-xs);letter-spacing:1px;text-transform:uppercase;
+  background:rgba(0,0,0,.82);color:var(--gold);padding:5px 10px;border-radius:var(--r-sm);border:1px solid var(--b-accent)}
+.galmain-wrap .imgcount{position:absolute;bottom:40px;right:12px;font-size:11px;letter-spacing:1px;
+  background:rgba(0,0,0,.75);color:var(--cream);padding:4px 9px;border-radius:var(--r-sm)}
+.galstrip{display:flex;gap:var(--sp2);flex-wrap:wrap;margin-top:var(--sp3)}
+.galstrip img{width:72px;height:96px;object-fit:cover;object-position:top center;border-radius:7px;cursor:pointer;
+  border:2px solid transparent;transition:.2s;opacity:.7}
+.galstrip img.sel{border-color:var(--gold);opacity:1}
+.galstrip img:hover{opacity:1;border-color:var(--muted)}
+/* auto-rotate progress bar */
+.auto-progress{position:absolute;bottom:0;left:0;height:3px;background:var(--gold);opacity:.55;width:0;transition:width linear}
+
+/* ---- info panel ---- */
+.char-name{font-size:clamp(28px,4vw,46px);line-height:1.1;font-weight:700;margin-bottom:4px}
+.char-meta{color:var(--muted);font-size:var(--t-sm);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
+.char-tagline{font-family:'Playfair Display',serif;font-style:italic;color:var(--gold);font-size:17px;margin-bottom:20px;line-height:1.5}
+.fam-row{display:flex;align-items:center;gap:10px;margin-bottom:22px;flex-wrap:wrap}
+.famdot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
+.fam-label{font-size:13px;letter-spacing:1px;color:var(--text)}
+.silhouette{color:var(--muted);font-size:12px}
+.spec-section{margin-bottom:22px}
+.spec-label{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--blue);margin-bottom:10px}
+.energy-line{font-size:13.5px;color:var(--muted);margin-bottom:18px;line-height:1.6}
+.energy-line b{color:var(--blue)}
+.char-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+
+/* ---- sisters & more sections ---- */
+.section-block{margin-top:56px}
+.section-block .section-head{margin:0 0 6px}
+.section-block .section-sub{margin-bottom:20px}
+
+/* ---- no image placeholder ---- */
+.no-img{display:flex;align-items:center;justify-content:center;aspect-ratio:3/4;background:var(--s3);
+  border-radius:13px;color:var(--muted);font-size:13px;letter-spacing:2px}
+
+/* ---- inquire CTA ---- */
+.inquire-block{margin-top:22px;padding-top:18px;border-top:1px solid var(--panel2)}
+.inquire-block .btn.solid{background:var(--gold);color:#0a0a0a;border-color:var(--gold);font-weight:600}
+.inquire-block .btn.solid:hover{opacity:.88}
+.inquire-ref{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-top:9px}
+
+/* ---- story + profile ---- */
+.story-section{margin-top:52px;max-width:640px}
+.story-heading{font-family:'Playfair Display',serif;font-size:22px;font-weight:600;
+  letter-spacing:.5px;margin-bottom:18px;color:var(--text)}
+.story-body{font-family:'Playfair Display',serif;font-style:italic;font-size:var(--t-md);
+  line-height:1.8;color:var(--cream);margin-bottom:30px}
+.profile-label{font-size:var(--t-xs);letter-spacing:3px;text-transform:uppercase;color:var(--blue);margin-bottom:18px}
+.profile-dl{display:grid;grid-template-columns:max-content 1fr;gap:10px 22px;font-size:var(--t-base)}
+.profile-dl dt{color:var(--muted);white-space:nowrap;padding-top:1px}
+.profile-dl dd{color:var(--cream);margin:0;line-height:1.5}
+
+/* ---- lightbox ---- */
+.lightbox{display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.96);
+  align-items:center;justify-content:center}
+.lightbox.open{display:flex}
+.lb-img{max-height:90vh;max-width:88vw;object-fit:contain;border-radius:8px;user-select:none;display:block}
+.lb-close{position:absolute;top:16px;right:20px;background:none;border:none;color:#ddd;font-size:30px;
+  line-height:1;cursor:pointer;opacity:.55;padding:6px 12px;transition:.15s}
+.lb-close:hover{opacity:1}
+.lb-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.15);color:#ddd;font-size:26px;cursor:pointer;
+  padding:12px 18px;border-radius:6px;opacity:.6;transition:.2s;line-height:1}
+.lb-btn:hover{opacity:1;background:rgba(255,255,255,.14)}
+.lb-btn:disabled{opacity:.2;cursor:default;pointer-events:none}
+.lb-prev{left:20px}
+.lb-next{right:20px}
+.lb-counter{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);
+  font-size:11px;letter-spacing:2.5px;color:rgba(255,255,255,.38);white-space:nowrap}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="loading" style="margin-top:80px">Loading catalog…</div>
+</div>
+
+<script src="assets/site.js"></script>
+<script>
+ZX.mountNav('');
+ZX.load().then(m => { render(m); ZX.mountFooter(); }).catch(ZX.fail);
+
+function render(m) {
+  const id = ZX.qs('id');
+  const app = document.getElementById('app');
+  if (!id || !m.byId[id]) {
+    app.innerHTML = `<div class="err" style="margin-top:80px">
+      <h2 style="font-size:24px;margin-bottom:12px">Character not found</h2>
+      <p style="color:var(--muted);margin-bottom:20px">No character with id <code>${ZX.esc(id||'(none)')}</code> exists in the catalog.</p>
+      <a class="btn" href="index.html">← Back to Atlas</a>
+    </div>`;
+    return;
+  }
+
+  const c = m.byId[id];
+  const b = c.body || {};
+  const p = c.persona || {};
+  const f = c.face || {};
+  const ps = c.photoshoot || {};
+  const ph = c.status !== 'live';
+  const fc = ZX.famColor(b.family);
+
+  // gallery data
+  const gallery = ps.gallery || [];
+  const thumbs = ps.gallery_thumbs || [];
+  const heroFull = gallery[0] || ps.hero || ps.hero_thumb || '';
+  const heroThumb = ps.hero_thumb || ps.hero || '';
+  const mainImg = ph ? (heroThumb || heroFull) : (heroFull || heroThumb);
+  // backdrop: prefer second gallery image so it differs from the hero
+  const backdropSrc = gallery[1] || gallery[0] || heroFull || heroThumb;
+  const totalImgCount = gallery.length || ps.image_count || 0;
+
+  // spec rows
+  const bodyEstimated = b.estimated === true;
+  const bodyEstBasis  = (bodyEstimated && b.est_basis) ? b.est_basis : '';
+  let specEstNote = bodyEstimated
+    ? `<div class="phnote" style="margin-top:12px">Estimated — no published spec card.${bodyEstBasis ? ' ' + ZX.esc(bodyEstBasis) : ''}</div>`
+    : '';
+  let specRows = '';
+  if (b.WHR != null) {
+    const whrEstSuffix = bodyEstimated ? ' (est.)' : '';
+    specRows = `
+      <span>Stature</span><b>${ZX.esc(b.height_cm)}cm · ${ZX.esc(b.cup)}-cup · ${ZX.esc(b.weight_kg)}kg</b>
+      <span>Bust · Waist · Hip</span><b>${ZX.esc(b.bust)} · ${ZX.esc(b.waist)} · ${ZX.esc(b.hip)} cm</b>
+      <span>WHR / BWR</span><b>${ZX.esc(b.WHR)} / ${ZX.esc(b.BWR)}${whrEstSuffix}</b>
+      <span>Bust drop</span><b>${ZX.esc(b.bust_drop_cm)} cm</b>`;
+  } else {
+    const stature = [b.height_cm ? b.height_cm + 'cm' : null, b.cup ? b.cup + '-cup' : null].filter(Boolean).join(' · ') || '—';
+    specRows = `
+      <span>Stature</span><b>${ZX.esc(stature)}</b>
+      <span>Measurements</span><b style="color:var(--muted)">spec card pending</b>`;
+  }
+  if (f.head_code) {
+    specRows += `<span>Head</span><b>${ZX.esc(f.head_code)}${f.face_code ? ' · ' + ZX.esc(f.face_code) : ''}</b>`;
+  }
+  if (p.target_buyer) {
+    specRows += `<span>For</span><b>${ZX.esc(p.target_buyer)}</b>`;
+  }
+  if (ps.price) {
+    specRows += `<span>From</span><b>$${ZX.esc(ps.price)}</b>`;
+  }
+  if (!ph && totalImgCount > 0) {
+    specRows += `<span>Photoset</span><b>${totalImgCount} image${totalImgCount !== 1 ? 's' : ''}</b>`;
+  }
+
+  // thumb strip
+  const thumbStrip = thumbs.length ? thumbs.map((t, i) => {
+    const fullSrc = gallery[i] || t;
+    return `<img loading="lazy" src="${ZX.esc(t)}" data-full="${ZX.esc(fullSrc)}" class="${i===0?'sel':''}" alt="Gallery image ${i+1}">`;
+  }).join('') : '';
+
+  // placeholder note
+  const phnoteHtml = ph && c.placeholder ? `
+    <div class="phnote" style="margin-bottom:18px">
+      <b style="color:var(--gold)">Shoot pending.</b> ${ZX.esc(c.placeholder.reason)}.<br>
+      ${c.placeholder.art_direction ? `<span style="color:var(--muted)">Art direction: ${ZX.esc(c.placeholder.art_direction)}</span>` : ''}
+    </div>
+    <p style="font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:18px">Representative · shoot pending</p>` : '';
+
+  // breadcrumb
+  const crumbs = `<div class="crumbs">
+    <a href="index.html">Atlas</a><span>›</span>
+    <a href="series.html?s=${encodeURIComponent(c.series)}">${ZX.esc(c.series)}</a><span>›</span>
+    <a href="body.html?b=${encodeURIComponent(c.body_code)}">${ZX.esc(c.body_code)}</a><span>›</span>
+    <span style="color:var(--text)">${ZX.esc(p.name)}</span>
+  </div>`;
+
+  // sisters: same body_code, not self
+  const sisters = (m.byBody[c.body_code] || []).filter(x => x.character_id !== c.character_id);
+  const sistersHtml = sisters.length ? `
+    <div class="section-block reveal d1">
+      <div class="section-head">Her Sisters</div>
+      <div class="section-sub">The other characters sharing the <span class="bcode">${ZX.esc(c.body_code)}</span> body architecture.</div>
+      <div class="grid g3">${sisters.map(ZX.charCard).join('')}</div>
+    </div>` : '';
+
+  // more from family
+  let moreFamilyHtml = '';
+  if (b.family) {
+    const more = m.characters
+      .filter(x => x.character_id !== c.character_id && x.body && x.body.family === b.family && x.status === 'live')
+      .filter(x => x.body_code !== c.body_code)
+      .slice(0, 4);
+    if (more.length) {
+      moreFamilyHtml = `
+      <div class="section-block reveal d2">
+        <div class="section-head">More from ${ZX.esc(b.family)}</div>
+        <div class="section-sub">Other live characters across the catalog who share this family archetype.</div>
+        <div class="grid g4">${more.map(ZX.charCard).join('')}</div>
+      </div>`;
+    }
+  }
+
+  app.innerHTML = `
+    ${crumbs}
+    <main>
+      <div class="char-layout">
+
+        <!-- LEFT: gallery -->
+        <div class="gallery-col">
+          <div class="galmain-wrap">
+            ${mainImg
+              ? `<img class="galmain" id="galmain" src="${ZX.esc(mainImg)}" alt="${ZX.esc(p.name)}">`
+              : `<div class="no-img">No image available</div>`}
+            ${ph ? `<span class="repbadge">Representative · shoot pending</span>` : ''}
+            ${totalImgCount > 0 ? `<span class="imgcount">${totalImgCount} image${totalImgCount !== 1 ? 's' : ''}</span>` : ''}
+            ${gallery.length > 1 ? `<div class="auto-progress" id="auto-progress"></div>` : ''}
+          </div>
+          ${thumbStrip ? `<div class="galstrip" id="galstrip">${thumbStrip}</div>` : ''}
+        </div>
+
+        <!-- RIGHT: info -->
+        <div class="info-col has-backdrop">
+          ${ZX.heroBackdrop(backdropSrc)}
+          <div class="eyebrow" style="margin-bottom:8px">${ZX.esc(c.series)}</div>
+          <h1 class="char-name serif"><span class="em-grad">${ZX.esc(p.name)}</span></h1>
+          <div class="char-meta">${[p.title, c.series, c.body_code].filter(Boolean).map(ZX.esc).join(' · ')}</div>
+          ${p.tagline ? `<div class="char-tagline">${ZX.esc(p.tagline)}</div>` : ''}
+
+          <div class="fam-row">
+            <span class="famdot" style="background:${fc}"></span>
+            <span class="fam-label">${b.family ? ZX.esc(b.family) : 'Unclassified'}</span>
+            ${b.silhouette ? `<span class="silhouette">· ${ZX.esc(b.silhouette)}</span>` : ''}
+          </div>
+
+          <div class="spec-section">
+            <div class="spec-label">Specifications</div>
+            <div class="kv">${specRows}</div>
+            ${specEstNote}
+          </div>
+
+          ${p.energy ? `<div class="energy-line"><b>Energy</b> — ${ZX.esc(p.energy)}</div>` : ''}
+          ${p.positioning ? `<div class="pos" style="margin-bottom:18px">${ZX.esc(p.positioning)}</div>` : ''}
+          ${phnoteHtml}
+
+          <div class="inquire-block">
+            <a class="btn solid" href="${ZX.contactHref(c)}">
+              ${ph ? `Register interest in ${ZX.esc(p.name)}` : `Inquire about ${ZX.esc(p.name)}`}
+            </a>
+            <div class="inquire-ref">
+              ${!ph && ps.product_code ? `Reference ${ZX.esc(ps.product_code)} · ` : ''}<a href="${ZX.inquireHref(c)}">or email us directly</a>
+            </div>
+          </div>
+
+          <div class="char-actions">
+            <a class="btn" href="body.html?b=${encodeURIComponent(c.body_code)}">View Body Architecture</a>
+            <button class="btn ghost" type="button" id="add-compare-char">Add to Compare</button>
+            <a class="btn ghost" href="series.html?s=${encodeURIComponent(c.series)}">← ${ZX.esc(c.series)}</a>
+          </div>
+        </div>
+      </div>
+
+      ${(()=>{
+        const story = p.story || null;
+        const prof  = p.profile || null;
+        if (!story && !prof) return '';
+        let html = '<div class="story-section reveal">';
+        if (story) {
+          html += `<h2 class="story-heading reveal d1">Her Story</h2>
+                   <p class="story-body reveal d2">${ZX.esc(story)}</p>`;
+        }
+        if (prof) {
+          html += `<div class="profile-label reveal d3">Character Profile</div>
+                   <dl class="profile-dl reveal d4">`;
+          if (prof.personality)    html += `<dt>Personality</dt><dd>${ZX.esc(prof.personality)}</dd>`;
+          if (prof.ideal_setting)  html += `<dt>Ideal&nbsp;Setting</dt><dd>${ZX.esc(prof.ideal_setting)}</dd>`;
+          if (prof.signature)      html += `<dt>Signature</dt><dd>${ZX.esc(prof.signature)}</dd>`;
+          if (prof.for_you_if)     html += `<dt>For&nbsp;you&nbsp;if…</dt><dd>${ZX.esc(prof.for_you_if)}</dd>`;
+          html += '</dl>';
+        }
+        html += '</div>';
+        return html;
+      })()}
+      ${sistersHtml}
+      ${moreFamilyHtml}
+    </main>`;
+
+  // ---- gallery interactivity ----
+  const gm = document.getElementById('galmain');
+  // Ordered image list: full-res gallery array, or fall back to the single hero image
+  const allImages = gallery.length ? gallery : (heroFull ? [heroFull] : []);
+  let currentIdx = 0;
+  let autoTimer = null;
+  const ROTATE_MS = 4500;
+  const progEl = document.getElementById('auto-progress');
+
+  // Animate the gold progress bar to fill over ROTATE_MS — resets on each image change.
+  function resetBar() {
+    if (!progEl || allImages.length < 2 || !autoTimer) return;
+    progEl.style.transition = 'none';
+    progEl.style.width = '0%';
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      if (!autoTimer) return;
+      progEl.style.transition = `width ${ROTATE_MS}ms linear`;
+      progEl.style.width = '100%';
+    }));
+  }
+
+  function startAuto() {
+    if (allImages.length < 2) return;
+    clearInterval(autoTimer);
+    autoTimer = setInterval(() => goTo(currentIdx + 1), ROTATE_MS);
+    resetBar();
+  }
+
+  function stopAuto() {
+    clearInterval(autoTimer);
+    autoTimer = null;
+    if (progEl) { progEl.style.transition = 'none'; progEl.style.width = '0%'; }
+  }
+
+  // Central navigation function — updates main image, thumbnail strip, and lightbox in sync.
+  function goTo(idx) {
+    if (!allImages.length) return;
+    currentIdx = ((idx % allImages.length) + allImages.length) % allImages.length;
+    if (gm) gm.src = allImages[currentIdx];
+    document.querySelectorAll('#galstrip img').forEach((im, i) => im.classList.toggle('sel', i === currentIdx));
+    const lbImgEl = document.getElementById('lb-img');
+    const lbCtrEl = document.getElementById('lb-counter');
+    if (lbImgEl) { lbImgEl.src = allImages[currentIdx]; lbImgEl.alt = `${p.name} — photo ${currentIdx + 1}`; }
+    if (lbCtrEl) lbCtrEl.textContent = allImages.length > 1 ? `${currentIdx + 1} / ${allImages.length}` : '';
+    resetBar();
+  }
+
+  // Start auto-rotate; pause on hover.
+  if (allImages.length > 1) {
+    startAuto();
+    const galWrap = document.querySelector('.galmain-wrap');
+    if (galWrap) {
+      galWrap.addEventListener('mouseenter', stopAuto);
+      galWrap.addEventListener('mouseleave', startAuto);
+    }
+  }
+
+  // Thumbnail strip — clicking a thumb stops auto-rotate and jumps to that image.
+  document.querySelectorAll('#galstrip img').forEach((im, i) => {
+    im.addEventListener('click', () => { stopAuto(); goTo(i); });
+  });
+
+  // ---- lightbox ----
+  const hasSingle = allImages.length <= 1;
+  document.body.insertAdjacentHTML('beforeend', `
+    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true">
+      <button class="lb-close" id="lb-close" aria-label="Close">&times;</button>
+      <button class="lb-btn lb-prev" id="lb-prev" aria-label="Previous image"${hasSingle ? ' style="display:none"' : ''}>&#8249;</button>
+      <img class="lb-img" id="lb-img" src="" alt="">
+      <button class="lb-btn lb-next" id="lb-next" aria-label="Next image"${hasSingle ? ' style="display:none"' : ''}>&#8250;</button>
+      <div class="lb-counter" id="lb-counter"></div>
+    </div>`);
+
+  const lb = document.getElementById('lightbox');
+
+  let lightboxAutoWasRunning = false;
+
+  function openLightbox(idx) {
+    if (!allImages.length) return;
+    lightboxAutoWasRunning = !!autoTimer;
+    stopAuto();
+    goTo(idx);
+    lb.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    lb.classList.remove('open');
+    document.body.style.overflow = '';
+    if (lightboxAutoWasRunning) startAuto();
+  }
+
+  // Click hero image to open lightbox
+  if (gm && allImages.length) {
+    gm.addEventListener('click', () => openLightbox(currentIdx));
+  }
+
+  document.getElementById('lb-close').addEventListener('click', closeLightbox);
+  document.getElementById('lb-prev').addEventListener('click', () => goTo(currentIdx - 1));
+  document.getElementById('lb-next').addEventListener('click', () => goTo(currentIdx + 1));
+
+  // Click backdrop to close; keyboard navigation
+  lb.addEventListener('click', e => { if (e.target === lb) closeLightbox(); });
+  document.addEventListener('keydown', e => {
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'Escape')       closeLightbox();
+    if (e.key === 'ArrowLeft')    goTo(currentIdx - 1);
+    if (e.key === 'ArrowRight')   goTo(currentIdx + 1);
+  });
+
+  // update page title
+  document.title = `${p.name} · ZELEX Atlas`;
+
+  const compareCharBtn = document.getElementById('add-compare-char');
+  if (compareCharBtn) {
+    if (ZX.getCompareBodies().includes(c.body_code)) {
+      compareCharBtn.classList.add('done');
+      compareCharBtn.textContent = 'Added to Compare';
+    }
+    compareCharBtn.addEventListener('click', () => {
+      const result = ZX.addCompareBody(c.body_code);
+      compareCharBtn.classList.add('done');
+      compareCharBtn.textContent = 'Added to Compare';
+      if (result.added) {
+        ZX.track('compare_add', {
+          character_id: c.character_id,
+          body_code: c.body_code,
+          family: (c.body && c.body.family) ? c.body.family : '',
+          series: c.series || '',
+          compare_count: result.bodies.length,
+          context: 'character_detail',
+          source_page: 'character'
+        });
+      }
+    });
+  }
+
+  ZX.revealInit();
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ZELEX — The Craft</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+/* ---- hero ---- */
+.craft-hero{
+  position:relative;min-height:96vh;display:flex;align-items:flex-end;overflow:hidden;
+}
+.craft-hero .bg{
+  position:absolute;inset:0;background-size:cover;background-position:top center;
+  transform:scale(1.04);transition:transform 8s ease;
+}
+.craft-hero:hover .bg{transform:scale(1.0);}
+.craft-hero .scrim{
+  position:absolute;inset:0;
+  background:linear-gradient(90deg,rgba(10,10,10,.88) 0%,rgba(10,10,10,.55) 50%,rgba(10,10,10,.18) 100%),
+             linear-gradient(0deg,rgba(10,10,10,.92),transparent 55%);
+}
+.craft-hero .inner{
+  position:relative;max-width:var(--maxw);margin:0 auto;width:100%;padding:0 40px 10vh;
+}
+.craft-hero .eyebrow{color:var(--gold);letter-spacing:6px;text-transform:uppercase;font-size:var(--t-sm);margin-bottom:22px;}
+.craft-hero h1{
+  font-family:'Playfair Display',serif;font-size:clamp(42px,8vw,92px);
+  line-height:1.03;font-weight:400;max-width:15ch;
+}
+.craft-hero h1 em{font-style:italic;color:var(--cream);}
+.craft-hero .hero-sub{
+  color:#cfcfcf;max-width:520px;margin:22px 0 0;font-size:16px;font-weight:300;line-height:1.7;
+}
+@media(max-width:720px){
+  .craft-hero .inner{padding:0 20px 8vh;}
+}
+
+/* ---- breadcrumbs override for dark hero page ---- */
+.crumbs-over{
+  position:absolute;top:0;left:0;right:0;z-index:10;
+  max-width:var(--maxw);margin:0 auto;padding:88px 40px 0;
+  font-size:12px;letter-spacing:1px;color:rgba(200,200,200,.55);
+}
+.crumbs-over a{color:rgba(200,200,200,.55);}
+.crumbs-over a:hover{color:var(--cream);}
+.crumbs-over span{color:rgba(200,200,200,.25);margin:0 8px;}
+
+/* ---- method section ---- */
+.method{max-width:var(--maxw);margin:0 auto;padding:100px 40px 60px;}
+.method-head{text-align:center;max-width:740px;margin:0 auto 80px;}
+.method-head .eyebrow{color:var(--gold);letter-spacing:5px;text-transform:uppercase;font-size:var(--t-sm);}
+.method-head h2{font-family:'Playfair Display',serif;font-size:clamp(28px,4.2vw,46px);margin:14px 0;}
+.method-head p{color:var(--muted);font-weight:300;font-size:15px;}
+
+.method-row{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;margin-bottom:90px;}
+.method-row.rev .method-txt{order:2;}
+@media(max-width:860px){
+  .method-row{grid-template-columns:1fr;gap:28px;}
+  .method-row.rev .method-txt{order:0;}
+  .method{padding:70px 20px 40px;}
+}
+.method-img-wrap{
+  aspect-ratio:3/4;background:#0d0d0d;border-radius:var(--r-md);overflow:hidden;
+  border:1px solid var(--b-subtle);
+}
+.method-img-wrap img{width:100%;height:100%;object-fit:cover;object-position:top center;transition:.4s;}
+.method-img-wrap:hover img{transform:scale(1.04);}
+.method-txt .step-k{color:var(--gold);font-size:11px;letter-spacing:4px;text-transform:uppercase;margin-bottom:10px;}
+.method-txt h3{font-family:'Playfair Display',serif;font-size:clamp(24px,3vw,34px);margin-bottom:16px;line-height:1.15;}
+.method-txt p{color:var(--muted);font-weight:300;font-size:15px;line-height:1.8;}
+.method-txt p+p{margin-top:12px;}
+.method-txt .inline-stat{
+  display:inline-block;margin-top:18px;padding:9px 18px;
+  background:var(--s3);border:1px solid var(--b-subtle);border-radius:8px;
+  font-size:var(--t-sm);letter-spacing:1.5px;color:var(--cream);
+}
+.method-txt .inline-stat b{color:var(--gold);}
+
+/* ---- stat band ---- */
+.stat-band{
+  background:var(--panel);border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  padding:70px 40px;
+}
+.stat-band-inner{
+  max-width:var(--maxw);margin:0 auto;
+  display:grid;grid-template-columns:repeat(4,1fr);gap:24px;
+}
+@media(max-width:860px){.stat-band-inner{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:480px){.stat-band-inner{grid-template-columns:1fr 1fr;gap:16px;}}
+.stat-item{text-align:center;padding:28px 16px;}
+.stat-item .num{
+  font-family:'Playfair Display',serif;font-size:clamp(40px,6vw,68px);
+  font-weight:400;line-height:1;color:var(--cream);
+}
+.stat-item .num .unit{font-size:.45em;color:var(--gold);margin-left:4px;vertical-align:middle;}
+.stat-item .label{
+  color:var(--muted);font-size:11px;letter-spacing:3px;text-transform:uppercase;margin-top:10px;
+}
+
+/* ---- families legend ---- */
+.families-section{max-width:var(--maxw);margin:0 auto;padding:90px 40px 70px;}
+.families-head{text-align:center;max-width:640px;margin:0 auto 60px;}
+.families-head .eyebrow{color:var(--blue);letter-spacing:5px;text-transform:uppercase;font-size:12px;}
+.families-head h2{font-family:'Playfair Display',serif;font-size:clamp(26px,3.8vw,42px);margin:14px 0;}
+.families-head p{color:var(--muted);font-weight:300;}
+.families-grid{
+  display:grid;grid-template-columns:repeat(7,1fr);gap:14px;
+}
+@media(max-width:1100px){.families-grid{grid-template-columns:repeat(4,1fr);}}
+@media(max-width:640px){.families-grid{grid-template-columns:repeat(2,1fr);}}
+.fam-card{
+  background:var(--panel);border:1px solid var(--line);border-radius:12px;
+  padding:22px 18px;text-align:center;transition:.25s;
+}
+.fam-card:hover{border-color:var(--gold);transform:translateY(-3px);}
+.fam-dot{
+  width:18px;height:18px;border-radius:50%;margin:0 auto 14px;
+}
+.fam-name{font-family:'Playfair Display',serif;font-size:15px;margin-bottom:8px;}
+.fam-desc{color:var(--muted);font-size:11px;line-height:1.5;letter-spacing:.3px;}
+
+/* ---- CTA section ---- */
+.craft-cta{
+  text-align:center;padding:90px 24px 100px;
+  background:linear-gradient(180deg,var(--bg) 0%,var(--panel) 100%);
+  border-top:1px solid var(--line);
+}
+.craft-cta .eyebrow{color:var(--gold);letter-spacing:5px;text-transform:uppercase;font-size:12px;margin-bottom:18px;}
+.craft-cta h2{
+  font-family:'Playfair Display',serif;font-size:clamp(26px,4vw,44px);
+  font-style:italic;margin-bottom:14px;
+}
+.craft-cta p{color:var(--muted);max-width:540px;margin:0 auto 36px;font-weight:300;font-size:15px;}
+.craft-cta .btn-row{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
+</style>
+</head>
+<body>
+
+<!-- nav injected by ZX.mountNav -->
+
+<section class="craft-hero has-backdrop" id="hero">
+  <div class="bg" id="heroBg"></div>
+  <div class="scrim"></div>
+  <!-- crumbs overlaid on hero -->
+  <div class="crumbs-over">
+    <a href="index.html">Atlas</a><span>›</span> The Craft
+  </div>
+  <div class="inner">
+    <div class="eyebrow">The ZELEX Standard</div>
+    <h1><span class="em-grad">Measured</span> individuals,<br><em>not a catalog.</em></h1>
+    <p class="hero-sub">
+      Every silhouette is a real architecture — proportions mapped, ratios named, characters built.
+      This is how a doll becomes a presence.
+    </p>
+  </div>
+</section>
+
+<!-- ============================================================
+     THE METHOD
+     ============================================================ -->
+<section class="method" id="method">
+  <div class="method-head">
+    <div class="eyebrow">The Method</div>
+    <h2>How presence is made</h2>
+    <p>Four disciplines from raw silicone to named individual — applied to every body in the range.</p>
+  </div>
+
+  <!-- 01 Spec-card measurement -->
+  <div class="method-row reveal d1" id="row1">
+    <div class="method-img-wrap"><img id="methodImg1" loading="lazy" alt=""></div>
+    <div class="method-txt">
+      <div class="step-k">01 · Measurement</div>
+      <h3>Every body is a real architecture</h3>
+      <p>Before a character is cast, the body receives a full spec card: bust, waist, hip, height, cup, and two signature ratios — WHR and BWR. Not estimates. Precise measurements that define a silhouette signature no other body shares.</p>
+      <p>WHR (waist-to-hip) determines the core drama of a figure. BWR (bust-to-waist) locates the upper architecture. Together they place each body uniquely in a space no marketing language can substitute.</p>
+      <span class="inline-stat"><b>27</b> distinct architectures · each with a named spec card</span>
+    </div>
+  </div>
+
+  <!-- 02 Body Families -->
+  <div class="method-row rev reveal d2" id="row2">
+    <div class="method-txt">
+      <div class="step-k">02 · Body Families</div>
+      <h3>Six measured silhouettes</h3>
+      <p>Architectures are grouped into six families — not by aesthetic whim, but by measurement signature. The Classic. The Icon. The Muse. The Siren. The Empress. The Sculpt.</p>
+      <p>Each family has a distinct proportion envelope: a WHR range, a cup cluster, a characteristic bust drop. A body belongs to its family because the numbers place it there, not because a copywriter named it.</p>
+      <span class="inline-stat"><b>6</b> families · defined by measurement, not mood</span>
+    </div>
+    <div class="method-img-wrap"><img id="methodImg2" loading="lazy" alt=""></div>
+  </div>
+
+  <!-- 03 Characters -->
+  <div class="method-row reveal d3" id="row3">
+    <div class="method-img-wrap"><img id="methodImg3" loading="lazy" alt=""></div>
+    <div class="method-txt">
+      <div class="step-k">03 · Characters</div>
+      <h3>Four named individuals per architecture</h3>
+      <p>Each body architecture carries exactly four characters — four head/face pairings, each with a name, a title, a tagline, and a persona direction. You choose a person, not a part number.</p>
+      <p>No two characters within a body share a face code. No character is nameless. The slot system (№&thinsp;1–4) signals positioning within the architecture, from editorial to expressive.</p>
+      <span class="inline-stat"><b id="statCharsInline">—</b> characters · up to 4 per body · each named and directed</span>
+    </div>
+  </div>
+
+  <!-- 04 Material & craft -->
+  <div class="method-row rev reveal d4" id="row4">
+    <div class="method-txt">
+      <div class="step-k">04 · Material</div>
+      <h3>Platinum silicone, handfinished</h3>
+      <p>Platinum-cure silicone — prop-grade, stable, and alive to the touch in a way no TPE blend replicates. The same material used in film effects production, poured into architectures defined by measurement rather than market convention.</p>
+      <p>SLE construction removes the dead weight. A movable EXP jaw adds the small expression shifts that read as presence. Handfinished skin detail is applied last — because a measured body without craft is still just a form.</p>
+      <span class="inline-stat">Platinum silicone · SLE core · EXP movable jaw</span>
+    </div>
+    <div class="method-img-wrap"><img id="methodImg4" loading="lazy" alt=""></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     STAT BAND
+     ============================================================ -->
+<div class="stat-band" id="statBand">
+  <div class="stat-band-inner">
+    <div class="stat-item">
+      <div class="num">4</div>
+      <div class="label">Series</div>
+    </div>
+    <div class="stat-item">
+      <div class="num" id="statArch">—</div>
+      <div class="label">Body architectures</div>
+    </div>
+    <div class="stat-item">
+      <div class="num" id="statChars">—</div>
+      <div class="label">Named characters</div>
+    </div>
+    <div class="stat-item">
+      <div class="num" id="statPhotographed">—</div>
+      <div class="label">Photographed</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     BODY FAMILIES LEGEND
+     ============================================================ -->
+<section class="families-section" id="families">
+  <div class="families-head">
+    <div class="eyebrow">Body Families</div>
+    <h2>Six architectures, each measured</h2>
+    <p>Every body in the ZELEX range belongs to one of six families — grouped by proportion signature, not aspiration.</p>
+  </div>
+  <div class="families-grid" id="familiesGrid">
+    <!-- rendered by JS -->
+  </div>
+</section>
+
+<!-- ============================================================
+     CTA
+     ============================================================ -->
+<section class="craft-cta" id="cta">
+  <div class="eyebrow">Where next</div>
+  <h2>Every character is waiting.</h2>
+  <p><span id="statCharsCta">—</span> individuals across four series and six body families — each measured, named, and ready to be found.</p>
+  <div class="btn-row">
+    <a class="btn solid" href="index.html">Explore the Atlas</a>
+    <a class="btn" href="quiz.html">Find your character</a>
+  </div>
+</section>
+
+<!-- footer injected by ZX.mountFooter -->
+
+<script src="assets/site.js"></script>
+<script>
+ZX.mountNav('craft.html');
+ZX.load().then(m => {
+  /* hero backdrop — guard double-insert */
+  const heroEl = document.getElementById('hero');
+  if (heroEl && !heroEl.querySelector('.backdrop')) {
+    const bdSrc = ZX.repImg(m.characters, 0);
+    const bdHtml = ZX.heroBackdrop(bdSrc);
+    if (bdHtml) heroEl.insertAdjacentHTML('afterbegin', bdHtml);
+  }
+  render(m);
+  ZX.mountFooter();
+}).catch(() => ZX.fail());
+
+function render(m) {
+  /* ---------- data-driven counts (never hardcode totals) ---------- */
+  const total = m.characters.length;
+  const arch = new Set(m.characters.map(c => c.body_code)).size;
+  const setTxt = (id, v) => { const e = document.getElementById(id); if (e) e.textContent = v; };
+  setTxt('statChars', total); setTxt('statCharsInline', total); setTxt('statCharsCta', total); setTxt('statArch', arch);
+
+  /* ---------- hero image ---------- */
+  const live = m.characters.filter(c => c.status === 'live' && c.photoshoot && (c.photoshoot.hero_thumb || c.photoshoot.hero));
+  // prefer Inspiration or K-Series for the hero — cinematic/editorial characters
+  const heroPool = live.filter(c => c.series === 'Inspiration' || c.series === 'K-Series');
+  const heroChar = heroPool[0] || live[0];
+  if (heroChar) {
+    const heroUrl = heroChar.photoshoot.hero || heroChar.photoshoot.hero_thumb;
+    if (heroUrl) document.getElementById('heroBg').style.backgroundImage = "url('" + heroUrl + "')";
+  }
+
+  /* ---------- method images: 4 distinct characters from different series ---------- */
+  const imgPool = live.filter(c => c !== heroChar);
+  const picks = [];
+  // try to get one per series for variety
+  const seriesTried = new Set();
+  for (const c of imgPool) {
+    if (!seriesTried.has(c.series) && picks.length < 4) {
+      picks.push(c);
+      seriesTried.add(c.series);
+    }
+  }
+  // fill remainder if needed
+  for (const c of imgPool) {
+    if (picks.length >= 4) break;
+    if (!picks.includes(c)) picks.push(c);
+  }
+  [1, 2, 3, 4].forEach(function(n) {
+    const c = picks[n - 1];
+    const el = document.getElementById('methodImg' + n);
+    if (el && c) {
+      const src = c.photoshoot.hero_thumb || c.photoshoot.hero;
+      if (src) {
+        el.src = src;
+        el.alt = ZX.esc(c.persona && c.persona.name ? c.persona.name : '');
+      }
+    }
+  });
+
+  /* ---------- stat: photographed ---------- */
+  const photographed = live.length;
+  const statEl = document.getElementById('statPhotographed');
+  if (statEl) statEl.textContent = String(photographed);
+
+  /* ---------- families legend ---------- */
+  const FAMILY_DESCS = {
+    'The Classic': 'Balanced proportions — WHR between .68 and .72. The evergreen reference.',
+    'The Icon':    'High-waist drama with a generous hip envelope. The editorial silhouette.',
+    'The Muse':    'Hip-led naturalism — Inspiration-series architectures built for believability.',
+    'The Siren':   'Exaggerated hip-to-waist contrast. Maximum figural drama.',
+    'The Empress': 'Larger-frame authority — commanding scale, curvaceous upper architecture.',
+    'The Sculpt':  'Firm-finish minimalism — defined contours, low BWR, technical precision.'
+  };
+  const familyOrder = [
+    'The Classic', 'The Icon', 'The Muse', 'The Siren',
+    'The Empress', 'The Sculpt'
+  ];
+  const grid = document.getElementById('familiesGrid');
+  if (grid) {
+    grid.innerHTML = familyOrder.map(function(fam, i) {
+      const color = ZX.famColor(fam); // returns var(--Classic) etc
+      const desc = FAMILY_DESCS[fam] || '';
+      const delay = 'd' + Math.min(i + 1, 6);
+      return '<div class="fam-card reveal ' + delay + '">'
+        + '<div class="fam-dot" style="background:' + color + '"></div>'
+        + '<div class="fam-name">' + ZX.esc(fam) + '</div>'
+        + '<div class="fam-desc">' + ZX.esc(desc) + '</div>'
+        + '</div>';
+    }).join('');
+    ZX.revealInit();
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ZELEX — Find Your Character</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+/* ---- quiz page ---- */
+#app { min-height: 80vh; }
+
+/* ---- intro screen ---- */
+.intro {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 80px 24px 60px;
+  text-align: center;
+}
+.intro .eyebrow { margin-bottom: 18px; }
+.intro h1 {
+  font-size: clamp(36px, 6vw, 62px);
+  font-weight: 700;
+  line-height: 1.1;
+  margin-bottom: 16px;
+}
+.intro h1 em { font-style: italic; color: var(--gold); }
+.intro .sub {
+  color: var(--muted);
+  font-size: 16px;
+  margin-bottom: 38px;
+  line-height: 1.7;
+}
+/* btn-begin inherits all .btn.solid behaviour; only override size */
+.intro .btn-begin { padding: 16px 42px; }
+.intro .note {
+  margin-top: 20px;
+  color: var(--muted);
+  font-size: var(--t-sm);
+  letter-spacing: 1px;
+}
+
+/* ---- question screen ---- */
+.qscreen {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 40px 24px 60px;
+  display: none;
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity .35s ease, transform .35s ease;
+}
+.qscreen.show { display: block; }
+.qscreen.visible { opacity: 1; transform: translateY(0); }
+
+.qprogress-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+.qprogress-track {
+  flex: 1;
+  height: 3px;
+  background: var(--s3);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.qprogress-bar {
+  height: 100%;
+  background: var(--gold);
+  border-radius: 3px;
+  transition: width .4s ease;
+}
+.qprogress-label {
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+  min-width: 100px;
+  text-align: right;
+}
+
+.qcard {
+  background: var(--s2);
+  border: 1px solid var(--b-subtle);
+  border-radius: 16px;
+  padding: 36px;
+}
+.qcard h2 {
+  font-size: clamp(22px, 4vw, 30px);
+  line-height: 1.25;
+  margin-bottom: 26px;
+  font-weight: 600;
+}
+
+.opts {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+.opt {
+  text-align: left;
+  padding: 16px 20px;
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  background: var(--panel2);
+  color: var(--text);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 15px;
+  transition: .2s;
+  display: block;
+  width: 100%;
+}
+.opt:hover {
+  border-color: var(--gold);
+  background: #2c2620;
+  transform: translateX(4px);
+}
+.opt .ob { display: block; font-weight: 600; font-size: 15px; }
+.opt .os { display: block; color: var(--muted); font-size: 12.5px; margin-top: 3px; }
+
+.qback {
+  margin-top: 20px;
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  letter-spacing: 1px;
+  padding: 6px 0;
+  transition: .2s;
+}
+.qback:hover { color: var(--text); }
+.qback[hidden] { display: none; }
+
+/* ---- result screen ---- */
+.rscreen {
+  max-width: 1060px;
+  margin: 0 auto;
+  padding: 50px 24px 70px;
+  display: none;
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity .4s ease, transform .4s ease;
+}
+.rscreen.show { display: block; }
+.rscreen.visible { opacity: 1; transform: translateY(0); }
+
+.rhead {
+  text-align: center;
+  margin-bottom: 40px;
+}
+.rhead .eyebrow { margin-bottom: 14px; }
+.rhead h2 {
+  font-size: clamp(32px, 5vw, 54px);
+  font-weight: 700;
+  line-height: 1.1;
+  margin-bottom: 16px;
+}
+.rhead h2 em { font-style: italic; }
+.rhead .rdesc {
+  color: var(--muted);
+  max-width: 580px;
+  margin: 0 auto;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.rfam-accent {
+  display: inline-block;
+  width: 48px;
+  height: 3px;
+  border-radius: 3px;
+  margin: 14px auto 0;
+}
+
+.ractions {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  margin-top: 36px;
+  flex-wrap: wrap;
+}
+
+@media(max-width:600px){
+  .qcard { padding: 22px 18px; }
+  .qprogress-label { min-width: auto; }
+}
+
+.match-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-bottom:28px}
+.match-divider{grid-column:1/-1;display:flex;align-items:center;gap:12px;margin:4px 0;color:var(--muted);font-size:11px;letter-spacing:1.8px;text-transform:uppercase}
+.match-divider::before,.match-divider::after{content:'';flex:1;height:1px;background:var(--line)}
+.result-ranking{margin:0 auto 28px;max-width:760px;padding:14px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.02)}
+.result-ranking h3{font-size:15px;letter-spacing:1.4px;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.rank-list{display:grid;gap:8px}
+.rank-item{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 10px;border:1px solid var(--line);border-radius:10px;background:var(--s2)}
+.rank-item .left{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.rank-item .idx{font-size:11px;letter-spacing:1.6px;text-transform:uppercase;color:var(--muted)}
+.rank-item .name{font-family:'Playfair Display',serif;font-size:18px;line-height:1.1}
+.rank-item .pct{font-size:12px;font-weight:600;color:var(--cream)}
+.why-win{max-width:760px;margin:0 auto 20px;padding:12px 14px;border:1px solid color-mix(in srgb,var(--gold) 24%,transparent);border-radius:12px;background:linear-gradient(135deg,rgba(212,165,116,.08),transparent 45%),var(--panel);color:var(--muted);font-size:13px;line-height:1.5}
+.match-role{margin-top:8px;color:var(--muted);font-size:12px;line-height:1.45;padding:8px 10px;border:1px solid var(--line);border-radius:9px;background:rgba(255,255,255,.02)}
+</style>
+</head>
+<body>
+<div class="crumbs" id="crumbs"></div>
+<main id="app">
+  <div class="loading">Loading catalog…</div>
+</main>
+
+<script src="assets/site.js"></script>
+<script>
+ZX.mountNav('quiz.html');
+ZX.load().then(m => { render(m); ZX.mountFooter(); }).catch(() => ZX.fail());
+
+const QUESTIONS = [
+  { q: "What stature draws you in?", opts: [
+    { b: "Petite & compact",       s: "Under 162 cm",    w: { "The Classic": 2, "The Siren": 1, "The Empress": 1 } },
+    { b: "Balanced & mid-height",  s: "162–168 cm",      w: { "The Muse": 1, "The Icon": 2, "The Classic": 1 } },
+    { b: "Tall & striking",        s: "169 cm and up",   w: { "The Muse": 2, "The Icon": 1 } }
+  ]},
+  { q: "Which silhouette feels right?", opts: [
+    { b: "Subtle & restrained",    s: "Proportion over volume",  w: { "The Muse": 2, "The Sculpt": 1, "The Classic": 1 } },
+    { b: "Classic hourglass",      s: "Timeless curves",         w: { "The Classic": 3, "The Icon": 1 } },
+    { b: "Bold & bust-forward",    s: "Statement presence",      w: { "The Siren": 3, "The Icon": 1 } },
+    { b: "Plush & abundant",       s: "Soft, full, generous",    w: { "The Empress": 3, "The Siren": 1 } },
+    { b: "Lean & athletic",        s: "Fit and tapered",         w: { "The Sculpt": 3 } }
+  ]},
+  { q: "In a room, she should…", opts: [
+    { b: "Blend in beautifully",   s: "Understated, lived-in",   w: { "The Muse": 2, "The Classic": 1 } },
+    { b: "Be the centerpiece",     s: "Striking, unforgettable", w: { "The Siren": 2, "The Icon": 2, "The Empress": 1 } }
+  ]},
+  { q: "Your space and handling?", opts: [
+    { b: "Apartment — solo-manageable", s: "Lighter is better",   w: { "The Classic": 2, "The Muse": 1 } },
+    { b: "Dedicated space",             s: "Weight is no concern", w: { "The Empress": 2, "The Siren": 1 } }
+  ]},
+  { q: "The mood you're after?", opts: [
+    { b: "Natural & relatable",    s: "The girl next door",    w: { "The Muse": 3, "The Classic": 1 } },
+    { b: "Glamour & camera",       s: "Editorial, photogenic", w: { "The Icon": 3, "The Classic": 1 } },
+    { b: "Fantasy & drama",        s: "Larger than life",      w: { "The Siren": 3, "The Empress": 1 } },
+    { b: "Fitness & definition",   s: "Toned realism",         w: { "The Sculpt": 3 } }
+  ]}
+];
+
+const FAM_DESC = {
+  "The Classic":  "A timeless hourglass — balanced, inviting, the one you live with.",
+  "The Icon":     "A glamour-model silhouette — built for the lens, camera-ready poise.",
+  "The Muse":     "Tall and hip-led — natural, elongated, quietly confident.",
+  "The Siren":    "Bust-dominant and magnetic — bold presence, impossible to ignore.",
+  "The Empress":  "Maximum plush — abundant, soft-dominant, regal.",
+  "The Sculpt":   "Muscular definition — deliberate, defined, statuesque."
+};
+
+function render(m) {
+  // inject breadcrumb
+  const crumbs = document.getElementById('crumbs');
+  if (crumbs) {
+    crumbs.innerHTML = `<a href="index.html">Atlas</a><span>›</span> Find Yours`;
+  }
+
+  let answers = [];
+  let step = 0;
+  const app = document.getElementById('app');
+
+  // ---- build DOM ----
+  app.innerHTML = `
+    <!-- intro -->
+    <section id="intro" class="intro has-backdrop">
+      <div class="eyebrow reveal d1">Find Your Character</div>
+      <h1 class="reveal d2">The one built <em class="em-grad">for you</em></h1>
+      <p class="sub reveal d3">Five questions. Six body families. One introduction.</p>
+      <button class="btn solid btn-begin reveal d4" id="btn-begin">Begin</button>
+      <p class="note reveal d5">Takes about 60 seconds</p>
+    </section>
+
+    <!-- question screen -->
+    <section id="qscreen" class="qscreen" aria-live="polite">
+      <div class="qprogress-wrap">
+        <div class="qprogress-track"><div class="qprogress-bar" id="pbar" style="width:0%"></div></div>
+        <div class="qprogress-label" id="plabel">Question 1 of ${QUESTIONS.length}</div>
+      </div>
+      <div class="qcard">
+        <h2 id="qtext"></h2>
+        <div class="opts" id="opts"></div>
+        <button class="qback" id="qback" hidden>← Back</button>
+      </div>
+    </section>
+
+    <!-- result screen -->
+    <section id="rscreen" class="rscreen" aria-live="polite"></section>
+  `;
+
+  // ---- intro backdrop ----
+  const intro = document.getElementById('intro');
+  if (intro && !intro.querySelector('.backdrop')) {
+    intro.insertAdjacentHTML('afterbegin', ZX.heroBackdrop(ZX.repImg(m.characters, 0)));
+  }
+  ZX.revealInit();
+
+  // ---- wiring ----
+  document.getElementById('btn-begin').addEventListener('click', startQuiz);
+
+  function startQuiz() {
+    answers = [];
+    step = 0;
+    hide('intro');
+    hide('rscreen');
+    showSection('qscreen');
+    renderQ();
+  }
+
+  function renderQ() {
+    const Q = QUESTIONS[step];
+    const pct = (step / QUESTIONS.length * 100).toFixed(1);
+    document.getElementById('pbar').style.width = pct + '%';
+    document.getElementById('plabel').textContent = `Question ${step + 1} of ${QUESTIONS.length}`;
+    document.getElementById('qtext').textContent = Q.q;
+
+    const qback = document.getElementById('qback');
+    if (step === 0) qback.setAttribute('hidden', '');
+    else qback.removeAttribute('hidden');
+    qback.onclick = () => { if (step > 0) { step--; answers.pop(); renderQ(); } };
+
+    document.getElementById('opts').innerHTML = Q.opts.map((o, i) =>
+      `<button class="opt" data-i="${i}">
+        <span class="ob">${ZX.esc(o.b)}</span>
+        <span class="os">${ZX.esc(o.s)}</span>
+      </button>`
+    ).join('');
+
+    document.querySelectorAll('#opts .opt').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const o = Q.opts[+btn.dataset.i];
+        if (!o) return;
+        answers.push(o.w);
+        if (step < QUESTIONS.length - 1) {
+          step++;
+          renderQ();
+        } else {
+          finish();
+        }
+      });
+    });
+  }
+
+  function finish() {
+    // tally scores
+    const FAMS = ["The Classic","The Icon","The Muse","The Siren","The Empress","The Sculpt"];
+    const score = {};
+    FAMS.forEach(f => { score[f] = 0; });
+    answers.forEach(w => {
+      Object.entries(w).forEach(([f, v]) => { score[f] = (score[f] || 0) + v; });
+    });
+
+    // ranked by score
+    const ranked = FAMS.slice().sort((a, b) => score[b] - score[a]);
+    const totalScore = Math.max(1, Object.values(score).reduce((a, v) => a + (v > 0 ? v : 0), 0));
+
+    // live characters with a family
+    const live = m.characters.filter(c => c.status === 'live' && c.body && c.body.family);
+    const liveByFam = f => live.filter(c => c.body.family === f);
+
+    // pick winner — highest-scoring family with at least one live char
+    const win = ranked.find(f => liveByFam(f).length > 0) || ranked[0];
+
+    // pick up to 4 matches from the top family — diversified by body_code first
+    const pool = liveByFam(win);
+    const seenBody = new Set();
+    const matches = [];
+    for (const c of pool) {
+      if (!seenBody.has(c.body_code)) { matches.push(c); seenBody.add(c.body_code); }
+      if (matches.length === 4) break;
+    }
+    for (const c of pool) {
+      if (matches.length >= 4) break;
+      if (!matches.includes(c)) matches.push(c);
+    }
+
+    // fill remaining slots from second-ranked family before any cross-family fallback
+    const runner = ranked.find(f => f !== win && liveByFam(f).length > 0);
+    const fillFrom = runner ? liveByFam(runner) : [];
+    let fromSecond = 0;
+    for (const c of fillFrom) {
+      if (matches.length >= 4) break;
+      if (!matches.includes(c)) { matches.push(c); fromSecond++; }
+    }
+
+    // final fallback: any remaining live character (not counted as runner-up)
+    if (matches.length < 4) {
+      const anyLive = m.characters.filter(c => c.status === 'live');
+      for (const c of anyLive) {
+        if (matches.length >= 4) break;
+        if (!matches.includes(c)) { matches.push(c); }
+      }
+    }
+
+    if (fromSecond > 0 && runner) {
+      const firstRunnerIdx = matches.findIndex(c => c.body && c.body.family === runner);
+      if (firstRunnerIdx !== -1) {
+        fromSecond = matches.length - firstRunnerIdx;
+      }
+    }
+
+    const splitAt = matches.length - fromSecond;
+    const top3 = ranked.slice(0, 3).map((fam, idx) => ({
+      idx: idx + 1,
+      fam,
+      score: score[fam],
+      pct: Math.round((score[fam] / totalScore) * 100),
+      liveCount: liveByFam(fam).length
+    }));
+    const winnerEntry = top3.find(x => x.fam === win) || { fam: win, score: score[win], pct: 0, liveCount: liveByFam(win).length };
+    const runnerScore = runner ? score[runner] : 0;
+    const scoreGap = Math.max(0, score[win] - runnerScore);
+    const compareBodies = Array.from(new Set(matches.map(c => c.body_code).filter(Boolean))).slice(0, 4);
+    const compareCodes = compareBodies.join(',');
+
+    const quizResult = {
+      ts: new Date().toISOString(),
+      winner: win,
+      runner_up: runner || '',
+      top3: top3,
+      match_ids: matches.map(c => c.character_id),
+      compare_bodies: compareBodies
+    };
+    try { localStorage.setItem('zx_quiz_result', JSON.stringify(quizResult)); } catch (e) {}
+
+    // update progress bar to 100%
+    document.getElementById('pbar').style.width = '100%';
+
+    hide('qscreen');
+    showResult(win, runner, matches, splitAt, top3, winnerEntry, scoreGap, compareBodies, compareCodes);
+  }
+
+  function showResult(win, runner, matches, splitAt, top3, winnerEntry, scoreGap, compareBodies, compareCodes) {
+    const famColor = ZX.famColor(win);
+    const desc = FAM_DESC[win] || '';
+    const rscreen = document.getElementById('rscreen');
+    const quizSummary = [
+      'winner=' + win,
+      'top=' + top3.map(x => x.fam + ':' + x.pct + '%').join('|'),
+      'compare=' + compareCodes
+    ].join(';');
+
+    const cardItems = matches.map((c, i) => {
+      const divider = (i === splitAt && i > 0 && runner)
+        ? `<div class="match-divider">Also from ${ZX.esc(runner)}</div>`
+        : '';
+      const reason = c.body && c.body.family === win
+        ? 'Core match: aligns with your winning family silhouette.'
+        : (runner && c.body && c.body.family === runner
+            ? 'Runner-up support: gives you a nearby proportion alternative.'
+            : 'Wildcard fit: included to broaden your shortlist.');
+      return `${divider}<div class="reveal d${i + 1}">${ZX.charCard(c)}<div class="match-role">${ZX.esc(c.persona.title)} · ${ZX.esc(reason)}</div></div>`;
+    }).join('');
+
+    const ranking = `<section class="result-ranking reveal d1">
+      <h3>Top family scores</h3>
+      <div class="rank-list">
+        ${top3.map(r => `<div class="rank-item">
+          <div class="left">
+            <span class="idx">#${r.idx}</span>
+            <span class="name">${ZX.esc(r.fam)}</span>
+            ${r.liveCount === 0 ? '<span class="stat stat-concept">In development</span>' : '<span class="stat stat-verified">Live</span>'}
+          </div>
+          <span class="pct">${r.pct}%</span>
+        </div>`).join('')}
+      </div>
+    </section>`;
+
+    const whyWin = `<div class="why-win reveal d2">
+      <strong style="color:var(--cream)">Why this won:</strong>
+      ${ZX.esc(win)} led your response profile at ${winnerEntry.pct}% signal strength${runner ? `, ahead of ${runner} by ${scoreGap} score point${scoreGap === 1 ? '' : 's'}` : ''}. Your shortlist keeps this silhouette first while still giving one adjacent path for comparison.
+    </div>`;
+
+    rscreen.innerHTML = `
+      <div class="rhead">
+        <div class="eyebrow">Your match</div>
+        <h2>You are drawn to <em style="color:${famColor}">${ZX.esc(win)}</em></h2>
+        <p class="rdesc">${ZX.esc(desc)}</p>
+        <div class="rfam-accent" style="background:${famColor}"></div>
+      </div>
+      ${ranking}
+      ${whyWin}
+      <div class="match-grid" id="match-grid">
+        ${cardItems}
+      </div>
+      <div class="ractions">
+        <button class="btn ghost" id="retake-btn">↻ Retake the quiz</button>
+        <button class="btn solid" id="compare-matches-btn">Compare matches</button>
+        <a class="btn" href="family.html?f=${encodeURIComponent(win)}">Browse ${ZX.esc(win)}</a>
+        <a class="btn concierge" href="contact.html?compare=${encodeURIComponent(compareCodes)}&src=quiz&cta=ask_concierge_after_quiz&context=quiz_result&channel=contact&quiz_summary=${encodeURIComponent(quizSummary)}">Ask concierge</a>
+      </div>
+    `;
+
+    showSection('rscreen');
+    ZX.revealInit();
+
+    const compareBtn = document.getElementById('compare-matches-btn');
+    if (compareBtn) {
+      compareBtn.addEventListener('click', () => {
+        ZX.setCompareBodies(compareBodies);
+        ZX.track('compare_set_changed', { action: 'set_from_quiz', compare_count: compareBodies.length, body_codes: compareCodes, context: 'quiz_result', source_page: 'quiz' });
+        location.href = 'compare.html';
+      });
+    }
+
+    document.getElementById('retake-btn').addEventListener('click', () => {
+      hide('rscreen');
+      showSection('intro');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+
+  // ---- transition helpers ----
+  function hide(id) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.classList.remove('visible');
+    el.classList.remove('show');
+  }
+
+  function showSection(id) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.classList.add('show');
+    // trigger CSS transition on next frame
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        el.classList.add('visible');
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+  }
+}
+</script>
+</body>
+</html>

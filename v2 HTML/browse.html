@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ZELEX — Browse Every Character</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+/* ---- page hero ---- */
+.browse-hero{
+  padding:64px 32px 36px;
+  text-align:center;
+  background:radial-gradient(ellipse at top,#1d1d1d,#121212 68%);
+  border-bottom:1px solid var(--line);
+}
+.browse-hero .eyebrow{margin-bottom:14px}
+.browse-hero h1{font-size:clamp(30px,5.5vw,58px);font-weight:700;letter-spacing:1px}
+.browse-hero .sub{color:var(--muted);margin-top:12px;font-size:var(--t-base);letter-spacing:1px}
+.browse-hero .back{display:inline-block;margin-top:18px;font-size:11px;letter-spacing:2px;
+  text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--line);padding-bottom:2px;transition:.2s}
+.browse-hero .back:hover{color:var(--text);border-color:var(--text)}
+
+/* ---- filter bar ---- */
+.filterbar{
+  position:sticky;top:62px;z-index:40;
+  background:rgba(18,18,18,.97);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--b-subtle);
+  padding:14px 24px;
+}
+.filterbar-inner{max-width:var(--maxw);margin:0 auto;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.filter-group{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.filter-label{font-size:var(--t-xs);letter-spacing:2px;text-transform:uppercase;color:var(--muted);white-space:nowrap;margin-right:2px}
+.pill{
+  padding:6px 16px;border:1px solid var(--b-subtle);border-radius:var(--r-pill);
+  background:transparent;color:var(--muted);
+  cursor:pointer;font-size:var(--t-sm);letter-spacing:.5px;
+  font-family:inherit;transition:.2s;white-space:nowrap;
+}
+.pill:hover{color:var(--text);border-color:var(--muted)}
+.pill.active{background:var(--cream);color:#111;border-color:var(--cream);font-weight:600}
+.pill.fam-pill.active{color:#111;font-weight:600}
+.filter-sep{width:1px;height:22px;background:var(--line);margin:0 4px;flex-shrink:0}
+.toggle-wrap{display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none}
+.toggle-wrap input[type=checkbox]{accent-color:var(--gold);width:15px;height:15px;cursor:pointer}
+.toggle-label{font-size:var(--t-sm);color:var(--muted);letter-spacing:.5px;transition:.2s}
+.toggle-wrap:hover .toggle-label{color:var(--text)}
+.search-wrap{margin-left:auto;position:relative;flex-shrink:0}
+.search-wrap input{
+  background:var(--panel2);border:1px solid var(--line);border-radius:var(--r-md);
+  color:var(--text);font-family:inherit;font-size:13px;
+  padding:7px 14px 7px 34px;width:200px;transition:.2s;
+  outline:none;
+}
+.search-wrap input::placeholder{color:var(--muted)}
+.search-wrap input:focus{border-color:var(--gold);width:240px}
+.search-wrap .search-icon{
+  position:absolute;left:10px;top:50%;transform:translateY(-50%);
+  color:var(--muted);font-size:14px;pointer-events:none;
+}
+@media(max-width:820px){
+  .filterbar{padding:12px 16px}
+  .search-wrap{margin-left:0;width:100%}
+  .search-wrap input,.search-wrap input:focus{width:100%}
+}
+
+/* ---- count bar ---- */
+.count-bar{
+  max-width:var(--maxw);margin:20px auto 14px;padding:0 24px;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;
+}
+.count-text{font-size:13px;color:var(--muted)}
+.count-text strong{color:var(--text)}
+.reset-link{font-size:var(--t-sm);letter-spacing:1px;text-transform:uppercase;color:var(--gold);
+  cursor:pointer;border-bottom:1px solid transparent;transition:.2s}
+.reset-link:hover{border-color:var(--gold)}
+
+.compare-quick{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.compare-count{font-size:12px;color:var(--muted);letter-spacing:.4px}
+.compare-quick .btn{padding:7px 12px;font-size:11px;letter-spacing:1px;text-transform:uppercase}
+
+/* ---- grid wrapper ---- */
+#grid-container{max-width:var(--maxw);margin:0 auto;padding:0 24px 60px}
+
+.browse-item{display:grid;gap:8px}
+.add-compare-browse{width:100%;padding:9px 10px;font-size:11px;letter-spacing:1.6px;text-transform:uppercase}
+.add-compare-browse.done{border-color:var(--Muse);color:var(--Muse)}
+
+/* ---- empty state ---- */
+.empty-state{
+  text-align:center;padding:80px 24px;
+}
+.empty-state .big{font-family:'Playfair Display',serif;font-style:italic;
+  font-size:clamp(22px,4vw,36px);color:var(--muted);margin-bottom:16px}
+.empty-state p{color:var(--muted);font-size:var(--t-base);max-width:400px;margin:0 auto 24px}
+</style>
+</head>
+<body>
+
+<div class="crumbs">
+  <a href="index.html">Atlas</a><span>›</span>Browse
+</div>
+
+<header class="browse-hero has-backdrop">
+  <div class="eyebrow">The Full Cast</div>
+  <h1>Browse <span class="em-grad">Every</span> Character</h1>
+  <div class="sub" id="hero-sub">Loading catalog…</div>
+  <a class="back" href="index.html">← Back to the Atlas</a>
+</header>
+
+<div class="filterbar" id="filterbar">
+  <div class="filterbar-inner">
+    <!-- Series filter -->
+    <div class="filter-group" id="series-pills">
+      <span class="filter-label">Series</span>
+    </div>
+
+    <div class="filter-sep"></div>
+
+    <!-- Body family filter -->
+    <div class="filter-group" id="family-pills">
+      <span class="filter-label">Family</span>
+    </div>
+
+    <div class="filter-sep"></div>
+
+    <!-- Photographed toggle -->
+    <label class="toggle-wrap">
+      <input type="checkbox" id="photo-toggle">
+      <span class="toggle-label">Photographed only</span>
+    </label>
+
+    <!-- Search -->
+    <div class="search-wrap">
+      <span class="search-icon">⌕</span>
+      <input type="text" id="search-box" placeholder="Name or body code…" autocomplete="off">
+    </div>
+  </div>
+</div>
+
+<div class="count-bar">
+  <div class="count-text" id="count-text"></div>
+  <div class="compare-quick" id="compare-quick">
+    <span class="compare-count" id="compare-count">Compare set: 0</span>
+    <a class="btn ghost" href="compare.html" id="open-compare-link">Open Compare</a>
+    <button class="btn ghost" type="button" id="clear-compare-browse">Clear Compare</button>
+  </div>
+  <span class="reset-link" id="reset-link" style="display:none" onclick="resetFilters()">Reset filters</span>
+</div>
+
+<div id="grid-container">
+  <div class="loading">Loading the ZELEX catalog…</div>
+</div>
+
+<script src="assets/site.js"></script>
+<script>
+// ---- state ----
+let _model = null;
+const STORAGE_KEY = 'zx_compare_bodies';
+const state = {
+  series: 'all',
+  family: 'all',
+  photoOnly: false,
+  query: ''
+};
+
+// ---- boot ----
+ZX.mountNav('');
+ZX.load().then(m => { _model = m; init(m); ZX.mountFooter(); }).catch(ZX.fail);
+
+function selectedCompareCodes() {
+  try {
+    const arr = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+    if (!Array.isArray(arr)) return [];
+    return arr
+      .map(function(x) { return String(x || '').trim(); })
+      .filter(function(x) { return x && x !== '.' && /^[A-Za-z0-9_-]+$/.test(x); })
+      .slice(0, 4);
+  } catch (e) {
+    return [];
+  }
+}
+
+function saveCompareCodes(codes) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(codes.slice(0, 4)));
+}
+
+function refreshCompareQuick() {
+  const codes = selectedCompareCodes();
+  const countEl = document.getElementById('compare-count');
+  if (countEl) countEl.textContent = 'Compare set: ' + codes.length;
+
+  const openLink = document.getElementById('open-compare-link');
+  if (openLink) {
+    openLink.href = 'compare.html';
+  }
+
+  const clearBtn = document.getElementById('clear-compare-browse');
+  if (clearBtn) clearBtn.disabled = codes.length === 0;
+}
+
+function addCompareFromBrowse(characterId) {
+  if (!_model || !_model.byId || !_model.byId[characterId]) return;
+  const c = _model.byId[characterId];
+  const code = c.body_code || '';
+  if (!code) return;
+
+  const cur = selectedCompareCodes();
+  if (!cur.includes(code)) cur.push(code);
+  saveCompareCodes(cur);
+  refreshCompareQuick();
+
+  ZX.track('compare_set_changed', {
+    action: 'add',
+    compare_count: cur.length,
+    body_codes: cur.join(','),
+    context: 'browse_list',
+    source_page: 'browse'
+  });
+
+  ZX.track('compare_add', {
+    body_code: code,
+    character_id: c.character_id,
+    family: (c.body && c.body.family) ? c.body.family : '',
+    series: c.series || '',
+    compare_count: cur.length,
+    context: 'browse_list',
+    source_page: 'browse'
+  });
+
+  const btn = document.querySelector('[data-compare-char="' + characterId + '"]');
+  if (btn) {
+    btn.classList.add('done');
+    btn.textContent = 'Added to Compare';
+  }
+}
+
+// ---- init ----
+function init(m) {
+  const total = m.characters.length;
+  const liveCount = m.characters.filter(c => c.status === 'live').length;
+  document.getElementById('hero-sub').textContent =
+    total + ' characters across ' + m.series.length + ' series — ' + liveCount + ' photographed';
+
+  // Hero backdrop — guard against double-insert on hot reload
+  const hero = document.querySelector('header.browse-hero');
+  const existingBackdrop = hero && hero.querySelector('.backdrop');
+  if (existingBackdrop) existingBackdrop.remove();
+  const backdropHtml = ZX.heroBackdrop(ZX.repImg(m.characters, 0));
+  if (hero && backdropHtml) hero.insertAdjacentHTML('afterbegin', backdropHtml);
+
+  buildSeriesPills(m);
+  buildFamilyPills(m);
+
+  document.getElementById('photo-toggle').addEventListener('change', e => {
+    state.photoOnly = e.target.checked;
+    renderGrid();
+  });
+
+  const clearCompareBtn = document.getElementById('clear-compare-browse');
+  if (clearCompareBtn) {
+    clearCompareBtn.addEventListener('click', function() {
+      const prev = selectedCompareCodes();
+      if (!prev.length) return;
+      saveCompareCodes([]);
+      refreshCompareQuick();
+      renderGrid();
+      ZX.track('compare_set_changed', { action: 'clear', previous_count: prev.length, compare_count: 0, body_codes: '', context: 'browse_list', source_page: 'browse' });
+      ZX.track('compare_clear', { previous_count: prev.length, context: 'browse_list', source_page: 'browse' });
+    });
+  }
+
+  const openCompareLink = document.getElementById('open-compare-link');
+  if (openCompareLink) {
+    openCompareLink.addEventListener('click', function() {
+      const codes = selectedCompareCodes();
+      ZX.track('compare_handoff_click', {
+        channel: 'compare',
+        cta: 'open_compare',
+        compare_count: codes.length,
+        body_codes: codes.join(','),
+        context: 'browse_list',
+        source_page: 'browse'
+      });
+    });
+  }
+
+  const searchBox = document.getElementById('search-box');
+  searchBox.addEventListener('input', e => {
+    state.query = e.target.value.trim();
+    renderGrid();
+  });
+
+  refreshCompareQuick();
+  renderGrid();
+}
+
+// ---- pill builders ----
+function buildSeriesPills(m) {
+  const container = document.getElementById('series-pills');
+  const options = [['all', 'All']].concat(m.series.map(s => [s, s]));
+  options.forEach(([val, label]) => {
+    const btn = document.createElement('button');
+    btn.className = 'pill' + (val === 'all' ? ' active' : '');
+    btn.textContent = label;
+    btn.dataset.val = val;
+    btn.addEventListener('click', () => {
+      state.series = val;
+      container.querySelectorAll('.pill').forEach(p => p.classList.toggle('active', p.dataset.val === val));
+      renderGrid();
+    });
+    container.appendChild(btn);
+  });
+}
+
+function buildFamilyPills(m) {
+  const container = document.getElementById('family-pills');
+  // Collect families present in data (null → skip in family filter)
+  const present = new Set();
+  m.characters.forEach(c => { if (c.body && c.body.family) present.add(c.body.family); });
+  // Maintain canonical order from FAMILIES list
+  const ordered = ZX.FAMILIES.filter(f => present.has(f));
+
+  const options = [['all', 'All']].concat(ordered.map(f => [f, f.replace('The ', '')]));
+  options.forEach(([val, label]) => {
+    const btn = document.createElement('button');
+    const isAll = val === 'all';
+    btn.className = 'pill fam-pill' + (isAll ? ' active' : '');
+    btn.textContent = label;
+    btn.dataset.val = val;
+    if (!isAll) {
+      const color = ZX.famColor(val);
+      btn.style.setProperty('--fam-color', color);
+      // subtle tint when inactive
+      btn.addEventListener('mouseenter', () => { if (!btn.classList.contains('active')) btn.style.borderColor = color; });
+      btn.addEventListener('mouseleave', () => { if (!btn.classList.contains('active')) btn.style.borderColor = ''; });
+    }
+    btn.addEventListener('click', () => {
+      state.family = val;
+      container.querySelectorAll('.pill').forEach(p => {
+        const active = p.dataset.val === val;
+        p.classList.toggle('active', active);
+        if (!active && p.dataset.val !== 'all') p.style.borderColor = '';
+        if (active && p.dataset.val !== 'all') p.style.background = ZX.famColor(val);
+        if (active && p.dataset.val !== 'all') p.style.borderColor = ZX.famColor(val);
+        if (!active && p.dataset.val !== 'all') p.style.background = '';
+      });
+      renderGrid();
+    });
+    container.appendChild(btn);
+  });
+}
+
+// ---- filtering & sorting ----
+function filtered(m) {
+  let chars = m.characters.slice();
+
+  // series
+  if (state.series !== 'all') {
+    chars = chars.filter(c => c.series === state.series);
+  }
+  // family (null chars always fail family filter unless 'all')
+  if (state.family !== 'all') {
+    chars = chars.filter(c => c.body && c.body.family === state.family);
+  }
+  // photo only
+  if (state.photoOnly) {
+    chars = chars.filter(c => c.status === 'live');
+  }
+  // search
+  if (state.query) {
+    const q = state.query.toLowerCase();
+    chars = chars.filter(c => {
+      const name = (c.persona && c.persona.name) ? c.persona.name.toLowerCase() : '';
+      const code = c.body_code ? c.body_code.toLowerCase() : '';
+      return name.includes(q) || code.includes(q);
+    });
+  }
+
+  // sort: live first, then by series order, then height asc
+  const seriesIdx = s => { const i = ZX.SERIES_ORDER.indexOf(s); return i < 0 ? 99 : i; };
+  chars.sort((a, b) => {
+    const aLive = a.status === 'live' ? 0 : 1;
+    const bLive = b.status === 'live' ? 0 : 1;
+    if (aLive !== bLive) return aLive - bLive;
+    const si = seriesIdx(a.series) - seriesIdx(b.series);
+    if (si !== 0) return si;
+    const ah = (a.body && a.body.height_cm) || 0;
+    const bh = (b.body && b.body.height_cm) || 0;
+    return ah - bh;
+  });
+
+  return chars;
+}
+
+function isFiltered() {
+  return state.series !== 'all' || state.family !== 'all' || state.photoOnly || state.query !== '';
+}
+
+// ---- render ----
+function renderGrid() {
+  const m = _model;
+  const chars = filtered(m);
+  const total = m.characters.length;
+
+  // count bar
+  const countText = document.getElementById('count-text');
+  countText.innerHTML = 'Showing <strong>' + chars.length + '</strong> of <strong>' + total + '</strong> characters';
+  const resetLink = document.getElementById('reset-link');
+  resetLink.style.display = isFiltered() ? '' : 'none';
+
+  const container = document.getElementById('grid-container');
+
+  if (chars.length === 0) {
+    container.innerHTML = '<div class="empty-state">' +
+      '<div class="big">No characters match</div>' +
+      '<p>Try broadening your filters or clearing the search.</p>' +
+      '<span class="reset-link" onclick="resetFilters()">Reset all filters</span>' +
+      '</div>';
+    return;
+  }
+
+  const grid = document.createElement('div');
+  grid.className = 'grid g4';
+  const selected = selectedCompareCodes();
+  chars.forEach((c, i) => {
+    const stagger = 'd' + ((i % 6) + 1);
+    const cardHtml = ZX.charCard(c).replace(/^<a /, '<a ').replace(/^<a class="/, '<a class="reveal ' + stagger + ' ');
+    const isDone = selected.includes(c.body_code);
+    const btnClass = 'btn ghost add-compare-browse' + (isDone ? ' done' : '');
+    const btnText = isDone ? 'Added to Compare' : 'Add to Compare';
+    const itemHtml =
+      '<div class="browse-item">' +
+      cardHtml +
+      '<button class="' + btnClass + '" type="button" data-compare-char="' + ZX.esc(c.character_id) + '">' + btnText + '</button>' +
+      '</div>';
+    grid.insertAdjacentHTML('beforeend', itemHtml);
+  });
+  container.innerHTML = '';
+  container.appendChild(grid);
+
+  container.querySelectorAll('.add-compare-browse').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      addCompareFromBrowse(btn.getAttribute('data-compare-char'));
+    });
+  });
+
+  ZX.revealInit();
+}
+
+// ---- reset ----
+function resetFilters() {
+  state.series = 'all';
+  state.family = 'all';
+  state.photoOnly = false;
+  state.query = '';
+
+  document.getElementById('search-box').value = '';
+  document.getElementById('photo-toggle').checked = false;
+
+  document.querySelectorAll('#series-pills .pill').forEach(p =>
+    p.classList.toggle('active', p.dataset.val === 'all'));
+  document.querySelectorAll('#family-pills .pill').forEach(p => {
+    const active = p.dataset.val === 'all';
+    p.classList.toggle('active', active);
+    if (!active) { p.style.background = ''; p.style.borderColor = ''; }
+  });
+
+  renderGrid();
+}
+</script>
+</body>
+</html>

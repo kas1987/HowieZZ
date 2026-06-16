@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ZELEX — Body Architecture</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+  /* ---- hero header for body page ---- */
+  .body-hero {
+    padding: 54px 24px 42px;
+    background: radial-gradient(ellipse at top, #1e1e1e, #121212 72%);
+    border-bottom: 1px solid var(--line);
+  }
+  .body-hero-inner {
+    max-width: var(--maxw);
+    margin: 0 auto;
+  }
+  .body-title-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--sp4);
+    margin-bottom: 10px;
+  }
+  .body-title-row h1 {
+    font-size: clamp(32px, 5vw, 58px);
+    font-weight: 700;
+    line-height: 1.05;
+  }
+  .body-subtitle-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-bottom: 22px;
+    color: var(--muted);
+    font-size: 13px;
+    letter-spacing: 1px;
+  }
+  .body-subtitle-row .sep { color: var(--line); }
+
+  /* spec block panel */
+  .spec-panel {
+    background: var(--s2);
+    border: 1px solid var(--b-subtle);
+    border-radius: 13px;
+    padding: 26px 30px;
+    margin-top: 28px;
+  }
+  @media(max-width:720px){ .spec-panel { padding: 18px 18px; } }
+
+  .spec-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px 40px;
+    margin-top: 18px;
+  }
+  @media(max-width:640px){ .spec-grid { grid-template-columns: 1fr; } }
+
+  .silhouette-line {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 15px;
+    color: var(--muted);
+    margin-top: 18px;
+    line-height: 1.6;
+    max-width: 680px;
+  }
+
+  /* cross-links row */
+  .crosslinks {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-top: 36px;
+  }
+
+  /* photoshoots note */
+  .archive-note {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: var(--sp4);
+    letter-spacing: 0.5px;
+  }
+  .archive-note strong { color: var(--cream); }
+</style>
+</head>
+<body>
+
+<div id="crumbs-slot"></div>
+<div id="hero-slot"></div>
+<main id="app">
+  <div class="loading">Loading architecture…</div>
+</main>
+
+<script src="assets/site.js"></script>
+<script>
+ZX.mountNav('index.html');
+ZX.load().then(m => { render(m); ZX.mountFooter(); }).catch(() => ZX.fail());
+
+function render(m) {
+  /* ---- resolve body code ---- */
+  let bc = ZX.qs('b');
+  const allCodes = Object.keys(m.byBody);
+  if (!bc || !m.byBody[bc]) bc = allCodes[0];
+  if (!bc) { ZX.fail(); return; }
+
+  const meta   = m.btByCode[bc] || {};
+  const chars  = m.byBody[bc]   || [];
+  const body   = (chars[0] && chars[0].body) || {};
+  const prof   = (m.profiles && m.profiles[bc]) || {};
+  const series = meta.series || (chars[0] && chars[0].series) || '';
+  const family = body.family || meta.family || null;
+
+  /* ---- merge measurements (profile may have fuller data) ---- */
+  const h   = body.height_cm   || prof.height_cm   || null;
+  const cup = body.cup         || prof.cup          || null;
+  const wkg = body.weight_kg   || prof.weight_kg    || null;
+  const bust= body.bust        || prof.bust         || null;
+  const wst = body.waist       || prof.waist        || null;
+  const hip = body.hip         || prof.hip          || null;
+  const WHR = body.WHR         != null ? body.WHR  : (prof.WHR   != null ? prof.WHR  : null);
+  const BWR = body.BWR         != null ? body.BWR  : (prof.BWR   != null ? prof.BWR  : null);
+  const drop= body.bust_drop_cm != null ? body.bust_drop_cm : (prof.bust_drop_cm != null ? prof.bust_drop_cm : null);
+
+  const famColor = ZX.famColor(family);
+  const famLabel = family || 'Unclassified';
+  const famKey   = family ? family.replace('The ', '') : '';
+
+  /* ---- breadcrumbs ---- */
+  const crumbs = document.getElementById('crumbs-slot');
+  crumbs.innerHTML = `<div class="crumbs">
+    <a href="index.html">Atlas</a><span>›</span>
+    ${series ? `<a href="series.html?s=${encodeURIComponent(series)}">${ZX.esc(series)}</a><span>›</span>` : ''}
+    <span>${ZX.esc(family || bc)}</span>
+  </div>`;
+
+  /* ---- spec card section ---- */
+  const hasSpec = WHR != null;
+
+  let kvHTML;
+  if (hasSpec) {
+    const stature = [h ? h + 'cm' : null, cup ? cup + '-cup' : null, wkg ? wkg + 'kg' : null]
+      .filter(Boolean).join(' · ') || '—';
+    const bwh = [bust, wst, hip].every(x => x != null)
+      ? `${bust} · ${wst} · ${hip} cm`
+      : '—';
+    const estimated = body.estimated === true;
+    const estBasis  = (estimated && body.est_basis) ? body.est_basis : '';
+    const whrSuffix = estimated ? ' (estimated)' : '';
+    const whrLine  = (WHR != null && BWR != null) ? `${WHR} / ${BWR}${whrSuffix}` : (WHR != null ? String(WHR) + whrSuffix : '—');
+    const dropLine = drop != null ? `${drop} cm` : '—';
+    const estNote  = estimated
+      ? `<div class="phnote" style="margin-top:14px">Estimated — no published spec card.${estBasis ? ' ' + ZX.esc(estBasis) : ''}</div>`
+      : '';
+
+    kvHTML = `<div class="spec-grid">
+      <div class="kv">
+        <span>Stature</span><b>${ZX.esc(stature)}</b>
+        <span>Bust · Waist · Hip</span><b>${ZX.esc(bwh)}</b>
+        <span>WHR / BWR</span><b>${ZX.esc(whrLine)}</b>
+        <span>Bust drop</span><b>${ZX.esc(dropLine)}</b>
+      </div>
+    </div>${estNote}`;
+  } else {
+    const knownStature = [h ? h + 'cm' : null, cup ? cup + '-cup' : null]
+      .filter(Boolean).join(' · ') || '—';
+    kvHTML = `<div style="margin-top:12px">
+      <div class="kv" style="margin-bottom:14px">
+        <span>Stature</span><b>${ZX.esc(knownStature)}</b>
+      </div>
+      <div class="phnote">Spec card pending — measurements not yet published for this architecture.</div>
+    </div>`;
+  }
+
+  /* ---- silhouette interpretive line ---- */
+  let silLine = '';
+  if (hasSpec && WHR != null) {
+    const w = parseFloat(WHR);
+    const bwr = BWR != null ? parseFloat(BWR) : null;
+    let desc;
+    if      (w >= 0.7  && w < 0.76) desc = 'a classic hourglass — waist deeply defined, bust and hip in close symmetry';
+    else if (w >= 0.76 && w < 0.82) desc = 'a refined hourglass tending toward the sculptural, with softly flared hips';
+    else if (w >= 0.82 && w < 0.87) desc = 'an athletic silhouette — strong shoulders, moderate waist, balanced proportions';
+    else if (w >= 0.87)              desc = 'a bust-forward, column-like architecture with minimal waist taper';
+    else if (w < 0.7)               desc = 'an extreme hourglass — dramatic waist-to-hip ratio and maximal feminine curve';
+    else                            desc = 'a balanced, proportional build across stature and volume';
+
+    if (bwr != null) {
+      if      (bwr > 1.05) desc += ', with the bust lending forward weight to the silhouette';
+      else if (bwr < 0.95) desc += ', hip-led in its visual mass';
+    }
+    silLine = `<div class="silhouette-line">This architecture reads as ${desc}.</div>`;
+  } else if (family) {
+    const familyDescs = {
+      'The Classic':  'a timeless, balanced architecture — versatile proportions with quiet elegance',
+      'The Icon':     'a statement silhouette defined by presence and confident, editorial scale',
+      'The Muse':     'a hip-led, naturalistic build — the Western ideal of easy, believable femininity',
+      'The Siren':    'a maximal, seductive architecture — curves amplified, presence commanding',
+      'The Athlete':  'an athletic, minimal-waist build — lean, strong, and efficiently proportioned',
+      'The Empress':  'a regal, full-figured architecture — opulent volume with architectural poise',
+      'The Sculpt':   'a sculpted, art-directed form — deliberate geometry, measured and precise'
+    };
+    const fd = familyDescs[family];
+    if (fd) silLine = `<div class="silhouette-line">This architecture is ${fd}.</div>`;
+  }
+
+  /* ---- additional photoshoots note ---- */
+  const addlShoots = meta.additional_photoshoots;
+  let archiveNote = '';
+  if (Array.isArray(addlShoots) && addlShoots.length > 0) {
+    archiveNote = `<div class="archive-note">
+      <strong>+${addlShoots.length}</strong> additional photoshoot${addlShoots.length > 1 ? 's' : ''} in the archive for this architecture.
+    </div>`;
+  }
+
+  /* ---- cross-links ---- */
+  const seriesBtn = series
+    ? `<a class="btn ghost" href="series.html?s=${encodeURIComponent(series)}">← ${ZX.esc(series)}</a>`
+    : '';
+  const quizBtn = `<a class="btn" href="quiz.html">Find Your Match</a>`;
+  const compareBtn = `<button class="btn ghost" id="add-compare-body" type="button">Add to Compare</button>`;
+
+  /* ---- hero injection ---- */
+  const repSrc = ZX.repImg(chars, 0);
+  const hero = document.getElementById('hero-slot');
+  hero.innerHTML = `<div class="body-hero has-backdrop">
+    ${ZX.heroBackdrop(repSrc)}
+    <div class="body-hero-inner">
+      <div class="eyebrow">${ZX.esc(series || 'Body Architecture')}</div>
+      <div class="body-title-row">
+        <h1>${family ? `<span class="em-grad">${ZX.esc(famLabel)}</span>` : ZX.esc(famLabel)}</h1>
+        ${family ? `<span class="fam ${ZX.famClass(family)}">${ZX.esc(famKey)}</span>` : ''}
+      </div>
+      <div class="body-subtitle-row">
+        <span class="bcode">${ZX.esc(bc)}</span>
+        ${h    ? `<span class="sep">·</span><span>${h} cm</span>` : ''}
+        ${cup  ? `<span class="sep">·</span><span>${ZX.esc(cup)}-cup</span>` : ''}
+        ${wkg  ? `<span class="sep">·</span><span>${wkg} kg</span>` : ''}
+      </div>
+      <div class="spec-panel reveal d1">
+        <div class="section-head" style="margin-top:0">Measurement Signature</div>
+        ${kvHTML}
+        ${silLine}
+      </div>
+      ${archiveNote}
+      <div class="crosslinks reveal d2">
+        ${seriesBtn}
+        ${compareBtn}
+        ${quizBtn}
+      </div>
+    </div>
+  </div>`;
+
+  /* ---- cast section ---- */
+  const app = document.getElementById('app');
+  const castHTML = chars.map(c => ZX.charCard(c)).join('');
+  app.innerHTML = `
+    <div class="section-head reveal d3" style="margin-top:46px">The Cast</div>
+    <div class="section-sub reveal d4">The four characters built on the ${ZX.esc(bc)} architecture, each a distinct persona.</div>
+    <div class="grid g4 reveal d5">${castHTML}</div>
+  `;
+
+  const compareBtnEl = document.getElementById('add-compare-body');
+  if (compareBtnEl) {
+    if (ZX.getCompareBodies().includes(bc)) {
+      compareBtnEl.classList.add('done');
+      compareBtnEl.textContent = 'Added to Compare';
+    }
+    compareBtnEl.addEventListener('click', () => {
+      const result = ZX.addCompareBody(bc);
+      compareBtnEl.classList.add('done');
+      compareBtnEl.textContent = 'Added to Compare';
+      if (result.added) {
+        ZX.track('compare_add', { body_code: bc, family: family || '', series: series || '', compare_count: result.bodies.length, context: 'body_detail', source_page: 'body' });
+      }
+    });
+  }
+
+  ZX.revealInit();
+}
+</script>
+</body>
+</html>
