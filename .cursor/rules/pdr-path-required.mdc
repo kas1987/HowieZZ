@@ -1,0 +1,17 @@
+---
+description: Require explicit PDR path for all Cursor tasks
+alwaysApply: true
+---
+
+Before any plan or code change, the prompt must include:
+
+`PDR_PATH: <exact file path in this repository>`
+
+Enforcement:
+1. If `PDR_PATH` is missing, ask for it and stop.
+2. If the file path does not resolve inside this repo, ask for a valid repo path and stop.
+3. Implement only the scoped requirements from that PDR file.
+4. Do not use old external issues as implementation authority unless mirrored to a repo PDR file.
+
+Preferred recovery baseline:
+`docs/pdr/recovery-pack/HowieZZ_PDR_Recovery_Pack/docs/pdr/PDR-000-recovery-and-source-of-truth.md`

@@ -1,0 +1,86 @@
+﻿{
+  "file_count": 16,
+  "loop_count": 1,
+  "files": [
+    {
+      "file": "404.html",
+      "size_bytes": 2078,
+      "sha256": "7ee4899d8f3967f3b37c8cd778c570f87ac4c318b7f231ae580a17605be595fb"
+    },
+    {
+      "file": "body.html",
+      "size_bytes": 12206,
+      "sha256": "169070add7faf53e7900223eacfe94f1d50a4e3b9a2dd08262a61334f497580f"
+    },
+    {
+      "file": "browse.html",
+      "size_bytes": 22781,
+      "sha256": "e5c417aadb27327500c526256d8874bc39e7fe2b5eea9ff8066a08ff7e8720a1"
+    },
+    {
+      "file": "character.html",
+      "size_bytes": 37740,
+      "sha256": "fb41a1f0b2bf673b5cb4ca16f1b187d1c4d1a915c8b7607653811a3123b841e6"
+    },
+    {
+      "file": "community-events.html",
+      "size_bytes": 5341,
+      "sha256": "bcebd4e7e1271faf92cceb0b370adbc282bf8af9c1a537f34597b200e04d651e"
+    },
+    {
+      "file": "community.html",
+      "size_bytes": 8825,
+      "sha256": "8d2d56027e86ee29dd323628f336bd5ae7b769b547755d3cc12e8b176f3dd30d"
+    },
+    {
+      "file": "compare.html",
+      "size_bytes": 16799,
+      "sha256": "3d1cb24e6697b1d0a2de68c80f0ee94b210e5751016d72ce5fc9aaf9619eb142"
+    },
+    {
+      "file": "configurator.html",
+      "size_bytes": 22547,
+      "sha256": "40e0fd5fb28d1985fb04648c4077669eb8715f9b1e5841bd1693f80342cc6759"
+    },
+    {
+      "file": "contact.html",
+      "size_bytes": 70571,
+      "sha256": "a46b35c9437e804e2cbf2ee1bda2e38c01c710e06ae93119848c6ac6d2ec4679"
+    },
+    {
+      "file": "craft.html",
+      "size_bytes": 17712,
+      "sha256": "38ba076177678fd303e1205869cb145c37b9e0313fab107c1ac2485716df2c6b"
+    },
+    {
+      "file": "family.html",
+      "size_bytes": 34598,
+      "sha256": "d902efcc2726f53d4b69e37c95fee28d2ff2a011b64054340a7ec6e340084fb9"
+    },
+    {
+      "file": "index-gallery-original.html",
+      "size_bytes": 20917,
+      "sha256": "22cdf8567c3ce18e4f51e920588595b01a1aec265745929e3bbd74a7042dd712"
+    },
+    {
+      "file": "index.html",
+      "size_bytes": 15843,
+      "sha256": "ec00ff0e95e4421891a006084bda230ee6e382489c2652dd42fccd80caaa6c98"
+    },
+    {
+      "file": "options.html",
+      "size_bytes": 20836,
+      "sha256": "d415e5c66fe321c8ca83eaa353cb3fb7e311a478de35573e9dea75f1934ef009"
+    },
+    {
+      "file": "quiz.html",
+      "size_bytes": 30343,
+      "sha256": "8140ddd950814d477183f023696d525eed3ebe650c08e5cdce710aa4a3066f74"
+    },
+    {
+      "file": "series.html",
+      "size_bytes": 15760,
+      "sha256": "0ae9c4f7fafa2630e257601693b87459e6924f2e4779feda442e094a3578aed8"
+    }
+  ]
+}

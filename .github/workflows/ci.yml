@@ -9,6 +9,10 @@ on:
 permissions:
   contents: read
 
+env:
+  COMMUNITY_CHANNELS_REFERENCE_PATH: _local/reference/zelexdoll-theme/docs/community_channels.json
+  COMMUNITY_CHANNELS_REQUIRE_SOURCE: "false"
+
 concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
@@ -37,6 +41,71 @@ jobs:
 
       - name: Validate pages, inline JS, and catalog JSON
         run: node .github/scripts/validate-site.mjs
+
+      - name: Validate community data schema + provenance
+        run: node .github/scripts/validate-community-data.mjs
+
+      - name: Validate community events data schema
+        run: node .github/scripts/validate-community-events-data.mjs
+
+      - name: Guard — community channel sync status (check mode)
+        shell: pwsh
+        run: |
+          if ($env:COMMUNITY_CHANNELS_REQUIRE_SOURCE -eq 'true') {
+            ./scripts/sync_community_channels_from_reference.ps1 -CheckOnly -RequireSource -SourcePath $env:COMMUNITY_CHANNELS_REFERENCE_PATH
+          } else {
+            ./scripts/sync_community_channels_from_reference.ps1 -CheckOnly -SourcePath $env:COMMUNITY_CHANNELS_REFERENCE_PATH
+          }
+
+      - name: Guard — PDR_PATH headers in agent task files
+        run: node .github/scripts/validate-pdr-path-task-files.mjs
+
+      - name: Guard — v2 HTML package is refreshed
+        shell: pwsh
+        run: |
+          ./scripts/refresh_v2_html.ps1 1
+          git diff --exit-code -- "v2 HTML"
+          if ($LASTEXITCODE -ne 0) {
+            Write-Error "v2 HTML package artifacts are stale. Run ./scripts/refresh_v2_html.ps1 and commit updated package files."
+            exit 1
+          }
+
+      - name: Analytics sanity suite
+        shell: pwsh
+        run: |
+          echo "Using threshold config: docs/pdr/PDR-analytics-sanity-thresholds.json"
+          $cfg = Get-Content -Raw docs/pdr/PDR-analytics-sanity-thresholds.json | ConvertFrom-Json
+          echo "Analytics config schema_version: $($cfg.schemaVersion)"
+          ./scripts/run_analytics_sanity_suite.ps1
+
+      - name: Analytics config guardrail (expected fail)
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Continue'
+          pwsh -File scripts/run_analytics_sanity_suite.ps1 -ConfigPath docs/pdr/PDR-analytics-sanity-thresholds.invalid.json
+          if ($LASTEXITCODE -ne 2) {
+            Write-Error "Expected exit code 2 for invalid analytics config, got $LASTEXITCODE"
+            exit 1
+          }
+          exit 0
+
+      - name: Analytics config guardrail missing keys (expected fail)
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Continue'
+          pwsh -File scripts/run_analytics_sanity_suite.ps1 -ConfigPath docs/pdr/PDR-analytics-sanity-thresholds.missing-keys.json
+          if ($LASTEXITCODE -ne 2) {
+            Write-Error "Expected exit code 2 for missing-keys analytics config, got $LASTEXITCODE"
+            exit 1
+          }
+          exit 0
+
+      - name: Upload analytics sanity artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: analytics-sanity-summaries
+          path: .artifacts/analytics
+          if-no-files-found: error
 
       - name: Guard — no images, video, or secrets committed
         run: |

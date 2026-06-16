@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ZELEX - Community Hub</title>
+<meta name="description" content="Official ZELEX community hub for blogs, mags, Discord, and verified social channels.">
+<link rel="canonical" href="https://www.zelexdoll.com/community.html">
+<meta property="og:title" content="ZELEX - Community Hub">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+.community-page{max-width:var(--maxw);margin:0 auto;padding:26px 24px 72px}
+.community-hero{padding:30px 0 12px;max-width:900px}
+.community-hero h1{font-size:clamp(34px,6vw,58px);line-height:1.06;margin:10px 0}
+.community-hero p{color:var(--muted);max-width:780px}
+.community-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:16px}
+.community-card{border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:16px}
+.community-card h3{margin:0 0 6px;font-size:24px;line-height:1.1}
+.community-card p{margin:0;color:var(--muted);font-size:13px;line-height:1.6}
+.community-meta{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 12px}
+.community-chip{display:inline-flex;align-items:center;padding:4px 9px;border:1px solid var(--line);border-radius:999px;font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted)}
+.community-links{display:flex;gap:10px;flex-wrap:wrap}
+.community-stack{margin-top:22px;border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:16px}
+.community-stack h2{margin:0 0 8px;font-size:30px;line-height:1.08}
+.community-list{margin:0;padding-left:18px;color:var(--muted);line-height:1.8}
+.handle-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px}
+.handle-card{border:1px solid var(--line);border-radius:12px;padding:12px;background:var(--panel2)}
+.handle-card h4{margin:0 0 4px;font-size:15px}
+.handle-card p{margin:0 0 8px;color:var(--muted);font-size:12px;line-height:1.5}
+@media(max-width:920px){.community-grid{grid-template-columns:1fr}}
+@media(max-width:920px){.handle-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="crumbs"><a href="index.html">Atlas</a><span>&rsaquo;</span> Community</div>
+<main class="community-page" id="app">
+  <section class="community-hero">
+    <div class="eyebrow no-rule">Collector Network</div>
+    <h1>One front door for blogs, mags, Discord, and social channels.</h1>
+    <p>Use this hub to discover official ZELEX publishing and community channels. Each lane has a clear purpose so collectors and customers know where to read, discuss, and request access.</p>
+    <p style="color:var(--muted);margin-top:8px">This hub is tied to the local ZELEX knowledge base via source-backed channel definitions in <a href="db/community_channels.json">db/community_channels.json</a>.</p>
+    <p id="community-last-verified" style="color:var(--muted);margin-top:6px">Last verified: pending refresh</p>
+    <div id="community-source-refs" style="margin-top:8px;color:var(--muted);font-size:12px;line-height:1.6"></div>
+  </section>
+
+  <section class="community-grid" id="community-grid"></section>
+
+  <section class="community-stack">
+    <h2>Community Rules of Use</h2>
+    <ul class="community-list">
+      <li>Use official channels for product and support questions so records stay centralized.</li>
+      <li>For invite-only spaces, use the request path and include your preferred handle.</li>
+      <li>Report impersonation and scam channels through Contact so moderation can respond quickly.</li>
+      <li>When sharing collector photos, follow each platform's policy and regional laws.</li>
+    </ul>
+    <div class="community-links" style="margin-top:12px">
+      <a class="btn solid" href="contact.html?src=community&cta=request_access&context=community&channel=contact">Request Access Help</a>
+      <a class="btn" href="community-events.html">View Community Events</a>
+      <a class="btn ghost" href="options.html?tab=head">Explore Head Options</a>
+      <a class="btn ghost" href="quiz.html">Find Your Match</a>
+    </div>
+  </section>
+
+  <section class="community-stack" id="official-handles">
+    <h2>Official Handles Verification</h2>
+    <p style="margin:0;color:var(--muted)">Always verify account ownership before engaging. If unsure, use the confirmation links below.</p>
+    <div class="handle-grid" id="handle-grid"></div>
+  </section>
+</main>
+
+<script src="assets/site.js"></script>
+<script>
+ZX.mountNav('community.html');
+
+var FALLBACK_DATA = {
+  meta: {
+    source_refs: []
+  },
+  channels: [
+    {
+      name: 'ZELEX Blog',
+      purpose: 'Product updates, release notes, craftsmanship stories, and official announcements.',
+      status: 'Public',
+      cadence: 'Weekly',
+      primary: 'https://www.zelexdoll.com/blogs/news',
+      secondary: 'contact.html?src=community&cta=blog_subscription&context=community&channel=contact',
+      primaryLabel: 'Open Blog',
+      secondaryLabel: 'Subscribe via Concierge'
+    }
+  ],
+  official_handles: []
+};
+
+function cardHtml(item){
+  return '<article class="community-card">' +
+    '<h3>' + ZX.esc(item.name) + '</h3>' +
+    '<p>' + ZX.esc(item.purpose) + '</p>' +
+    '<div class="community-meta">' +
+      '<span class="community-chip">' + ZX.esc(item.status) + '</span>' +
+      '<span class="community-chip">Cadence: ' + ZX.esc(item.cadence) + '</span>' +
+    '</div>' +
+    '<div class="community-links">' +
+      '<a class="btn solid community-link" data-channel="' + ZX.esc(item.name) + '" data-cta="primary" href="' + ZX.esc(item.primary) + '">' + ZX.esc(item.primaryLabel) + '</a>' +
+      '<a class="btn ghost community-link" data-channel="' + ZX.esc(item.name) + '" data-cta="secondary" href="' + ZX.esc(item.secondary) + '">' + ZX.esc(item.secondaryLabel) + '</a>' +
+    '</div>' +
+  '</article>';
+}
+
+function handleCardHtml(item){
+  return '<article class="handle-card">' +
+    '<h4>' + ZX.esc(item.platform || '') + '</h4>' +
+    '<p><strong style="color:var(--cream)">' + ZX.esc(item.handle || '') + '</strong><br>' + ZX.esc(item.verification || '') + '</p>' +
+    '<a class="btn ghost handle-link" data-platform="' + ZX.esc(item.platform || '') + '" href="' + ZX.esc(item.url || 'contact.html') + '">Verify Channel</a>' +
+  '</article>';
+}
+
+function bindTracking(){
+  document.querySelectorAll('.community-link').forEach(function(el){
+    el.addEventListener('click', function(){
+      ZX.track('community_handoff_click', {
+        channel_name: el.getAttribute('data-channel') || '',
+        cta: el.getAttribute('data-cta') || '',
+        context: 'community',
+        source_page: 'community'
+      });
+    });
+  });
+
+  document.querySelectorAll('.handle-link').forEach(function(el){
+    el.addEventListener('click', function(){
+      ZX.track('community_handoff_click', {
+        channel_name: el.getAttribute('data-platform') || '',
+        cta: 'verify_channel',
+        context: 'community',
+        source_page: 'community'
+      });
+    });
+  });
+}
+
+function renderCommunity(data){
+  var channels = (data && data.channels) || [];
+  var handles = (data && data.official_handles) || [];
+  var verified = data && data.meta && data.meta.generated_utc ? data.meta.generated_utc : '';
+  var sourceRefs = data && data.meta && Array.isArray(data.meta.source_refs) ? data.meta.source_refs : [];
+
+  document.getElementById('community-grid').innerHTML = channels.map(cardHtml).join('');
+  document.getElementById('handle-grid').innerHTML = handles.map(handleCardHtml).join('');
+  if (verified) {
+    var d = new Date(verified);
+    var label = isNaN(d.getTime()) ? verified : d.toISOString().slice(0, 10);
+    document.getElementById('community-last-verified').textContent = 'Last verified: ' + label + ' UTC';
+  }
+  var sourceRefHost = document.getElementById('community-source-refs');
+  if (sourceRefs.length) {
+    sourceRefHost.innerHTML = 'Sources: ' + sourceRefs.map(function(ref){
+      var path = ref && ref.path ? String(ref.path) : '';
+      return path ? '<a href="' + ZX.esc(path) + '">' + ZX.esc(path) + '</a>' : '';
+    }).filter(Boolean).join(' | ');
+  } else {
+    sourceRefHost.textContent = 'Sources: not declared';
+  }
+  bindTracking();
+}
+
+fetch('db/community_channels.json')
+  .then(function(r){ return r.ok ? r.json() : FALLBACK_DATA; })
+  .then(renderCommunity)
+  .catch(function(){ renderCommunity(FALLBACK_DATA); });
+
+ZX.track('community_view', { context: 'community', source_page: 'community' });
+ZX.mountFooter();
+</script>
+</body>
+</html>

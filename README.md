@@ -93,6 +93,7 @@ In `assets/site.js`:
 - `INQUIRY_EMAIL` — the real inquiry address (placeholder: `inquiries@zelexdoll.com`).
 - `FORM_ENDPOINT` — optional Formspree/Getform URL; when empty, the contact form
   falls back to a prefilled `mailto:`.
+- `docs/pdr/PDR-analytics-sanity-thresholds.json` — single source of truth for analytics sanity fixture paths and threshold defaults.
 
 ---
 
@@ -100,3 +101,10 @@ In `assets/site.js`:
 
 `main` is protected — work on a branch and open a PR; CI must pass. See
 [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## PDR source of truth
+
+- Recovery baseline: `docs/pdr/recovery-pack/HowieZZ_PDR_Recovery_Pack/`
+- Canonical recovery directive: `docs/pdr/recovery-pack/HowieZZ_PDR_Recovery_Pack/docs/pdr/PDR-000-recovery-and-source-of-truth.md`
+- Task prompts for Claude, Codex, and Cursor must include one explicit
+  `PDR_PATH: ...` value that points to the exact repo path being implemented.

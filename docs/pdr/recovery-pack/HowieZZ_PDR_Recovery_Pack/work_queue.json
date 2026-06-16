@@ -1,0 +1,37 @@
+[
+  {
+    "task_id": "HZZ-P0-001",
+    "agent_role": "archivist",
+    "mission": "Add PDR recovery package to HowieZZ",
+    "priority": "P0",
+    "status": "ready"
+  },
+  {
+    "task_id": "HZZ-P0-002",
+    "agent_role": "chainbreaker",
+    "mission": "Verify GitHub connector write routing before any direct write",
+    "priority": "P0",
+    "status": "blocked"
+  },
+  {
+    "task_id": "HZZ-P1-001",
+    "agent_role": "cartographer",
+    "mission": "Implement homepage concierge modules",
+    "priority": "P1",
+    "status": "ready"
+  },
+  {
+    "task_id": "HZZ-P1-002",
+    "agent_role": "cartographer",
+    "mission": "Implement body compare scaffold",
+    "priority": "P1",
+    "status": "ready"
+  },
+  {
+    "task_id": "HZZ-P2-004",
+    "agent_role": "financier",
+    "mission": "Produce competitor family coverage ROI matrix",
+    "priority": "P2",
+    "status": "ready"
+  }
+]

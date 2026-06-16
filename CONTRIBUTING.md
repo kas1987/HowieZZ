@@ -31,6 +31,18 @@ same PR and explain why.
   `body_measurements.json`).
 - Match the surrounding code's style, naming, and comment density.
 
+## PDR authority and task gating
+
+- The recovery package under `docs/pdr/recovery-pack/HowieZZ_PDR_Recovery_Pack/`
+  is the baseline source for rebuild sequencing.
+- Agents must not derive implementation scope from old external issues,
+  disconnected chat summaries, or duplicated issue bodies.
+- Every Claude, Codex, and Cursor task must include one explicit PDR file path
+  from this repo, for example:
+  `PDR_PATH: docs/pdr/recovery-pack/HowieZZ_PDR_Recovery_Pack/docs/pdr/PDR-003-body-compare-tool.md`
+- If a task prompt does not include `PDR_PATH`, stop and request the exact path
+  before planning or code changes.
+
 ## Local checks before pushing
 
 ```bash

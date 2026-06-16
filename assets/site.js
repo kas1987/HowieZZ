@@ -11,6 +11,7 @@ window.ZX = (function () {
     "SLE": "The SLE 3.0 range — the widest spectrum, athletic minimalism to maximal fantasy."
   };
   const FAMILIES = ["The Classic","The Icon","The Muse","The Siren","The Empress","The Sculpt"];
+  const COMPARE_STORAGE_KEY = 'zx_compare_bodies';
 
   let _model = null;
 
@@ -25,9 +26,171 @@ window.ZX = (function () {
   try { document.documentElement.classList.add('js'); } catch (e) {}
 
   function famColor(f){ return f ? `var(--${String(f).replace('The ','')})` : 'var(--muted)'; }
+  function famClass(f){
+    if (!f) return 'fam--unclassified';
+    const key = String(f).replace('The ', '').toLowerCase();
+    if (key === 'classic') return 'fam--classic';
+    if (key === 'icon') return 'fam--icon';
+    if (key === 'muse') return 'fam--muse';
+    if (key === 'siren') return 'fam--siren';
+    if (key === 'empress') return 'fam--empress';
+    if (key === 'sculpt') return 'fam--sculpt';
+    return 'fam--unclassified';
+  }
   function qs(name){ return new URLSearchParams(location.search).get(name); }
   function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
   function img(c){ return (c.photoshoot && (c.photoshoot.hero_thumb || c.photoshoot.hero)) || ''; }
+
+  const ANALYTICS_SCHEMA_VERSION = '2026-06-06';
+  const ANALYTICS_SESSION_KEY = 'zx_analytics_session_id';
+  const ANALYTICS_DEBUG_KEY = 'zx_analytics_debug';
+  const EVENT_ALIASES = {
+    compare_add_from_body: 'compare_add',
+    compare_add_from_character: 'compare_add',
+    compare_add_from_compare_page: 'compare_add',
+    compare_to_contact_click: 'compare_handoff_click',
+    compare_to_quiz_click: 'compare_handoff_click',
+    compare_view_empty: 'compare_view'
+  };
+
+  function createSessionId() {
+    const t = Date.now().toString(36);
+    const r = Math.random().toString(36).slice(2, 10);
+    return 'zx_' + t + '_' + r;
+  }
+
+  function getSessionId() {
+    try {
+      let sid = '';
+      try { sid = sessionStorage.getItem(ANALYTICS_SESSION_KEY) || ''; } catch (e) {}
+      if (!sid) {
+        try { sid = localStorage.getItem(ANALYTICS_SESSION_KEY) || ''; } catch (e) {}
+      }
+      if (!sid) sid = createSessionId();
+      try { sessionStorage.setItem(ANALYTICS_SESSION_KEY, sid); } catch (e) {}
+      try { localStorage.setItem(ANALYTICS_SESSION_KEY, sid); } catch (e) {}
+      return sid;
+    } catch (e) {
+      return createSessionId();
+    }
+  }
+
+  function parseCodeList(raw) {
+    if (!raw) return [];
+    if (Array.isArray(raw)) {
+      return raw.map(x => String(x || '').trim()).filter(x => x && /^[A-Za-z0-9_-]+$/.test(x));
+    }
+    return String(raw)
+      .split(',')
+      .map(x => (x || '').trim())
+      .filter(x => x && /^[A-Za-z0-9_-]+$/.test(x));
+  }
+
+  function analyticsDebugEnabled() {
+    try {
+      const flag = String(qs('zx_analytics_debug') || '').toLowerCase();
+      if (flag === '1' || flag === 'true' || flag === 'on') {
+        try { localStorage.setItem(ANALYTICS_DEBUG_KEY, '1'); } catch (e) {}
+        return true;
+      }
+      if (flag === '0' || flag === 'false' || flag === 'off') {
+        try { localStorage.removeItem(ANALYTICS_DEBUG_KEY); } catch (e) {}
+        return false;
+      }
+      return localStorage.getItem(ANALYTICS_DEBUG_KEY) === '1';
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function getCompareBodies() {
+    try {
+      const parsed = JSON.parse(localStorage.getItem(COMPARE_STORAGE_KEY) || '[]');
+      if (!Array.isArray(parsed)) return [];
+      return parsed.filter(Boolean).filter(x => x !== '.').slice(0, 4);
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function setCompareBodies(codes) {
+    const clean = (Array.isArray(codes) ? codes : []).filter(Boolean).filter(x => x !== '.').slice(0, 4);
+    try { localStorage.setItem(COMPARE_STORAGE_KEY, JSON.stringify(clean)); } catch (e) {}
+    return clean;
+  }
+
+  function addCompareBody(bodyCode) {
+    const code = String(bodyCode || '').trim();
+    if (!code || code === '.') return { added: false, bodies: getCompareBodies() };
+    const cur = getCompareBodies();
+    if (cur.includes(code)) return { added: false, bodies: cur };
+    const next = setCompareBodies(cur.concat(code));
+    return { added: true, bodies: next };
+  }
+
+  function normalizeTrackPayload(eventName, payload) {
+    const canonicalEvent = EVENT_ALIASES[eventName] || eventName;
+    const clean = Object.assign({}, payload || {});
+    const codes = parseCodeList(clean.body_codes || clean.compare_codes);
+
+    if (codes.length) {
+      clean.body_codes = codes.join(',');
+      if (!(typeof clean.compare_count === 'number')) clean.compare_count = codes.length;
+    }
+
+    if (typeof clean.message === 'string') {
+      clean.error_message = clean.message.trim().slice(0, 180);
+      delete clean.message;
+    }
+
+    ['body_code','family','series','channel','context','cta','intent','timeline','source_page','view_state'].forEach(function(k) {
+      if (clean[k] != null) clean[k] = String(clean[k]).trim();
+    });
+
+    return Object.assign({
+      event: canonicalEvent,
+      event_original: eventName,
+      source: 'howiezz-web',
+      schema_version: ANALYTICS_SCHEMA_VERSION,
+      session_id: getSessionId(),
+      ts: new Date().toISOString(),
+      page: (location.pathname.split('/').pop() || 'index.html').toLowerCase(),
+      path: location.pathname
+    }, clean);
+  }
+
+  // Lightweight analytics hook. Emits to dataLayer when present and dispatches a
+  // custom event for any local listeners. Safe no-op when analytics is absent.
+  function track(eventName, payload){
+    const eventPayload = normalizeTrackPayload(eventName, payload);
+    try {
+      if (Array.isArray(window.dataLayer)) window.dataLayer.push(eventPayload);
+    } catch (e) {}
+    try {
+      window.dispatchEvent(new CustomEvent('zx:track', { detail: eventPayload }));
+    } catch (e) {}
+    if (analyticsDebugEnabled()) {
+      try { console.debug('[ZX analytics]', eventPayload); } catch (e) {}
+    }
+  }
+
+  function trackPageViewOnce() {
+    if (window.__zxPageViewTracked) return;
+    window.__zxPageViewTracked = true;
+    const pageName = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+    track('page_view', {
+      context: 'navigation',
+      source_page: pageName.replace('.html', '')
+    });
+  }
+
+  try {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', trackPageViewOnce, { once: true });
+    } else {
+      trackPageViewOnce();
+    }
+  } catch (e) {}
 
   // Link to the on-site contact form, prefilled for this character.
   function contactHref(c){ return `contact.html?id=${encodeURIComponent(c.character_id)}`; }
@@ -75,6 +238,9 @@ window.ZX = (function () {
       series: SERIES_ORDER.filter(s => bySeries[s]),
       SERIES_SUB, SERIES_ORDER, FAMILIES
     };
+    // CI / headless-screenshot readiness signal: tooling can wait for
+    // html[data-zx-loaded] instead of a fixed timeout (see HZZ-FE-010).
+    try { document.documentElement.setAttribute('data-zx-loaded','1'); } catch (e) {}
     return _model;
   }
 
@@ -124,7 +290,9 @@ window.ZX = (function () {
   function mountNav(active){
     const items = [
       ['index.html','Atlas'], ['browse.html','Browse'], ['family.html','Families'],
-      ['quiz.html','Find Yours'], ['contact.html','Contact']
+      ['compare.html','Compare'], ['options.html','Options'],
+      ['community.html','Community'], ['quiz.html','Find Yours'],
+      ['configurator.html','Configure'], ['contact.html','Contact']
     ];
     const links = items.map(([h,l])=>`<a href="${h}"${active===h?' aria-current="page"':''} class="${active===h?'active':''}">${l}</a>`).join('');
     // Self-canonicalize the param-driven pages. Their static canonical points at the
@@ -138,20 +306,64 @@ window.ZX = (function () {
       if (canonical) canonical.href = location.origin + location.pathname + location.search;
     }
     // Ensure a skip-link target exists, then inject skip link + primary nav.
+    // The nav carries a hamburger toggle that controls the same `.links` list as
+    // an off-canvas drawer on phones. The toggle is hidden on desktop via CSS, so
+    // the identical markup serves both: a horizontal bar on wide screens, a
+    // tap-to-open drawer on narrow ones. `.links` keeps its class + every <a> so
+    // `active`/`aria-current` highlighting and all existing selectors are intact.
     const main = document.querySelector('main');
     if (main && !main.id) main.id = 'main';
     document.body.insertAdjacentHTML('afterbegin',
       `<a class="skip-link" href="#${(main&&main.id)||'main'}">Skip to content</a>` +
-      `<nav class="nav" aria-label="Primary"><a class="brand" href="index.html" aria-label="ZELEX — home">ZEL<span class="x">E</span>X</a><div class="links">${links}</div></nav>`);
+      `<nav class="nav" aria-label="Primary">` +
+        `<a class="brand" href="index.html" aria-label="ZELEX — home">ZEL<span class="x">E</span>X</a>` +
+        `<button type="button" class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">` +
+          `<span class="nav-toggle-bars" aria-hidden="true"><span></span><span></span><span></span></span>` +
+          `<span class="nav-toggle-label">Menu</span>` +
+        `</button>` +
+        `<div class="links" id="navLinks">${links}</div>` +
+        `<div class="nav-scrim" id="navScrim" hidden></div>` +
+      `</nav>`);
     // subtle nav elevation once the page scrolls past the hero lip
     const nav = document.querySelector('.nav');
     if (nav) addEventListener('scroll', ()=>nav.classList.toggle('up', (window.scrollY||0) > 40), {passive:true});
+
+    // --- mobile drawer wiring ---------------------------------------------
+    // Progressive enhancement: with no JS the `.links` list simply renders inline
+    // (and CSS lets it horizontally scroll), so navigation is never trapped.
+    const toggle = document.getElementById('navToggle');
+    const scrim  = document.getElementById('navScrim');
+    const linksEl = document.getElementById('navLinks');
+    if (toggle && nav && linksEl) {
+      const setOpen = (open) => {
+        nav.classList.toggle('open', open);
+        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+        if (scrim) scrim.hidden = !open;
+        // Lock body scroll only while the drawer covers the viewport.
+        try { document.body.style.overflow = open ? 'hidden' : ''; } catch (e) {}
+      };
+      toggle.addEventListener('click', () => setOpen(!nav.classList.contains('open')));
+      if (scrim) scrim.addEventListener('click', () => setOpen(false));
+      // A link tap inside the drawer navigates — close so the destination isn't
+      // hidden behind an open panel (harmless on same-page #anchors too).
+      linksEl.addEventListener('click', (e) => { if (e.target.closest('a')) setOpen(false); });
+      // Esc closes and returns focus to the toggle (keyboard parity with click).
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && nav.classList.contains('open')) { setOpen(false); toggle.focus(); }
+      });
+      // If the viewport grows back to desktop while open, drop the drawer state
+      // so the inline bar never inherits a stuck scroll-lock.
+      addEventListener('resize', () => {
+        if (window.innerWidth > 860 && nav.classList.contains('open')) setOpen(false);
+      }, {passive:true});
+    }
     revealInit(); // catch any static .reveal already in the markup (e.g. heroes)
   }
   function mountFooter(){
     document.body.insertAdjacentHTML('beforeend',
-      `<footer><div class="fl"><a href="index.html">Atlas</a><a href="browse.html">Browse</a><a href="family.html">Families</a><a href="quiz.html">Find Yours</a><a href="craft.html">The Craft</a><a href="contact.html">Contact</a></div>
-       THE CHARACTER ATLAS · generated from the live ZELEX catalog &amp; spec-card measurements · four series · full-body architectures · named characters</footer>`);
+      `<footer><div class="fl"><a href="index.html">Atlas</a><a href="browse.html">Browse</a><a href="family.html">Families</a><a href="compare.html">Compare</a><a href="options.html">Options</a><a href="community.html">Community</a><a href="quiz.html">Find Yours</a><a href="configurator.html">Configure</a><a href="craft.html">The Craft</a><a href="contact.html">Contact</a></div>
+       THE CHARACTER ATLAS · generated from the live ZELEX catalog &amp; spec-card measurements · six silhouette families across four series · full-body architectures · named characters</footer>`);
     revealInit(); // pages render asynchronously — sweep again once content + footer exist
   }
   function fail(){
@@ -181,10 +393,25 @@ window.ZX = (function () {
     </div>`;
   }
 
+  function charStatusMeta(c){
+    const isLive = c.status === 'live';
+    const shootStatus = (c.photoshoot && c.photoshoot.status) || '';
+    if (isLive && shootStatus === 'live') return { cls: 'stat stat-verified', label: 'Verified' };
+    if (isLive) return { cls: 'stat stat-live', label: 'Live' };
+    if (!isLive && img(c)) return { cls: 'stat stat-pending', label: 'Shoot Pending' };
+    return { cls: 'stat stat-concept', label: 'Concept' };
+  }
+
+  function bodyStatusMeta(body){
+    if (body && body.estimated) return { cls: 'stat stat-estimated', label: 'Estimated' };
+    return { cls: 'stat stat-verified', label: 'Verified' };
+  }
+
   function charCard(c){
     const ph = c.status !== 'live';
     const src = img(c);
     const fc = famColor(c.body.family);
+    const status = charStatusMeta(c);
     // Graceful imagery: live → photo; placeholder with a borrowed sibling shoot → that
     // photo, softened, tagged "Concept"; placeholder with no image at all → a branded
     // monogram tile in the family color rather than an empty black box.
@@ -200,7 +427,10 @@ window.ZX = (function () {
       <div class="b">
         <div class="pname-row">
           <div class="pname">${esc(c.persona.name)}</div>
-          <span class="cupchip" style="color:${fc};border-color:${fc}" title="Bust / cup size">${esc(c.body.cup)}-cup</span>
+          <div class="card-meta-rail">
+            <span class="cupchip" style="color:${fc};border-color:${fc}" title="Bust / cup size">${esc(c.body.cup)}-cup</span>
+            <span class="${status.cls}">${status.label}</span>
+          </div>
         </div>
         <div class="ptitle">${esc(c.persona.title)}</div>
         <div class="ptag">${esc(c.persona.tagline)}</div>
@@ -213,6 +443,7 @@ window.ZX = (function () {
     const meta = m.btByCode[bc] || {};
     const fc = famColor(bd.family);
     const src = lead ? img(lead) : '';
+    const bodyStatus = bodyStatusMeta(bd);
     // Signature line: WHR/BWR as labelled-icon percentages + bust drop. (No character/shoot
     // counts — the character names below already convey that.)
     const pct = v => Math.round(v * 100) + '%';
@@ -231,20 +462,22 @@ window.ZX = (function () {
     // Lead with the body's own identity (stature) so bodies in a single-family series
     // read as distinct. Family becomes a small chip (soft "spec card pending" when null).
     const famChip = bd.family
-      ? `<span class="fam" style="color:${fc};border:1px solid ${fc}">${esc(bd.family)}</span>`
-      : `<span class="fam" style="color:var(--muted);border:1px solid var(--line)">Spec card pending</span>`;
+      ? `<span class="fam ${famClass(bd.family)}">${esc(bd.family)}</span>`
+      : `<span class="fam fam--unclassified">Spec card pending</span>`;
     const names = chars.filter(c=>c.status==='live').slice(0,4).map(c=>esc(c.persona.name)).join(' · ');
     return `<a class="bodycard" href="body.html?b=${encodeURIComponent(bc)}">
       <div class="bw">${src?`<img loading="lazy" src="${src}" alt="${bc}">`:''}</div>
       <div class="bb">
         <h4>${bd.height_cm}cm · ${bd.cup}-cup</h4>
-        <div class="m"><span class="bcode">${bc}</span> ${famChip}</div>
+        <div class="m"><span class="bcode">${bc}</span> ${famChip} <span class="${bodyStatus.cls}">${bodyStatus.label}</span></div>
         ${names?`<div class="bnames">${names}</div>`:''}
         <div class="sig" style="color:${fc}">${sig}</div>
       </div></a>`;
   }
 
-  return { load, famColor, qs, esc, img, inquireHref, contactHref, INQUIRY_EMAIL, FORM_ENDPOINT,
+  return { load, famColor, famClass, qs, esc, img, inquireHref, contactHref, INQUIRY_EMAIL, FORM_ENDPOINT,
+           getCompareBodies, setCompareBodies, addCompareBody,
+           track,
            mountNav, mountFooter, fail, charCard, bodyCard, metricsLegend,
            repImg, heroBackdrop, revealInit,
            SERIES_ORDER, SERIES_SUB, FAMILIES };

@@ -1,0 +1,290 @@
+[
+  {
+    "id": "HZZ-FE-000",
+    "title": "Recover frontend PDR source of truth",
+    "status": "ready",
+    "priority": 100,
+    "repo": "kas1987/HowieZZ",
+    "area": "governance",
+    "specialties": [
+      "frontend",
+      "design",
+      "html",
+      "css",
+      "ux"
+    ],
+    "owner_agent": "Archivist",
+    "depends_on": [],
+    "blocked_by": [],
+    "acceptance_checks": [
+      "Complete linked PDR docs/pdr/PDR-FE-000-frontend-source-of-truth-gate.md",
+      "Return files changed, diff, mobile notes, assumptions, blockers"
+    ],
+    "links": {
+      "pdr": "docs/pdr/PDR-FE-000-frontend-source-of-truth-gate.md"
+    },
+    "notes": "HowieZZ implementation source of truth. Command Center may coordinate only."
+  },
+  {
+    "id": "HZZ-FE-001",
+    "title": "Redesign homepage as Concierge Atlas landing",
+    "status": "ready",
+    "priority": 95,
+    "repo": "kas1987/HowieZZ",
+    "area": "frontend/homepage",
+    "specialties": [
+      "frontend",
+      "design",
+      "html",
+      "css",
+      "ux"
+    ],
+    "owner_agent": "Claude Design",
+    "depends_on": [
+      "HZZ-FE-000"
+    ],
+    "blocked_by": [],
+    "acceptance_checks": [
+      "Complete linked PDR docs/pdr/PDR-FE-001-homepage-concierge-landing.md",
+      "Return files changed, diff, mobile notes, assumptions, blockers"
+    ],
+    "links": {
+      "pdr": "docs/pdr/PDR-FE-001-homepage-concierge-landing.md"
+    },
+    "notes": "HowieZZ implementation source of truth. Command Center may coordinate only."
+  },
+  {
+    "id": "HZZ-FE-002",
+    "title": "Refine luxury design system v2",
+    "status": "ready",
+    "priority": 90,
+    "repo": "kas1987/HowieZZ",
+    "area": "frontend/design-system",
+    "specialties": [
+      "frontend",
+      "design",
+      "html",
+      "css",
+      "ux"
+    ],
+    "owner_agent": "Claude Design",
+    "depends_on": [
+      "HZZ-FE-000"
+    ],
+    "blocked_by": [],
+    "acceptance_checks": [
+      "Complete linked PDR docs/pdr/PDR-FE-002-luxury-design-system-v2.md",
+      "Return files changed, diff, mobile notes, assumptions, blockers"
+    ],
+    "links": {
+      "pdr": "docs/pdr/PDR-FE-002-luxury-design-system-v2.md"
+    },
+    "notes": "HowieZZ implementation source of truth. Command Center may coordinate only."
+  },
+  {
+    "id": "HZZ-FE-003",
+    "title": "Design body compare UX",
+    "status": "ready",
+    "priority": 88,
+    "repo": "kas1987/HowieZZ",
+    "area": "frontend/compare",
+    "specialties": [
+      "frontend",
+      "design",
+      "html",
+      "css",
+      "ux"
+    ],
+    "owner_agent": "Claude Design",
+    "depends_on": [
+      "HZZ-FE-001",
+      "HZZ-FE-002"
+    ],
+    "blocked_by": [],
+    "acceptance_checks": [
+      "Complete linked PDR docs/pdr/PDR-FE-003-body-compare-ux.md",
+      "Return files changed, diff, mobile notes, assumptions, blockers"
+    ],
+    "links": {
+      "pdr": "docs/pdr/PDR-FE-003-body-compare-ux.md"
+    },
+    "notes": "HowieZZ implementation source of truth. Command Center may coordinate only."
+  },
+  {
+    "id": "HZZ-FE-004",
+    "title": "Upgrade character detail conversion UX",
+    "status": "ready",
+    "priority": 84,
+    "repo": "kas1987/HowieZZ",
+    "area": "frontend/character",
+    "specialties": [
+      "frontend",
+      "design",
+      "html",
+      "css",
+      "ux"
+    ],
+    "owner_agent": "Claude Design",
+    "depends_on": [
+      "HZZ-FE-002",
+      "HZZ-FE-003"
+    ],
+    "blocked_by": [],
+    "acceptance_checks": [
+      "Complete linked PDR docs/pdr/PDR-FE-004-character-detail-conversion.md",
+      "Return files changed, diff, mobile notes, assumptions, blockers"
+    ],
+    "links": {
+      "pdr": "docs/pdr/PDR-FE-004-character-detail-conversion.md"
+    },
+    "notes": "HowieZZ implementation source of truth. Command Center may coordinate only."
+  },
+  {
+    "id": "HZZ-FE-005",
+    "title": "Improve quiz match result funnel",
+    "status": "ready",
+    "priority": 82,
+    "repo": "kas1987/HowieZZ",
+    "area": "frontend/quiz",
+    "specialties": [
+      "frontend",
+      "design",
+      "html",
+      "css",
+      "ux"
+    ],
+    "owner_agent": "Claude Design",
+    "depends_on": [
+      "HZZ-FE-002",
+      "HZZ-FE-003"
+    ],
+    "blocked_by": [],
+    "acceptance_checks": [
+      "Complete linked PDR docs/pdr/PDR-FE-005-quiz-match-results.md",
+      "Return files changed, diff, mobile notes, assumptions, blockers"
+    ],
+    "links": {
+      "pdr": "docs/pdr/PDR-FE-005-quiz-match-results.md"
+    },
+    "notes": "HowieZZ implementation source of truth. Command Center may coordinate only."
+  },
+  {
+    "id": "HZZ-FE-006",
+    "title": "Design concierge intake UX",
+    "status": "ready",
+    "priority": 80,
+    "repo": "kas1987/HowieZZ",
+    "area": "frontend/contact",
+    "specialties": [
+      "frontend",
+      "design",
+      "html",
+      "css",
+      "ux"
+    ],
+    "owner_agent": "Claude Design",
+    "depends_on": [
+      "HZZ-FE-003",
+      "HZZ-FE-005"
+    ],
+    "blocked_by": [],
+    "acceptance_checks": [
+      "Complete linked PDR docs/pdr/PDR-FE-006-concierge-intake.md",
+      "Return files changed, diff, mobile notes, assumptions, blockers"
+    ],
+    "links": {
+      "pdr": "docs/pdr/PDR-FE-006-concierge-intake.md"
+    },
+    "notes": "HowieZZ implementation source of truth. Command Center may coordinate only."
+  },
+  {
+    "id": "HZZ-FE-007",
+    "title": "Improve browse and family UX",
+    "status": "ready",
+    "priority": 72,
+    "repo": "kas1987/HowieZZ",
+    "area": "frontend/browse-family",
+    "specialties": [
+      "frontend",
+      "design",
+      "html",
+      "css",
+      "ux"
+    ],
+    "owner_agent": "Claude Design",
+    "depends_on": [
+      "HZZ-FE-002"
+    ],
+    "blocked_by": [],
+    "acceptance_checks": [
+      "Complete linked PDR docs/pdr/PDR-FE-007-browse-family-ux.md",
+      "Return files changed, diff, mobile notes, assumptions, blockers"
+    ],
+    "links": {
+      "pdr": "docs/pdr/PDR-FE-007-browse-family-ux.md"
+    },
+    "notes": "HowieZZ implementation source of truth. Command Center may coordinate only."
+  },
+  {
+    "id": "HZZ-FE-008",
+    "title": "Mobile navigation and CTA pass",
+    "status": "ready",
+    "priority": 78,
+    "repo": "kas1987/HowieZZ",
+    "area": "frontend/mobile",
+    "specialties": [
+      "frontend",
+      "design",
+      "html",
+      "css",
+      "ux"
+    ],
+    "owner_agent": "Claude Design",
+    "depends_on": [
+      "HZZ-FE-001",
+      "HZZ-FE-003",
+      "HZZ-FE-006"
+    ],
+    "blocked_by": [],
+    "acceptance_checks": [
+      "Complete linked PDR docs/pdr/PDR-FE-008-mobile-navigation-cta-pass.md",
+      "Return files changed, diff, mobile notes, assumptions, blockers"
+    ],
+    "links": {
+      "pdr": "docs/pdr/PDR-FE-008-mobile-navigation-cta-pass.md"
+    },
+    "notes": "HowieZZ implementation source of truth. Command Center may coordinate only."
+  },
+  {
+    "id": "HZZ-FE-009",
+    "title": "Visual QA screenshot review",
+    "status": "planned",
+    "priority": 70,
+    "repo": "kas1987/HowieZZ",
+    "area": "frontend/qa",
+    "specialties": [
+      "frontend",
+      "design",
+      "html",
+      "css",
+      "ux"
+    ],
+    "owner_agent": "Auditor",
+    "depends_on": [
+      "HZZ-FE-001",
+      "HZZ-FE-003",
+      "HZZ-FE-004",
+      "HZZ-FE-005",
+      "HZZ-FE-006"
+    ],
+    "blocked_by": [],
+    "acceptance_checks": [
+      "Complete linked PDR docs/pdr/PDR-FE-009-visual-qa-screenshot-review.md",
+      "Return files changed, diff, mobile notes, assumptions, blockers"
+    ],
+    "links": {
+      "pdr": "docs/pdr/PDR-FE-009-visual-qa-screenshot-review.md"
+    },
+    "notes": "HowieZZ implementation source of truth. Command Center may coordinate only."
+  }
+]

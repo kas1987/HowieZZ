@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<template id="__bundler_thumbnail">
+<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+  <rect width="120" height="120" rx="22" fill="#161514"/>
+  <g transform="translate(60 62)">
+    <path d="M-22 -12 L0 -30 L22 -12 L0 30 Z" fill="none" stroke="#D4A574" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M-22 -12 H22 M-11 -21 L0 30 M11 -21 L0 30" stroke="#D4A574" stroke-width="1.8" opacity=".55" fill="none"/>
+  </g>
+</svg>
+</template>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  button{font:inherit;color:inherit;background:none;border:none}
+  input,select,textarea{font:inherit}
+  :focus-visible{outline:2px solid #D4A574;outline-offset:3px}
+  ::placeholder{color:#6f6f6f}
+  @keyframes fadeup{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  @keyframes revealin{from{opacity:0;max-height:0}to{opacity:1;max-height:260px}}
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:radial-gradient(ellipse at 50% -10%,#1d1c1a,#121212 60%);color:#e8e8e8;font-family:Montserrat,system-ui,sans-serif;line-height:1.6">
+
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:15px 32px;border-bottom:1px solid #2a2a2a;background:rgba(18,18,18,.7);backdrop-filter:blur(10px)">
+    <div style="font-family:'Playfair Display',serif;font-weight:700;letter-spacing:5px;font-size:18px;color:#F7E3C3">ZELE<span style="color:#5EA6E8">X</span></div>
+    <div style="display:flex;gap:7px;align-items:center">
+      <span style="padding:7px 15px;border-radius:100px;font-size:10.5px;letter-spacing:1.5px;text-transform:uppercase;background:#F7E3C3;color:#111;font-weight:600">Guided form</span>
+      <a href="Concierge Configurator.dc.html" style="padding:7px 15px;border-radius:100px;font-size:10.5px;letter-spacing:1.5px;text-transform:uppercase;color:#9a9a9a;border:1px solid #333;transition:.18s" style-hover="color:#e8e8e8;border-color:#9a9a9a">Live configurator</a>
+    </div>
+  </div>
+
+  <main style="max-width:1160px;margin:0 auto;padding:54px 24px 80px">
+
+    <div style="font-size:12px;letter-spacing:5px;text-transform:uppercase;color:#D4A574;margin-bottom:14px">Private Concierge</div>
+    <h1 style="font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(34px,5.5vw,58px);line-height:1.05;letter-spacing:.5px;color:#F7E3C3;margin-bottom:18px">{{ headline }}</h1>
+    <p style="color:#9a9a9a;font-size:15.5px;line-height:1.75;max-width:600px">{{ introP }}</p>
+
+    <div style="margin-top:34px">
+      <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#6f6f6f;margin-bottom:11px">First, which sounds like you?</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <sc-for list="{{ modeCards }}" as="m" hint-placeholder-count="2">
+          <button type="button" style="{{ m.style }}" onClick="{{ m.onClick }}">
+            <span style="{{ m.iconWrapStyle }}">{{ m.icon }}</span>
+            <span style="display:flex;flex-direction:column;gap:3px;text-align:left">
+              <span style="{{ m.titleStyle }}">{{ m.title }}</span>
+              <span style="font-size:12px;color:#9a9a9a;line-height:1.45">{{ m.sub }}</span>
+            </span>
+          </button>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:30px">
+      <span style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#6f6f6f">Showing intake for</span>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <sc-for list="{{ tabs }}" as="tab" hint-placeholder-count="4">
+          <button type="button" style="{{ tab.style }}" onClick="{{ tab.onClick }}">{{ tab.label }}</button>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 348px;gap:40px;align-items:start;margin-top:20px">
+
+      <div style="display:flex;flex-direction:column;gap:34px;min-width:0">
+
+        <section style="border:1px solid #2e2a24;border-radius:16px;padding:26px;background:linear-gradient(150deg,rgba(212,165,116,.05),transparent 46%),#161514;box-shadow:0 2px 14px rgba(0,0,0,.4);animation:fadeup .5s ease both">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:18px">
+            <span style="font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:#D4A574">{{ ctx.eyebrow }}</span>
+            <span style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#6f6f6f">Carried from your browsing</span>
+          </div>
+
+          <sc-if value="{{ ctxHasSpecs }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap">
+              <div style="{{ ctx.monoTileStyle }}"><span style="{{ ctx.monoTextStyle }}">{{ ctx.mono }}</span></div>
+              <div style="flex:1;min-width:220px">
+                <div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap">
+                  <h3 style="font-family:'Playfair Display',serif;font-size:25px;font-weight:600;line-height:1.1;color:#F7E3C3">{{ ctx.name }}</h3>
+                  <span style="font-family:'Playfair Display',serif;font-style:italic;font-size:15px;color:#D4A574">{{ ctx.price }}</span>
+                </div>
+                <div style="font-size:12px;color:#9a9a9a;letter-spacing:.4px;margin:5px 0 12px">{{ ctx.sub }}</div>
+                <span style="{{ ctx.famChipStyle }}">{{ ctx.family }}</span>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:11px 22px;margin-top:18px">
+                  <sc-for list="{{ ctx.specs }}" as="spec" hint-placeholder-count="5">
+                    <div>
+                      <div style="font-size:9.5px;letter-spacing:2px;text-transform:uppercase;color:#6f6f6f;margin-bottom:3px">{{ spec.k }}</div>
+                      <div style="{{ spec.valStyle }}">{{ spec.v }}</div>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ isQuiz }}" hint-placeholder-val="{{ false }}">
+            <div>
+              <div style="display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap">
+                <div>
+                  <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#6f6f6f;margin-bottom:4px">Best-fit family</div>
+                  <h3 style="{{ ctx.resultStyle }}">{{ ctx.family }}</h3>
+                </div>
+                <span style="{{ ctx.famChipStyle }}">Verified match</span>
+              </div>
+              <p style="font-size:13.5px;color:#9a9a9a;line-height:1.6;margin:12px 0 18px;max-width:440px">{{ ctx.note }}</p>
+              <div style="font-size:9.5px;letter-spacing:2px;text-transform:uppercase;color:#6f6f6f;margin-bottom:9px">Three starting points</div>
+              <div style="display:flex;gap:10px;flex-wrap:wrap">
+                <sc-for list="{{ ctx.picks }}" as="p" hint-placeholder-count="3">
+                  <div style="flex:1;min-width:120px;border:1px solid #2e2a24;border-radius:10px;padding:12px 14px;background:#1b1b1b">
+                    <div style="font-family:'Playfair Display',serif;font-size:17px;font-weight:600;color:#F7E3C3">{{ p.name }}</div>
+                    <div style="font-family:ui-monospace,monospace;font-size:11px;color:#9a9a9a;margin-top:3px">{{ p.meta }}</div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ isCompare }}" hint-placeholder-val="{{ false }}">
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+              <sc-for list="{{ ctx.rows }}" as="row" hint-placeholder-count="3">
+                <div style="border:1px solid #2e2a24;border-radius:12px;padding:14px;background:#1b1b1b;position:relative;overflow:hidden">
+                  <div style="{{ row.barStyle }}"></div>
+                  <div style="font-family:ui-monospace,monospace;font-size:14px;color:#F7E3C3;letter-spacing:.5px">{{ row.code }}</div>
+                  <span style="{{ row.chipStyle }}">{{ row.family }}</span>
+                  <div style="font-size:11px;color:#9a9a9a;margin-top:11px;letter-spacing:.3px">{{ row.whr }}</div>
+                  <div style="font-size:11px;color:#9a9a9a;letter-spacing:.3px">{{ row.stat }} cm/kg</div>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+        </section>
+
+        <sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;flex-direction:column;gap:34px">
+
+            <section>
+              <div style="display:flex;align-items:baseline;gap:14px;margin-bottom:6px">
+                <span style="font-family:'Playfair Display',serif;font-size:15px;color:#D4A574;letter-spacing:1px">01</span>
+                <h2 style="font-family:'Playfair Display',serif;font-size:24px;font-weight:600;color:#F7E3C3">Fit &amp; preferences</h2>
+              </div>
+              <p style="font-size:13px;color:#9a9a9a;margin:0 0 24px 29px;max-width:520px">{{ sectionLead }}</p>
+
+              <div style="display:flex;flex-direction:column;gap:28px;margin-left:29px">
+
+                <div>
+                  <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#9a9a9a;margin-bottom:4px">Intended use</div>
+                  <div style="font-size:12.5px;color:#6f6f6f;margin-bottom:13px">{{ useHelp }}</div>
+                  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:10px">
+                    <sc-for list="{{ useOpts }}" as="o" hint-placeholder-count="5">
+                      <button type="button" style="{{ o.style }}" onClick="{{ o.onClick }}">
+                        <span style="display:flex;align-items:center;justify-content:space-between;width:100%">
+                          <span style="{{ o.iconWrapStyle }}">{{ o.icon }}</span>
+                          <sc-if value="{{ o.sel }}" hint-placeholder-val="{{ false }}"><span style="{{ checkStyle }}">{{ checkIcon }}</span></sc-if>
+                        </span>
+                        <span style="{{ o.lblStyle }}">{{ o.label }}</span>
+                        <span style="{{ o.subStyle }}">{{ o.sub }}</span>
+                      </button>
+                    </sc-for>
+                  </div>
+                </div>
+
+                <div>
+                  <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#9a9a9a;margin-bottom:4px">Timeline</div>
+                  <div style="font-size:12.5px;color:#6f6f6f;margin-bottom:13px">{{ timeHelp }}</div>
+                  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px">
+                    <sc-for list="{{ timeOpts }}" as="o" hint-placeholder-count="4">
+                      <button type="button" style="{{ o.style }}" onClick="{{ o.onClick }}">
+                        <span style="display:flex;align-items:center;justify-content:space-between;width:100%">
+                          <span style="{{ o.iconWrapStyle }}">{{ o.icon }}</span>
+                          <sc-if value="{{ o.sel }}" hint-placeholder-val="{{ false }}"><span style="{{ checkStyle }}">{{ checkIcon }}</span></sc-if>
+                        </span>
+                        <span style="{{ o.lblStyle }}">{{ o.label }}</span>
+                        <span style="{{ o.subStyle }}">{{ o.sub }}</span>
+                      </button>
+                    </sc-for>
+                  </div>
+                </div>
+
+                <div>
+                  <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#9a9a9a;margin-bottom:4px">Realism preference</div>
+                  <div style="font-size:12.5px;color:#6f6f6f;margin-bottom:18px">{{ realismHelp }}</div>
+                  <div style="position:relative;padding:2px 0">
+                    <div style="position:absolute;left:9%;right:9%;top:11px;height:5px;border-radius:5px;background:linear-gradient(90deg,#9FD6B6,#D4A574,#E18B73);opacity:.55"></div>
+                    <div style="position:relative;display:flex">
+                      <sc-for list="{{ realismOpts }}" as="r" hint-placeholder-count="5">
+                        <button type="button" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:10px;cursor:pointer;font-family:inherit" onClick="{{ r.onClick }}">
+                          <span style="{{ r.nodeStyle }}"></span>
+                          <span style="{{ r.labelStyle }}">{{ r.label }}</span>
+                        </button>
+                      </sc-for>
+                    </div>
+                  </div>
+                  <div style="margin-top:16px;border:1px solid #2e2a24;border-radius:10px;padding:12px 15px;background:#1b1b1b;font-size:13px;color:#e8e8e8;display:flex;align-items:center;gap:10px">
+                    <span style="width:8px;height:8px;border-radius:50%;flex-shrink:0;{{ realismDotStyle }}"></span>{{ realismDesc }}
+                  </div>
+                </div>
+
+                <div>
+                  <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#9a9a9a;margin-bottom:4px">Handling comfort</div>
+                  <div style="font-size:12.5px;color:#6f6f6f;margin-bottom:13px">{{ handHelp }}</div>
+                  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px">
+                    <sc-for list="{{ handOpts }}" as="o" hint-placeholder-count="3">
+                      <button type="button" style="{{ o.style }}" onClick="{{ o.onClick }}">
+                        <span style="display:flex;align-items:center;justify-content:space-between;width:100%">
+                          <span style="{{ o.iconWrapStyle }}">{{ o.icon }}</span>
+                          <sc-if value="{{ o.sel }}" hint-placeholder-val="{{ false }}"><span style="{{ checkStyle }}">{{ checkIcon }}</span></sc-if>
+                        </span>
+                        <span style="{{ o.lblStyle }}">{{ o.label }}</span>
+                        <span style="{{ o.subStyle }}">{{ o.sub }}</span>
+                        <span style="display:flex;gap:4px;width:100%;margin-top:2px">
+                          <sc-for list="{{ o.bars }}" as="bar" hint-placeholder-count="3"><span style="{{ bar }}"></span></sc-for>
+                        </span>
+                      </button>
+                    </sc-for>
+                  </div>
+                </div>
+
+                <div>
+                  <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#9a9a9a;margin-bottom:4px">Shipping &amp; privacy</div>
+                  <div style="font-size:12.5px;color:#6f6f6f;margin-bottom:13px">{{ privacyHelp }}</div>
+                  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px">
+                    <sc-for list="{{ privacyOpts }}" as="o" hint-placeholder-count="3">
+                      <button type="button" style="{{ o.style }}" onClick="{{ o.onClick }}">
+                        <span style="display:flex;align-items:center;justify-content:space-between;width:100%">
+                          <span style="{{ o.iconWrapStyle }}">{{ o.icon }}</span>
+                          <sc-if value="{{ o.sel }}" hint-placeholder-val="{{ false }}"><span style="{{ checkStyle }}">{{ checkIcon }}</span></sc-if>
+                        </span>
+                        <span style="{{ o.lblStyle }}">{{ o.label }}</span>
+                        <span style="{{ o.subStyle }}">{{ o.sub }}</span>
+                        <span style="display:flex;gap:4px;width:100%;margin-top:2px">
+                          <sc-for list="{{ o.bars }}" as="bar" hint-placeholder-count="3"><span style="{{ bar }}"></span></sc-for>
+                        </span>
+                      </button>
+                    </sc-for>
+                  </div>
+                </div>
+
+                <div>
+                  <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#9a9a9a;margin-bottom:4px">Customization interest</div>
+                  <div style="font-size:12.5px;color:#6f6f6f;margin-bottom:13px">{{ customHelp }}</div>
+                  <div style="display:flex;flex-wrap:wrap;gap:9px">
+                    <sc-for list="{{ customOpts }}" as="c" hint-placeholder-count="6">
+                      <button type="button" style="{{ c.style }}" onClick="{{ c.onClick }}"><span style="{{ c.dotStyle }}"></span>{{ c.label }}</button>
+                    </sc-for>
+                  </div>
+
+                  <sc-if value="{{ showSkin }}" hint-placeholder-val="{{ false }}">
+                    <div style="margin-top:16px;border:1px solid #2e2a24;border-radius:12px;padding:16px 18px;background:#1b1b1b;animation:fadeup .3s ease both">
+                      <div style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#D4A574;margin-bottom:13px">Skin tone — pick a starting point</div>
+                      <div style="display:flex;gap:16px;flex-wrap:wrap">
+                        <sc-for list="{{ skinOpts }}" as="sw" hint-placeholder-count="5">
+                          <button type="button" style="display:flex;flex-direction:column;align-items:center;gap:7px;cursor:pointer;font-family:inherit" onClick="{{ sw.onClick }}">
+                            <span style="{{ sw.swatchStyle }}"></span>
+                            <span style="{{ sw.labelStyle }}">{{ sw.label }}</span>
+                          </button>
+                        </sc-for>
+                      </div>
+                    </div>
+                  </sc-if>
+
+                  <sc-if value="{{ showEyes }}" hint-placeholder-val="{{ false }}">
+                    <div style="margin-top:12px;border:1px solid #2e2a24;border-radius:12px;padding:16px 18px;background:#1b1b1b;animation:fadeup .3s ease both">
+                      <div style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#D4A574;margin-bottom:13px">Eye color</div>
+                      <div style="display:flex;gap:16px;flex-wrap:wrap">
+                        <sc-for list="{{ eyeOpts }}" as="sw" hint-placeholder-count="6">
+                          <button type="button" style="display:flex;flex-direction:column;align-items:center;gap:7px;cursor:pointer;font-family:inherit" onClick="{{ sw.onClick }}">
+                            <span style="{{ sw.swatchStyle }}"></span>
+                            <span style="{{ sw.labelStyle }}">{{ sw.label }}</span>
+                          </button>
+                        </sc-for>
+                      </div>
+                    </div>
+                  </sc-if>
+
+                  <sc-if value="{{ showHair }}" hint-placeholder-val="{{ false }}">
+                    <div style="margin-top:12px;border:1px solid #2e2a24;border-radius:12px;padding:16px 18px;background:#1b1b1b;animation:fadeup .3s ease both">
+                      <div style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#D4A574;margin-bottom:13px">Hair / wig</div>
+                      <div style="display:flex;gap:16px;flex-wrap:wrap">
+                        <sc-for list="{{ hairOpts }}" as="sw" hint-placeholder-count="5">
+                          <button type="button" style="display:flex;flex-direction:column;align-items:center;gap:7px;cursor:pointer;font-family:inherit" onClick="{{ sw.onClick }}">
+                            <span style="{{ sw.swatchStyle }}"></span>
+                            <span style="{{ sw.labelStyle }}">{{ sw.label }}</span>
+                          </button>
+                        </sc-for>
+                      </div>
+                    </div>
+                  </sc-if>
+                </div>
+
+              </div>
+            </section>
+
+            <sc-if value="{{ isNew }}" hint-placeholder-val="{{ true }}">
+              <section>
+                <div style="display:flex;align-items:baseline;gap:14px;margin-bottom:6px">
+                  <span style="font-family:'Playfair Display',serif;font-size:15px;color:#D4A574;letter-spacing:1px">02</span>
+                  <h2 style="font-family:'Playfair Display',serif;font-size:24px;font-weight:600;color:#F7E3C3">How much guidance?</h2>
+                </div>
+                <p style="font-size:13px;color:#9a9a9a;margin:0 0 20px 29px;max-width:520px">We'll match our reply to how much hand-holding you'd like — no judgement either way.</p>
+                <div style="margin-left:29px;display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:10px">
+                  <sc-for list="{{ guideOpts }}" as="o" hint-placeholder-count="3">
+                    <button type="button" style="{{ o.style }}" onClick="{{ o.onClick }}">
+                      <span style="{{ o.lblStyle }}">{{ o.label }}</span>
+                      <span style="{{ o.subStyle }}">{{ o.sub }}</span>
+                    </button>
+                  </sc-for>
+                </div>
+              </section>
+            </sc-if>
+
+            <sc-if value="{{ isCollector }}" hint-placeholder-val="{{ false }}">
+              <section>
+                <div style="display:flex;align-items:baseline;gap:14px;margin-bottom:6px">
+                  <span style="font-family:'Playfair Display',serif;font-size:15px;color:#D4A574;letter-spacing:1px">02</span>
+                  <h2 style="font-family:'Playfair Display',serif;font-size:24px;font-weight:600;color:#F7E3C3">Collector notes</h2>
+                </div>
+                <p style="font-size:13px;color:#9a9a9a;margin:0 0 20px 29px;max-width:520px">Know the specifics? Drop them here and we'll go straight to availability and configuration.</p>
+                <div style="margin-left:29px;display:flex;flex-direction:column;gap:18px">
+                  <div>
+                    <label for="ci-codes" style="display:block;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#9a9a9a;margin-bottom:8px">Known body codes / configuration</label>
+                    <input id="ci-codes" type="text" placeholder="e.g. ZF161D · EVO skeleton · gel implants · standing feet" style="width:100%;background:#1b1b1b;border:1px solid #333;border-radius:10px;color:#e8e8e8;font-size:14px;padding:12px 14px;outline:none;transition:.2s;font-family:ui-monospace,monospace" style-focus="border-color:#D4A574;box-shadow:0 0 0 2px rgba(212,165,116,.15)">
+                  </div>
+                  <div style="display:flex;flex-wrap:wrap;gap:22px">
+                    <div>
+                      <div style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#6f6f6f;margin-bottom:8px">Skeleton</div>
+                      <div style="display:flex;gap:7px">
+                        <sc-for list="{{ skeletonOpts }}" as="o" hint-placeholder-count="2"><button type="button" style="{{ o.style }}" onClick="{{ o.onClick }}">{{ o.label }}</button></sc-for>
+                      </div>
+                    </div>
+                    <div>
+                      <div style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#6f6f6f;margin-bottom:8px">Implant feel</div>
+                      <div style="display:flex;gap:7px">
+                        <sc-for list="{{ implantOpts }}" as="o" hint-placeholder-count="3"><button type="button" style="{{ o.style }}" onClick="{{ o.onClick }}">{{ o.label }}</button></sc-for>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </sc-if>
+
+            <section>
+              <div style="display:flex;align-items:baseline;gap:14px;margin-bottom:6px">
+                <span style="font-family:'Playfair Display',serif;font-size:15px;color:#D4A574;letter-spacing:1px">03</span>
+                <h2 style="font-family:'Playfair Display',serif;font-size:24px;font-weight:600;color:#F7E3C3">How to reach you</h2>
+              </div>
+              <p style="font-size:13px;color:#9a9a9a;margin:0 0 24px 29px;max-width:520px">We only use this to reply to your inquiry. Your details are never shared.</p>
+
+              <div style="margin-left:29px;display:flex;flex-direction:column;gap:18px">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+                  <div>
+                    <label for="ci-name" style="display:block;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#9a9a9a;margin-bottom:8px">Name <span style="color:#E18B73">*</span></label>
+                    <input id="ci-name" type="text" placeholder="Your name" autocomplete="name" style="width:100%;background:#1b1b1b;border:1px solid #333;border-radius:10px;color:#e8e8e8;font-size:14px;padding:12px 14px;outline:none;transition:.2s" style-focus="border-color:#D4A574;box-shadow:0 0 0 2px rgba(212,165,116,.15)">
+                  </div>
+                  <div>
+                    <label for="ci-email" style="display:block;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#9a9a9a;margin-bottom:8px">Email <span style="color:#E18B73">*</span></label>
+                    <input id="ci-email" type="email" placeholder="your@email.com" autocomplete="email" style="width:100%;background:#1b1b1b;border:1px solid #333;border-radius:10px;color:#e8e8e8;font-size:14px;padding:12px 14px;outline:none;transition:.2s" style-focus="border-color:#D4A574;box-shadow:0 0 0 2px rgba(212,165,116,.15)">
+                  </div>
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+                  <div>
+                    <label for="ci-region" style="display:block;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#9a9a9a;margin-bottom:8px">Country / region <span style="color:#6f6f6f;letter-spacing:.5px;text-transform:none">(optional)</span></label>
+                    <input id="ci-region" type="text" placeholder="United States" autocomplete="country-name" style="width:100%;background:#1b1b1b;border:1px solid #333;border-radius:10px;color:#e8e8e8;font-size:14px;padding:12px 14px;outline:none;transition:.2s" style-focus="border-color:#D4A574;box-shadow:0 0 0 2px rgba(212,165,116,.15)">
+                  </div>
+                  <div>
+                    <label for="ci-contact" style="display:block;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#9a9a9a;margin-bottom:8px">Preferred contact <span style="color:#6f6f6f;letter-spacing:.5px;text-transform:none">(optional)</span></label>
+                    <input id="ci-contact" type="text" placeholder="Email, Signal, etc." style="width:100%;background:#1b1b1b;border:1px solid #333;border-radius:10px;color:#e8e8e8;font-size:14px;padding:12px 14px;outline:none;transition:.2s" style-focus="border-color:#D4A574;box-shadow:0 0 0 2px rgba(212,165,116,.15)">
+                  </div>
+                </div>
+                <div>
+                  <label for="ci-msg" style="display:block;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#9a9a9a;margin-bottom:8px">Anything else <span style="color:#6f6f6f;letter-spacing:.5px;text-transform:none">(optional)</span></label>
+                  <textarea id="ci-msg" placeholder="Questions, customization ideas, or anything that helps us assist you." style="width:100%;min-height:104px;resize:vertical;background:#1b1b1b;border:1px solid #333;border-radius:10px;color:#e8e8e8;font-size:14px;padding:12px 14px;outline:none;transition:.2s;line-height:1.6" style-focus="border-color:#D4A574;box-shadow:0 0 0 2px rgba(212,165,116,.15)"></textarea>
+                </div>
+              </div>
+            </section>
+
+            <div style="margin-left:29px">
+              <label style="display:flex;align-items:flex-start;gap:11px;cursor:pointer">
+                <input type="checkbox" checked="{{ agree }}" onChange="{{ toggleAgree }}" style="width:17px;height:17px;flex-shrink:0;margin-top:2px;accent-color:#D4A574;cursor:pointer">
+                <span style="font-size:12.5px;color:#9a9a9a;line-height:1.6">I confirm I am <strong style="color:#e8e8e8;font-weight:600">18 years of age or older</strong>. I understand each character is <strong style="color:#e8e8e8;font-weight:600">made to order</strong>, and I agree to be contacted about this inquiry. My details will not be shared with third parties.</span>
+              </label>
+              <sc-if value="{{ consentErr }}" hint-placeholder-val="{{ false }}">
+                <div style="font-size:11.5px;color:#E18B73;margin:10px 0 0 28px">Please confirm you are 18+ to continue.</div>
+              </sc-if>
+
+              <button type="button" onClick="{{ submit }}" style="margin-top:22px;width:100%;font-family:'Playfair Display',serif;font-style:italic;letter-spacing:1px;font-size:15.5px;color:#F7E3C3;padding:16px;border-radius:12px;cursor:pointer;border:1px solid rgba(212,165,116,.45);background:linear-gradient(135deg,rgba(40,32,20,.95),rgba(28,23,16,.95));box-shadow:inset 0 0 0 1px rgba(212,165,116,.2),0 6px 22px rgba(0,0,0,.45);transition:.25s" style-hover="color:#D4A574;box-shadow:inset 0 0 0 1px rgba(212,165,116,.5),0 10px 30px rgba(0,0,0,.55)">{{ submitLabel }}</button>
+              <div style="text-align:center;font-size:11.5px;color:#6f6f6f;margin-top:12px;letter-spacing:.3px">A concierge replies within one business day · No obligation</div>
+            </div>
+
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}">
+          <section style="border:1px solid rgba(159,214,182,.3);border-radius:16px;padding:40px 32px;background:rgba(159,214,182,.06);animation:fadeup .5s ease both">
+            <div style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#9FD6B6;margin-bottom:12px">Received</div>
+            <h2 style="font-family:'Playfair Display',serif;font-size:28px;font-weight:600;color:#F7E3C3;margin-bottom:12px">Your inquiry is with us.</h2>
+            <p style="font-size:14px;color:#9a9a9a;line-height:1.75;max-width:480px">We've noted your selection and preferences. A concierge will be in touch discreetly within one business day — no obligation, just a conversation.</p>
+            <button type="button" onClick="{{ edit }}" style="margin-top:24px;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#D4A574;padding:11px 22px;border:1px solid rgba(212,165,116,.4);border-radius:10px;cursor:pointer;transition:.2s" style-hover="background:#D4A574;color:#111">Edit my inquiry</button>
+          </section>
+        </sc-if>
+
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:18px;position:sticky;top:24px">
+
+        <aside style="border:1px solid rgba(212,165,116,.28);border-radius:16px;padding:22px 22px;background:linear-gradient(150deg,rgba(212,165,116,.07),transparent 55%),#161514">
+          <div style="font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:#D4A574;margin-bottom:14px">Your fit so far</div>
+          <div style="display:flex;flex-direction:column;gap:11px">
+            <sc-for list="{{ fitItems }}" as="f" hint-placeholder-count="6">
+              <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px">
+                <span style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#6f6f6f;flex-shrink:0">{{ f.k }}</span>
+                <span style="{{ f.vStyle }}">{{ f.v }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </aside>
+
+        <aside style="border:1px solid #2a2620;border-radius:16px;padding:26px 24px;background:#161514">
+          <div style="display:flex;align-items:center;gap:8px;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#9FD6B6;margin-bottom:22px">
+            <span style="width:6px;height:6px;border-radius:50%;background:#9FD6B6;box-shadow:0 0 8px rgba(159,214,182,.7)"></span>Private &amp; secure
+          </div>
+
+          <div style="display:flex;gap:14px;margin-bottom:22px;align-items:flex-start">
+            <div style="width:36px;height:36px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px;color:#D4A574;background:rgba(212,165,116,.1);border:1px solid rgba(212,165,116,.22)">◈</div>
+            <div>
+              <h4 style="font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#D4A574;margin-bottom:4px">Made to order</h4>
+              <p style="font-size:12.5px;color:#9a9a9a;line-height:1.6">Every character is crafted individually — never from standing stock. We'll outline lead times clearly.</p>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:14px;margin-bottom:22px;align-items:flex-start">
+            <div style="width:36px;height:36px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px;color:#D4A574;background:rgba(212,165,116,.1);border:1px solid rgba(212,165,116,.22)">⬡</div>
+            <div>
+              <h4 style="font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#D4A574;margin-bottom:4px">Discreet by default</h4>
+              <p style="font-size:12.5px;color:#9a9a9a;line-height:1.6">Plain, unbranded packaging and quiet billing. Your information is never sold or shared.</p>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:14px;margin-bottom:22px;align-items:flex-start">
+            <div style="width:36px;height:36px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:13px;color:#D4A574;background:rgba(212,165,116,.1);border:1px solid rgba(212,165,116,.22)">18+</div>
+            <div>
+              <h4 style="font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#D4A574;margin-bottom:4px">Adults only</h4>
+              <p style="font-size:12.5px;color:#9a9a9a;line-height:1.6">A collector experience for verified adults, 18 years and older.</p>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:14px;align-items:flex-start">
+            <div style="width:36px;height:36px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px;color:#D4A574;background:rgba(212,165,116,.1);border:1px solid rgba(212,165,116,.22)">◎</div>
+            <div>
+              <h4 style="font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#D4A574;margin-bottom:4px">No pressure</h4>
+              <p style="font-size:12.5px;color:#9a9a9a;line-height:1.6">An inquiry is a conversation, not a commitment. We walk you through options before you decide anything.</p>
+            </div>
+          </div>
+
+          <hr style="border:none;border-top:1px solid #2a2620;margin:24px 0">
+          <div style="font-size:12px;color:#9a9a9a;text-align:center;line-height:1.7">Prefer to write directly?<br><a href="#" style="color:#D4A574;text-decoration:underline">inquiries@zelexdoll.com</a></div>
+        </aside>
+
+      </div>
+
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;mode&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;new&quot;,&quot;collector&quot;],&quot;default&quot;:&quot;new&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;contextType&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;character&quot;,&quot;body&quot;,&quot;quiz&quot;,&quot;compare&quot;],&quot;default&quot;:&quot;character&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;headline&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Begin a Conversation&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  state = {
+    mode: this.props.mode || 'new',
+    ctx: this.props.contextType || 'character',
+    use: 'private',
+    timeline: 'soon',
+    realism: 2,
+    handling: 'space',
+    privacy: 'discreet',
+    custom: ['skin', 'eyes'],
+    skin: 'natural',
+    eye: 'hazel',
+    hair: 'brunette',
+    guidance: 'full',
+    skeleton: 'standard',
+    implant: 'gel',
+    agree: false,
+    consentErr: false,
+    sent: false
+  };
+
+  pick(f, v) { this.setState({ [f]: v }); }
+  setRealism(i) { this.setState({ realism: i }); }
+  setCtx(t) { this.setState({ ctx: t, sent: false }); }
+  setMode(m) { this.setState({ mode: m }); }
+  toggleCustom(v) {
+    const c = this.state.custom.slice();
+    const i = c.indexOf(v);
+    if (i >= 0) c.splice(i, 1); else c.push(v);
+    this.setState({ custom: c });
+  }
+  toggleAgree() { this.setState({ agree: !this.state.agree, consentErr: false }); }
+  submit() {
+    if (!this.state.agree) { this.setState({ consentErr: true }); return; }
+    this.setState({ sent: true });
+  }
+  edit() { this.setState({ sent: false }); }
+
+  renderVals() {
+    const s = this.state;
+    const isNew = s.mode === 'new';
+    const E = React.createElement;
+    const hexA = (hex, a) => { const h = hex.replace('#', ''); const r = parseInt(h.slice(0, 2), 16), g = parseInt(h.slice(2, 4), 16), b = parseInt(h.slice(4, 6), 16); return 'rgba(' + r + ',' + g + ',' + b + ',' + a + ')'; };
+
+    // ---- icon helpers ----
+    let kc = 0;
+    const svg = (kids) => E('svg', { width: 19, height: 19, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1.6, strokeLinecap: 'round', strokeLinejoin: 'round' }, kids);
+    const p = (d) => E('path', { key: kc++, d });
+    const ci = (cx, cy, r) => E('circle', { key: kc++, cx, cy, r });
+    const ln = (x1, y1, x2, y2) => E('line', { key: kc++, x1, y1, x2, y2 });
+    const rc = (x, y, w, h, r) => E('rect', { key: kc++, x, y, width: w, height: h, rx: r });
+    const ICON = {
+      collection: () => svg([rc(4, 8, 16, 12, 2), p('M4 8l1.6-3.2A1 1 0 0 1 6.5 4h11a1 1 0 0 1 .9.8L20 8'), ln(10, 12, 14, 12)]),
+      camera: () => svg([rc(3, 7, 18, 13, 2.5), ci(12, 13.5, 3.3), rc(8.5, 4.5, 7, 2.5, 1)]),
+      display: () => svg([rc(4, 4, 16, 12, 1.5), ln(4, 17, 20, 17), ln(9, 20, 15, 20), ln(12, 17, 12, 20)]),
+      home: () => svg([p('M4 11l8-6 8 6'), p('M6 10v9h12v-9'), rc(10, 14, 4, 5, 0.5)]),
+      compass: () => svg([ci(12, 12, 9), p('M15 9l-2.2 4.8L8 16l2.2-4.8z')]),
+      bolt: () => svg([p('M13 3L5 13.5h5.5L9 21l8-10.5h-5.5z')]),
+      clock: () => svg([ci(12, 12, 8.2), p('M12 8v4.2l2.8 1.7')]),
+      calendar: () => svg([rc(4, 5, 16, 16, 2), ln(4, 9.5, 20, 9.5), ln(8.5, 3, 8.5, 7), ln(15.5, 3, 15.5, 7)]),
+      explore: () => svg([ci(7.5, 15, 3.4), ci(16.5, 15, 3.4), p('M10.9 14.3h2.2'), p('M7.5 11.6l1-3.6h2'), p('M16.5 11.6l-1-3.6h-2')]),
+      feather: () => svg([p('M20 4C13.5 4 7.5 9.5 6.5 16l-2.3 4'), p('M6.7 15.5h7.6'), p('M9 11.7c2.6 0 5-1.7 6.6-4.4')]),
+      anchor: () => svg([ci(12, 5, 2.4), ln(12, 7.4, 12, 20), p('M5 12.5a7 7 0 0 0 14 0'), ln(4, 12.5, 7.5, 12.5), ln(16.5, 12.5, 20, 12.5)]),
+      scale: () => svg([ln(12, 4, 12, 20), p('M5 8h14'), p('M5 8l-2.2 5h4.4z'), p('M19 8l-2.2 5h4.4z'), ln(8, 20, 16, 20)]),
+      box: () => svg([rc(4, 8, 16, 12, 2), p('M4 8l1.6-3.2A1 1 0 0 1 6.5 4h11a1 1 0 0 1 .9.8L20 8')]),
+      shieldCheck: () => svg([p('M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z'), p('M9 11.5l2 2 4-4')]),
+      shieldLock: () => svg([p('M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z'), rc(9.5, 11, 5, 4, 1), p('M10.5 11v-1.5a1.5 1.5 0 0 1 3 0V11')]),
+      gem: () => svg([p('M6 4h12l3 5-9 11L3 9z'), ln(3, 9, 21, 9), p('M9.5 4L8 9l4 11 4-11-1.5-5')]),
+      guide: () => svg([ci(12, 12, 9), ci(12, 12, 1.6), p('M12 3.5v2.5'), p('M12 18v2.5'), p('M3.5 12h2.5'), p('M18 12h2.5')])
+    };
+    const check = () => E('svg', { width: 13, height: 13, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 2.4, strokeLinecap: 'round', strokeLinejoin: 'round' }, [E('path', { key: 'c', d: 'M5 12.5l4.5 4.5L19 7' })]);
+
+    // ---- shared option styles ----
+    const card = (sel) => 'display:flex;flex-direction:column;align-items:flex-start;gap:8px;text-align:left;padding:14px 15px;border-radius:12px;cursor:pointer;font-family:inherit;transition:border-color .18s,background .18s,box-shadow .18s;'
+      + (sel
+        ? 'border:1px solid rgba(212,165,116,.6);background:linear-gradient(140deg,rgba(212,165,116,.14),rgba(212,165,116,.035));box-shadow:inset 0 0 0 1px rgba(212,165,116,.22);'
+        : 'border:1px solid #333;background:#1b1b1b;');
+    const lbl = (sel) => 'font-size:13.5px;font-weight:600;letter-spacing:.2px;color:' + (sel ? '#F7E3C3' : '#e8e8e8') + ';';
+    const subStyle = 'font-size:11px;line-height:1.45;color:#9a9a9a;';
+    const iconWrap = (sel) => 'width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:.18s;color:' + (sel ? '#F7E3C3' : '#D4A574') + ';background:' + (sel ? 'rgba(212,165,116,.18)' : 'rgba(212,165,116,.08)') + ';border:1px solid ' + (sel ? 'rgba(212,165,116,.4)' : 'rgba(212,165,116,.16)') + ';';
+    const checkStyle = 'width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#111;background:#D4A574;';
+    const bar = (on) => 'flex:1;height:4px;border-radius:3px;background:' + (on ? '#D4A574' : '#333') + ';';
+
+    const mk = (field, value, label, sub, icon, level) => {
+      const sel = s[field] === value;
+      const o = { label, sub, sel, icon: ICON[icon](), iconWrapStyle: iconWrap(sel), style: card(sel), lblStyle: lbl(sel), subStyle, onClick: () => this.pick(field, value) };
+      if (level != null) o.bars = [bar(level >= 1), bar(level >= 2), bar(level >= 3)];
+      return o;
+    };
+
+    const useOpts = [
+      mk('use', 'private', 'Private collection', 'Personal enjoyment and keeping', 'collection'),
+      mk('use', 'photo', 'Photography & content', 'Posing, styling, and shoots', 'camera'),
+      mk('use', 'display', 'Display & styling', 'Wardrobe, scenes, presentation', 'display'),
+      mk('use', 'companion', 'Companionship', 'A quiet, present figure at home', 'home'),
+      mk('use', 'undecided', 'Still deciding', 'Help me think it through', 'compass')
+    ];
+    const timeOpts = [
+      mk('timeline', 'now', 'Ready now', '0–2 weeks', 'bolt'),
+      mk('timeline', 'soon', 'Near term', '1–2 months', 'clock'),
+      mk('timeline', 'plan', 'Planning', '3+ months out', 'calendar'),
+      mk('timeline', 'explore', 'Just exploring', 'No timeline yet', 'explore')
+    ];
+    const handOpts = [
+      mk('handling', 'solo', 'Solo-manageable', 'Lighter · ~25–30 kg', 'feather', 1),
+      mk('handling', 'space', 'Dedicated space', 'Full weight · stays put', 'anchor', 3),
+      mk('handling', 'unsure', 'Not sure yet', 'Advise me on weight', 'scale', 2)
+    ];
+    const privacyOpts = [
+      mk('privacy', 'standard', 'Standard', 'Plain, unbranded box', 'box', 1),
+      mk('privacy', 'discreet', 'Extra discreet', 'Nothing on label or billing', 'shieldCheck', 2),
+      mk('privacy', 'max', 'Maximum privacy', 'Coordinate delivery personally', 'shieldLock', 3)
+    ];
+
+    const realStops = ['Natural', 'Soft', 'Balanced', 'Bold', 'Dramatic'];
+    const realColors = ['#9FD6B6', '#BFC79E', '#D4A574', '#DBA188', '#E18B73'];
+    const realismOpts = realStops.map((label, i) => {
+      const sel = s.realism === i;
+      return {
+        label,
+        nodeStyle: sel
+          ? 'width:22px;height:22px;border-radius:50%;background:' + realColors[i] + ';border:2px solid #F7E3C3;box-shadow:0 0 0 4px ' + hexA(realColors[i], .25) + ';transition:.18s'
+          : 'width:14px;height:14px;border-radius:50%;background:#2a2a2a;border:1px solid #555;transition:.18s',
+        labelStyle: 'font-size:10px;letter-spacing:.4px;color:' + (sel ? '#F7E3C3' : '#6f6f6f') + ';font-weight:' + (sel ? '600' : '400'),
+        onClick: () => this.setRealism(i)
+      };
+    });
+    const realDescNew = ['As natural and understated as possible.', 'Mostly natural, gently flattering.', 'A balanced, believable presence.', 'Heightened, eye-catching curves.', 'Full dramatic, high-presence energy.'];
+    const realDescCol = ['Conservative ratios · WHR ≈ 0.62', 'Natural-leaning · WHR ≈ 0.66', 'Balanced silhouette · WHR ≈ 0.70', 'Heightened · WHR ≈ 0.73', 'Dramatic · bust-forward · WHR ≈ 0.76'];
+
+    // ---- customization chips ----
+    const customDefs = [['skin', 'Skin tone'], ['eyes', 'Eye color'], ['hair', 'Hair / wig'], ['head', 'Head & face'], ['body', 'Body options'], ['implant', 'Implant softness']];
+    const customOpts = customDefs.map(([v, label]) => {
+      const sel = s.custom.includes(v);
+      return {
+        label,
+        style: 'display:inline-flex;align-items:center;gap:9px;padding:10px 16px;border-radius:100px;cursor:pointer;font-size:13px;font-family:inherit;transition:.18s;'
+          + (sel ? 'border:1px solid rgba(212,165,116,.6);color:#F7E3C3;background:rgba(212,165,116,.1);' : 'border:1px solid #333;color:#9a9a9a;background:transparent;'),
+        dotStyle: 'width:7px;height:7px;border-radius:50%;flex-shrink:0;transition:.18s;background:' + (sel ? '#D4A574' : '#555') + ';' + (sel ? 'box-shadow:0 0 8px rgba(212,165,116,.65);' : ''),
+        onClick: () => this.toggleCustom(v)
+      };
+    });
+
+    // ---- swatches ----
+    const swatch = (field, value, label, color) => {
+      const sel = s[field] === value;
+      return {
+        label,
+        swatchStyle: 'width:34px;height:34px;border-radius:50%;background:' + color + ';transition:.18s;border:1px solid rgba(255,255,255,.18);'
+          + (sel ? 'box-shadow:0 0 0 2px #161514,0 0 0 4px #D4A574;transform:scale(1.06);' : ''),
+        labelStyle: 'font-size:10px;letter-spacing:.3px;color:' + (sel ? '#F7E3C3' : '#9a9a9a'),
+        onClick: () => this.pick(field, value)
+      };
+    };
+    const skinOpts = [['fair', 'Fair', '#E7C6A8'], ['natural', 'Natural', '#D7A878'], ['wheat', 'Wheat', '#C0884F'], ['tan', 'Tan', '#9C6638'], ['deep', 'Deep', '#6E4424']].map(a => swatch('skin', a[0], a[1], a[2]));
+    const eyeOpts = [['blue', 'Blue', '#6E93B8'], ['hazel', 'Hazel', '#8A6A3C'], ['green', 'Green', '#5C7D55'], ['brown', 'Brown', '#4A3326'], ['grey', 'Grey', '#8B8F93'], ['amber', 'Amber', '#AE752C']].map(a => swatch('eye', a[0], a[1], a[2]));
+    const hairOpts = [['blonde', 'Blonde', '#C7A458'], ['brunette', 'Brunette', '#5A3A24'], ['black', 'Black', '#221A15'], ['auburn', 'Auburn', '#7C3C22'], ['silver', 'Silver', '#C7C2BA']].map(a => swatch('hair', a[0], a[1], a[2]));
+
+    // ---- guidance (new) ----
+    const guideOpts = [
+      { f: 'guidance', v: 'full', label: 'Walk me through everything', sub: 'Explain options, lead times, and care.' },
+      { f: 'guidance', v: 'some', label: 'A few pointers', sub: "I've researched, just confirm the right call." },
+      { f: 'guidance', v: 'lead', label: 'I mostly know what I want', sub: 'Straight to availability and pricing.' }
+    ].map(o => {
+      const sel = s.guidance === o.v;
+      return { label: o.label, sub: o.sub, style: card(sel), lblStyle: lbl(sel), subStyle, onClick: () => this.pick('guidance', o.v) };
+    });
+
+    // ---- collector segmented ----
+    const seg = (field, value, label) => {
+      const sel = s[field] === value;
+      return {
+        label,
+        style: 'padding:8px 14px;border-radius:8px;font-size:12px;letter-spacing:.3px;cursor:pointer;font-family:inherit;transition:.18s;'
+          + (sel ? 'border:1px solid rgba(212,165,116,.6);color:#F7E3C3;background:rgba(212,165,116,.12);' : 'border:1px solid #333;color:#9a9a9a;background:#1b1b1b;'),
+        onClick: () => this.pick(field, value)
+      };
+    };
+    const skeletonOpts = [seg('skeleton', 'standard', 'Standard'), seg('skeleton', 'evo', 'EVO')];
+    const implantOpts = [seg('implant', 'none', 'None'), seg('implant', 'soft', 'Soft'), seg('implant', 'gel', 'Gel')];
+
+    // ---- mode cards ----
+    const modeDefs = [
+      { key: 'new', title: 'New to ZELEX', sub: 'Guided, plain-language, with reassurance at each step.', icon: 'guide' },
+      { key: 'collector', title: 'Experienced collector', sub: 'Spec-forward and concise. Skip the basics.', icon: 'gem' }
+    ];
+    const modeCards = modeDefs.map(m => {
+      const sel = s.mode === m.key;
+      return {
+        title: m.title, sub: m.sub, icon: ICON[m.icon](),
+        iconWrapStyle: 'width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:' + (sel ? '#F7E3C3' : '#D4A574') + ';background:' + (sel ? 'rgba(212,165,116,.2)' : 'rgba(212,165,116,.08)') + ';border:1px solid ' + (sel ? 'rgba(212,165,116,.45)' : 'rgba(212,165,116,.18)') + ';',
+        titleStyle: 'font-family:\'Playfair Display\',serif;font-size:18px;font-weight:600;color:' + (sel ? '#F7E3C3' : '#e8e8e8'),
+        style: 'display:flex;align-items:center;gap:15px;padding:18px;border-radius:14px;cursor:pointer;font-family:inherit;text-align:left;transition:.2s;'
+          + (sel ? 'border:1px solid rgba(212,165,116,.6);background:linear-gradient(140deg,rgba(212,165,116,.12),transparent 60%),#1b1916;box-shadow:inset 0 0 0 1px rgba(212,165,116,.2),0 6px 22px rgba(0,0,0,.4);' : 'border:1px solid #2e2a24;background:#161514;'),
+        onClick: () => this.setMode(m.key)
+      };
+    });
+
+    // ---- tabs ----
+    const tabDefs = [['character', 'Character'], ['body', 'Body'], ['quiz', 'Quiz result'], ['compare', 'Compare set']];
+    const tabs = tabDefs.map(([v, label]) => ({
+      label,
+      style: 'padding:7px 15px;border-radius:100px;font-size:10.5px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;font-family:inherit;transition:.18s;'
+        + (s.ctx === v ? 'background:#F7E3C3;color:#111;font-weight:600;' : 'background:transparent;color:#9a9a9a;border:1px solid #333;'),
+      onClick: () => this.setCtx(v)
+    }));
+
+    // ---- context summary card ----
+    const tone = (c) => 'font-family:\'Playfair Display\',serif;font-size:14.5px;font-weight:600;color:' + (c || '#F7E3C3') + ';';
+    const famChip = (c) => 'display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:100px;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;font-weight:600;color:' + c + ';background:' + hexA(c, .12) + ';border:1px solid ' + hexA(c, .32) + ';';
+    const monoTile = (c) => 'width:64px;height:84px;border-radius:9px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at 50% 28%,' + hexA(c, .32) + ',#0d0d0d 78%);border:1px solid ' + hexA(c, .32) + ';';
+    const monoText = (c) => 'font-family:\'Playfair Display\',serif;font-size:32px;font-weight:700;color:' + c + ';opacity:.92;';
+    const CTX = {
+      character: { eyebrow: "You're inquiring about", mono: 'S', name: 'Seraphine', price: '$4,280', sub: 'The Quiet Hour · Fusion · ZF161D', family: 'The Muse', familyColor: '#9FD6B6', specs: [['Family', 'The Muse', '#9FD6B6'], ['Silhouette', 'Hip-led · WHR 0.68', null], ['Stature', '170 cm · 38 kg', null], ['Cup', 'D · soft drop', null], ['Handling', 'Dedicated space', null], ['Confidence', 'Verified', '#5EA6E8']] },
+      body: { eyebrow: 'Architecture of interest', mono: 'Z', name: 'ZF170', price: 'from $3,980', sub: 'Bust-forward architecture · worn by 4 characters', family: 'The Siren', familyColor: '#E18B73', specs: [['Family', 'The Siren', '#E18B73'], ['Bust / Waist / Hip', '92 / 58 / 90', null], ['BWR', '1.59 · bust-forward', null], ['Stature', '168 cm · 41 kg', null], ['Handling', 'Dedicated space', null], ['Confidence', 'Estimated', '#C792D6']] },
+      quiz: { eyebrow: 'Your match result', family: 'The Muse', familyColor: '#9FD6B6', note: 'Hip-led realism and believable, everyday elegance — your answers point to natural proportions over drama.', picks: [{ name: 'Seraphine', meta: 'ZF161D' }, { name: 'Noor', meta: 'ZF158' }, { name: 'Vesna', meta: 'ZX-A2' }] },
+      compare: { eyebrow: 'Comparing 3 architectures', rows: [{ code: 'ZF161D', family: 'Muse', color: '#9FD6B6', whr: 'WHR 0.68 · natural', stat: '170 / 38' }, { code: 'ZF170', family: 'Siren', color: '#E18B73', whr: 'WHR 0.71 · dramatic', stat: '168 / 41' }, { code: 'ZX-A2', family: 'Empress', color: '#C792D6', whr: 'WHR 0.74 · plush', stat: '162 / 46' }] }
+    };
+    const C = JSON.parse(JSON.stringify(CTX[s.ctx] || CTX.character));
+    const fc = C.familyColor;
+    if (C.specs) { C.monoTileStyle = monoTile(fc); C.monoTextStyle = monoText(fc); C.famChipStyle = famChip(fc); C.specs = C.specs.map(([k, v, c]) => ({ k, v, valStyle: tone(c) })); }
+    if (s.ctx === 'quiz') { C.famChipStyle = famChip(fc); C.resultStyle = 'font-family:\'Playfair Display\',serif;font-size:30px;font-weight:700;line-height:1;color:' + fc + ';'; }
+    if (s.ctx === 'compare') { C.rows = C.rows.map(r => ({ ...r, chipStyle: 'display:inline-block;margin-top:7px;padding:3px 10px;border-radius:100px;font-size:9px;letter-spacing:1.2px;text-transform:uppercase;font-weight:600;color:' + r.color + ';background:' + hexA(r.color, .12) + ';border:1px solid ' + hexA(r.color, .3) + ';', barStyle: 'position:absolute;top:0;left:0;width:100%;height:3px;background:' + r.color + ';opacity:.85;' })); }
+
+    // ---- live fit summary ----
+    const lookup = (arr, val) => { const f = arr.find(o => o.sel); return f ? f.label : '—'; };
+    const useLbl = lookup(useOpts);
+    const timeLbl = lookup(timeOpts);
+    const handLbl = lookup(handOpts);
+    const privLbl = lookup(privacyOpts);
+    const interestNames = customDefs.filter(d => s.custom.includes(d[0])).map(d => d[1]);
+    const vStyle = 'font-size:12.5px;font-weight:500;color:#F7E3C3;text-align:right;letter-spacing:.2px';
+    const fitItems = [
+      { k: 'Audience', v: isNew ? 'New buyer' : 'Collector', vStyle },
+      { k: 'Use', v: useLbl, vStyle },
+      { k: 'Timeline', v: timeLbl, vStyle },
+      { k: 'Realism', v: realStops[s.realism], vStyle: 'font-size:12.5px;font-weight:600;color:' + realColors[s.realism] + ';text-align:right' },
+      { k: 'Handling', v: handLbl, vStyle },
+      { k: 'Privacy', v: privLbl, vStyle },
+      { k: 'Tailoring', v: interestNames.length ? interestNames.join(', ') : 'None yet', vStyle }
+    ];
+
+    return {
+      headline: this.props.headline ?? 'Begin a Conversation',
+      introP: isNew
+        ? "New here? Take your time — we'll guide you in plain language and explain every option. Nothing is binding."
+        : 'Welcome back. Give us the specifics and we\u2019ll move straight to availability and configuration.',
+      sectionLead: isNew
+        ? 'A few quick reads on what you\u2019re looking for. Nothing here is binding — it just helps us guide you well.'
+        : 'Set your fit parameters. Tap to adjust; everything maps to body-code targeting.',
+      useHelp: isNew ? 'How do you picture keeping this character? Pick whatever feels closest.' : 'Primary use context.',
+      timeHelp: isNew ? 'No rush — this just helps us set expectations on lead time.' : 'Target delivery window.',
+      realismHelp: isNew ? 'From understated and natural to bold, high-presence curves.' : 'Silhouette intensity — drives WHR / BWR targeting.',
+      handHelp: isNew ? 'These are full-weight figures. Tell us how much help you might want moving it.' : 'Handling class preference.',
+      privacyHelp: isNew ? 'Every order ships discreetly. Choose how private you need delivery to be.' : 'Discretion level for packaging and billing.',
+      customHelp: isNew ? 'Want to tailor the look? Tap anything you\u2019re curious about — we\u2019ll explain it later.' : 'Configuration interests — tap to specify swatches.',
+      submitLabel: isNew ? 'Request a private consultation' : 'Send configuration inquiry',
+      modeCards, tabs, ctx: C,
+      ctxHasSpecs: s.ctx === 'character' || s.ctx === 'body',
+      isQuiz: s.ctx === 'quiz', isCompare: s.ctx === 'compare',
+      isNew, isCollector: !isNew,
+      useOpts, timeOpts, handOpts, privacyOpts, realismOpts, customOpts,
+      skinOpts, eyeOpts, hairOpts, guideOpts, skeletonOpts, implantOpts,
+      showSkin: s.custom.includes('skin'), showEyes: s.custom.includes('eyes'), showHair: s.custom.includes('hair'),
+      checkStyle, checkIcon: check(),
+      realismDesc: isNew ? realDescNew[s.realism] : realDescCol[s.realism],
+      realismDotStyle: 'background:' + realColors[s.realism],
+      fitItems,
+      agree: s.agree, consentErr: s.consentErr, sent: s.sent, notSent: !s.sent,
+      toggleAgree: () => this.toggleAgree(), submit: () => this.submit(), edit: () => this.edit()
+    };
+  }
+}
+</script>
+</body>
+</html>

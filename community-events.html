@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ZELEX - Community Events</title>
+<meta name="description" content="Community calendar for ZELEX collector events, editorial milestones, and onboarding sessions.">
+<link rel="canonical" href="https://www.zelexdoll.com/community-events.html">
+<meta property="og:title" content="ZELEX - Community Events">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+.events-page{max-width:var(--maxw);margin:0 auto;padding:26px 24px 72px}
+.events-hero{padding:32px 0 12px;max-width:860px}
+.events-hero h1{font-size:clamp(34px,6vw,58px);line-height:1.08;margin:10px 0}
+.events-hero p{color:var(--muted);max-width:760px}
+.events-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:14px}
+.event-card{border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:16px}
+.event-card h3{margin:0 0 6px;font-size:24px;line-height:1.1}
+.event-card p{margin:0;color:var(--muted);font-size:13px;line-height:1.6}
+.event-meta{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 12px}
+.event-chip{display:inline-flex;align-items:center;padding:4px 9px;border:1px solid var(--line);border-radius:999px;font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted)}
+.events-provenance{margin-top:14px;border:1px dashed var(--line);border-radius:12px;padding:12px;color:var(--muted);font-size:12px;line-height:1.6;background:var(--panel2)}
+@media(max-width:920px){.events-list{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="crumbs"><a href="index.html">Atlas</a><span>&rsaquo;</span><a href="community.html">Community</a><span>&rsaquo;</span> Events</div>
+<main class="events-page" id="app">
+  <section class="events-hero">
+    <div class="eyebrow no-rule">Community Calendar</div>
+    <h1>Collector events and editorial milestones.</h1>
+    <p>Track recurring events for onboarding, magazine previews, and community safety updates. Use each CTA to reserve a place or submit a topic.</p>
+  </section>
+
+  <section class="events-list" id="events-list"></section>
+
+  <section class="events-provenance" id="events-provenance">Provenance: loading source metadata...</section>
+
+  <div class="section-featured mt-18">
+    <div class="section-head">Need A Custom Session?</div>
+    <div class="section-sub">If your timezone or access needs do not match the current schedule, request a private follow-up.</div>
+    <a class="btn solid" href="contact.html?src=community_events&cta=request_private_session&context=community_events&channel=contact">Request Private Session</a>
+  </div>
+</main>
+
+<script src="assets/site.js"></script>
+<script>
+ZX.mountNav('community.html');
+
+function cardHtml(item){
+  return '<article class="event-card">' +
+    '<h3>' + ZX.esc(item.title || '') + '</h3>' +
+    '<p>' + ZX.esc(item.summary || '') + '</p>' +
+    '<div class="event-meta">' +
+      '<span class="event-chip">' + ZX.esc(item.mode || '') + '</span>' +
+      '<span class="event-chip">' + ZX.esc(item.date || '') + '</span>' +
+    '</div>' +
+    '<a class="btn ghost event-link" data-title="' + ZX.esc(item.title || '') + '" href="' + ZX.esc(item.ctaHref || 'contact.html') + '">' + ZX.esc(item.ctaLabel || 'Learn More') + '</a>' +
+  '</article>';
+}
+
+function bindTracking(){
+  document.querySelectorAll('.event-link').forEach(function(el){
+    el.addEventListener('click', function(){
+      ZX.track('community_handoff_click', {
+        channel_name: el.getAttribute('data-title') || '',
+        cta: 'event_cta',
+        context: 'community_events',
+        source_page: 'community-events'
+      });
+    });
+  });
+}
+
+fetch('db/community_events.json')
+  .then(function(r){ return r.ok ? r.json() : { events: [] }; })
+  .then(function(data){
+    var events = (data && data.events) || [];
+    document.getElementById('events-list').innerHTML = events.map(cardHtml).join('');
+    bindTracking();
+  })
+  .catch(function(){
+    document.getElementById('events-list').innerHTML = '<div class="compare-empty">Events are loading from curation. Use Contact to request the next session.</div>';
+  });
+
+fetch('db/community_channels.json')
+  .then(function(r){ return r.ok ? r.json() : null; })
+  .then(function(data){
+    var refs = (data && data.meta && data.meta.source_refs) || [];
+    var generated = (data && data.meta && data.meta.generated_utc) || '';
+    var genLabel = generated ? generated.slice(0, 10) + ' UTC' : 'unknown';
+    var refText = refs.length ? refs.map(function(x){ return x.path; }).join(' | ') : 'no source refs';
+    document.getElementById('events-provenance').textContent = 'Provenance: Last verified ' + genLabel + '. Sources: ' + refText;
+  })
+  .catch(function(){
+    document.getElementById('events-provenance').textContent = 'Provenance: metadata unavailable, use Contact for verification.';
+  });
+
+ZX.track('community_view', { context: 'community_events', source_page: 'community-events' });
+ZX.mountFooter();
+</script>
+</body>
+</html>
