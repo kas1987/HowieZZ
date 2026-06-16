@@ -127,6 +127,16 @@ window.ZX = (function () {
       ['quiz.html','Find Yours'], ['contact.html','Contact']
     ];
     const links = items.map(([h,l])=>`<a href="${h}"${active===h?' aria-current="page"':''} class="${active===h?'active':''}">${l}</a>`).join('');
+    // Self-canonicalize the param-driven pages. Their static canonical points at the
+    // bare template (so CI can assert one), but a real character/body/series/family URL
+    // is its own canonical — otherwise every detail page looks like a duplicate of the
+    // template. Only pages whose query param defines unique content are rewritten;
+    // contact.html?id= (form prefill) and filter querystrings deliberately keep the base.
+    const PARAM_CANONICAL = { 'character.html':1, 'body.html':1, 'series.html':1, 'family.html':1 };
+    if (PARAM_CANONICAL[active] && location.search) {
+      const canonical = document.querySelector('link[rel="canonical"]');
+      if (canonical) canonical.href = location.origin + location.pathname + location.search;
+    }
     // Ensure a skip-link target exists, then inject skip link + primary nav.
     const main = document.querySelector('main');
     if (main && !main.id) main.id = 'main';
