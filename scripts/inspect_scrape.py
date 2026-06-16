@@ -1,6 +1,8 @@
 import json, statistics
+from pathlib import Path
 
-with open('db/competitor_web_scrape.json', encoding='utf-8') as f:
+ROOT = Path(__file__).resolve().parent.parent
+with open(ROOT / 'db' / 'competitor_web_scrape.json', encoding='utf-8') as f:
     d = json.load(f)
 
 brands = {}

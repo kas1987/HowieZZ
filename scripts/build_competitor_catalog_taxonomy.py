@@ -446,6 +446,8 @@ def scrape_supplier(config: SupplierConfig, session: requests.Session, families:
             continue
 
         height = parse_number(r"Height:\s*([\d.]+)\s*cm", block) or parse_number(r"Body height[^\d]*([\d.]+)\s*cm", block)
+        if height is not None and height < 100:
+            height = None  # guard against partial regex matches (e.g. "16.0" instead of "160")
         weight = parse_number(r"Weight:\s*([\d.]+)\s*kg", block) or parse_number(r"weights?\s*(?:ca\.)?\s*([\d.]+)\s*kg", block)
         bust = parse_number(r"Breasts?:\s*([\d.]+)\s*cm", block) or parse_number(r"(?:Bust|Chest):\s*([\d.]+)\s*cm", block)
         waist = parse_number(r"Waist:\s*([\d.]+)\s*cm", block)
@@ -456,9 +458,6 @@ def scrape_supplier(config: SupplierConfig, session: requests.Session, families:
         cup = parse_text(r"Cup Size\s*([A-Z][^\s,;)]*)", block) or parse_text(r"Cup\s*size\s*([A-Z][^\s,;)]*)", block)
 
         if not (height and bust and waist and hips):
-            continue
-        if not (50 <= height <= 250):
-            height = None
             continue
 
         whr = round(waist / hips, 3)
@@ -557,6 +556,8 @@ def scrape_irontech(session: requests.Session, families: list[dict]) -> list[dic
             cup = cup_match.group(1).upper() if cup_match else None
 
         height = parse_number(r"([\d.]+)\s*cm", specs.get("height", ""))
+        if height is not None and height < 100:
+            height = None
         bust = parse_number(r"([\d.]+)\s*cm", specs.get("breastline", ""))
         underbust = parse_number(r"([\d.]+)\s*cm", specs.get("under breastline", ""))
         waist = parse_number(r"([\d.]+)\s*cm", specs.get("waistline", ""))
@@ -652,6 +653,8 @@ def scrape_tayu(session: requests.Session, families: list[dict]) -> list[dict]:
             continue
 
         height = parse_number(r"Height:\s*([\d.]+)\s*cm", text)
+        if height is not None and height < 100:
+            height = None
         bust = parse_number(r"Bust:\s*([\d.]+)\s*cm", text)
         waist = parse_number(r"Waist:\s*([\d.]+)\s*cm", text)
         hips = parse_number(r"Hips:\s*([\d.]+)\s*cm", text)
@@ -795,14 +798,14 @@ def scrape_siliconwives(config: SiliconWivesConfig, session: requests.Session, f
     rows = []
     seen_codes: set[str] = set()
     for prod in products:
-        body_html = prod.get("body_html") or ""
+        body_html = prod.get("body_html", "")
         height, bust, waist, hips, weight, cup = _sw_body_html_measurements(body_html)
         if not (height and bust and waist and hips):
             continue
         if height < config.min_height_cm:
             continue
-        title = prod.get("title") or ""
-        handle = prod.get("handle") or ""
+        title = prod.get("title", "")
+        handle = prod.get("handle", "")
         body_code = extract_body_code(title, handle) or handle.upper()
         if body_code in seen_codes:
             continue
@@ -870,7 +873,7 @@ def build_summary(rows: list[dict], unavailable: list[dict], inventory_only: lis
         ]
         material_text = " ".join((item.get("material") or "").lower() for item in items)
         silicone_count = sum(1 for item in items if "silicone" in (item.get("material") or "").lower())
-        tpe_count = sum(1 for item in items if any(k in (item.get("material") or "").lower() for k in ("tpe", "hybrid")))
+        tpe_count = sum(1 for item in items if "tpe" in (item.get("material") or "").lower())
         brands.append(
             {
                 "brand": brand,
@@ -1319,30 +1322,15 @@ def main() -> None:
 
     rows = load_zelex_baseline()
     for supplier in SUPPLIERS:
-        try:
-            rows.extend(scrape_supplier(supplier, session, families))
-        except Exception as exc:
-            print(f"[main] scrape_supplier({supplier.brand}) failed: {exc}")
-    try:
-        rows.extend(scrape_irontech(session, families))
-    except Exception as exc:
-        print(f"[main] scrape_irontech failed: {exc}")
-    try:
-        rows.extend(scrape_tayu(session, families))
-    except Exception as exc:
-        print(f"[main] scrape_tayu failed: {exc}")
+        rows.extend(scrape_supplier(supplier, session, families))
+    rows.extend(scrape_irontech(session, families))
+    rows.extend(scrape_tayu(session, families))
     for sw_config in SW_COLLECTIONS:
-        try:
-            rows.extend(scrape_siliconwives(sw_config, session, families))
-        except Exception as exc:
-            print(f"[main] scrape_siliconwives({sw_config.brand}) failed: {exc}")
-    try:
-        realdoll_inventory = capture_realdoll_inventory(session)
-    except Exception as exc:
-        print(f"[main] capture_realdoll_inventory failed: {exc}")
-        realdoll_inventory = None
+        rows.extend(scrape_siliconwives(sw_config, session, families))
+    realdoll_inventory = capture_realdoll_inventory(session)
 
-    unavailable = list(UNAVAILABLE_COMPETITORS)
+    scraped_brands = {r["brand"] for r in rows}
+    unavailable = [u for u in UNAVAILABLE_COMPETITORS if u["brand"] not in scraped_brands]
     if realdoll_inventory:
         unavailable.insert(
             0,

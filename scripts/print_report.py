@@ -1,5 +1,8 @@
 import json
-with open('db/independent_competitor_report.json', encoding='utf-8') as f:
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+with open(ROOT / 'db' / 'independent_competitor_report.json', encoding='utf-8') as f:
     r = json.load(f)
 
 print('Sources:')
