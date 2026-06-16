@@ -237,3 +237,17 @@ Desktop (1280w): `d-index`, `d-compare`, `d-character`, `d-quiz`, `d-contact`,
 `d-contact-id`, `d-configurator`, `d-browse`, `d-family`.
 Mobile (390w): `m-index`, `m-compare`, `m-character`, `m-quiz`, `m-contact`,
 `m-contact-id`, `m-configurator`, `m-browse`, `m-family`.
+
+---
+
+## 10. Resolution (all minors addressed)
+
+All five minor findings were addressed in the same cycle (commit follows this doc):
+
+- **M-1 (HZZ-FE-010)** — RESOLVED. Verified via headless DOM dump that browse renders **76 character cards** (no "Loading" text) — confirmed a `--screenshot` one-shot artifact, not a runtime bug. Hardened for CI/headless: `ZX.load()` now sets `html[data-zx-loaded="1"]` once the catalog model resolves, so screenshot tooling can wait on that attribute instead of a fixed timeout (`assets/site.js`).
+- **M-2 (HZZ-FE-011)** — RESOLVED. Added `overflow-x:hidden` guard to `body` (`assets/site.css`) and lowered the quiz hero `h1` mobile floor `clamp(36px→28px,6vw,62px)` (`quiz.html`) so the phrase fits at 390px.
+- **M-3 (HZZ-FE-012)** — RESOLVED. Footer tagline reconciled to "six silhouette families across four series" (`assets/site.js`), making the family↔series relationship explicit (the 6×4 taxonomy is correct, not a contradiction).
+- **M-4 (HZZ-FE-013)** — RESOLVED. Bumped `--muted` #9a9a9a → #ababab (~6.6:1 → ~7.4:1 on `--bg`) for small-label comfort while preserving the muted hierarchy.
+- **M-5** — Drawer behavior remains code-verified (PASS); a live phone-viewport click-through is the only open item and needs no code change.
+
+Net verdict unchanged: **PASS, 0 blockers, 0 major.** Follow-up tickets HZZ-FE-010–013 are now closed by these fixes.

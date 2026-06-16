@@ -4,7 +4,7 @@
    ============================================================ */
 :root{
   --blue:#5EA6E8;--coral:#E18B73;--gold:#D4A574;--cream:#F7E3C3;
-  --bg:#121212;--panel:#1b1b1b;--panel2:#242424;--line:#333;--text:#e8e8e8;--muted:#9a9a9a;
+  --bg:#121212;--panel:#1b1b1b;--panel2:#242424;--line:#333;--text:#e8e8e8;--muted:#ababab;
   /* Body-Family accent colors */
   --Classic:#8FB7E0;--Icon:#D4A574;--Muse:#9FD6B6;--Siren:#E18B73;
   --Empress:#C792D6;--Sculpt:#C7B07F;
@@ -59,7 +59,7 @@
 /* === Reset & base ============================================= */
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{font-family:'Montserrat',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh}
+body{font-family:'Montserrat',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh;overflow-x:hidden}
 h1,h2,h3,h4,.serif{font-family:'Playfair Display',Georgia,serif}
 a{color:inherit;text-decoration:none}
 img{display:block}
