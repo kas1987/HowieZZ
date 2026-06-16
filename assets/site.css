@@ -254,7 +254,7 @@ footer .fl a:hover{color:var(--text)}
 .family-tile .k{color:var(--fam-color);font-size:10px;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px}
 .family-tile h3{font-size:22px;margin-bottom:6px}
 .family-tile p{color:var(--muted);font-size:12px;line-height:1.45}
-.family-tile .status-note{margin-top:10px;display:inline-block;color:var(--muted);border:1px solid var(--line);border-radius:var(--r-pill);padding:3px 8px;font-size:9px;letter-spacing:1px;text-transform:uppercase}
+.family-tile .status-note{margin-top:10px;display:inline-flex}
 @media(max-width:1120px){.family-chooser{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:620px){.family-chooser{grid-template-columns:1fr}}
 
