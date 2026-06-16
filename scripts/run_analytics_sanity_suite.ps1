@@ -2,6 +2,8 @@ Param(
   [string]$ConfigPath = "docs/pdr/PDR-analytics-sanity-thresholds.json"
 )
 
+$ErrorActionPreference = 'Continue'
+
 <#
 Config schema expected at docs/pdr/PDR-analytics-sanity-thresholds.json:
 {
