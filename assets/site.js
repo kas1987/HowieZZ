@@ -288,7 +288,8 @@ window.ZX = (function () {
     const items = [
       ['index.html','Atlas'], ['browse.html','Browse'], ['family.html','Families'],
       ['compare.html','Compare'], ['options.html','Options'],
-      ['community.html','Community'], ['quiz.html','Find Yours'], ['contact.html','Contact']
+      ['community.html','Community'], ['quiz.html','Find Yours'],
+      ['configurator.html','Configure'], ['contact.html','Contact']
     ];
     const links = items.map(([h,l])=>`<a href="${h}"${active===h?' aria-current="page"':''} class="${active===h?'active':''}">${l}</a>`).join('');
     // Self-canonicalize the param-driven pages. Their static canonical points at the
@@ -314,7 +315,7 @@ window.ZX = (function () {
   }
   function mountFooter(){
     document.body.insertAdjacentHTML('beforeend',
-      `<footer><div class="fl"><a href="index.html">Atlas</a><a href="browse.html">Browse</a><a href="family.html">Families</a><a href="compare.html">Compare</a><a href="options.html">Options</a><a href="community.html">Community</a><a href="quiz.html">Find Yours</a><a href="craft.html">The Craft</a><a href="contact.html">Contact</a></div>
+      `<footer><div class="fl"><a href="index.html">Atlas</a><a href="browse.html">Browse</a><a href="family.html">Families</a><a href="compare.html">Compare</a><a href="options.html">Options</a><a href="community.html">Community</a><a href="quiz.html">Find Yours</a><a href="configurator.html">Configure</a><a href="craft.html">The Craft</a><a href="contact.html">Contact</a></div>
        THE CHARACTER ATLAS · generated from the live ZELEX catalog &amp; spec-card measurements · four series · full-body architectures · named characters</footer>`);
     revealInit(); // pages render asynchronously — sweep again once content + footer exist
   }

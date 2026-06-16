@@ -487,3 +487,103 @@ footer .fl a:hover{color:var(--text)}
   .compare-page{padding:16px 14px 56px}
   .nav{padding:12px 14px}
 }
+
+/* === Configurator page (PDR-FE-006) ============================
+   Live, measurement-led architecture configurator. The silhouette is an
+   abstract diagram driven by family WHR/BWR ranges — not a product render. */
+.cfg-head{max-width:var(--maxw);margin:0 auto;padding:34px 0 6px}
+.cfg-h1{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(30px,4.6vw,50px);line-height:1.05;margin:12px 0 14px}
+.cfg-h1 em{font-style:italic;color:var(--gold)}
+.cfg-lead{color:var(--muted);font-size:15px;line-height:1.7;max-width:600px}
+
+.cfg-grid{display:grid;grid-template-columns:1fr 430px;gap:26px;align-items:start;margin-top:24px}
+
+/* --- stage (diagram) --- */
+.cfg-stage{position:relative;min-height:560px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#141312;border-radius:20px}
+.cfg-glow{position:absolute;left:50%;top:50%;width:560px;height:560px;border-radius:50%;filter:blur(60px);opacity:.5;transform:translate(-50%,-50%);animation:cfg-drift 9s ease-in-out infinite;pointer-events:none}
+@keyframes cfg-drift{0%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-52%) scale(1.06)}100%{transform:translate(-50%,-50%) scale(1)}}
+.cfg-stage-tl{position:absolute;top:18px;left:18px;display:flex;flex-direction:column;gap:7px;z-index:2;align-items:flex-start}
+.cfg-stage-tr{position:absolute;top:18px;right:18px;display:flex;flex-direction:column;gap:8px;z-index:2;align-items:flex-end}
+.cfg-stat-pill{display:flex;align-items:baseline;gap:8px;background:rgba(13,13,13,.6);backdrop-filter:blur(8px);border:1px solid var(--line);border-radius:9px;padding:6px 11px}
+.cfg-stat-k{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)}
+.cfg-stat-v{font-size:13px;font-weight:600}
+.cfg-silhouette{position:relative;z-index:1;width:100%;max-width:330px;height:auto;display:block;filter:drop-shadow(0 18px 28px rgba(0,0,0,.5))}
+.cfg-silhouette path,.cfg-silhouette circle,.cfg-silhouette ellipse,.cfg-silhouette line{transition:all .45s cubic-bezier(.34,1.1,.64,1)}
+.cfg-stage-bl{position:absolute;bottom:18px;left:18px;z-index:2}
+.cfg-build-eyebrow{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
+.cfg-build-title{font-family:'Playfair Display',serif;font-size:19px;font-weight:600;color:var(--cream)}
+.cfg-stage-br{position:absolute;bottom:18px;right:18px;z-index:2;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);max-width:180px;text-align:right;line-height:1.5}
+
+/* --- control panel --- */
+.cfg-panel{position:sticky;top:88px;padding:0;overflow:hidden}
+.cfg-panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:22px 24px 0}
+.cfg-now-editing{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
+.cfg-panel-title{font-family:'Playfair Display',serif;font-size:23px;font-weight:600;color:var(--cream)}
+.cfg-tip-btn{display:inline-flex;align-items:center;gap:5px;padding:7px 12px;border-radius:var(--r-pill);cursor:pointer;font-family:inherit;font-size:13px;font-weight:600;color:var(--muted);background:none;border:1px solid var(--line);transition:.18s}
+.cfg-tip-btn span{font-size:10px;letter-spacing:1.5px;text-transform:uppercase}
+.cfg-tip-btn:hover,.cfg-tip-btn.on{color:var(--cream);border-color:color-mix(in srgb,var(--gold) 60%,transparent);background:color-mix(in srgb,var(--gold) 14%,transparent)}
+.cfg-tip{margin:14px 24px 0;border:1px solid color-mix(in srgb,var(--gold) 32%,transparent);background:linear-gradient(140deg,color-mix(in srgb,var(--gold) 10%,transparent),transparent 70%),#1b1814;border-radius:12px;padding:14px 16px;animation:cfg-pop .22s ease both}
+@keyframes cfg-pop{from{opacity:0;transform:translateY(6px) scale(.97)}to{opacity:1;transform:none}}
+.cfg-tip-label{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:7px}
+.cfg-tip p{font-size:12.5px;color:#cdb8a0;line-height:1.6}
+
+.cfg-section{padding:18px 24px 0}
+.cfg-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+
+.cfg-fam-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.cfg-fam-card{display:flex;flex-direction:column;align-items:flex-start;gap:7px;text-align:left;padding:13px 14px;border-radius:12px;cursor:pointer;font-family:inherit;transition:.18s;border:1px solid var(--line);background:var(--panel);color:var(--text)}
+.cfg-fam-card:hover{border-color:color-mix(in srgb,var(--gold) 45%,transparent)}
+.cfg-fam-card.sel{border:1px solid color-mix(in srgb,var(--gold) 60%,transparent);background:linear-gradient(140deg,color-mix(in srgb,var(--gold) 14%,transparent),color-mix(in srgb,var(--gold) 4%,transparent));box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--gold) 22%,transparent)}
+.cfg-fam-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.cfg-fam-dot{width:11px;height:11px;border-radius:50%;flex-shrink:0}
+.cfg-fam-name{font-family:'Playfair Display',serif;font-size:15.5px;font-weight:600;color:var(--text)}
+.cfg-fam-card.sel .cfg-fam-name{color:var(--cream)}
+.cfg-fam-dev{font-size:8.5px;letter-spacing:1px;padding:2px 7px}
+.cfg-fam-desc{font-size:11px;color:var(--muted);line-height:1.4}
+.cfg-fam-whr{font-size:10px;letter-spacing:.5px;color:var(--muted);font-family:ui-monospace,monospace}
+
+.cfg-scale{position:relative;padding:2px 0}
+.cfg-scale-track{position:absolute;left:9%;right:9%;top:11px;height:5px;border-radius:5px;background:linear-gradient(90deg,#9FD6B6,var(--gold),var(--coral));opacity:.55}
+.cfg-scale-nodes{position:relative;display:flex}
+.cfg-scale-node{flex:1;display:flex;flex-direction:column;align-items:center;gap:10px;cursor:pointer;font-family:inherit;background:none;border:none}
+.cfg-node-dot{width:14px;height:14px;border-radius:50%;background:#2a2a2a;border:1px solid #555;transition:.18s}
+.cfg-scale-node.sel .cfg-node-dot{width:22px;height:22px;border:2px solid var(--cream)}
+.cfg-node-label{font-size:10px;color:var(--muted)}
+.cfg-scale-node.sel .cfg-node-label{color:var(--cream);font-weight:600}
+.cfg-real-desc{margin-top:16px;border:1px solid var(--line);border-radius:10px;padding:12px 15px;background:var(--panel);font-size:13px;color:var(--text);display:flex;align-items:center;gap:10px}
+.cfg-real-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+.cfg-swatches{display:flex;gap:16px;flex-wrap:wrap}
+.cfg-swatch{display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;font-family:inherit;background:none;border:none}
+.cfg-sw-dot{width:34px;height:34px;border-radius:50%;border:1px solid rgba(255,255,255,.18);transition:.18s}
+.cfg-swatch.sel .cfg-sw-dot{box-shadow:0 0 0 2px var(--panel),0 0 0 4px var(--gold);transform:scale(1.06)}
+.cfg-sw-label{font-size:10.5px;color:var(--muted)}
+.cfg-swatch.sel .cfg-sw-label{color:var(--cream)}
+
+.cfg-summary{margin-top:20px;border-top:1px solid var(--line);padding:18px 24px 22px;background:#131211}
+.cfg-summary-eyebrow{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+.cfg-build-list{display:grid;grid-template-columns:1fr 1fr;gap:9px 18px}
+.cfg-build-row{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.cfg-build-k{font-size:9.5px;letter-spacing:1px;text-transform:uppercase;color:var(--muted)}
+.cfg-build-v{font-size:12px;font-weight:600;text-align:right;letter-spacing:.2px}
+.cfg-mto-note{font-size:11.5px;color:var(--muted);line-height:1.55;margin-top:16px}
+.cfg-mto-note strong{color:var(--text)}
+.cfg-cta{margin-top:16px;width:100%;text-align:center}
+.cfg-cta-note{text-align:center;font-size:11px;color:var(--muted);margin-top:10px}
+
+@media(max-width:980px){
+  .cfg-grid{grid-template-columns:1fr}
+  .cfg-panel{position:static}
+  .cfg-stage{min-height:440px}
+}
+@media(max-width:520px){
+  .cfg-fam-grid{grid-template-columns:1fr}
+  .cfg-build-list{grid-template-columns:1fr}
+  .cfg-swatches{gap:12px}
+  .cfg-stage-br{display:none}
+  .cfg-stage-tr{gap:6px}
+}
+@media(prefers-reduced-motion:reduce){
+  .cfg-glow{animation:none}
+  .cfg-silhouette path,.cfg-silhouette circle,.cfg-silhouette ellipse,.cfg-silhouette line{transition:none}
+}
