@@ -151,6 +151,7 @@ main{max-width:var(--maxw);margin:0 auto;padding:10px 24px 70px}
 .card .b{padding:14px}
 .card .pname-row{display:flex;align-items:flex-start;justify-content:space-between;gap:9px}
 .card .pname{font-family:'Playfair Display',serif;font-size:20px;font-weight:600;line-height:1.1}
+.card .card-meta-rail{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0}
 .card .cupchip{flex-shrink:0;margin-top:2px;font-size:10px;letter-spacing:.6px;font-weight:600;
   padding:2px 9px;border:1px solid currentColor;border-radius:var(--r-pill);white-space:nowrap;background:rgba(0,0,0,.18)}
 .card .ptitle{color:var(--muted);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;margin:3px 0 8px}
@@ -167,6 +168,7 @@ main{max-width:var(--maxw);margin:0 auto;padding:10px 24px 70px}
 .bodycard .bb h4{font-size:19px}
 .bodycard .bb .m{color:var(--muted);font-size:12px;margin-top:5px;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
 .bodycard .bb .m .fam{font-size:9px;padding:3px 8px}
+.bodycard .bb .m .stat{font-size:9px;letter-spacing:1.2px;padding:3px 8px}
 .bodycard .bb .bnames{color:var(--cream);font-size:12px;margin-top:7px;font-family:'Playfair Display',serif;font-style:italic}
 .bodycard .bb .sig{color:var(--blue);font-size:11px;letter-spacing:1px;margin-top:6px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
 

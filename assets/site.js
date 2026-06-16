@@ -294,10 +294,25 @@ window.ZX = (function () {
     </div>`;
   }
 
+  function charStatusMeta(c){
+    const isLive = c.status === 'live';
+    const shootStatus = (c.photoshoot && c.photoshoot.status) || '';
+    if (isLive && shootStatus === 'live') return { cls: 'stat stat-verified', label: 'Verified' };
+    if (isLive) return { cls: 'stat stat-live', label: 'Live' };
+    if (!isLive && img(c)) return { cls: 'stat stat-pending', label: 'Shoot Pending' };
+    return { cls: 'stat stat-concept', label: 'Concept' };
+  }
+
+  function bodyStatusMeta(body){
+    if (body && body.estimated) return { cls: 'stat stat-estimated', label: 'Estimated' };
+    return { cls: 'stat stat-verified', label: 'Verified' };
+  }
+
   function charCard(c){
     const ph = c.status !== 'live';
     const src = img(c);
     const fc = famColor(c.body.family);
+    const status = charStatusMeta(c);
     // Graceful imagery: live → photo; placeholder with a borrowed sibling shoot → that
     // photo, softened, tagged "Concept"; placeholder with no image at all → a branded
     // monogram tile in the family color rather than an empty black box.
@@ -313,7 +328,10 @@ window.ZX = (function () {
       <div class="b">
         <div class="pname-row">
           <div class="pname">${esc(c.persona.name)}</div>
-          <span class="cupchip" style="color:${fc};border-color:${fc}" title="Bust / cup size">${esc(c.body.cup)}-cup</span>
+          <div class="card-meta-rail">
+            <span class="cupchip" style="color:${fc};border-color:${fc}" title="Bust / cup size">${esc(c.body.cup)}-cup</span>
+            <span class="${status.cls}">${status.label}</span>
+          </div>
         </div>
         <div class="ptitle">${esc(c.persona.title)}</div>
         <div class="ptag">${esc(c.persona.tagline)}</div>
@@ -326,6 +344,7 @@ window.ZX = (function () {
     const meta = m.btByCode[bc] || {};
     const fc = famColor(bd.family);
     const src = lead ? img(lead) : '';
+    const bodyStatus = bodyStatusMeta(bd);
     // Signature line: WHR/BWR as labelled-icon percentages + bust drop. (No character/shoot
     // counts — the character names below already convey that.)
     const pct = v => Math.round(v * 100) + '%';
@@ -351,7 +370,7 @@ window.ZX = (function () {
       <div class="bw">${src?`<img loading="lazy" src="${src}" alt="${bc}">`:''}</div>
       <div class="bb">
         <h4>${bd.height_cm}cm · ${bd.cup}-cup</h4>
-        <div class="m"><span class="bcode">${bc}</span> ${famChip}</div>
+        <div class="m"><span class="bcode">${bc}</span> ${famChip} <span class="${bodyStatus.cls}">${bodyStatus.label}</span></div>
         ${names?`<div class="bnames">${names}</div>`:''}
         <div class="sig" style="color:${fc}">${sig}</div>
       </div></a>`;
