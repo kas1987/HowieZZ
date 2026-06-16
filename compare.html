@@ -28,6 +28,8 @@
     <a class="btn concierge" href="contact.html">Ask concierge</a>
   </section>
 
+  <div id="compareChips" class="compare-chips" aria-label="Bodies on the table"></div>
+
   <section id="compareMount" aria-live="polite">
     <div class="compare-empty">Loading body profiles...</div>
   </section>
@@ -111,12 +113,42 @@ function buyerRead(b) {
   return 'Needs review';
 }
 
+function buyerNote(b) {
+  const f = b.family || '';
+  if (f === 'The Muse') return 'Lifelike proportions, nothing exaggerated';
+  if (f === 'The Siren') return 'Fuller bust, pronounced curve through the figure';
+  if (f === 'The Icon') return 'Editorial, styled-for-the-shot proportions';
+  if (f === 'The Empress') return 'Soft, generous volume across the body';
+  if (f === 'The Classic') return 'Even proportions; an easy first choice';
+  if (f === 'The Sculpt') return 'Toned, firm lines with clear definition';
+  return 'Family not yet confirmed';
+}
+
+function buyerCell(b) {
+  return '<b class="hl-read">' + ZX.esc(buyerRead(b)) + '</b>' +
+    '<span class="hl-note">' + ZX.esc(buyerNote(b)) + '</span>';
+}
+
 function handlingRead(b) {
   const w = Number(b.weight_kg || b.weight || 0);
   if (!w) return 'Unknown';
   if (w <= 35) return 'Solo-manageable';
   if (w <= 42) return 'Moderate';
   return 'Dedicated-space preferred';
+}
+
+function handlingNote(b) {
+  const w = Number(b.weight_kg || b.weight || 0);
+  if (!w) return 'Weight not yet on record';
+  if (w <= 35) return 'One person can position and store it';
+  if (w <= 42) return 'Easier with a stable surface to work on';
+  return 'Plan a dedicated space; two-person handling helps';
+}
+
+function handlingCell(b) {
+  const read = ZX.esc(handlingRead(b));
+  return '<b class="hl-read">' + read + '</b>' +
+    '<span class="hl-note">' + ZX.esc(handlingNote(b)) + '</span>';
 }
 
 function render(m) {
@@ -151,13 +183,52 @@ function render(m) {
   ZX.mountFooter();
 }
 
+function renderChips(m, codes) {
+  const wrap = document.getElementById('compareChips');
+  if (!wrap) return;
+  if (!codes.length) { wrap.innerHTML = ''; return; }
+  wrap.innerHTML = codes.map(code => {
+    const b = bodyData(m, code);
+    const fam = b.family ? '<span class="fam ' + ZX.famClass(b.family) + '">' + ZX.esc(b.family) + '</span>' : '';
+    return '<span class="compare-chip">' +
+      '<span class="bcode">' + ZX.esc(code) + '</span>' + fam +
+      '<button type="button" class="compare-chip-x" data-code="' + ZX.esc(code) + '" aria-label="Remove ' + ZX.esc(code) + ' from comparison">&times;</button>' +
+    '</span>';
+  }).join('') + '<span class="compare-chip-count">' + codes.length + ' of 4</span>';
+
+  wrap.querySelectorAll('.compare-chip-x').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      const code = btn.getAttribute('data-code');
+      const next = selectedCodes().filter(Boolean).filter(c => c !== code);
+      saveCodes(next);
+      ZX.track('compare_set_changed', { action: 'remove', compare_count: next.length, body_codes: next.join(','), context: 'compare', source_page: 'compare' });
+      paint(m);
+    });
+  });
+}
+
 function paint(m) {
   const mount = document.getElementById('compareMount');
   const codes = selectedCodes().filter(Boolean).slice(0, 4);
 
+  renderChips(m, codes);
+
   if (!codes.length) {
     ZX.track('compare_view', { compare_count: 0, view_state: 'empty', context: 'compare', source_page: 'compare' });
-    mount.innerHTML = '<div class="compare-empty">Choose 2-4 body architectures to compare. Start with body codes you are already considering, then use family and ratio rows to understand silhouette differences.</div>';
+    mount.innerHTML =
+      '<div class="compare-empty">' +
+        '<div class="compare-empty-mark" aria-hidden="true">+</div>' +
+        '<h2>Nothing on the table yet.</h2>' +
+        '<p>Add two to four body architectures above. We translate the numbers into a plain buyer read &mdash; silhouette character and how the body handles &mdash; so you can decide without doing ratio math.</p>' +
+        '<div class="compare-empty-actions">' +
+          '<a class="btn solid" id="empty-quiz-link" href="quiz.html">Not sure where to start? Take the quiz</a>' +
+          '<a class="btn ghost" id="empty-browse-link" href="browse.html">Browse all bodies</a>' +
+        '</div>' +
+      '</div>';
+    var eq = document.getElementById('empty-quiz-link');
+    if (eq) eq.addEventListener('click', function(){ ZX.track('compare_handoff_click', { compare_count: 0, channel: 'quiz', cta: 'take_quiz', view_state: 'empty', context: 'compare', source_page: 'compare' }); });
+    var eb = document.getElementById('empty-browse-link');
+    if (eb) eb.addEventListener('click', function(){ ZX.track('compare_handoff_click', { compare_count: 0, channel: 'browse', cta: 'browse_bodies', view_state: 'empty', context: 'compare', source_page: 'compare' }); });
     return;
   }
 
@@ -168,7 +239,7 @@ function paint(m) {
     ['Body code', b => '<span class="bcode">' + ZX.esc(b.body_code) + '</span>'],
     ['Series', b => ZX.esc(b.series || '&mdash;')],
     ['Family', b => b.family ? '<span class="fam ' + ZX.famClass(b.family) + '">' + ZX.esc(b.family) + '</span>' : '&mdash;'],
-    ['Buyer read', b => ZX.esc(buyerRead(b))],
+    ['Buyer read', b => buyerCell(b)],
     ['Height', b => num(b.height_cm, 'cm')],
     ['Weight', b => num(b.weight_kg, 'kg')],
     ['Cup', b => b.cup ? ZX.esc(b.cup + '-cup') : '&mdash;'],
@@ -176,8 +247,8 @@ function paint(m) {
     ['WHR', b => ratioLabel(b.WHR, b.estimated)],
     ['BWR', b => ratioLabel(b.BWR, b.estimated)],
     ['Bust drop', b => num(b.bust_drop_cm, 'cm')],
-    ['Handling', b => ZX.esc(handlingRead(b))],
-    ['Confidence', b => confidenceChip(b)]
+    ['Handling', b => handlingCell(b)],
+    ['Data confidence', b => confidenceChip(b)]
   ];
 
   const summaries = '<section class="compare-summary" aria-label="Decision summary">' +
