@@ -37,15 +37,11 @@ ZX.load().then(render).catch(ZX.fail);
 const STORAGE_KEY = 'zx_compare_bodies';
 
 function selectedCodes() {
-  try {
-    return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-  } catch (e) {
-    return [];
-  }
+  return ZX.getCompareBodies();
 }
 
 function saveCodes(codes) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(codes.slice(0, 4)));
+  ZX.setCompareBodies(codes);
 }
 
 function num(v, suffix) {

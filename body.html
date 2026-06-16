@@ -266,16 +266,17 @@ function render(m) {
 
   const compareBtnEl = document.getElementById('add-compare-body');
   if (compareBtnEl) {
+    if (ZX.getCompareBodies().includes(bc)) {
+      compareBtnEl.classList.add('done');
+      compareBtnEl.textContent = 'Added to Compare';
+    }
     compareBtnEl.addEventListener('click', () => {
-      const key = 'zx_compare_bodies';
-      let cur = [];
-      try { cur = JSON.parse(localStorage.getItem(key) || '[]'); } catch (e) { cur = []; }
-      if (!Array.isArray(cur)) cur = [];
-      cur = cur.filter(Boolean).filter(x => x !== '.');
-      if (!cur.includes(bc)) cur.push(bc);
-      localStorage.setItem(key, JSON.stringify(cur.slice(0, 4)));
-      ZX.track('compare_add', { body_code: bc, family: family || '', series: series || '', compare_count: cur.slice(0, 4).length, context: 'body_detail', source_page: 'body' });
-      location.href = 'compare.html';
+      const result = ZX.addCompareBody(bc);
+      compareBtnEl.classList.add('done');
+      compareBtnEl.textContent = 'Added to Compare';
+      if (result.added) {
+        ZX.track('compare_add', { body_code: bc, family: family || '', series: series || '', compare_count: result.bodies.length, context: 'body_detail', source_page: 'body' });
+      }
     });
   }
 

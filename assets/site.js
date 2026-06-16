@@ -11,6 +11,7 @@ window.ZX = (function () {
     "SLE": "The SLE 3.0 range — the widest spectrum, athletic minimalism to maximal fantasy."
   };
   const FAMILIES = ["The Classic","The Icon","The Muse","The Siren","The Empress","The Sculpt"];
+  const COMPARE_STORAGE_KEY = 'zx_compare_bodies';
 
   let _model = null;
 
@@ -100,6 +101,31 @@ window.ZX = (function () {
     } catch (e) {
       return false;
     }
+  }
+
+  function getCompareBodies() {
+    try {
+      const parsed = JSON.parse(localStorage.getItem(COMPARE_STORAGE_KEY) || '[]');
+      if (!Array.isArray(parsed)) return [];
+      return parsed.filter(Boolean).filter(x => x !== '.').slice(0, 4);
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function setCompareBodies(codes) {
+    const clean = (Array.isArray(codes) ? codes : []).filter(Boolean).filter(x => x !== '.').slice(0, 4);
+    try { localStorage.setItem(COMPARE_STORAGE_KEY, JSON.stringify(clean)); } catch (e) {}
+    return clean;
+  }
+
+  function addCompareBody(bodyCode) {
+    const code = String(bodyCode || '').trim();
+    if (!code || code === '.') return { added: false, bodies: getCompareBodies() };
+    const cur = getCompareBodies();
+    if (cur.includes(code)) return { added: false, bodies: cur };
+    const next = setCompareBodies(cur.concat(code));
+    return { added: true, bodies: next };
   }
 
   function normalizeTrackPayload(eventName, payload) {
@@ -388,6 +414,7 @@ window.ZX = (function () {
   }
 
   return { load, famColor, famClass, qs, esc, img, inquireHref, contactHref, INQUIRY_EMAIL, FORM_ENDPOINT,
+           getCompareBodies, setCompareBodies, addCompareBody,
            track,
            mountNav, mountFooter, fail, charCard, bodyCard, metricsLegend,
            repImg, heroBackdrop, revealInit,

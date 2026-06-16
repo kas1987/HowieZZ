@@ -97,6 +97,12 @@ main{max-width:var(--maxw);margin:0 auto;padding:10px 24px 70px}
 /* Ghost — low-emphasis */
 .btn.ghost{border-color:var(--line);color:var(--muted)}
 .btn.ghost:hover{border-color:var(--text);color:var(--text);background:transparent}
+.btn.done{border-color:var(--st-verified);color:var(--st-verified);background:color-mix(in srgb,var(--st-verified) 10%,transparent)}
+
+/* Small utilities used by page templates to avoid repeated inline layout styles */
+.mt-18{margin-top:18px}
+.heading-tight{margin:0}
+.actions-end{display:flex;gap:12px;flex-wrap:wrap;justify-content:flex-end}
 
 /* Concierge — premium final-step CTA */
 .btn.concierge{font-family:'Playfair Display',serif;font-style:italic;letter-spacing:1.5px;text-transform:none;
