@@ -1,0 +1,5 @@
+# ZELEX — The Character Atlas
+User-agent: *
+Allow: /
+
+Sitemap: https://www.zelexdoll.com/sitemap.xml

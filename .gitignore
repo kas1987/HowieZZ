@@ -9,6 +9,8 @@
 assets/*
 !assets/site.css
 !assets/site.js
+# The favicon is a tiny inline SVG mark (no raster/binary), part of the shipped kit.
+!assets/favicon.svg
 
 # Belt-and-suspenders: no raster images or video anywhere in the tree
 *.jpg
