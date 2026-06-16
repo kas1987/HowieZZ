@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ZELEX — Customization Options Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+.options-page{max-width:var(--maxw);margin:0 auto;padding:26px 24px 80px}
+.options-hero{padding:36px 0 20px;max-width:860px}
+.options-hero h1{font-size:clamp(34px,6vw,58px);line-height:1.1;margin:10px 0}
+.options-hero p{color:var(--muted);max-width:760px}
+.option-tabs{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0 20px}
+.option-tab{border:1px solid var(--line);background:var(--panel2);color:var(--text);padding:9px 16px;border-radius:999px;cursor:pointer;font-size:12px;letter-spacing:1.3px;text-transform:uppercase}
+.option-tab.active{border-color:var(--gold);background:color-mix(in srgb,var(--gold) 14%,var(--panel2));color:var(--cream)}
+.option-pane{display:none}
+.option-pane.active{display:block}
+.option-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.option-card{border:1px solid var(--line);border-radius:14px;padding:14px;background:var(--panel)}
+.option-card h3{font-size:24px;line-height:1.1;margin:6px 0}
+.option-card .meta{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
+.option-card .best{margin-top:10px;padding:10px;border:1px solid color-mix(in srgb,var(--gold) 20%,transparent);border-radius:10px;background:rgba(255,255,255,.02);color:var(--muted);font-size:13px;line-height:1.5}
+.option-card .k{font-size:10px;letter-spacing:1.6px;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:4px}
+.option-chip{display:inline-flex;align-items:center;padding:4px 9px;border-radius:999px;border:1px solid var(--line);font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted)}
+.option-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
+.option-note{margin:10px 0 16px;color:var(--muted);font-size:13px}
+.option-filters{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:10px 0 14px}
+.option-filters label{display:block;font-size:10px;letter-spacing:1.4px;text-transform:uppercase;color:var(--muted);margin:0 0 6px}
+.option-filters select,.option-filters input{width:100%;border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:10px;padding:9px 10px;font-size:13px}
+.option-empty{padding:14px;border:1px dashed var(--line);border-radius:12px;color:var(--muted)}
+@media(max-width:900px){.option-grid{grid-template-columns:1fr}}
+@media(max-width:900px){.option-filters{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="crumbs"><a href="index.html">Atlas</a><span>&rsaquo;</span> Customization Options</div>
+<main class="options-page">
+  <section class="options-hero">
+    <div class="eyebrow no-rule">Customization Guide</div>
+    <h1>Choose body and head options with confidence.</h1>
+    <p>Use this page as your pre-inquiry decision layer. Start with Body options to lock silhouette and handling, then review Head options to narrow facial direction and series fit.</p>
+  </section>
+
+  <section>
+    <div class="option-tabs" role="tablist" aria-label="Customization tracks">
+      <button class="option-tab active" id="tab-body" data-target="pane-body" role="tab" aria-selected="true">Body options</button>
+      <button class="option-tab" id="tab-head" data-target="pane-head" role="tab" aria-selected="false">Head options</button>
+    </div>
+
+    <div id="pane-body" class="option-pane active" role="tabpanel" aria-labelledby="tab-body">
+      <p class="option-note">Body options are grouped by family. "Best for" guidance is generated from measured profile and handling signals.</p>
+      <div class="option-filters">
+        <div>
+          <label for="body-family-filter">Family</label>
+          <select id="body-family-filter">
+            <option value="all">All families</option>
+          </select>
+        </div>
+        <div>
+          <label for="body-height-filter">Avg height band</label>
+          <select id="body-height-filter">
+            <option value="all">All heights</option>
+            <option value="short">Short (up to 160cm)</option>
+            <option value="mid">Mid (161-169cm)</option>
+            <option value="tall">Tall (170cm+)</option>
+          </select>
+        </div>
+        <div>
+          <label for="body-handling-filter">Handling</label>
+          <select id="body-handling-filter">
+            <option value="all">All handling bands</option>
+            <option value="solo">Solo-manageable handling</option>
+            <option value="moderate">Moderate handling</option>
+            <option value="dedicated">Dedicated-space handling</option>
+            <option value="review">Handling review needed</option>
+          </select>
+        </div>
+      </div>
+      <div id="body-options" class="option-grid"></div>
+    </div>
+
+    <div id="pane-head" class="option-pane" role="tabpanel" aria-labelledby="tab-head">
+      <p class="option-note">Head options are grouped from catalog usage patterns (series, body pairings, and media coverage) to help you start from realistic availability.</p>
+      <div class="option-filters">
+        <div>
+          <label for="head-series-filter">Top series</label>
+          <select id="head-series-filter">
+            <option value="all">All series</option>
+          </select>
+        </div>
+        <div>
+          <label for="head-pairing-filter">Body pairing depth</label>
+          <select id="head-pairing-filter">
+            <option value="all">All pairing depths</option>
+            <option value="compact">Compact (1-2 bodies)</option>
+            <option value="broad">Broad (3-5 bodies)</option>
+            <option value="wide">Wide (6+ bodies)</option>
+          </select>
+        </div>
+        <div>
+          <label for="head-search">Head code search</label>
+          <input id="head-search" type="search" placeholder="e.g. ZFE01" autocomplete="off">
+        </div>
+      </div>
+      <div id="head-options" class="option-grid"></div>
+    </div>
+
+    <div class="option-actions">
+      <a class="btn solid" href="compare.html">Compare Bodies</a>
+      <a class="btn" href="quiz.html">Find Your Match</a>
+      <a class="btn concierge" href="contact.html?src=options&cta=customization_guide&context=options&channel=contact">Ask concierge</a>
+    </div>
+  </section>
+</main>
+
+<script src="assets/site.js"></script>
+<script>
+ZX.mountNav('options.html');
+Promise.all([
+  ZX.load(),
+  fetch('db/catalog.json').then(function(r){ return r.json(); }).catch(function(){ return { products: [] }; })
+]).then(function(data){
+  render(data[0], data[1]);
+  ZX.mountFooter();
+}).catch(function(){ ZX.fail(); });
+
+function render(model, catalog){
+  initTabs();
+  var bodyRows = buildBodyRows(model);
+  var headRows = buildHeadRows(catalog);
+  initBodyFilters(bodyRows, model);
+  initHeadFilters(headRows);
+  renderBodyCards(bodyRows, getBodyFilterState());
+  renderHeadCards(headRows, getHeadFilterState());
+}
+
+function initTabs(){
+  var tabs = document.querySelectorAll('.option-tab');
+  tabs.forEach(function(tab){
+    tab.addEventListener('click', function(){
+      tabs.forEach(function(t){
+        t.classList.remove('active');
+        t.setAttribute('aria-selected', 'false');
+      });
+      document.querySelectorAll('.option-pane').forEach(function(p){ p.classList.remove('active'); });
+      tab.classList.add('active');
+      tab.setAttribute('aria-selected', 'true');
+      var pane = document.getElementById(tab.getAttribute('data-target'));
+      if (pane) pane.classList.add('active');
+    });
+  });
+}
+
+function famBestFor(fam){
+  if (fam === 'The Classic') return 'Best for first-time premium buyers who want balanced proportions and broad outfit compatibility.';
+  if (fam === 'The Icon') return 'Best for camera-forward styling, glamour-led presentation, and editorial photos.';
+  if (fam === 'The Muse') return 'Best for naturalistic aesthetics, everyday realism, and hip-led silhouette balance.';
+  if (fam === 'The Siren') return 'Best for dramatic bust-forward fantasy and high-presence character direction.';
+  if (fam === 'The Empress') return 'Best for plush abundance, softness emphasis, and maximal curve profile.';
+  if (fam === 'The Sculpt') return 'Best for athletic definition, deliberate structure, and fit-forward visual language.';
+  return 'Best for buyers who want a neutral starting point before narrowing to a family.';
+}
+
+function handlingBand(avgWeight){
+  if (!avgWeight) return 'Handling review needed';
+  if (avgWeight <= 35) return 'Solo-manageable handling';
+  if (avgWeight <= 42) return 'Moderate handling';
+  return 'Dedicated-space handling';
+}
+
+function handlingKey(band){
+  if (band === 'Solo-manageable handling') return 'solo';
+  if (band === 'Moderate handling') return 'moderate';
+  if (band === 'Dedicated-space handling') return 'dedicated';
+  return 'review';
+}
+
+function heightBand(height){
+  if (!height) return 'unknown';
+  if (height <= 160) return 'short';
+  if (height <= 169) return 'mid';
+  return 'tall';
+}
+
+function buildBodyRows(model){
+  var families = model.FAMILIES || [];
+  var rows = [];
+
+  families.forEach(function(fam){
+    var chars = (model.characters || []).filter(function(c){ return c.body && c.body.family === fam; });
+    var bodyCodes = Array.from(new Set(chars.map(function(c){ return c.body_code; }).filter(Boolean)));
+    var liveCount = chars.filter(function(c){ return c.status === 'live'; }).length;
+    var weights = chars.map(function(c){ return c.body && c.body.weight_kg; }).filter(function(w){ return typeof w === 'number'; });
+    var avgWeight = weights.length ? (weights.reduce(function(a,b){ return a+b; }, 0) / weights.length) : 0;
+    var handling = handlingBand(avgWeight);
+    var avgHeightVals = chars.map(function(c){ return c.body && c.body.height_cm; }).filter(function(h){ return typeof h === 'number'; });
+    var avgHeight = avgHeightVals.length ? Math.round(avgHeightVals.reduce(function(a,b){ return a+b; }, 0) / avgHeightVals.length) : 0;
+
+    rows.push({
+      family: fam,
+      bodyCodes: bodyCodes.length,
+      liveCount: liveCount,
+      avgHeight: avgHeight,
+      heightBand: heightBand(avgHeight),
+      handling: handling,
+      handlingKey: handlingKey(handling)
+    });
+  });
+
+  return rows;
+}
+
+function renderBodyCards(rows, filters){
+  var container = document.getElementById('body-options');
+  var filtered = rows.filter(function(r){
+    if (filters.family !== 'all' && r.family !== filters.family) return false;
+    if (filters.height !== 'all' && r.heightBand !== filters.height) return false;
+    if (filters.handling !== 'all' && r.handlingKey !== filters.handling) return false;
+    return true;
+  });
+
+  if (!filtered.length) {
+    container.innerHTML = '<div class="option-empty">No body options match those filters yet. Try widening one filter.</div>';
+    return;
+  }
+
+  container.innerHTML = filtered.map(function(r){
+    return '<article class="option-card">' +
+      '<span class="k">Body family</span>' +
+      '<h3>' + ZX.esc(r.family) + '</h3>' +
+      '<div class="meta">' +
+        '<span class="option-chip">' + r.bodyCodes + ' body codes</span>' +
+        '<span class="option-chip">' + r.liveCount + ' live characters</span>' +
+        '<span class="option-chip">avg height ' + (r.avgHeight ? r.avgHeight + 'cm' : 'n/a') + '</span>' +
+        '<span class="option-chip">' + ZX.esc(r.handling) + '</span>' +
+      '</div>' +
+      '<div class="best"><strong style="color:var(--cream)">Best for:</strong> ' + ZX.esc(famBestFor(r.family)) + '</div>' +
+    '</article>';
+  }).join('');
+}
+
+function getBodyFilterState(){
+  return {
+    family: document.getElementById('body-family-filter').value,
+    height: document.getElementById('body-height-filter').value,
+    handling: document.getElementById('body-handling-filter').value
+  };
+}
+
+function initBodyFilters(rows, model){
+  var famSel = document.getElementById('body-family-filter');
+  (model.FAMILIES || []).forEach(function(f){
+    famSel.insertAdjacentHTML('beforeend', '<option value="' + ZX.esc(f) + '">' + ZX.esc(f) + '</option>');
+  });
+  ['body-family-filter', 'body-height-filter', 'body-handling-filter'].forEach(function(id){
+    document.getElementById(id).addEventListener('change', function(){
+      renderBodyCards(rows, getBodyFilterState());
+    });
+  });
+}
+
+function headBestFor(seriesHint){
+  if (seriesHint === 'K-Series') return 'Best for stylized, high-expression character direction with strong visual identity.';
+  if (seriesHint === 'Fusion') return 'Best for realism-forward blends and balanced premium editorial styling.';
+  if (seriesHint === 'SLE') return 'Best for broad configuration flexibility and cross-body pairing options.';
+  if (seriesHint === 'I-Series') return 'Best for classic lineup continuity and established head/body combinations.';
+  return 'Best for exploratory pairing when you are still deciding series direction.';
+}
+
+function normalizeSeries(id){
+  if (id === 'K') return 'K-Series';
+  if (id === 'I') return 'I-Series';
+  if (id === 'SLE') return 'SLE';
+  if (id === 'Fusion') return 'Fusion';
+  return id || 'Unknown';
+}
+
+function buildHeadRows(catalog){
+  var products = (catalog && catalog.products) || [];
+  var heads = {};
+
+  products.forEach(function(p){
+    var head = String(p.head_code || '').trim();
+    if (!head) return;
+    if (!heads[head]) heads[head] = { head: head, count: 0, series: {}, bodies: {} };
+    heads[head].count += 1;
+    var sr = normalizeSeries(p.series_id);
+    heads[head].series[sr] = (heads[head].series[sr] || 0) + 1;
+    if (p.body_code) heads[head].bodies[p.body_code] = true;
+  });
+
+  return Object.values(heads).sort(function(a,b){ return b.count - a.count; }).slice(0, 24).map(function(h){
+    var seriesRank = Object.entries(h.series).sort(function(a,b){ return b[1]-a[1]; });
+    var topSeries = seriesRank.length ? seriesRank[0][0] : 'Unknown';
+    var seriesList = seriesRank.map(function(x){ return x[0] + ' (' + x[1] + ')'; }).join(' · ');
+    var bodyCount = Object.keys(h.bodies).length;
+    var depth = bodyCount <= 2 ? 'compact' : (bodyCount <= 5 ? 'broad' : 'wide');
+    return {
+      head: h.head,
+      count: h.count,
+      bodyCount: bodyCount,
+      topSeries: topSeries,
+      seriesList: seriesList,
+      depth: depth
+    };
+  });
+}
+
+function getHeadFilterState(){
+  return {
+    series: document.getElementById('head-series-filter').value,
+    depth: document.getElementById('head-pairing-filter').value,
+    query: document.getElementById('head-search').value.trim().toLowerCase()
+  };
+}
+
+function initHeadFilters(rows){
+  var sel = document.getElementById('head-series-filter');
+  var series = Array.from(new Set(rows.map(function(r){ return r.topSeries; }))).sort();
+  series.forEach(function(s){
+    sel.insertAdjacentHTML('beforeend', '<option value="' + ZX.esc(s) + '">' + ZX.esc(s) + '</option>');
+  });
+  ['head-series-filter', 'head-pairing-filter'].forEach(function(id){
+    document.getElementById(id).addEventListener('change', function(){
+      renderHeadCards(rows, getHeadFilterState());
+    });
+  });
+  document.getElementById('head-search').addEventListener('input', function(){
+    renderHeadCards(rows, getHeadFilterState());
+  });
+}
+
+function renderHeadCards(rows, filters){
+  var container = document.getElementById('head-options');
+  if (!rows.length) {
+    container.innerHTML = '<div class="compare-empty">Head option data is unavailable right now. You can still continue via Compare or Quiz.</div>';
+    return;
+  }
+
+  var filtered = rows.filter(function(r){
+    if (filters.series !== 'all' && r.topSeries !== filters.series) return false;
+    if (filters.depth !== 'all' && r.depth !== filters.depth) return false;
+    if (filters.query && r.head.toLowerCase().indexOf(filters.query) === -1) return false;
+    return true;
+  });
+
+  if (!filtered.length) {
+    container.innerHTML = '<div class="option-empty">No head options match those filters yet. Try broadening series or pairing depth.</div>';
+    return;
+  }
+
+  container.innerHTML = filtered.map(function(h){
+    return '<article class="option-card">' +
+      '<span class="k">Head option</span>' +
+      '<h3>' + ZX.esc(h.head) + '</h3>' +
+      '<div class="meta">' +
+        '<span class="option-chip">' + h.count + ' catalog products</span>' +
+        '<span class="option-chip">' + h.bodyCount + ' body pairings</span>' +
+        '<span class="option-chip">top series: ' + ZX.esc(h.topSeries) + '</span>' +
+      '</div>' +
+      '<div class="best"><strong style="color:var(--cream)">Best for:</strong> ' + ZX.esc(headBestFor(h.topSeries)) + '<br><span style="display:block;margin-top:6px;color:var(--muted)">Series coverage: ' + ZX.esc(h.seriesList) + '</span></div>' +
+    '</article>';
+  }).join('');
+}
+</script>
+</body>
+</html>

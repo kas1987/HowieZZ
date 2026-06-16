@@ -287,7 +287,7 @@ window.ZX = (function () {
   function mountNav(active){
     const items = [
       ['index.html','Atlas'], ['browse.html','Browse'], ['family.html','Families'],
-      ['compare.html','Compare'],
+      ['compare.html','Compare'], ['options.html','Options'],
       ['quiz.html','Find Yours'], ['contact.html','Contact']
     ];
     const links = items.map(([h,l])=>`<a href="${h}" class="${active===h?'active':''}">${l}</a>`).join('');
@@ -300,7 +300,7 @@ window.ZX = (function () {
   }
   function mountFooter(){
     document.body.insertAdjacentHTML('beforeend',
-      `<footer><div class="fl"><a href="index.html">Atlas</a><a href="browse.html">Browse</a><a href="family.html">Families</a><a href="quiz.html">Find Yours</a><a href="craft.html">The Craft</a><a href="contact.html">Contact</a></div>
+      `<footer><div class="fl"><a href="index.html">Atlas</a><a href="browse.html">Browse</a><a href="family.html">Families</a><a href="compare.html">Compare</a><a href="options.html">Options</a><a href="quiz.html">Find Yours</a><a href="craft.html">The Craft</a><a href="contact.html">Contact</a></div>
        THE CHARACTER ATLAS · generated from the live ZELEX catalog &amp; spec-card measurements · four series · full-body architectures · named characters</footer>`);
     revealInit(); // pages render asynchronously — sweep again once content + footer exist
   }
