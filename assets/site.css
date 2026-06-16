@@ -33,14 +33,27 @@
   /* Radii */
   --r-sm:6px;--r-md:10px;--r-lg:14px;--r-pill:100px;
 
-  /* Shadows — card rests quiet; glow only on interaction */
+  /* Shadows — card rests quiet; glow only on interaction.
+     Restraint is the brief: a single soft drop at rest, a deeper lift on
+     hover with only the faintest warm halo (private-atelier, not casino-gold). */
   --sh-card:0 2px 10px rgba(0,0,0,.45);
-  --sh-card-hover:0 16px 40px rgba(0,0,0,.6),0 0 28px rgba(212,165,116,.16);
+  --sh-card-hover:0 16px 40px rgba(0,0,0,.6),0 0 28px rgba(212,165,116,.14);
   --sh-focus:0 0 0 3px rgba(212,165,116,.35);
+  --sh-panel:0 1px 3px rgba(0,0,0,.4);
 
-  /* Status palette */
+  /* Status palette — five honest, visually distinct buyer-trust signals.
+     Hue does the work (no chip is allowed to read like another):
+       verified  = trust blue   (confirmed, shot, real)
+       live       = catalog green (in catalog, available)
+       pending   = caution amber  (shoot pending — promised, not yet shot)
+       concept   = neutral slate  (concept only — deliberately the quietest)
+       estimated = orchid         (interpolated data, flagged as inexact) */
   --st-live:#6BC88A;--st-concept:#9EA8B8;--st-pending:#E0A945;
   --st-estimated:#C792D6;--st-verified:#5EA6E8;
+
+  /* Form field rhythm — shared so contact / quiz / future panels align */
+  --field-bg:#161616;--field-border:var(--line);
+  --field-radius:var(--r-md);
 }
 
 /* === Reset & base ============================================= */
@@ -52,10 +65,20 @@ a{color:inherit;text-decoration:none}
 img{display:block}
 .serif-i{font-family:'Playfair Display',serif;font-style:italic}
 
-/* === Focus ===================================================== */
-:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+/* === Focus =====================================================
+   One consistent, high-contrast focus treatment everywhere a keyboard
+   can land. Gold ring on a dark cream halo so it is visible over both
+   dark panels and lighter (cream/solid) surfaces. */
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:2px}
 .btn:focus-visible{outline-offset:4px}
-.card:focus-visible,.bodycard:focus-visible{outline-offset:2px;box-shadow:var(--sh-card),var(--sh-focus)}
+.nav .links a:focus-visible,.skip-link:focus-visible{outline-offset:5px}
+/* Surfaces that already carry a border/shadow get a ring instead of a gap */
+.card:focus-visible,.bodycard:focus-visible,.family-tile:focus-visible,
+.intent-card:focus-visible,.compare-summary-card:focus-visible{
+  outline:none;border-color:var(--gold);box-shadow:var(--sh-card),var(--sh-focus)}
+/* Form controls: ring hugs the field edge */
+input:focus-visible,textarea:focus-visible,select:focus-visible,
+.field:focus-visible,.opt:focus-visible{outline:none;border-color:var(--gold);box-shadow:var(--sh-focus)}
 
 /* === Accessibility utilities ================================== */
 /* Visually hidden but available to assistive tech + keyboard focus. */
@@ -126,15 +149,30 @@ main{max-width:var(--maxw);margin:0 auto;padding:10px 24px 70px}
 .btn.concierge:hover::before{opacity:1}
 .btn.concierge:hover{color:var(--gold);box-shadow:inset 0 0 0 1px rgba(212,165,116,.5),0 8px 28px rgba(0,0,0,.55)}
 
-/* === Status Primitives ======================================== */
+/* === Status Primitives ========================================
+   Five honest buyer-trust chips. The leading dot + label is shared; each
+   state gets a distinct hue AND a distinct visual weight so they can never
+   be mistaken for one another:
+     verified  — filled dot, solid ring  (strongest: confirmed + shot)
+     live      — filled dot, solid ring  (in catalog)
+     pending   — filled dot, dashed ring (promise, not yet delivered)
+     estimated — hollow dot              (data interpolated — visibly "soft")
+     concept   — hollow dot, faintest    (deliberately the quietest signal)
+   A concept item must NEVER look as confident as a verified one. */
 .stat{display:inline-flex;align-items:center;gap:5px;font-size:var(--t-xs);letter-spacing:1.5px;
-  text-transform:uppercase;font-weight:600;padding:3px 9px;border-radius:var(--r-pill)}
-.stat::before{content:"";width:6px;height:6px;border-radius:50%;flex-shrink:0;background:currentColor}
-.stat-live   {color:var(--st-live);   background:color-mix(in srgb,var(--st-live) 10%,transparent);   border:1px solid color-mix(in srgb,var(--st-live) 22%,transparent)}
-.stat-concept{color:var(--st-concept);background:color-mix(in srgb,var(--st-concept) 8%,transparent);  border:1px solid color-mix(in srgb,var(--st-concept) 16%,transparent)}
-.stat-pending{color:var(--st-pending);background:color-mix(in srgb,var(--st-pending) 10%,transparent); border:1px solid color-mix(in srgb,var(--st-pending) 22%,transparent)}
-.stat-estimated{color:var(--st-estimated);background:color-mix(in srgb,var(--st-estimated) 10%,transparent);border:1px solid color-mix(in srgb,var(--st-estimated) 22%,transparent)}
-.stat-verified{color:var(--st-verified);background:color-mix(in srgb,var(--st-verified) 10%,transparent);border:1px solid color-mix(in srgb,var(--st-verified) 22%,transparent)}
+  text-transform:uppercase;font-weight:600;padding:3px 9px;border-radius:var(--r-pill);white-space:nowrap}
+.stat::before{content:"";width:6px;height:6px;border-radius:50%;flex-shrink:0;background:currentColor;
+  box-shadow:0 0 0 1px color-mix(in srgb,currentColor 35%,transparent)}
+.stat-live   {color:var(--st-live);   background:color-mix(in srgb,var(--st-live) 12%,transparent);   border:1px solid color-mix(in srgb,var(--st-live) 30%,transparent)}
+.stat-verified{color:var(--st-verified);background:color-mix(in srgb,var(--st-verified) 12%,transparent);border:1px solid color-mix(in srgb,var(--st-verified) 34%,transparent)}
+/* Pending — caution amber, dashed ring reads as "in progress / promised" */
+.stat-pending{color:var(--st-pending);background:color-mix(in srgb,var(--st-pending) 11%,transparent); border:1px dashed color-mix(in srgb,var(--st-pending) 40%,transparent)}
+/* Estimated — orchid, hollow dot signals the number is interpolated */
+.stat-estimated{color:var(--st-estimated);background:color-mix(in srgb,var(--st-estimated) 9%,transparent);border:1px solid color-mix(in srgb,var(--st-estimated) 26%,transparent)}
+.stat-estimated::before{background:transparent;box-shadow:inset 0 0 0 1.5px currentColor}
+/* Concept — neutral slate, faintest fill + hollow dot = lowest confidence */
+.stat-concept{color:var(--st-concept);background:color-mix(in srgb,var(--st-concept) 7%,transparent);  border:1px solid color-mix(in srgb,var(--st-concept) 18%,transparent);font-weight:500;opacity:.92}
+.stat-concept::before{background:transparent;box-shadow:inset 0 0 0 1.5px currentColor}
 
 /* === Chips & codes ============================================ */
 .fam{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;padding:4px 10px;border-radius:var(--r-pill);font-weight:600;display:inline-block;border:1px solid currentColor;background:transparent;color:var(--muted)}
@@ -244,6 +282,10 @@ main{max-width:var(--maxw);margin:0 auto;padding:10px 24px 70px}
   .card,.bodycard{transition:border-color .15s}
   .card:hover,.bodycard:hover{transform:none}
   .card:hover .imgwrap img,.bodycard:hover .bw img{transform:none}
+  /* New interactive surfaces: keep color feedback, drop the lift/slide */
+  .family-tile:hover,.opt:hover{transform:none}
+  .opt,.field,.form-group input,.form-group textarea,.form-group select{transition:border-color .15s}
+  .progress-bar{transition:none}
 }
 
 /* === Data / spec blocks ======================================= */
@@ -251,6 +293,69 @@ main{max-width:var(--maxw);margin:0 auto;padding:10px 24px 70px}
 .kv b{color:var(--text);font-weight:600}
 .pos{font-size:13.5px;background:var(--panel2);border-left:3px solid var(--blue);padding:13px;border-radius:0 var(--r-sm) var(--r-sm) 0}
 .phnote{font-size:13.5px;background:var(--panel2);border-left:3px solid var(--gold);padding:13px;border-radius:0 var(--r-sm) var(--r-sm) 0}
+
+/* === Surfaces & panels (shared) ===============================
+   Reusable surface primitive. Use .panel for any boxed content region
+   (form, summary, callout). .panel--inset is a quieter nested surface;
+   .panel--accent adds the restrained warm rule used on premium bands. */
+.panel{background:var(--s2);border:1px solid var(--b-subtle);border-radius:var(--r-lg);
+  padding:var(--sp6);box-shadow:var(--sh-panel)}
+.panel--inset{background:rgba(255,255,255,.02);box-shadow:none}
+.panel--accent{border-color:color-mix(in srgb,var(--gold) 26%,transparent);
+  background:linear-gradient(135deg,rgba(212,165,116,.06),transparent 38%),var(--s2)}
+.panel-title{font-family:'Playfair Display',serif;font-size:var(--t-xl);line-height:1.15;margin-bottom:var(--sp2)}
+.panel-sub{color:var(--muted);font-size:var(--t-base);margin-bottom:var(--sp5);max-width:62ch}
+
+/* === Form primitives (shared) =================================
+   Coherent field system for contact / quiz / future panels. Pages may
+   still override via their own scoped rules; these are the shared baseline
+   so a new form looks correct with zero page CSS. */
+.form-group{margin-bottom:var(--sp5)}
+.form-group > label,.field-label{display:block;font-size:var(--t-sm);letter-spacing:2px;
+  text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+.form-group label .req,.field-label .req{color:var(--coral);margin-left:2px}
+.field,
+.form-group input,.form-group textarea,.form-group select{
+  width:100%;background:var(--field-bg);border:1px solid var(--field-border);color:var(--text);
+  border-radius:var(--field-radius);padding:12px 14px;font-family:inherit;font-size:var(--t-base);
+  transition:border-color .2s,box-shadow .2s}
+.field::placeholder,.form-group input::placeholder,.form-group textarea::placeholder{color:#6f6f6f}
+.field:focus,
+.form-group input:focus,.form-group textarea:focus,.form-group select:focus{
+  outline:none;border-color:var(--gold);box-shadow:0 0 0 2px rgba(212,165,116,.16)}
+.field.err-field,
+.form-group input.err-field,.form-group textarea.err-field,.form-group select.err-field{
+  border-color:var(--coral);box-shadow:0 0 0 2px rgba(225,139,115,.16)}
+.form-group textarea{resize:vertical;min-height:120px}
+.form-group select option{background:var(--panel2)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:var(--sp4)}
+.field-hint{font-size:var(--t-sm);color:var(--muted);margin-top:6px;line-height:1.45}
+.field-err{font-size:var(--t-sm);color:var(--coral);margin-top:5px;display:none}
+.field-err.show{display:block}
+/* 18+ / privacy consent — never visually minimized (trust language stays legible) */
+.consent-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:var(--sp5)}
+.consent-row input[type=checkbox]{width:17px;height:17px;flex-shrink:0;margin-top:2px;accent-color:var(--gold);cursor:pointer}
+.consent-row label{font-size:var(--t-base);color:var(--muted);line-height:1.55;cursor:pointer}
+.consent-row label a{color:var(--gold);text-decoration:underline}
+
+/* === Choice / quiz option primitives (shared) =================
+   .opts is a responsive option group; .opt is a selectable card-button.
+   Used by the quiz today; reusable for any single-/multi-select step. */
+.opts{display:grid;gap:var(--sp3)}
+.opt{display:flex;align-items:center;gap:10px;width:100%;text-align:left;cursor:pointer;
+  background:var(--s2);border:1px solid var(--b-subtle);border-radius:var(--r-md);
+  padding:14px 16px;color:var(--text);font-family:inherit;font-size:var(--t-base);
+  transition:border-color .2s,background .2s,transform .2s}
+.opt:hover{border-color:color-mix(in srgb,var(--gold) 45%,transparent);transform:translateY(-1px)}
+.opt[aria-pressed="true"],.opt.selected,.opt.active{
+  border-color:var(--gold);background:color-mix(in srgb,var(--gold) 9%,var(--s2));color:var(--cream)}
+
+/* === Progress (shared) ======================================== */
+.progress-wrap{display:flex;flex-direction:column;gap:6px;margin-bottom:var(--sp5)}
+.progress-label{font-size:var(--t-sm);letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)}
+.progress-track{height:4px;border-radius:var(--r-pill);background:var(--s3);overflow:hidden}
+.progress-bar{height:100%;border-radius:var(--r-pill);
+  background:linear-gradient(90deg,var(--gold),var(--cream));transition:width .4s ease}
 
 /* === Footer =================================================== */
 footer{text-align:center;color:var(--muted);font-size:12px;padding:48px 20px;border-top:1px solid var(--line);margin-top:40px}
@@ -297,8 +402,16 @@ footer .fl a:hover{color:var(--text)}
 .compare-table-wrap{overflow:auto;border:1px solid var(--line);border-radius:var(--r-lg);background:var(--panel)}
 .compare-table{width:100%;border-collapse:collapse;min-width:780px}
 .compare-table th,.compare-table td{border-bottom:1px solid var(--line);padding:12px 14px;text-align:left;vertical-align:top;font-size:13px}
-.compare-table th{color:var(--gold);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;background:rgba(255,255,255,.025)}
-.compare-table td:first-child{color:var(--muted);width:170px;font-size:11px;letter-spacing:1.5px;text-transform:uppercase}
+.compare-table th{color:var(--gold);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;background:rgba(255,255,255,.025);
+  position:sticky;top:0;z-index:2}
+/* zebra rows aid horizontal scanning across compared bodies */
+.compare-table tbody tr:nth-child(even) td{background:rgba(255,255,255,.018)}
+.compare-table tbody tr:hover td{background:rgba(212,165,116,.05)}
+/* first column = the signal label; sticky so it stays anchored while
+   columns scroll horizontally on narrow screens */
+.compare-table td:first-child,.compare-table th:first-child{position:sticky;left:0;z-index:1;
+  background:var(--panel);color:var(--muted);width:170px;font-size:11px;letter-spacing:1.5px;text-transform:uppercase}
+.compare-table th:first-child{z-index:3}
 .compare-empty{color:var(--muted);padding:18px;border:1px dashed var(--line);border-radius:var(--r-lg);background:rgba(255,255,255,.02)}
 .compare-actions{margin-top:20px;display:flex;gap:12px;flex-wrap:wrap}
 .compare-summary{margin:0 0 16px;padding:16px;border:1px solid color-mix(in srgb,var(--gold) 20%,transparent);border-radius:var(--r-lg);background:linear-gradient(130deg,rgba(212,165,116,.06),transparent 44%),var(--panel)}
@@ -311,4 +424,31 @@ footer .fl a:hover{color:var(--text)}
 .compare-summary-card b{font-size:12px;font-weight:600;line-height:1.3;display:block}
 @media(max-width:900px){
   .compare-summary-grid,.compare-summary-card .grid{grid-template-columns:1fr}
+}
+
+/* === Mobile spacing rhythm =====================================
+   One place that tightens the page rhythm on small screens so every page
+   inherits consistent gutters and vertical cadence instead of each template
+   re-guessing. Larger touch targets where it matters (buttons, options). */
+@media(max-width:720px){
+  main{padding:8px 18px 56px}
+  .wrap,.crumbs{padding-left:18px;padding-right:18px}
+  .section-head{margin-top:36px}
+  .grid{gap:14px}
+  .panel{padding:var(--sp5)}
+  .compare-page{padding:20px 18px 64px}
+  /* full-width, comfortable-height primary actions on phones */
+  .compare-controls .btn,.compare-actions .btn{flex:1 1 auto;text-align:center}
+  .btn{padding:13px 22px}
+  .opt{padding:15px 16px}
+  .form-row{gap:var(--sp3)}
+}
+@media(max-width:600px){
+  .form-row{grid-template-columns:1fr}
+}
+@media(max-width:480px){
+  main{padding:6px 14px 48px}
+  .wrap,.crumbs{padding-left:14px;padding-right:14px}
+  .compare-page{padding:16px 14px 56px}
+  .nav{padding:12px 14px}
 }
