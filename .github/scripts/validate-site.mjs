@@ -10,22 +10,21 @@ let failures = 0;
 const fail = (msg) => { console.error('  ✗ ' + msg); failures++; };
 const ok   = (msg) => console.log('  ✓ ' + msg);
 
-// Pages built on the shared kit (must load assets/site.js).
-const KIT_PAGES = [
-  'index.html', 'browse.html', 'series.html', 'body.html', 'character.html',
-  'family.html', 'quiz.html', 'craft.html', 'contact.html',
-];
-// Standalone legacy page — kept for reference, intentionally self-contained.
-const STANDALONE_PAGES = ['index-gallery-original.html'];
-const PAGES = [...KIT_PAGES, ...STANDALONE_PAGES];
+// Standalone legacy page(s) intentionally not on the shared runtime.
+const STANDALONE_PAGES = new Set(['index-gallery-original.html']);
+
+// Auto-discover root HTML pages so new pages are always validated.
+const PAGES = readdirSync('.')
+  .filter((n) => n.endsWith('.html'))
+  .sort();
 
 console.log('Validating pages…');
 for (const f of PAGES) {
   if (!existsSync(f)) { fail(`${f} is missing`); continue; }
   const html = readFileSync(f, 'utf8');
 
-  // shared-kit reference (kit pages only)
-  if (KIT_PAGES.includes(f) && !html.includes('assets/site.js')) {
+  // shared-kit reference (all non-legacy pages)
+  if (!STANDALONE_PAGES.has(f) && !html.includes('assets/site.js')) {
     fail(`${f} does not reference assets/site.js`);
   }
 

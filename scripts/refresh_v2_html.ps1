@@ -31,6 +31,15 @@ if (-not $sourceFiles -or $sourceFiles.Count -eq 0) {
   throw 'No root HTML files found for v2 packaging.'
 }
 
+# Remove stale HTML files from destination so package reflects current root set.
+$sourceNames = @{}
+foreach ($f in $sourceFiles) { $sourceNames[$f.Name] = $true }
+Get-ChildItem -Path $dest -File -Filter '*.html' | ForEach-Object {
+  if (-not $sourceNames.ContainsKey($_.Name)) {
+    Remove-Item -Path $_.FullName -Force
+  }
+}
+
 for ($i = 1; $i -le $loopCount; $i++) {
   foreach ($file in $sourceFiles) {
     Copy-Item -Path $file.FullName -Destination (Join-Path $dest $file.Name) -Force
