@@ -4,6 +4,20 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ZELEX — The Character Atlas</title>
+<meta name="description" content="A measurement-grounded catalog where every body is an architecture cast as named, photographed characters — across four series and six body families.">
+<meta name="theme-color" content="#121212">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://www.zelexdoll.com/index.html">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ZELEX — The Character Atlas">
+<meta property="og:title" content="ZELEX — The Character Atlas">
+<meta property="og:description" content="Every body is an architecture. Every architecture, cast as characters — measured, named, and photographed.">
+<meta property="og:url" content="https://www.zelexdoll.com/index.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ZELEX — The Character Atlas">
+<meta name="twitter:description" content="Not a catalog. A collection of individuals — measured, named, and photographed.">
+<meta name="twitter:image" content="https://www.zelexdoll.com/assets/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/site.css">
@@ -51,6 +65,20 @@
   .srow .sm{color:var(--blue);font-size:11px;letter-spacing:1px}
   .featrow{display:flex;align-items:baseline;justify-content:space-between;margin:46px 0 6px}
   .featrow a{color:var(--gold);font-size:var(--t-sm);letter-spacing:1px;text-transform:uppercase}
+  /* body-family rail */
+  .famrail{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:18px}
+  @media(max-width:880px){.famrail{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:480px){.famrail{grid-template-columns:1fr}}
+  .fcard{position:relative;border:1px solid var(--b-subtle);border-radius:14px;padding:20px 20px 16px;
+    background:var(--s2);transition:.2s;display:flex;flex-direction:column;gap:6px;min-height:148px;
+    box-shadow:0 0 0 1px rgba(212,165,116,.10),0 0 24px rgba(212,165,116,.06)}
+  a.fcard:hover{transform:translateY(-4px);border-color:var(--gold);box-shadow:var(--sh-card-hover)}
+  .fcard.dev{opacity:.62}
+  .fcard .fn{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;line-height:1.1}
+  .fcard .fs{font-size:11px;letter-spacing:1.3px;text-transform:uppercase;color:var(--muted)}
+  .fcard .fm{margin-top:auto;font-size:12px;letter-spacing:.5px;color:var(--muted);
+    border-top:1px solid var(--b-subtle);padding-top:10px}
+  .fcard .fm .arrow{color:var(--blue)}
 </style>
 </head>
 <body>
@@ -93,6 +121,15 @@
     </a>
   </div>
 
+  <!-- body families -->
+  <div class="featrow" id="families">
+    <div class="section-head" style="margin:0">The Six Body Families</div>
+    <a href="family.html">See all families →</a>
+  </div>
+  <div class="section-sub">The Atlas's buyer-facing backbone — every body belongs to one silhouette family,
+     defined by a proportion signature you can verify with a tape measure.</div>
+  <div class="famrail" id="familyRail"></div>
+
   <!-- series rail -->
   <div class="section-head reveal" id="explore">The Four Series</div>
   <div class="section-sub reveal d1">Each series is a distinct design language. Step into one to see its body architectures.</div>
@@ -132,6 +169,9 @@ function render(m){
     const c = doorPick[el.dataset.door]; if (c) el.style.backgroundImage = `url('${ZX.img(c)}')`;
   });
 
+  // body families — all six (active families link; zero-body families flagged dev)
+  renderFamilies(m);
+
   // series rail
   document.getElementById('seriesRail').innerHTML = m.series.map((s,i)=>{
     const chars = m.bySeries[s]||[];
@@ -155,6 +195,44 @@ function render(m){
     ZX.charCard(c).replace('<a class="card', `<a class="card reveal d${(i%6)+1}`)).join('');
 
   ZX.revealInit();
+}
+
+// Six-family rail. Counts derive from live character data so the homepage and the
+// Families page never disagree; zero-body families render as non-link dev cards,
+// matching the staged-launch posture (name all six, activate those with product).
+function renderFamilies(m){
+  const FAM_SIG = {
+    "The Classic": "Timeless hourglass · WHR 0.68–0.72",
+    "The Icon":    "Glamour model · WHR 0.60–0.65",
+    "The Muse":    "Tall, hip-dominant · WHR 0.65–0.70",
+    "The Siren":   "Bust-forward fantasy · WHR 0.55–0.60",
+    "The Empress": "Maximum plush · WHR 0.58–0.64",
+    "The Sculpt":  "Muscular definition · WHR 0.65–0.68"
+  };
+  const famBodies = {}, famChars = {};
+  m.FAMILIES.forEach(f => { famBodies[f] = new Set(); famChars[f] = 0; });
+  m.characters.forEach(c => {
+    const f = c.body && c.body.family;
+    if (f && famBodies[f]) { famBodies[f].add(c.body_code); famChars[f]++; }
+  });
+  document.getElementById('familyRail').innerHTML = m.FAMILIES.map((f,i) => {
+    const color = ZX.famColor(f);
+    const bc = famBodies[f].size, cc = famChars[f];
+    const sig = ZX.esc(FAM_SIG[f] || '');
+    const d = `d${Math.min(i+1,6)}`;
+    if (bc === 0) {
+      return `<div class="fcard dev reveal ${d}">
+        <div class="fn" style="color:${color}">${ZX.esc(f)}</div>
+        <div class="fs">${sig}</div>
+        <div class="fm"><span class="stat stat-concept">In Development</span></div>
+      </div>`;
+    }
+    return `<a class="fcard reveal ${d}" href="family.html?f=${encodeURIComponent(f)}">
+      <div class="fn" style="color:${color}">${ZX.esc(f)}</div>
+      <div class="fs">${sig}</div>
+      <div class="fm">${bc} architecture${bc!==1?'s':''} &middot; ${cc} character${cc!==1?'s':''} <span class="arrow">→</span></div>
+    </a>`;
+  }).join('');
 }
 </script>
 </body>
