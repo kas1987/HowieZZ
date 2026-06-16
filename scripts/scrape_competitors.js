@@ -210,6 +210,7 @@ async function main() {
   const output = { scraped_at: new Date().toISOString(), summary: [], total_products: 0, products: [] };
   const browser = await chromium.launch({ headless: true });
 
+  try {
   for (const target of TARGETS) {
     console.log(`\n══ ${target.name} (${target.url}) ══`);
     let products = [];
@@ -259,8 +260,9 @@ async function main() {
     console.log(`  Priority brands: ${[...new Set(priorityHits.map(p => p.brand))].join(', ') || 'none found'}`);
     console.log(`  Priced: ${priced}/${products.length}  Measured: ${measured}/${products.length}`);
   }
-
-  await browser.close();
+  } finally {
+    await browser.close();
+  }
 
   output.total_products = output.products.length;
   fs.writeFileSync(OUT_PATH, JSON.stringify(output, null, 2));
