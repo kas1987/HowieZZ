@@ -81,6 +81,7 @@ jobs:
       - name: Analytics config guardrail (expected fail)
         shell: pwsh
         run: |
+          $ErrorActionPreference = 'Continue'
           pwsh -File scripts/run_analytics_sanity_suite.ps1 -ConfigPath docs/pdr/PDR-analytics-sanity-thresholds.invalid.json
           if ($LASTEXITCODE -ne 2) {
             Write-Error "Expected exit code 2 for invalid analytics config, got $LASTEXITCODE"
@@ -90,6 +91,7 @@ jobs:
       - name: Analytics config guardrail missing keys (expected fail)
         shell: pwsh
         run: |
+          $ErrorActionPreference = 'Continue'
           pwsh -File scripts/run_analytics_sanity_suite.ps1 -ConfigPath docs/pdr/PDR-analytics-sanity-thresholds.missing-keys.json
           if ($LASTEXITCODE -ne 2) {
             Write-Error "Expected exit code 2 for missing-keys analytics config, got $LASTEXITCODE"
