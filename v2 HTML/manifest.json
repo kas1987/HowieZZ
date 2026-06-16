@@ -1,5 +1,5 @@
 {
-  "generated_utc": "2026-06-16T15:59:12.6803707Z",
+  "generated_utc": "2026-06-16T16:00:56.8684322Z",
   "source_root": "C:\\Users\\kas41\\archived\\HowieZZ",
   "destination": "C:\\Users\\kas41\\archived\\HowieZZ\\v2 HTML",
   "file_count": 14,
@@ -31,9 +31,9 @@
     },
     {
       "file": "community.html",
-      "size_bytes": 7988,
-      "sha256": "2d52ccdb4558f8320984632f1cbc223395795adf154edbd1bb932d6c43b5d794",
-      "modified_utc": "2026-06-16T15:57:21.0660312Z"
+      "size_bytes": 8683,
+      "sha256": "091e53f39c4a1e483d0a5eea85c33dc6ee5621d8982432cd95be610692195698",
+      "modified_utc": "2026-06-16T16:00:50.5723640Z"
     },
     {
       "file": "compare.html",

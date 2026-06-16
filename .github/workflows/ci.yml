@@ -9,6 +9,10 @@ on:
 permissions:
   contents: read
 
+env:
+  COMMUNITY_CHANNELS_REFERENCE_PATH: _local/reference/zelexdoll-theme/docs/community_channels.json
+  COMMUNITY_CHANNELS_REQUIRE_SOURCE: "false"
+
 concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
@@ -47,7 +51,11 @@ jobs:
       - name: Guard — community channel sync status (check mode)
         shell: pwsh
         run: |
-          ./scripts/sync_community_channels_from_reference.ps1 -CheckOnly
+          if ($env:COMMUNITY_CHANNELS_REQUIRE_SOURCE -eq 'true') {
+            ./scripts/sync_community_channels_from_reference.ps1 -CheckOnly -RequireSource -SourcePath $env:COMMUNITY_CHANNELS_REFERENCE_PATH
+          } else {
+            ./scripts/sync_community_channels_from_reference.ps1 -CheckOnly -SourcePath $env:COMMUNITY_CHANNELS_REFERENCE_PATH
+          }
 
       - name: Guard — PDR_PATH headers in agent task files
         run: node .github/scripts/validate-pdr-path-task-files.mjs

@@ -39,6 +39,7 @@
     <p>Use this hub to discover official ZELEX publishing and community channels. Each lane has a clear purpose so collectors and customers know where to read, discuss, and request access.</p>
     <p style="color:var(--muted);margin-top:8px">This hub is tied to the local ZELEX knowledge base via source-backed channel definitions in <a href="db/community_channels.json">db/community_channels.json</a>.</p>
     <p id="community-last-verified" style="color:var(--muted);margin-top:6px">Last verified: pending refresh</p>
+    <div id="community-source-refs" style="margin-top:8px;color:var(--muted);font-size:12px;line-height:1.6"></div>
   </section>
 
   <section class="community-grid" id="community-grid"></section>
@@ -71,6 +72,9 @@
 ZX.mountNav('community.html');
 
 var FALLBACK_DATA = {
+  meta: {
+    source_refs: []
+  },
   channels: [
     {
       name: 'ZELEX Blog',
@@ -137,6 +141,7 @@ function renderCommunity(data){
   var channels = (data && data.channels) || [];
   var handles = (data && data.official_handles) || [];
   var verified = data && data.meta && data.meta.generated_utc ? data.meta.generated_utc : '';
+  var sourceRefs = data && data.meta && Array.isArray(data.meta.source_refs) ? data.meta.source_refs : [];
 
   document.getElementById('community-grid').innerHTML = channels.map(cardHtml).join('');
   document.getElementById('handle-grid').innerHTML = handles.map(handleCardHtml).join('');
@@ -144,6 +149,15 @@ function renderCommunity(data){
     var d = new Date(verified);
     var label = isNaN(d.getTime()) ? verified : d.toISOString().slice(0, 10);
     document.getElementById('community-last-verified').textContent = 'Last verified: ' + label + ' UTC';
+  }
+  var sourceRefHost = document.getElementById('community-source-refs');
+  if (sourceRefs.length) {
+    sourceRefHost.innerHTML = 'Sources: ' + sourceRefs.map(function(ref){
+      var path = ref && ref.path ? String(ref.path) : '';
+      return path ? '<a href="' + ZX.esc(path) + '">' + ZX.esc(path) + '</a>' : '';
+    }).filter(Boolean).join(' | ');
+  } else {
+    sourceRefHost.textContent = 'Sources: not declared';
   }
   bindTracking();
 }

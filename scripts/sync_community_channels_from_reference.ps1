@@ -1,7 +1,8 @@
 param(
   [Parameter(Position = 0)]
   [object]$SourcePath = '_local/reference/zelexdoll-theme/docs/community_channels.json',
-  [switch]$CheckOnly
+  [switch]$CheckOnly,
+  [switch]$RequireSource
 )
 
 # Harden argument handling: ignore placeholder '.' input for accidental invocation.
@@ -17,6 +18,10 @@ $dest = Join-Path $root 'db/community_channels.json'
 $src = if ([System.IO.Path]::IsPathRooted($resolvedSource)) { $resolvedSource } else { Join-Path $root $resolvedSource }
 
 if (-not (Test-Path $src)) {
+  if ($RequireSource) {
+    Write-Error ('Required source file missing: ' + $src)
+    exit 3
+  }
   Write-Host ('No source file found at: ' + $src)
   Write-Host 'No changes made. Provide a source path argument when available.'
   exit 0
