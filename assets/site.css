@@ -422,6 +422,7 @@ footer .fl a:hover{color:var(--text)}
 .compare-summary-card .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
 .compare-summary-card .k{display:block;color:var(--muted);font-size:10px;letter-spacing:1.4px;text-transform:uppercase;margin-bottom:3px}
 .compare-summary-card b{font-size:12px;font-weight:600;line-height:1.3;display:block}
+.compare-summary-card .hl-note{display:block;font-size:10.5px;font-weight:400;color:var(--muted);line-height:1.4;margin-top:3px}
 @media(max-width:900px){
   .compare-summary-grid,.compare-summary-card .grid{grid-template-columns:1fr}
 }
