@@ -99,7 +99,55 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,
 .nav .links a{color:var(--muted);font-size:12px;letter-spacing:2px;text-transform:uppercase;transition:.2s}
 .nav .links a:hover,.nav .links a.active{color:var(--text)}
 .nav .links a.active{color:var(--gold)}
-@media(max-width:720px){.nav{padding:13px 18px}.nav .links{gap:14px}.nav .links a{font-size:10px;letter-spacing:1px}}
+
+/* Hamburger toggle + scrim — desktop-hidden; the mobile breakpoint reveals them.
+   Kept out of the layout entirely on wide screens so the inline bar is unchanged. */
+.nav-toggle{display:none}
+.nav-scrim{display:none}
+
+/* --- Mobile nav: off-canvas drawer ----------------------------------------
+   Nine links never fit a phone bar, so below 860px the inline list becomes a
+   tap-to-open drawer. Desktop (>860px) is untouched: the toggle/scrim stay
+   display:none and `.links` keeps its flex bar. Highlighting, focus rings, and
+   the `.nav.up` elevation all carry over because the markup is identical. */
+@media(max-width:860px){
+  .nav{padding:13px 18px}
+  /* The hamburger: a real <button>, ≥44px hit area, gold focus ring inherited. */
+  .nav-toggle{display:inline-flex;align-items:center;gap:9px;min-height:44px;padding:8px 12px;
+    background:transparent;border:1px solid var(--line);border-radius:var(--r-md);color:var(--text);
+    font-family:inherit;font-size:11px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;
+    transition:border-color .2s,color .2s}
+  .nav-toggle:hover{border-color:var(--gold);color:var(--gold)}
+  .nav-toggle-bars{position:relative;width:18px;height:12px;display:inline-block;flex-shrink:0}
+  .nav-toggle-bars span{position:absolute;left:0;width:100%;height:2px;border-radius:2px;background:currentColor;
+    transition:transform .25s ease,opacity .2s ease,top .25s ease}
+  .nav-toggle-bars span:nth-child(1){top:0}
+  .nav-toggle-bars span:nth-child(2){top:5px}
+  .nav-toggle-bars span:nth-child(3){top:10px}
+  /* open → morph into an ✕ */
+  .nav.open .nav-toggle-bars span:nth-child(1){top:5px;transform:rotate(45deg)}
+  .nav.open .nav-toggle-bars span:nth-child(2){opacity:0}
+  .nav.open .nav-toggle-bars span:nth-child(3){top:5px;transform:rotate(-45deg)}
+
+  /* Drawer panel: slides from the right, sits under the sticky nav bar. */
+  .nav .links{position:fixed;top:0;right:0;z-index:60;height:100%;width:min(82vw,330px);
+    flex-direction:column;align-items:stretch;justify-content:flex-start;gap:0;
+    padding:78px 22px 28px;overflow-y:auto;background:rgba(16,16,16,.98);backdrop-filter:blur(14px);
+    border-left:1px solid var(--b-soft);box-shadow:-18px 0 50px rgba(0,0,0,.5);
+    transform:translateX(102%);transition:transform .32s cubic-bezier(.22,.61,.36,1);
+    visibility:hidden}
+  .nav.open .links{transform:translateX(0);visibility:visible}
+  /* Each link is a full-width, comfortable row (≥48px) — generous thumb targets. */
+  .nav .links a{display:flex;align-items:center;min-height:48px;padding:13px 6px;font-size:13px;
+    letter-spacing:2px;border-bottom:1px solid color-mix(in srgb,var(--line) 70%,transparent)}
+  .nav .links a:last-child{border-bottom:none}
+  .nav .links a.active{color:var(--gold)}
+  /* Dim + lock the page behind the open drawer; tap to dismiss. */
+  .nav-scrim{display:block;position:fixed;inset:0;z-index:55;background:rgba(0,0,0,.55);
+    backdrop-filter:blur(1px);animation:nav-scrim-in .2s ease both}
+  .nav-scrim[hidden]{display:none}
+}
+@keyframes nav-scrim-in{from{opacity:0}to{opacity:1}}
 
 /* === Layout =================================================== */
 main{max-width:var(--maxw);margin:0 auto;padding:10px 24px 70px}
@@ -286,6 +334,10 @@ main{max-width:var(--maxw);margin:0 auto;padding:10px 24px 70px}
   .family-tile:hover,.opt:hover{transform:none}
   .opt,.field,.form-group input,.form-group textarea,.form-group select{transition:border-color .15s}
   .progress-bar{transition:none}
+  /* Mobile drawer: no slide/hamburger morph, no scrim fade — appear instantly. */
+  .nav .links{transition:none}
+  .nav-toggle-bars span{transition:none}
+  .nav-scrim{animation:none}
 }
 
 /* === Data / spec blocks ======================================= */
@@ -477,6 +529,12 @@ footer .fl a:hover{color:var(--text)}
   .btn{padding:13px 22px}
   .opt{padding:15px 16px}
   .form-row{gap:var(--sp3)}
+  /* CTA hierarchy on phones: action clusters stack to full-width, primary on top,
+     so there's one obvious tap target per band instead of pills wrapping awkwardly.
+     `.actions-end` normally right-aligns on desktop; on mobile it becomes a stack. */
+  .actions-end{justify-content:stretch;gap:11px}
+  .actions-end .btn{flex:1 1 100%;text-align:center}
+  .intent-card .btn{width:100%;text-align:center}
 }
 @media(max-width:600px){
   .form-row{grid-template-columns:1fr}

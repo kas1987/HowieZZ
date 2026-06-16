@@ -303,14 +303,58 @@ window.ZX = (function () {
       if (canonical) canonical.href = location.origin + location.pathname + location.search;
     }
     // Ensure a skip-link target exists, then inject skip link + primary nav.
+    // The nav carries a hamburger toggle that controls the same `.links` list as
+    // an off-canvas drawer on phones. The toggle is hidden on desktop via CSS, so
+    // the identical markup serves both: a horizontal bar on wide screens, a
+    // tap-to-open drawer on narrow ones. `.links` keeps its class + every <a> so
+    // `active`/`aria-current` highlighting and all existing selectors are intact.
     const main = document.querySelector('main');
     if (main && !main.id) main.id = 'main';
     document.body.insertAdjacentHTML('afterbegin',
       `<a class="skip-link" href="#${(main&&main.id)||'main'}">Skip to content</a>` +
-      `<nav class="nav" aria-label="Primary"><a class="brand" href="index.html" aria-label="ZELEX — home">ZEL<span class="x">E</span>X</a><div class="links">${links}</div></nav>`);
+      `<nav class="nav" aria-label="Primary">` +
+        `<a class="brand" href="index.html" aria-label="ZELEX — home">ZEL<span class="x">E</span>X</a>` +
+        `<button type="button" class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">` +
+          `<span class="nav-toggle-bars" aria-hidden="true"><span></span><span></span><span></span></span>` +
+          `<span class="nav-toggle-label">Menu</span>` +
+        `</button>` +
+        `<div class="links" id="navLinks">${links}</div>` +
+        `<div class="nav-scrim" id="navScrim" hidden></div>` +
+      `</nav>`);
     // subtle nav elevation once the page scrolls past the hero lip
     const nav = document.querySelector('.nav');
     if (nav) addEventListener('scroll', ()=>nav.classList.toggle('up', (window.scrollY||0) > 40), {passive:true});
+
+    // --- mobile drawer wiring ---------------------------------------------
+    // Progressive enhancement: with no JS the `.links` list simply renders inline
+    // (and CSS lets it horizontally scroll), so navigation is never trapped.
+    const toggle = document.getElementById('navToggle');
+    const scrim  = document.getElementById('navScrim');
+    const linksEl = document.getElementById('navLinks');
+    if (toggle && nav && linksEl) {
+      const setOpen = (open) => {
+        nav.classList.toggle('open', open);
+        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+        if (scrim) scrim.hidden = !open;
+        // Lock body scroll only while the drawer covers the viewport.
+        try { document.body.style.overflow = open ? 'hidden' : ''; } catch (e) {}
+      };
+      toggle.addEventListener('click', () => setOpen(!nav.classList.contains('open')));
+      if (scrim) scrim.addEventListener('click', () => setOpen(false));
+      // A link tap inside the drawer navigates — close so the destination isn't
+      // hidden behind an open panel (harmless on same-page #anchors too).
+      linksEl.addEventListener('click', (e) => { if (e.target.closest('a')) setOpen(false); });
+      // Esc closes and returns focus to the toggle (keyboard parity with click).
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && nav.classList.contains('open')) { setOpen(false); toggle.focus(); }
+      });
+      // If the viewport grows back to desktop while open, drop the drawer state
+      // so the inline bar never inherits a stuck scroll-lock.
+      addEventListener('resize', () => {
+        if (window.innerWidth > 860 && nav.classList.contains('open')) setOpen(false);
+      }, {passive:true});
+    }
     revealInit(); // catch any static .reveal already in the markup (e.g. heroes)
   }
   function mountFooter(){
