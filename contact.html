@@ -46,6 +46,29 @@
     .compare-list .bcode{font-size:12px}
     .compare-sub{margin-top:8px;font-size:11px;color:var(--muted);letter-spacing:.3px;line-height:1.4}
 
+    /* ---- context summary card (selection brief) ---- */
+    .context-card{background:var(--panel);border:1px solid color-mix(in srgb,var(--gold) 26%,transparent);border-radius:14px;padding:0;margin-bottom:26px;overflow:hidden;position:relative}
+    .context-card .cc-head{display:flex;align-items:flex-start;gap:16px;padding:18px 20px 16px}
+    .context-card.fam-edge{border-left:3px solid var(--gold)}
+    .cc-thumb{width:60px;height:80px;object-fit:cover;object-position:top center;border-radius:var(--r-sm);flex-shrink:0;background:#0d0d0d}
+    .cc-thumb-ph{width:60px;height:80px;border-radius:var(--r-sm);flex-shrink:0;background:var(--s2);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:26px;color:var(--gold)}
+    .cc-id{flex:1;min-width:0}
+    .cc-eyebrow{font-size:var(--t-xs);letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
+    .cc-name{font-family:'Playfair Display',serif;font-size:21px;font-weight:600;line-height:1.18}
+    .cc-title{font-size:12px;color:var(--muted);margin-top:3px;letter-spacing:.4px}
+    .cc-fam{display:inline-flex;align-items:center;gap:6px;margin-top:9px;font-size:11px;letter-spacing:1.4px;text-transform:uppercase;font-weight:600}
+    .cc-fam .dot{width:8px;height:8px;border-radius:50%;background:currentColor;flex-shrink:0}
+    /* stat row reuses ratio language */
+    .cc-stats{display:flex;flex-wrap:wrap;gap:8px;padding:0 20px 16px}
+    .cc-stat{flex:1;min-width:84px;background:var(--panel2);border:1px solid var(--line);border-radius:var(--r-sm);padding:9px 11px}
+    .cc-stat .k{font-size:9px;letter-spacing:1.4px;text-transform:uppercase;color:var(--muted)}
+    .cc-stat .v{font-family:'Playfair Display',serif;font-size:17px;color:var(--cream);margin-top:2px}
+    .cc-stat .v small{font-size:10px;font-family:'Montserrat',sans-serif;letter-spacing:.5px;color:var(--muted)}
+    .cc-premium .v{color:var(--gold)}
+    .cc-note{border-top:1px solid var(--line);padding:13px 20px;font-size:12px;line-height:1.6;color:var(--muted)}
+    .cc-note em{color:var(--cream);font-style:normal}
+    .cc-estbadge{display:inline-block;margin-left:6px;font-size:9px;letter-spacing:1px;text-transform:uppercase;vertical-align:middle}
+
     /* form */
     .form-group{margin-bottom:20px}
     .form-group label{display:block;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
@@ -108,10 +131,11 @@
 
 <main>
   <div class="contact-hero has-backdrop">
-    <div class="eyebrow reveal">Inquiries</div>
-    <h1 class="reveal d1">Begin a <span class="em-grad">Conversation</span></h1>
-    <p class="reveal d2">Every ZELEX character is made to order — crafted individually, never from standing stock.
-       Share a little about what you're looking for and we'll respond personally, with care and without pressure.</p>
+    <div class="eyebrow reveal">Private Consultation</div>
+    <h1 class="reveal d1">Request a Private <span class="em-grad">Consultation</span></h1>
+    <p class="reveal d2" id="hero-intro">Every ZELEX character is made to order — crafted individually, never from standing stock.
+       Share a little about what you're looking for and we'll respond personally, with care and without pressure.
+       A consultation unlocks pricing, bespoke finishing, and delivery guidance — there is no obligation.</p>
   </div>
 
   <div class="contact-layout">
@@ -123,8 +147,8 @@
 
       <!-- success state -->
       <div id="form-success">
-        <h3>Your inquiry has been received.</h3>
-        <p>We will be in touch discreetly within one business day.<br>
+        <h3>Your consultation request has been received.</h3>
+        <p>A member of our team will be in touch discreetly within one business day to begin your private briefing.<br>
           You may also reach us directly at
           <a id="success-email-link" href="#"><!-- filled by JS --></a>.</p>
       </div>
@@ -167,6 +191,19 @@
         <div class="form-group" id="char-field-group">
           <label for="f-character">Character or series of interest <span style="color:var(--muted);font-size:10px">(optional)</span></label>
           <input type="text" id="f-character" name="character" placeholder="e.g. Fusion ZF161D, or K-Series">
+        </div>
+
+        <div class="form-group">
+          <label for="f-family">Silhouette family interest <span style="color:var(--muted);font-size:10px">(optional)</span></label>
+          <select id="f-family" name="family">
+            <option value="">No preference yet / unsure</option>
+            <option value="The Classic">The Classic — timeless hourglass (+20%)</option>
+            <option value="The Icon">The Icon — glamour model (+30%)</option>
+            <option value="The Muse">The Muse — tall, hip-dominant (+25%)</option>
+            <option value="The Siren">The Siren — bust-dominant fantasy (+35%)</option>
+            <option value="The Empress">The Empress — maximum plush (+40%)</option>
+            <option value="The Sculpt">The Sculpt — muscular definition (+30%)</option>
+          </select>
         </div>
 
         <div class="form-group">
@@ -228,9 +265,12 @@
         <div class="field-err" id="err-consent" style="margin-top:-16px;margin-bottom:18px">Please confirm you are 18+ to proceed.</div>
 
         <button type="submit" class="btn solid" id="submit-btn">
-          Send Inquiry
+          Request a Private Consultation
           <span id="submit-spinner"></span>
         </button>
+        <p style="font-size:11px;color:var(--muted);text-align:center;margin-top:12px;letter-spacing:.3px;line-height:1.6">
+          A private briefing, not a checkout. No pressure, no commitment — your details stay between us.
+        </p>
 
       </form>
     </div>
@@ -267,7 +307,15 @@
         <div class="info-icon">◎</div>
         <div>
           <h4>No pressure</h4>
-          <p>An inquiry is exactly that — a conversation, not a commitment. We're happy to walk you through options before you decide anything.</p>
+          <p>A consultation is exactly that — a private conversation, not a commitment. We're happy to walk you through silhouette families, measurements, and pricing before you decide anything.</p>
+        </div>
+      </div>
+
+      <div class="info-item">
+        <div class="info-icon">◇</div>
+        <div>
+          <h4>Discretion &amp; privacy</h4>
+          <p>Your details stay between us — never shared with third parties, never used for unsolicited marketing. Inquiries are answered personally, packaging is plain and unbranded.</p>
         </div>
       </div>
 
@@ -335,12 +383,45 @@ ZX.load().then(function(m) {
   try { ZX.revealInit(); ZX.mountFooter(); } catch(e) {}
 });
 
-// ── Prefill from ?id= ────────────────────────────────────────
+// ── Family lookup helpers ────────────────────────────────────
+// Resolve a family record (name/premium/whr/bwr/silhouette/target) from
+// model.families by full name, case-insensitively. Used for premium framing.
+function famRecord(m, famName) {
+  if (!m || !Array.isArray(m.families) || !famName) return null;
+  var want = String(famName).trim().toLowerCase();
+  for (var i = 0; i < m.families.length; i++) {
+    if (String(m.families[i].name || '').trim().toLowerCase() === want) return m.families[i];
+  }
+  return null;
+}
+function famSlug(name) {
+  return 'fam--' + String(name || '').replace(/^the\s+/i, '').trim().toLowerCase();
+}
+// concierge framing sentence referencing the selected family's premium %
+function premiumFraming(famName, premium) {
+  if (!famName) return '';
+  var short = String(famName).replace(/^the\s+/i, '');
+  var prem = premium ? (', ' + premium + ' premium,') : ' ';
+  return 'Your <em>' + ZX.esc(short) + '</em> selection' + ZX.esc(prem) + ' awaits a private briefing — pricing, bespoke finishing, and delivery are confirmed in consultation.';
+}
+
+// ── Prefill from ?id= / ?family= / ?b= / compare ─────────────
 function prefill(m) {
   if (!m || !m.byId) return;
 
   var id = ZX.qs('id');
   var c = (id && m.byId[id]) ? m.byId[id] : null;
+
+  // ?b=<body_code> → resolve a lead character for that body
+  var bParam = (ZX.qs('b') || '').trim();
+  if (!c && bParam && m.byBody && m.byBody[bParam]) {
+    var bucket0 = m.byBody[bParam] || [];
+    c = bucket0.find(function(x){ return x.status === 'live'; }) || bucket0[0] || null;
+  }
+
+  // ?family=<full family name> → standalone family interest (no character)
+  var familyParam = (ZX.qs('family') || '').trim();
+  var familyOnly = (!c && familyParam) ? famRecord(m, familyParam) : null;
 
   function parseCodes(raw) {
     if (!raw) return [];
@@ -372,7 +453,7 @@ function prefill(m) {
   }
   compareCodes = compareCodes.slice(0, 4);
 
-  if (!c && !compareCodes.length) return;
+  if (!c && !familyOnly && !compareCodes.length) return;
 
   var persona = c ? (c.persona || {}) : {};
   var body    = c ? (c.body || {}) : {};
@@ -384,23 +465,79 @@ function prefill(m) {
   var price   = ph.price ? ' · $' + ph.price : '';
   var family  = body.family ? ' · ' + body.family : '';
 
-  // character chip
+  // ── Context summary card (selection brief) ──────────────────
   var chipArea = document.getElementById('char-chip-area');
   if (chipArea) {
     var chunks = [];
+
+    // (a) Character-led context card
     if (c) {
+      var famName = body.family || '';
+      var rec     = famRecord(m, famName);
+      var premium = rec ? (rec.premium || '') : '';
+      var slug    = famName ? famSlug(famName) : '';
+
       var thumbUrl = ZX.img(c);
       var thumbHtml = thumbUrl
-        ? '<img src="' + ZX.esc(thumbUrl) + '" alt="' + ZX.esc(name) + '">'
-        : '<div class="chip-thumb-ph">' + ZX.esc((name || '?').charAt(0).toUpperCase()) + '</div>';
+        ? '<img class="cc-thumb" src="' + ZX.esc(thumbUrl) + '" alt="' + ZX.esc(name) + '">'
+        : '<div class="cc-thumb-ph">' + ZX.esc((name || '?').charAt(0).toUpperCase()) + '</div>';
+
+      var famPill = famName
+        ? '<div class="cc-fam ' + ZX.esc(slug) + '"><span class="dot"></span>' + ZX.esc(famName.replace(/^The\s+/i,'')) + (body.silhouette ? ' · ' + ZX.esc(body.silhouette) : '') + '</div>'
+        : '';
+
+      // stat tiles: WHR / BWR / premium %  (measurement-led)
+      var stats = [];
+      if (body.WHR != null) stats.push('<div class="cc-stat"><div class="k">Waist : Hip</div><div class="v">' + ZX.esc(String(body.WHR)) + '</div></div>');
+      if (body.BWR != null) stats.push('<div class="cc-stat"><div class="k">Bust : Waist</div><div class="v">' + ZX.esc(String(body.BWR)) + '</div></div>');
+      if (premium) stats.push('<div class="cc-stat cc-premium"><div class="k">Family Premium</div><div class="v">' + ZX.esc(premium) + '</div></div>');
+      var statsHtml = stats.length ? '<div class="cc-stats">' + stats.join('') + '</div>' : '';
+
+      var estBadge = body.estimated ? '<span class="stat-estimated cc-estbadge">Estimated dimensions</span>' : '';
+
+      var subBits = [bc, series].filter(Boolean).map(ZX.esc).join(' · ') + ZX.esc(price);
+
       chunks.push(
-        '<div class="char-chip">' +
-          thumbHtml +
-          '<div class="chip-info">' +
-            '<div class="chip-label">You\'re inquiring about</div>' +
-            '<div class="chip-name">' + ZX.esc(name) + '</div>' +
-            '<div class="chip-sub">' + ZX.esc(title) + (title && (bc || series) ? ' · ' : '') + ZX.esc(bc) + (bc && series ? ' · ' : '') + ZX.esc(series) + ZX.esc(price) + '</div>' +
+        '<div class="context-card fam-edge">' +
+          '<div class="cc-head">' + thumbHtml +
+            '<div class="cc-id">' +
+              '<div class="cc-eyebrow">Your consultation brief</div>' +
+              '<div class="cc-name">' + ZX.esc(name) + estBadge + '</div>' +
+              '<div class="cc-title">' + ZX.esc(title) + (title && subBits ? ' · ' : '') + subBits + '</div>' +
+              famPill +
+            '</div>' +
           '</div>' +
+          statsHtml +
+          (famName ? '<div class="cc-note">' + premiumFraming(famName, premium) + '</div>' : '') +
+        '</div>'
+      );
+    }
+
+    // (b) Family-only context card (?family= without a character)
+    if (familyOnly) {
+      var fName = familyOnly.name || familyParam;
+      var fPrem = familyOnly.premium || '';
+      var fSlug = famSlug(fName);
+      var fStats = [];
+      if (Array.isArray(familyOnly.whr) && familyOnly.whr.length === 2)
+        fStats.push('<div class="cc-stat"><div class="k">Waist : Hip</div><div class="v">' + ZX.esc(familyOnly.whr[0] + '–' + familyOnly.whr[1]) + '</div></div>');
+      if (Array.isArray(familyOnly.bwr) && familyOnly.bwr.length === 2)
+        fStats.push('<div class="cc-stat"><div class="k">Bust : Waist</div><div class="v">' + ZX.esc(familyOnly.bwr[0] + '–' + familyOnly.bwr[1]) + '</div></div>');
+      if (fPrem) fStats.push('<div class="cc-stat cc-premium"><div class="k">Family Premium</div><div class="v">' + ZX.esc(fPrem) + '</div></div>');
+
+      chunks.push(
+        '<div class="context-card fam-edge">' +
+          '<div class="cc-head">' +
+            '<div class="cc-thumb-ph">' + ZX.esc(fName.replace(/^The\s+/i,'').charAt(0)) + '</div>' +
+            '<div class="cc-id">' +
+              '<div class="cc-eyebrow">Your family of interest</div>' +
+              '<div class="cc-name">' + ZX.esc(fName) + '</div>' +
+              (familyOnly.silhouette ? '<div class="cc-title">' + ZX.esc(familyOnly.silhouette) + (familyOnly.target ? ' · ' + ZX.esc(familyOnly.target) : '') + '</div>' : '') +
+              '<div class="cc-fam ' + ZX.esc(fSlug) + '"><span class="dot"></span>' + ZX.esc(fName.replace(/^The\s+/i,'')) + '</div>' +
+            '</div>' +
+          '</div>' +
+          (fStats.length ? '<div class="cc-stats">' + fStats.join('') + '</div>' : '') +
+          '<div class="cc-note">' + premiumFraming(fName, fPrem) + '</div>' +
         '</div>'
       );
     }
@@ -431,10 +568,12 @@ function prefill(m) {
 
   // Replace free-text char field with readonly prefilled value
   var charGroup = document.getElementById('char-field-group');
-  if (charGroup) {
+  if (charGroup && (c || familyOnly || compareCodes.length)) {
     var prefillVal = '';
     if (c) {
       prefillVal = name + (bc ? ' - ' + bc : '') + (series ? ' (' + series + ')' : '') + family;
+    } else if (familyOnly) {
+      prefillVal = (familyOnly.name || familyParam) + ' family';
     }
     if (compareCodes.length) {
       var compareText = 'Compare set: ' + compareCodes.join(', ');
@@ -442,14 +581,31 @@ function prefill(m) {
     }
 
     charGroup.innerHTML =
-      '<label>Character of interest</label>' +
+      '<label>Selection of interest</label>' +
       '<div class="readonly-field">' + ZX.esc(prefillVal) + '</div>' +
       '<input type="hidden" name="character" value="' + ZX.esc(prefillVal) + '">';
   }
 
+  // Pre-select family-interest field if a family is in context
+  var ctxFamName = c ? (body.family || '') : (familyOnly ? (familyOnly.name || '') : '');
+  if (ctxFamName) {
+    var famSel = document.getElementById('f-family');
+    if (famSel) {
+      for (var fi = 0; fi < famSel.options.length; fi++) {
+        if (famSel.options[fi].value.toLowerCase() === String(ctxFamName).toLowerCase()) {
+          famSel.value = famSel.options[fi].value; break;
+        }
+      }
+    }
+  }
+
   var msgField = document.getElementById('f-message');
-  if (msgField && !msgField.value.trim() && compareCodes.length) {
-    msgField.value = 'I would like guidance on these body architectures: ' + compareCodes.join(', ') + '.';
+  if (msgField && !msgField.value.trim()) {
+    if (compareCodes.length) {
+      msgField.value = 'I would like guidance on these body architectures: ' + compareCodes.join(', ') + '.';
+    } else if (familyOnly) {
+      msgField.value = 'I am drawn to the ' + (familyOnly.name || familyParam) + ' silhouette and would value a private briefing on the available bodies and finishing options.';
+    }
   }
 }
 
@@ -537,13 +693,14 @@ function validate() {
 
 // ── Build mailto body ────────────────────────────────────────
 function buildMailto(fields) {
-  var subject = 'ZELEX Inquiry' + (fields.character ? ' — ' + fields.character : '');
+  var subject = 'ZELEX Private Consultation' + (fields.character ? ' — ' + fields.character : '');
   var lines = [
     'Name: '      + (fields.name    || ''),
     'Email: '     + (fields.email   || ''),
     fields.phone   ? 'Phone: '   + fields.phone   : null,
     fields.country ? 'Country: ' + fields.country : null,
-    fields.character ? 'Character of interest: ' + fields.character : null,
+    fields.character ? 'Selection of interest: ' + fields.character : null,
+    fields.family  ? 'Silhouette family: ' + fields.family : null,
     fields.budget  ? 'Budget: '  + fields.budget  : null,
     fields.intent  ? 'Intent: '  + fields.intent  : null,
     fields.timeline? 'Timeline: '+ fields.timeline: null,
@@ -573,6 +730,7 @@ function collectFields() {
     phone:     val('f-phone'),
     country:   val('f-country'),
     character: charVal,
+    family:    val('f-family'),
     budget:    val('f-budget'),
     intent:    val('f-intent'),
     timeline:  val('f-timeline'),
@@ -592,7 +750,7 @@ function showSuccess(usedMailto) {
   if (!usedMailto) {
     // endpoint path: hide the direct-email fallback line
     var p = success.querySelector('p');
-    if (p) p.innerHTML = 'We will be in touch discreetly within one business day.';
+    if (p) p.innerHTML = 'A member of our team will be in touch discreetly within one business day to begin your private briefing.';
   }
   // Update success email link with real href
   var email = ZX.INQUIRY_EMAIL || 'inquiries@zelexdoll.com';
@@ -641,6 +799,7 @@ document.getElementById('inquiry-form').addEventListener('submit', function(e) {
     has_character_context: !!fields.character,
     has_compare_context: (fields.character || '').indexOf('Compare set:') >= 0,
     intent: fields.intent || '',
+    family: fields.family || '',
     timeline: fields.timeline || '',
     context: 'contact_form',
     source_page: 'contact'
