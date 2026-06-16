@@ -57,6 +57,57 @@
 .energy-line b{color:var(--blue)}
 .char-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
 
+/* ---- at-a-glance decision panel ---- */
+.glance{margin:0 0 22px;padding:18px 18px 16px}
+.glance .glance-head{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:14px}
+.glance .glance-title{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted)}
+.glance-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px 18px}
+@media(max-width:480px){.glance-grid{grid-template-columns:1fr}}
+.glance-cell .gl-k{font-size:9.5px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
+.glance-cell .gl-v{font-size:13.5px;color:var(--text);font-weight:600;line-height:1.35}
+.glance-cell .gl-v small{display:block;font-weight:400;font-size:11.5px;color:var(--muted);letter-spacing:.3px;margin-top:2px}
+.glance-cell .gl-v .gl-fam{color:var(--fc,var(--gold))}
+.glance-ratios{display:flex;gap:14px;flex-wrap:wrap;margin-top:15px;padding-top:14px;border-top:1px solid var(--b-subtle)}
+.glance-ratios .rstat{cursor:help;gap:5px;font-size:12px;color:var(--text)}
+.glance-ratios .rstat .rsvg{width:15px;height:15px}
+.conf-chip{font-size:9px;letter-spacing:1.4px;text-transform:uppercase;padding:3px 8px;border-radius:var(--r-pill);
+  border:1px solid var(--b-subtle);color:var(--muted)}
+.conf-chip.exact{color:var(--st-verified);border-color:color-mix(in srgb,var(--st-verified) 34%,transparent)}
+.conf-chip.near{color:var(--st-pending);border-color:color-mix(in srgb,var(--st-pending) 36%,transparent)}
+
+/* ---- decision modules (best-for / watchouts / handling) ---- */
+.dmod{margin-top:18px;padding:16px 17px}
+.dmod .dmod-head{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--blue);margin-bottom:11px;
+  display:flex;align-items:center;gap:8px}
+.dmod--watch .dmod-head{color:var(--coral)}
+.dmod ul{list-style:none;margin:0;padding:0;display:grid;gap:9px}
+.dmod li{position:relative;padding-left:20px;font-size:13.5px;line-height:1.55;color:var(--cream)}
+.dmod li::before{content:"";position:absolute;left:2px;top:7px;width:6px;height:6px;border-radius:50%;
+  background:var(--blue)}
+.dmod--watch li::before{border-radius:1px;background:var(--coral);transform:rotate(45deg);width:5px;height:5px;top:7px}
+.dmod--watch li{color:var(--text)}
+.handling-note{font-size:13px;line-height:1.6;color:var(--muted)}
+.handling-note b{color:var(--text);font-weight:600}
+.handling-meter{display:flex;align-items:center;gap:10px;margin:10px 0 4px}
+.handling-meter .hbar{flex:1;height:5px;border-radius:var(--r-pill);background:var(--panel2);overflow:hidden}
+.handling-meter .hbar>i{display:block;height:100%;border-radius:var(--r-pill);
+  background:linear-gradient(90deg,var(--st-live),var(--st-pending) 70%,var(--coral))}
+.handling-meter .hlab{font-size:11px;letter-spacing:1px;color:var(--muted);white-space:nowrap}
+
+/* ---- routing CTA cluster ---- */
+.route-cluster{margin-top:26px;display:grid;gap:10px}
+.route-card{display:flex;align-items:center;gap:13px;padding:13px 15px;border:1px solid var(--b-subtle);
+  border-radius:var(--r-md);background:rgba(255,255,255,.015);text-decoration:none;color:var(--text);
+  transition:border-color .18s,background .18s}
+.route-card:hover{border-color:color-mix(in srgb,var(--gold) 40%,transparent);background:rgba(255,255,255,.04)}
+.route-card .rc-ico{width:30px;height:30px;flex-shrink:0;display:flex;align-items:center;justify-content:center;
+  border-radius:50%;border:1px solid var(--b-subtle);color:var(--gold)}
+.route-card .rc-ico svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.5}
+.route-card .rc-t{font-size:13.5px;font-weight:600;line-height:1.25}
+.route-card .rc-s{font-size:11.5px;color:var(--muted);line-height:1.35;margin-top:1px}
+.route-card.done .rc-ico{color:var(--st-verified);border-color:color-mix(in srgb,var(--st-verified) 40%,transparent)}
+.route-card.done .rc-t::after{content:" · added";color:var(--st-verified);font-weight:400}
+
 /* ---- sisters & more sections ---- */
 .section-block{margin-top:56px}
 .section-block .section-head{margin:0 0 6px}
@@ -110,9 +161,50 @@
 <script src="assets/site.js"></script>
 <script>
 ZX.mountNav('');
-ZX.load().then(m => { render(m); ZX.mountFooter(); }).catch(ZX.fail);
+// character_profiles.json is NOT part of ZX.load() — fetch it ourselves (keyed by
+// body_code: persona/energy/tagline/positioning). Non-fatal: if it fails, modules
+// gracefully degrade to the character's own persona fields.
+Promise.all([
+  ZX.load(),
+  fetch('db/character_profiles.json').then(r => r.ok ? r.json() : {}).catch(() => ({}))
+]).then(([m, cprof]) => { render(m, cprof || {}); ZX.mountFooter(); }).catch(ZX.fail);
 
-function render(m) {
+// ----- family range + premium lookup (from the loaded body-profiles families list) -----
+function familyMeta(m, famName) {
+  const list = Array.isArray(m.families) ? m.families : [];
+  return list.find(x => x && x.name === famName) || null;
+}
+// The per-body measurement analysis (carries family_confidence, premium, target_buyer).
+function bodyProfile(m, bodyCode) {
+  const list = Array.isArray(m.profiles) ? m.profiles : [];
+  return list.find(x => x && x.body_code === bodyCode) || null;
+}
+const pct = v => (v == null ? '—' : Math.round(v * 100) + '%');
+
+// Confidence wording per body-family-method.md §5.
+function confWording(conf) {
+  switch (String(conf || '').toLowerCase()) {
+    case 'exact':     return { cls: 'exact', label: 'Exact match', note: 'Both ratios sit inside this family’s defined range.' };
+    case 'exact-tie': return { cls: 'exact', label: 'Exact match', note: 'Sits inside more than one family; placed by nearest centre.' };
+    case 'near':      return { cls: 'near',  label: 'Near match',  note: 'One ratio sits inside the range; the other is the nearest centre.' };
+    case 'loose':     return { cls: 'near',  label: 'Closest fit', note: 'Interpreted to the nearest family centre.' };
+    default:          return { cls: '',      label: '',            note: '' };
+  }
+}
+// Where a value sits relative to a [min,max] band → editorial phrase.
+function bandPlace(v, range, lowWord, highWord, midWord) {
+  if (v == null || !Array.isArray(range)) return '';
+  const [lo, hi] = range;
+  if (v < lo) return lowWord;
+  if (v > hi) return highWord;
+  const mid = (lo + hi) / 2;
+  const span = (hi - lo) || 1;
+  if (Math.abs(v - mid) <= span * 0.18) return midWord;
+  return v < mid ? ('toward ' + lowWord) : ('toward ' + highWord);
+}
+
+function render(m, cprof) {
+  cprof = cprof || {};
   const id = ZX.qs('id');
   const app = document.getElementById('app');
   if (!id || !m.byId[id]) {
@@ -131,6 +223,18 @@ function render(m) {
   const ps = c.photoshoot || {};
   const ph = c.status !== 'live';
   const fc = ZX.famColor(b.family);
+
+  // ----- decision-support data sources -----
+  const fam     = familyMeta(m, b.family);              // family band + premium + target
+  const bp      = bodyProfile(m, c.body_code) || {};    // per-body analysis (confidence etc.)
+  const overlay = cprof[c.body_code] || {};             // curated character_profiles overlay
+  const conf    = confWording(bp.family_confidence);
+  const premium = (fam && fam.premium) || bp.premium || (b.premium) || '';
+  const targetBuyer = p.target_buyer || bp.target_buyer || (fam && fam.target) || '';
+  const bodyEst = b.estimated === true;
+  // Families with zero measured bodies are in development — never present as fully available.
+  const IN_DEV_FAMILIES = { 'The Classic': 1, 'The Sculpt': 1 };
+  const famInDev = !!IN_DEV_FAMILIES[b.family];
 
   // gallery data
   const gallery = ps.gallery || [];
@@ -223,6 +327,122 @@ function render(m) {
     }
   }
 
+  // ===== AT-A-GLANCE DECISION PANEL =====
+  // Feeds: b.family/silhouette (characters.json) · fam.premium/target (body_profiles families)
+  //        b.WHR/BWR/bust_drop_cm/height_cm/cup/weight_kg · bp.family_confidence.
+  const ratioStat = (icon, val, tip) => `<span class="rstat" title="${tip}">${icon}<span>${val}</span></span>`;
+  const IC_WHR = '<svg viewBox="0 0 16 16" class="rsvg" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M4 2h8M4 14h8M4.5 2.4C4.5 6 11.5 6 11.5 2.4M4.5 13.6C4.5 10 11.5 10 11.5 13.6"/></svg>';
+  const IC_BWR = '<svg viewBox="0 0 16 16" class="rsvg" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M1.5 8.5c2.6-4 10.4-4 13 0"/><path d="M4 13h8"/></svg>';
+  const IC_DROP = '<svg viewBox="0 0 16 16" class="rsvg" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M2 4h12M2 12h12M8 4.6v6.8M5.6 7 8 4.6 10.4 7M5.6 9 8 11.4 10.4 9"/></svg>';
+
+  let glanceHtml = '';
+  if (b.WHR != null || b.height_cm) {
+    const famCell = b.family
+      ? `<span class="gl-fam">${ZX.esc(b.family)}</span>${premium ? `<small>${ZX.esc(premium)} premium tier${famInDev ? ' · in development' : ''}</small>` : (famInDev ? '<small>in development</small>' : '')}`
+      : 'Unclassified<small>spec card pending</small>';
+    const ratiosLine = (b.WHR != null) ? `
+      <div class="glance-ratios">
+        ${ratioStat(IC_WHR, 'Waist : hip ' + pct(b.WHR), 'Waist-to-hip — lower is more hourglass' + (fam ? ` · ${b.family} range ${pct(fam.whr[0])}–${pct(fam.whr[1])}` : ''))}
+        ${ratioStat(IC_BWR, 'Bust : waist ' + pct(b.BWR), 'Bust-to-waist — higher is more bust-forward' + (fam ? ` · ${b.family} range ${pct(fam.bwr[0])}–${pct(fam.bwr[1])}` : ''))}
+        ${b.bust_drop_cm != null ? ratioStat(IC_DROP, b.bust_drop_cm + 'cm drop', 'Bust drop — editorial cup-volume note (not used in family placement)') : ''}
+      </div>` : '';
+    glanceHtml = `
+      <div class="panel panel--accent glance reveal" style="--fc:${fc}">
+        <div class="glance-head">
+          <span class="famdot" style="background:${fc}"></span>
+          <span class="glance-title">At a glance</span>
+          ${conf.label ? `<span class="conf-chip ${conf.cls}" title="${ZX.esc(conf.note)}">${conf.label}</span>` : ''}
+          ${bodyEst ? `<span class="stat stat-estimated">Estimated</span>` : ''}
+        </div>
+        <div class="glance-grid">
+          <div class="glance-cell"><div class="gl-k">Silhouette</div><div class="gl-v gl-fam">${famCell}</div></div>
+          <div class="glance-cell"><div class="gl-k">Stature</div><div class="gl-v">${ZX.esc(b.height_cm || '—')}cm${b.cup ? ' · ' + ZX.esc(b.cup) + '-cup' : ''}<small>${b.weight_kg ? ZX.esc(b.weight_kg) + 'kg as built' : ''}</small></div></div>
+          ${targetBuyer ? `<div class="glance-cell"><div class="gl-k">Made for</div><div class="gl-v" style="font-weight:500">${ZX.esc(targetBuyer)}</div></div>` : ''}
+          ${(overlay.tagline || p.tagline) ? `<div class="glance-cell"><div class="gl-k">In a line</div><div class="gl-v" style="font-weight:500;font-style:italic">${ZX.esc(overlay.tagline || p.tagline)}</div></div>` : ''}
+        </div>
+        ${ratiosLine}
+        ${bodyEst ? `<div class="phnote" style="margin-top:14px">Estimated dimensions — interpolated, no published spec card.${b.est_basis ? ' ' + ZX.esc(b.est_basis) : ''}</div>` : ''}
+      </div>`;
+  }
+
+  // ===== BEST-FOR MODULE =====  feeds: overlay.positioning/energy · fam.silhouette/target · WHR/BWR
+  const bestForItems = [];
+  if (targetBuyer) bestForItems.push(`Made for the <b>${ZX.esc(targetBuyer)}</b>.`);
+  if (fam && b.WHR != null) {
+    const whrPhrase = bandPlace(b.WHR, fam.whr, 'lean', 'soft', 'balanced');
+    const bwrPhrase = bandPlace(b.BWR, fam.bwr, 'restrained', 'full', 'even');
+    bestForItems.push(`${ZX.esc(b.silhouette || (fam && fam.silhouette) || 'this silhouette')} — a waist:hip read that sits ${whrPhrase}, with a bust line that reads ${bwrPhrase}.`);
+  } else if (b.silhouette) {
+    bestForItems.push(`${ZX.esc(b.silhouette)} proportion.`);
+  }
+  if (overlay.positioning) bestForItems.push(ZX.esc(overlay.positioning));
+  else if (overlay.energy) bestForItems.push(`Reads as ${ZX.esc(overlay.energy.replace(/\s*·\s*/g, ', '))}.`);
+  const bestForHtml = bestForItems.length ? `
+    <div class="panel dmod reveal d1">
+      <div class="dmod-head">Best for</div>
+      <ul>${bestForItems.slice(0, 4).map(t => `<li>${t}</li>`).join('')}</ul>
+    </div>` : '';
+
+  // ===== WATCHOUTS MODULE =====  honest counterpoints, measurement- & status-led
+  const watch = [];
+  if (famInDev) watch.push(`<b>${ZX.esc(b.family)}</b> is an in-development family — coverage is still being built, so options are limited. We will tell you exactly what is available.`);
+  if (bodyEst) watch.push(`Dimensions here are <b>estimated</b> (interpolated), not from a published spec card. We confirm exact measurements before any order.`);
+  if (ph) watch.push(`This character is <b>shoot-pending</b> — the imagery is representative, not her own final photoset.`);
+  if (fam && b.WHR != null && (b.WHR < fam.whr[0] || b.WHR > fam.whr[1] || b.BWR < fam.bwr[0] || b.BWR > fam.bwr[1])) {
+    const famShort = ZX.esc(String(b.family).replace(/^The\s+/, ''));
+    watch.push(`A <b>${conf.label.toLowerCase() || 'closest-fit'}</b> to ${ZX.esc(b.family)} — one ratio sits just outside the band, so she leans a touch ${b.WHR > fam.whr[1] ? 'softer' : (b.WHR < fam.whr[0] ? 'leaner' : 'differently')} than a textbook ${famShort}.`);
+  }
+  if (b.weight_kg && b.weight_kg >= 37) watch.push(`At <b>${ZX.esc(b.weight_kg)}kg</b> she is among the fuller builds — comfortable to display, but a two-person lift for repositioning.`);
+  if (b.cup && /^[A-B]$/.test(String(b.cup))) watch.push(`A deliberately understated <b>${ZX.esc(b.cup)}-cup</b> — chosen for proportion over volume, which is the point rather than a compromise.`);
+  const watchHtml = watch.length ? `
+    <div class="panel dmod dmod--watch reveal d2">
+      <div class="dmod-head">Worth knowing</div>
+      <ul>${watch.slice(0, 4).map(t => `<li>${t}</li>`).join('')}</ul>
+    </div>` : '';
+
+  // ===== HANDLING NOTE =====  real weight_kg mapped over the true 28–39.9kg range.
+  let handlingHtml = '';
+  if (b.weight_kg) {
+    const W_MIN = 28, W_MAX = 39.9;
+    const w = Math.max(W_MIN, Math.min(W_MAX, b.weight_kg));
+    const fill = Math.round(((w - W_MIN) / (W_MAX - W_MIN)) * 100);
+    const ease = b.weight_kg <= 31 ? 'one of the lightest in the catalogue — genuinely solo-manageable for display and repositioning'
+      : b.weight_kg <= 35 ? 'mid-weight for the range — solo-manageable with care; a second pair of hands makes wardrobe changes easier'
+      : 'among the fuller builds — best handled as a two-person lift when repositioning';
+    handlingHtml = `
+      <div class="panel dmod reveal d3">
+        <div class="dmod-head">Living with her</div>
+        <div class="handling-meter" aria-hidden="true">
+          <span class="hlab">Light</span>
+          <span class="hbar"><i style="width:${fill}%"></i></span>
+          <span class="hlab">Full</span>
+        </div>
+        <p class="handling-note"><b>${ZX.esc(b.weight_kg)}kg as built</b> — ${ease}. Catalogue range runs 28–39.9kg; a discreet stand and storage are part of the concierge brief.</p>
+      </div>`;
+  }
+
+  // ===== ROUTING CTA CLUSTER ===== (compare · build-similar · ask-concierge)
+  const ICO_COMPARE = '<svg viewBox="0 0 20 20"><path d="M10 3v14M4 7l-2 3 2 3M16 7l2 3-2 3"/></svg>';
+  const ICO_FAMILY  = '<svg viewBox="0 0 20 20"><circle cx="10" cy="6" r="3"/><path d="M4 17c0-3.3 2.7-6 6-6s6 2.7 6 6"/></svg>';
+  const ICO_TALK    = '<svg viewBox="0 0 20 20"><path d="M3 5h14v9H8l-4 3v-3H3z"/></svg>';
+  const inCompare = ZX.getCompareBodies().includes(c.body_code);
+  const famHref = b.family ? `family.html?f=${encodeURIComponent(b.family)}` : 'family.html';
+  const routeCluster = `
+    <div class="route-cluster reveal d4">
+      <a class="route-card ${inCompare ? 'done' : ''}" href="compare.html" id="route-compare" data-body="${ZX.esc(c.body_code)}">
+        <span class="rc-ico">${ICO_COMPARE}</span>
+        <span><span class="rc-t">Compare this body</span><span class="rc-s">Put ${ZX.esc(c.body_code)} side-by-side with up to four architectures.</span></span>
+      </a>
+      <a class="route-card" href="${famHref}">
+        <span class="rc-ico">${ICO_FAMILY}</span>
+        <span><span class="rc-t">Build something similar</span><span class="rc-s">Browse the ${b.family ? ZX.esc(b.family) : 'same'} family${famInDev ? ' (in development)' : ''} and its measured architectures.</span></span>
+      </a>
+      <a class="route-card" href="${ZX.contactHref(c)}">
+        <span class="rc-ico">${ICO_TALK}</span>
+        <span><span class="rc-t">Ask the concierge</span><span class="rc-s">A private, no-pressure conversation about ${ZX.esc(p.name)}${premium ? ` and the ${ZX.esc(premium)} ${ZX.esc(b.family||'')} tier` : ''}.</span></span>
+      </a>
+    </div>`;
+
   app.innerHTML = `
     ${crumbs}
     <main>
@@ -255,28 +475,36 @@ function render(m) {
             ${b.silhouette ? `<span class="silhouette">· ${ZX.esc(b.silhouette)}</span>` : ''}
           </div>
 
-          <div class="spec-section">
-            <div class="spec-label">Specifications</div>
+          ${glanceHtml}
+
+          ${phnoteHtml}
+
+          ${bestForHtml}
+          ${watchHtml}
+          ${handlingHtml}
+
+          <div class="spec-section" style="margin-top:22px">
+            <div class="spec-label">Full specification</div>
             <div class="kv">${specRows}</div>
             ${specEstNote}
           </div>
 
-          ${p.energy ? `<div class="energy-line"><b>Energy</b> — ${ZX.esc(p.energy)}</div>` : ''}
-          ${p.positioning ? `<div class="pos" style="margin-bottom:18px">${ZX.esc(p.positioning)}</div>` : ''}
-          ${phnoteHtml}
+          ${p.energy && !overlay.energy ? `<div class="energy-line"><b>Energy</b> — ${ZX.esc(p.energy)}</div>` : ''}
 
           <div class="inquire-block">
             <a class="btn solid" href="${ZX.contactHref(c)}">
-              ${ph ? `Register interest in ${ZX.esc(p.name)}` : `Inquire about ${ZX.esc(p.name)}`}
+              ${ph ? `Request a private briefing on ${ZX.esc(p.name)}` : `Request a private consultation`}
             </a>
             <div class="inquire-ref">
-              ${!ph && ps.product_code ? `Reference ${ZX.esc(ps.product_code)} · ` : ''}<a href="${ZX.inquireHref(c)}">or email us directly</a>
+              ${!ph && ps.product_code ? `Reference ${ZX.esc(ps.product_code)} · ` : ''}<a href="${ZX.inquireHref(c)}">or email the atelier directly</a>
             </div>
           </div>
 
+          ${routeCluster}
+
           <div class="char-actions">
-            <a class="btn" href="body.html?b=${encodeURIComponent(c.body_code)}">View Body Architecture</a>
-            <button class="btn ghost" type="button" id="add-compare-char">Add to Compare</button>
+            <a class="btn ghost" href="body.html?b=${encodeURIComponent(c.body_code)}">View body architecture</a>
+            <button class="btn ghost" type="button" id="add-compare-char">Add to compare</button>
             <a class="btn ghost" href="series.html?s=${encodeURIComponent(c.series)}">← ${ZX.esc(c.series)}</a>
           </div>
         </div>
@@ -420,27 +648,40 @@ function render(m) {
   // update page title
   document.title = `${p.name} · ZELEX Atlas`;
 
+  function trackCompareAdd(result, context) {
+    if (!result || !result.added) return;
+    ZX.track('compare_add', {
+      character_id: c.character_id,
+      body_code: c.body_code,
+      family: (c.body && c.body.family) ? c.body.family : '',
+      series: c.series || '',
+      compare_count: result.bodies.length,
+      context: context,
+      source_page: 'character'
+    });
+  }
+
   const compareCharBtn = document.getElementById('add-compare-char');
   if (compareCharBtn) {
     if (ZX.getCompareBodies().includes(c.body_code)) {
       compareCharBtn.classList.add('done');
-      compareCharBtn.textContent = 'Added to Compare';
+      compareCharBtn.textContent = 'Added to compare';
     }
     compareCharBtn.addEventListener('click', () => {
       const result = ZX.addCompareBody(c.body_code);
       compareCharBtn.classList.add('done');
-      compareCharBtn.textContent = 'Added to Compare';
-      if (result.added) {
-        ZX.track('compare_add', {
-          character_id: c.character_id,
-          body_code: c.body_code,
-          family: (c.body && c.body.family) ? c.body.family : '',
-          series: c.series || '',
-          compare_count: result.bodies.length,
-          context: 'character_detail',
-          source_page: 'character'
-        });
-      }
+      compareCharBtn.textContent = 'Added to compare';
+      trackCompareAdd(result, 'character_detail');
+    });
+  }
+
+  // Routing CTA — "Compare this body": stage the body, then follow the link to compare.html.
+  const routeCompare = document.getElementById('route-compare');
+  if (routeCompare) {
+    routeCompare.addEventListener('click', () => {
+      const result = ZX.addCompareBody(c.body_code);
+      trackCompareAdd(result, 'character_detail_route');
+      // navigation proceeds via the anchor's href to compare.html
     });
   }
 
