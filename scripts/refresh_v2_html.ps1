@@ -56,15 +56,11 @@ foreach ($file in $destFiles) {
     file = $file.Name
     size_bytes = $file.Length
     sha256 = $hash.Hash.ToLowerInvariant()
-    modified_utc = $file.LastWriteTimeUtc.ToString('o')
   }
   $shaLines += ($hash.Hash.ToLowerInvariant() + '  ' + $file.Name)
 }
 
 $manifest = [PSCustomObject]@{
-  generated_utc = (Get-Date).ToUniversalTime().ToString('o')
-  source_root = $root
-  destination = $dest
   file_count = $manifestEntries.Count
   loop_count = $loopCount
   files = $manifestEntries
@@ -73,8 +69,9 @@ $manifest = [PSCustomObject]@{
 $manifestPath = Join-Path $dest 'manifest.json'
 $shaPath = Join-Path $dest 'manifest.sha256'
 
-$manifest | ConvertTo-Json -Depth 5 | Set-Content -Path $manifestPath -Encoding UTF8
-$shaLines | Set-Content -Path $shaPath -Encoding UTF8
+$jsonContent = ($manifest | ConvertTo-Json -Depth 5) -replace "`r`n", "`n" -replace "`r", "`n"
+[IO.File]::WriteAllText($manifestPath, $jsonContent + "`n", [Text.Encoding]::UTF8)
+[IO.File]::WriteAllText($shaPath, ($shaLines -join "`n") + "`n", [Text.Encoding]::UTF8)
 
 Write-Host ('Packaged ' + $manifestEntries.Count + ' HTML files to v2 HTML. loop_count=' + $loopCount)
 Write-Host ('Manifest: ' + $manifestPath)
