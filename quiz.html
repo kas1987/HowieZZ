@@ -195,6 +195,16 @@
 .match-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-bottom:28px}
 .match-divider{grid-column:1/-1;display:flex;align-items:center;gap:12px;margin:4px 0;color:var(--muted);font-size:11px;letter-spacing:1.8px;text-transform:uppercase}
 .match-divider::before,.match-divider::after{content:'';flex:1;height:1px;background:var(--line)}
+.result-ranking{margin:0 auto 28px;max-width:760px;padding:14px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.02)}
+.result-ranking h3{font-size:15px;letter-spacing:1.4px;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.rank-list{display:grid;gap:8px}
+.rank-item{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 10px;border:1px solid var(--line);border-radius:10px;background:var(--s2)}
+.rank-item .left{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.rank-item .idx{font-size:11px;letter-spacing:1.6px;text-transform:uppercase;color:var(--muted)}
+.rank-item .name{font-family:'Playfair Display',serif;font-size:18px;line-height:1.1}
+.rank-item .pct{font-size:12px;font-weight:600;color:var(--cream)}
+.why-win{max-width:760px;margin:0 auto 20px;padding:12px 14px;border:1px solid color-mix(in srgb,var(--gold) 24%,transparent);border-radius:12px;background:linear-gradient(135deg,rgba(212,165,116,.08),transparent 45%),var(--panel);color:var(--muted);font-size:13px;line-height:1.5}
+.match-role{margin-top:8px;color:var(--muted);font-size:12px;line-height:1.45;padding:8px 10px;border:1px solid var(--line);border-radius:9px;background:rgba(255,255,255,.02)}
 </style>
 </head>
 <body>
@@ -349,6 +359,7 @@ function render(m) {
 
     // ranked by score
     const ranked = FAMS.slice().sort((a, b) => score[b] - score[a]);
+    const totalScore = Math.max(1, Object.values(score).reduce((a, v) => a + (v > 0 ? v : 0), 0));
 
     // live characters with a family
     const live = m.characters.filter(c => c.status === 'live' && c.body && c.body.family);
@@ -396,25 +407,76 @@ function render(m) {
     }
 
     const splitAt = matches.length - fromSecond;
+    const top3 = ranked.slice(0, 3).map((fam, idx) => ({
+      idx: idx + 1,
+      fam,
+      score: score[fam],
+      pct: Math.round((score[fam] / totalScore) * 100),
+      liveCount: liveByFam(fam).length
+    }));
+    const winnerEntry = top3.find(x => x.fam === win) || { fam: win, score: score[win], pct: 0, liveCount: liveByFam(win).length };
+    const runnerScore = runner ? score[runner] : 0;
+    const scoreGap = Math.max(0, score[win] - runnerScore);
+    const compareBodies = Array.from(new Set(matches.map(c => c.body_code).filter(Boolean))).slice(0, 4);
+    const compareCodes = compareBodies.join(',');
+
+    const quizResult = {
+      ts: new Date().toISOString(),
+      winner: win,
+      runner_up: runner || '',
+      top3: top3,
+      match_ids: matches.map(c => c.character_id),
+      compare_bodies: compareBodies
+    };
+    try { localStorage.setItem('zx_quiz_result', JSON.stringify(quizResult)); } catch (e) {}
 
     // update progress bar to 100%
     document.getElementById('pbar').style.width = '100%';
 
     hide('qscreen');
-    showResult(win, runner, matches, splitAt);
+    showResult(win, runner, matches, splitAt, top3, winnerEntry, scoreGap, compareBodies, compareCodes);
   }
 
-  function showResult(win, runner, matches, splitAt) {
+  function showResult(win, runner, matches, splitAt, top3, winnerEntry, scoreGap, compareBodies, compareCodes) {
     const famColor = ZX.famColor(win);
     const desc = FAM_DESC[win] || '';
     const rscreen = document.getElementById('rscreen');
+    const quizSummary = [
+      'winner=' + win,
+      'top=' + top3.map(x => x.fam + ':' + x.pct + '%').join('|'),
+      'compare=' + compareCodes
+    ].join(';');
 
     const cardItems = matches.map((c, i) => {
       const divider = (i === splitAt && i > 0 && runner)
         ? `<div class="match-divider">Also from ${ZX.esc(runner)}</div>`
         : '';
-      return `${divider}<div class="reveal d${i + 1}">${ZX.charCard(c)}</div>`;
+      const reason = c.body && c.body.family === win
+        ? 'Core match: aligns with your winning family silhouette.'
+        : (runner && c.body && c.body.family === runner
+            ? 'Runner-up support: gives you a nearby proportion alternative.'
+            : 'Wildcard fit: included to broaden your shortlist.');
+      return `${divider}<div class="reveal d${i + 1}">${ZX.charCard(c)}<div class="match-role">${ZX.esc(c.persona.title)} · ${ZX.esc(reason)}</div></div>`;
     }).join('');
+
+    const ranking = `<section class="result-ranking reveal d1">
+      <h3>Top family scores</h3>
+      <div class="rank-list">
+        ${top3.map(r => `<div class="rank-item">
+          <div class="left">
+            <span class="idx">#${r.idx}</span>
+            <span class="name">${ZX.esc(r.fam)}</span>
+            ${r.liveCount === 0 ? '<span class="stat stat-concept">In development</span>' : '<span class="stat stat-verified">Live</span>'}
+          </div>
+          <span class="pct">${r.pct}%</span>
+        </div>`).join('')}
+      </div>
+    </section>`;
+
+    const whyWin = `<div class="why-win reveal d2">
+      <strong style="color:var(--cream)">Why this won:</strong>
+      ${ZX.esc(win)} led your response profile at ${winnerEntry.pct}% signal strength${runner ? `, ahead of ${runner} by ${scoreGap} score point${scoreGap === 1 ? '' : 's'}` : ''}. Your shortlist keeps this silhouette first while still giving one adjacent path for comparison.
+    </div>`;
 
     rscreen.innerHTML = `
       <div class="rhead">
@@ -423,18 +485,30 @@ function render(m) {
         <p class="rdesc">${ZX.esc(desc)}</p>
         <div class="rfam-accent" style="background:${famColor}"></div>
       </div>
+      ${ranking}
+      ${whyWin}
       <div class="match-grid" id="match-grid">
         ${cardItems}
       </div>
       <div class="ractions">
         <button class="btn ghost" id="retake-btn">↻ Retake the quiz</button>
+        <button class="btn solid" id="compare-matches-btn">Compare matches</button>
         <a class="btn" href="family.html?f=${encodeURIComponent(win)}">Browse ${ZX.esc(win)}</a>
-        <a class="btn ghost" href="index.html">Full Atlas</a>
+        <a class="btn concierge" href="contact.html?compare=${encodeURIComponent(compareCodes)}&src=quiz&cta=ask_concierge_after_quiz&context=quiz_result&channel=contact&quiz_summary=${encodeURIComponent(quizSummary)}">Ask concierge</a>
       </div>
     `;
 
     showSection('rscreen');
     ZX.revealInit();
+
+    const compareBtn = document.getElementById('compare-matches-btn');
+    if (compareBtn) {
+      compareBtn.addEventListener('click', () => {
+        ZX.setCompareBodies(compareBodies);
+        ZX.track('compare_set_changed', { action: 'set_from_quiz', compare_count: compareBodies.length, body_codes: compareCodes, context: 'quiz_result', source_page: 'quiz' });
+        location.href = 'compare.html';
+      });
+    }
 
     document.getElementById('retake-btn').addEventListener('click', () => {
       hide('rscreen');
