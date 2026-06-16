@@ -58,6 +58,31 @@ function pct(v) {
   return Math.round(Number(v) * 100) + '%';
 }
 
+function confidenceChip(b) {
+  if (b.estimated) return '<span class="stat stat-estimated">Estimated</span>';
+  if (b.family_confidence) return '<span class="stat stat-verified">' + ZX.esc(b.family_confidence) + '</span>';
+  return '<span class="stat stat-concept">Needs review</span>';
+}
+
+function ratioLabel(v, estimated) {
+  if (v === null || v === undefined || v === '') return '&mdash;';
+  const base = Math.round(Number(v) * 100) + '%';
+  return estimated ? base + ' (est.)' : base;
+}
+
+function compareSummaryCard(b) {
+  const fam = b.family ? '<span class="fam ' + ZX.famClass(b.family) + '">' + ZX.esc(b.family) + '</span>' : '<span class="fam fam--unclassified">Unclassified</span>';
+  return '<article class="compare-summary-card">' +
+    '<div class="top"><h3>' + ZX.esc(b.body_code) + '</h3>' + fam + '</div>' +
+    '<div class="grid">' +
+      '<div><span class="k">Buyer read</span><b>' + ZX.esc(buyerRead(b)) + '</b></div>' +
+      '<div><span class="k">Handling</span><b>' + ZX.esc(handlingRead(b)) + '</b></div>' +
+      '<div><span class="k">Shape signal</span><b>WHR ' + ratioLabel(b.WHR, b.estimated) + ' · BWR ' + ratioLabel(b.BWR, b.estimated) + '</b></div>' +
+      '<div><span class="k">Data state</span>' + confidenceChip(b) + '</div>' +
+    '</div>' +
+  '</article>';
+}
+
 function firstLiveForBody(m, code) {
   const a = m.byBody[code] || [];
   return a.find(c => c.status === 'live') || a[0] || null;
@@ -144,19 +169,25 @@ function paint(m) {
     ['Weight', b => num(b.weight_kg, 'kg')],
     ['Cup', b => b.cup ? ZX.esc(b.cup + '-cup') : '&mdash;'],
     ['Bust | waist | hip', b => num(b.bust_cm || b.bust) + ' | ' + num(b.waist_cm || b.waist) + ' | ' + num(b.hip_cm || b.hip) + ' cm'],
-    ['WHR', b => pct(b.WHR)],
-    ['BWR', b => pct(b.BWR)],
+    ['WHR', b => ratioLabel(b.WHR, b.estimated)],
+    ['BWR', b => ratioLabel(b.BWR, b.estimated)],
     ['Bust drop', b => num(b.bust_drop_cm, 'cm')],
     ['Handling', b => ZX.esc(handlingRead(b))],
-    ['Confidence', b => ZX.esc(b.family_confidence || (b.estimated ? 'estimated' : '&mdash;'))]
+    ['Confidence', b => confidenceChip(b)]
   ];
 
-  mount.innerHTML = '<div class="compare-table-wrap"><table class="compare-table"><thead><tr><th>Signal</th>' +
+  const summaries = '<section class="compare-summary" aria-label="Decision summary">' +
+    '<div class="section-head" style="margin-top:0">Quick decision read</div>' +
+    '<div class="section-sub" style="margin-bottom:14px">Use these summaries to choose which bodies go to concierge inquiry.</div>' +
+    '<div class="compare-summary-grid">' + bodies.map(compareSummaryCard).join('') + '</div>' +
+  '</section>';
+
+  mount.innerHTML = summaries + '<div class="compare-table-wrap"><table class="compare-table"><thead><tr><th>Signal</th>' +
     bodies.map(b => '<th>' + ZX.esc(b.body_code) + '</th>').join('') +
     '</tr></thead><tbody>' +
     rows.map(r => '<tr><td>' + r[0] + '</td>' + bodies.map(b => '<td>' + r[1](b) + '</td>').join('') + '</tr>').join('') +
     '</tbody></table></div>' +
-    '<div style="margin-top:20px;display:flex;gap:12px;flex-wrap:wrap">' +
+    '<div class="compare-actions">' +
     '<a class="btn solid" id="compare-contact-link" href="contact.html?compare=' + encodeURIComponent(codes.join(',')) + '&src=compare&cta=ask_about_these_bodies&context=compare&channel=contact">Ask about these bodies</a>' +
     '<a class="btn" id="compare-quiz-link" href="quiz.html">Take the match quiz</a>' +
     '</div>';
