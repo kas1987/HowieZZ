@@ -233,7 +233,7 @@ function render(m) {
       <div class="eyebrow">${ZX.esc(series || 'Body Architecture')}</div>
       <div class="body-title-row">
         <h1>${family ? `<span class="em-grad">${ZX.esc(famLabel)}</span>` : ZX.esc(famLabel)}</h1>
-        ${family ? `<span class="fam" style="color:${famColor};border:1px solid ${famColor}">${ZX.esc(famKey)}</span>` : ''}
+        ${family ? `<span class="fam ${ZX.famClass(family)}">${ZX.esc(famKey)}</span>` : ''}
       </div>
       <div class="body-subtitle-row">
         <span class="bcode">${ZX.esc(bc)}</span>

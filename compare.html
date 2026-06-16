@@ -138,7 +138,7 @@ function paint(m) {
   const rows = [
     ['Body code', b => '<span class="bcode">' + ZX.esc(b.body_code) + '</span>'],
     ['Series', b => ZX.esc(b.series || '&mdash;')],
-    ['Family', b => b.family ? '<span class="fam" style="color:' + ZX.famColor(b.family) + ';border:1px solid ' + ZX.famColor(b.family) + '">' + ZX.esc(b.family) + '</span>' : '&mdash;'],
+    ['Family', b => b.family ? '<span class="fam ' + ZX.famClass(b.family) + '">' + ZX.esc(b.family) + '</span>' : '&mdash;'],
     ['Buyer read', b => ZX.esc(buyerRead(b))],
     ['Height', b => num(b.height_cm, 'cm')],
     ['Weight', b => num(b.weight_kg, 'kg')],

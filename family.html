@@ -343,8 +343,7 @@ function renderLanding(m, fam) {
   const siblingPills = ZX.FAMILIES
     .filter(f2 => f2 !== fam)
     .map(f2 => {
-      const c2 = ZX.famColor(f2);
-      return `<a href="family.html?f=${encodeURIComponent(f2)}" class="fam" style="color:${c2};border:1px solid ${c2};background:transparent">${ZX.esc(f2)}</a>`;
+      return `<a href="family.html?f=${encodeURIComponent(f2)}" class="fam ${ZX.famClass(f2)}">${ZX.esc(f2)}</a>`;
     }).join('');
 
   const footerHtml = `

@@ -25,6 +25,17 @@ window.ZX = (function () {
   try { document.documentElement.classList.add('js'); } catch (e) {}
 
   function famColor(f){ return f ? `var(--${String(f).replace('The ','')})` : 'var(--muted)'; }
+  function famClass(f){
+    if (!f) return 'fam--unclassified';
+    const key = String(f).replace('The ', '').toLowerCase();
+    if (key === 'classic') return 'fam--classic';
+    if (key === 'icon') return 'fam--icon';
+    if (key === 'muse') return 'fam--muse';
+    if (key === 'siren') return 'fam--siren';
+    if (key === 'empress') return 'fam--empress';
+    if (key === 'sculpt') return 'fam--sculpt';
+    return 'fam--unclassified';
+  }
   function qs(name){ return new URLSearchParams(location.search).get(name); }
   function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
   function img(c){ return (c.photoshoot && (c.photoshoot.hero_thumb || c.photoshoot.hero)) || ''; }
@@ -363,8 +374,8 @@ window.ZX = (function () {
     // Lead with the body's own identity (stature) so bodies in a single-family series
     // read as distinct. Family becomes a small chip (soft "spec card pending" when null).
     const famChip = bd.family
-      ? `<span class="fam" style="color:${fc};border:1px solid ${fc}">${esc(bd.family)}</span>`
-      : `<span class="fam" style="color:var(--muted);border:1px solid var(--line)">Spec card pending</span>`;
+      ? `<span class="fam ${famClass(bd.family)}">${esc(bd.family)}</span>`
+      : `<span class="fam fam--unclassified">Spec card pending</span>`;
     const names = chars.filter(c=>c.status==='live').slice(0,4).map(c=>esc(c.persona.name)).join(' · ');
     return `<a class="bodycard" href="body.html?b=${encodeURIComponent(bc)}">
       <div class="bw">${src?`<img loading="lazy" src="${src}" alt="${bc}">`:''}</div>
@@ -376,7 +387,7 @@ window.ZX = (function () {
       </div></a>`;
   }
 
-  return { load, famColor, qs, esc, img, inquireHref, contactHref, INQUIRY_EMAIL, FORM_ENDPOINT,
+  return { load, famColor, famClass, qs, esc, img, inquireHref, contactHref, INQUIRY_EMAIL, FORM_ENDPOINT,
            track,
            mountNav, mountFooter, fail, charCard, bodyCard, metricsLegend,
            repImg, heroBackdrop, revealInit,

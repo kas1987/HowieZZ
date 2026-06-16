@@ -51,6 +51,18 @@
   .srow .sm{color:var(--blue);font-size:11px;letter-spacing:1px}
   .featrow{display:flex;align-items:baseline;justify-content:space-between;margin:46px 0 6px}
   .featrow a{color:var(--gold);font-size:var(--t-sm);letter-spacing:1px;text-transform:uppercase}
+  .intent-router{margin:18px 0 28px;padding:18px;border:1px solid color-mix(in srgb,var(--gold) 24%,transparent);
+    border-radius:16px;background:linear-gradient(140deg,rgba(212,165,116,.07),transparent 44%),var(--panel);box-shadow:var(--sh-card)}
+  .intent-router .head{display:flex;justify-content:space-between;gap:18px;align-items:flex-end;flex-wrap:wrap;margin-bottom:14px}
+  .intent-router .head h2{font-size:clamp(22px,3vw,32px);line-height:1.1}
+  .intent-router .head p{color:var(--muted);max-width:560px;font-size:13px}
+  .intent-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .intent-card{border:1px solid var(--line);border-radius:12px;padding:14px;background:rgba(255,255,255,.02);display:flex;flex-direction:column;gap:8px}
+  .intent-card .step{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold)}
+  .intent-card h3{font-size:20px;line-height:1.1}
+  .intent-card p{color:var(--muted);font-size:12.5px;line-height:1.45;min-height:56px}
+  .intent-card .btn{width:fit-content}
+  @media(max-width:980px){.intent-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -79,6 +91,36 @@
 </section>
 
 <main>
+  <section class="intent-router reveal d1" aria-label="Start here routing">
+    <div class="head">
+      <div>
+        <div class="eyebrow no-rule">Start here</div>
+        <h2>Pick your path in under 10 seconds.</h2>
+      </div>
+      <p>New buyers: quiz first. Comparing known body codes: open compare. Already know your character direction: browse live cast.</p>
+    </div>
+    <div class="intent-grid">
+      <article class="intent-card">
+        <div class="step">Step 1</div>
+        <h3>Find Your Match</h3>
+        <p>Answer a short intent quiz to get your best-fit family and three character starting points.</p>
+        <a class="btn solid" href="quiz.html">Start quiz</a>
+      </article>
+      <article class="intent-card">
+        <div class="step">Step 2</div>
+        <h3>Compare Bodies</h3>
+        <p>Compare up to four architectures by silhouette ratios, handling class, and confidence state.</p>
+        <a class="btn" href="compare.html">Open compare</a>
+      </article>
+      <article class="intent-card">
+        <div class="step">Step 3</div>
+        <h3>Browse Characters</h3>
+        <p>Review photographed cast and shortlist personalities before opening a concierge inquiry.</p>
+        <a class="btn ghost" href="browse.html">Browse live cast</a>
+      </article>
+    </div>
+  </section>
+
   <!-- three doors -->
   <div class="doors">
     <a class="door reveal d1" href="#explore">
