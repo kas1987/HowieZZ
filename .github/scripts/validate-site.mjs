@@ -15,7 +15,7 @@ const ok   = (msg) => console.log('  ✓ ' + msg);
 // Pages built on the shared kit (must load assets/site.js).
 const KIT_PAGES = [
   'index.html', 'browse.html', 'series.html', 'body.html', 'character.html',
-  'family.html', 'quiz.html', 'craft.html', 'contact.html',
+  'family.html', 'quiz.html', 'craft.html', 'contact.html', 'configurator.html',
 ];
 // Standalone legacy page — kept for reference, intentionally self-contained.
 const STANDALONE_PAGES = ['index-gallery-original.html'];
