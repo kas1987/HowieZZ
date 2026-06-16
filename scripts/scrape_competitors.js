@@ -107,21 +107,6 @@ async function fetchShopifyCatalog(baseUrl) {
   return all;
 }
 
-// ── Playwright: product page deep-dive for measurements ──────────────────────
-async function deepMeasurements(page, productUrl, baseUrl) {
-  try {
-    await page.goto(productUrl.startsWith('http') ? productUrl : baseUrl + productUrl, {
-      waitUntil: 'domcontentloaded', timeout: 20000,
-    });
-    await page.waitForTimeout(1500);
-    const bodyHtml = await page.evaluate(() => document.body.innerHTML);
-    return parseMeasurements(bodyHtml);
-  } catch (err) {
-    console.error(`[deepMeasurements] ${productUrl}: ${err.message}`);
-    return {};
-  }
-}
-
 // ── Playwright: full catalog scrape fallback ──────────────────────────────────
 async function playwrightCatalog(browser, target) {
   const ctx = await browser.newContext({ userAgent: UA, locale: 'en-US' });
@@ -225,59 +210,57 @@ async function main() {
   const output = { scraped_at: new Date().toISOString(), summary: [], total_products: 0, products: [] };
   const browser = await chromium.launch({ headless: true });
 
-  try {
-    for (const target of TARGETS) {
-      console.log(`\n══ ${target.name} (${target.url}) ══`);
-      let products = [];
-      let method = 'shopify_api';
+  for (const target of TARGETS) {
+    console.log(`\n══ ${target.name} (${target.url}) ══`);
+    let products = [];
+    let method = 'shopify_api';
 
-      try {
-        products = await fetchShopifyCatalog(target.url);
-        console.log(`  Shopify API: ${products.length} total products`);
-      } catch (err) {
-        console.log(`  Shopify failed (${err.message}), trying Playwright...`);
-        products = await playwrightCatalog(browser, target);
-        method = 'playwright_dom';
-      }
-
-      // Enrich with product-page measurements (especially for priority brands)
-      if (products.length > 0) {
-        console.log(`  Running measurement depth pass...`);
-        await enrichMeasurements(browser, target.url, products, 30);
-      }
-
-      // Tag source
-      for (const p of products) {
-        p.source = target.name;
-        p.source_url = target.url;
-        p.is_priority = PRIORITY_BRANDS.some(b => (p.brand || p.title || '').toLowerCase().includes(b));
-      }
-
-      const brands = [...new Set(products.map(p => p.brand).filter(Boolean))].sort();
-      const priced = products.filter(p => p.price_usd != null).length;
-      const measured = products.filter(p => p.height_cm != null).length;
-      const priorityHits = products.filter(p => p.is_priority);
-
-      output.summary.push({
-        source: target.name,
-        type: target.type,
-        method,
-        product_count: products.length,
-        priced_count: priced,
-        measured_count: measured,
-        brands_found: brands,
-        priority_brands_found: [...new Set(priorityHits.map(p => p.brand))],
-        priority_products: priorityHits.length,
-      });
-
-      output.products.push(...products);
-      console.log(`  Brands: ${brands.slice(0, 10).join(', ')}${brands.length > 10 ? ` +${brands.length - 10} more` : ''}`);
-      console.log(`  Priority brands: ${[...new Set(priorityHits.map(p => p.brand))].join(', ') || 'none found'}`);
-      console.log(`  Priced: ${priced}/${products.length}  Measured: ${measured}/${products.length}`);
+    try {
+      products = await fetchShopifyCatalog(target.url);
+      console.log(`  Shopify API: ${products.length} total products`);
+    } catch (err) {
+      console.log(`  Shopify failed (${err.message}), trying Playwright...`);
+      products = await playwrightCatalog(browser, target);
+      method = 'playwright_dom';
     }
-  } finally {
-    await browser.close();
+
+    // Enrich with product-page measurements (especially for priority brands)
+    if (products.length > 0) {
+      console.log(`  Running measurement depth pass...`);
+      await enrichMeasurements(browser, target.url, products, 30);
+    }
+
+    // Tag source
+    for (const p of products) {
+      p.source = target.name;
+      p.source_url = target.url;
+      p.is_priority = PRIORITY_BRANDS.some(b => (p.brand || p.title || '').toLowerCase().includes(b));
+    }
+
+    const brands = [...new Set(products.map(p => p.brand).filter(Boolean))].sort();
+    const priced = products.filter(p => p.price_usd != null).length;
+    const measured = products.filter(p => p.height_cm != null).length;
+    const priorityHits = products.filter(p => p.is_priority);
+
+    output.summary.push({
+      source: target.name,
+      type: target.type,
+      method,
+      product_count: products.length,
+      priced_count: priced,
+      measured_count: measured,
+      brands_found: brands,
+      priority_brands_found: [...new Set(priorityHits.map(p => p.brand))],
+      priority_products: priorityHits.length,
+    });
+
+    output.products.push(...products);
+    console.log(`  Brands: ${brands.slice(0, 10).join(', ')}${brands.length > 10 ? ` +${brands.length - 10} more` : ''}`);
+    console.log(`  Priority brands: ${[...new Set(priorityHits.map(p => p.brand))].join(', ') || 'none found'}`);
+    console.log(`  Priced: ${priced}/${products.length}  Measured: ${measured}/${products.length}`);
   }
+
+  await browser.close();
 
   output.total_products = output.products.length;
   fs.writeFileSync(OUT_PATH, JSON.stringify(output, null, 2));
