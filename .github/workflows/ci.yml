@@ -41,6 +41,9 @@ jobs:
       - name: Validate community data schema + provenance
         run: node .github/scripts/validate-community-data.mjs
 
+      - name: Validate community events data schema
+        run: node .github/scripts/validate-community-events-data.mjs
+
       - name: Guard — PDR_PATH headers in agent task files
         run: node .github/scripts/validate-pdr-path-task-files.mjs
 
