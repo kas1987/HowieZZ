@@ -3,6 +3,9 @@
 ## Purpose
 Keep [v2 HTML](v2%20HTML) as a deterministic snapshot of current root HTML pages.
 
+Related maintenance docs:
+- [docs/research/community-data-contract.md](docs/research/community-data-contract.md)
+
 ## Script
 - [scripts/refresh_v2_html.ps1](scripts/refresh_v2_html.ps1)
 

@@ -73,6 +73,42 @@ Field constraints:
 - [.github/workflows/ci.yml](.github/workflows/ci.yml) runs both validators.
 - CI also runs [scripts/sync_community_channels_from_reference.ps1](scripts/sync_community_channels_from_reference.ps1) in check mode.
 
+### CI Sync Policy Controls
+- `COMMUNITY_CHANNELS_REFERENCE_PATH`: reference source file path used by sync check mode.
+- `COMMUNITY_CHANNELS_REQUIRE_SOURCE`: strictness toggle (`"true"`/`"false"`).
+
+Recommended usage:
+- Local/dev forks where source file may be absent: keep `COMMUNITY_CHANNELS_REQUIRE_SOURCE` as `"false"`.
+- Controlled environments with guaranteed source availability: set `COMMUNITY_CHANNELS_REQUIRE_SOURCE` to `"true"`.
+
+## Authoring Events Safely
+Use [scripts/scaffold_community_event.ps1](scripts/scaffold_community_event.ps1) to append schema-valid entries to [db/community_events.json](db/community_events.json).
+
+Example:
+
+```powershell
+./scripts/scaffold_community_event.ps1 `
+  -Title "Collector Roundtable" `
+  -Date "2026-07-10" `
+  -Mode "Discord" `
+  -Summary "Monthly collector discussion and Q&A." `
+  -CtaLabel "Join Event" `
+  -CtaHref "community.html?src=events&cta=join_roundtable"
+```
+
+Validation after update:
+
+```powershell
+node .github/scripts/validate-community-events-data.mjs
+node .github/scripts/validate-site.mjs
+./scripts/refresh_v2_html.ps1 1
+```
+
+Notes:
+- Script rejects empty values and accidental placeholder `.` arguments.
+- Date must use `YYYY-MM-DD`.
+- `CtaHref` must be an HTTP(S) URL or a valid local path target.
+
 ## Rendering Consumers
 - [community.html](community.html)
 - [community-events.html](community-events.html)
