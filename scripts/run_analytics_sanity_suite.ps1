@@ -35,14 +35,14 @@ New-Item -ItemType Directory -Force -Path $artifactDir | Out-Null
 
 $resolvedConfig = [string]::IsNullOrWhiteSpace($ConfigPath) ? "" : $ConfigPath.Trim()
 if ($resolvedConfig -eq "." -or $resolvedConfig -eq "./" -or $resolvedConfig -eq ".\\") {
-  Write-Error "ConfigPath cannot be a placeholder path like '.'"
-  exit 2
+  Write-Host "CONFIG ERROR: ConfigPath cannot be a placeholder path like '.'"
+  [Environment]::Exit(2)
 }
 
 $configPath = if ([System.IO.Path]::IsPathRooted($resolvedConfig)) { $resolvedConfig } else { Join-Path $repoRoot $resolvedConfig }
 if (-not (Test-Path -LiteralPath $configPath)) {
-  Write-Error "Missing config file: $configPath"
-  exit 2
+  Write-Host "CONFIG ERROR: Missing config file: $configPath"
+  [Environment]::Exit(2)
 }
 
 Write-Host "Analytics config path: $configPath"
@@ -51,18 +51,18 @@ try {
   $cfg = Get-Content -Raw -LiteralPath $configPath | ConvertFrom-Json
 }
 catch {
-  Write-Error "Failed to parse config file: $configPath"
-  exit 2
+  Write-Host "CONFIG ERROR: Failed to parse config file: $configPath"
+  [Environment]::Exit(2)
 }
 
 if (-not $cfg.positiveFixture -or -not $cfg.negativeFixtures) {
-  Write-Error "Config file missing required sections: positiveFixture/negativeFixtures"
-  exit 2
+  Write-Host "CONFIG ERROR: Config file missing required sections: positiveFixture/negativeFixtures"
+  [Environment]::Exit(2)
 }
 
 if (-not $cfg.positiveFixture.input -or -not $cfg.negativeFixtures.broken.input -or -not $cfg.negativeFixtures.lowAttribution.input) {
-  Write-Error "Config file missing required fixture input paths."
-  exit 2
+  Write-Host "CONFIG ERROR: Config file missing required fixture input paths."
+  [Environment]::Exit(2)
 }
 
 $schemaVersion = if ($cfg.schemaVersion) { [string]$cfg.schemaVersion } else { "2026-06-06" }
@@ -82,9 +82,11 @@ $minInquiryAttempts = [int]$cfg.positiveFixture.minInquiryAttempts
 $minAttributionCoverage = [double]$cfg.positiveFixture.minAttributionCoverage
 $lowAttrThreshold = if ($null -ne $cfg.negativeFixtures.lowAttribution.minAttributionCoverage) { [double]$cfg.negativeFixtures.lowAttribution.minAttributionCoverage } else { $minAttributionCoverage }
 
+Write-Host "CONFIG CHECK: minAttributionCoverage=$minAttributionCoverage lowAttrThreshold=$lowAttrThreshold"
+
 if ($minAttributionCoverage -lt 0 -or $minAttributionCoverage -gt 1 -or $lowAttrThreshold -lt 0 -or $lowAttrThreshold -gt 1) {
-  Write-Error "Attribution coverage thresholds must be between 0 and 1."
-  exit 2
+  Write-Host "CONFIG ERROR: Attribution coverage thresholds must be between 0 and 1."
+  [Environment]::Exit(2)
 }
 
 $positiveArgs = @(
