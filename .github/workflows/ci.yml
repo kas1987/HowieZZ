@@ -87,6 +87,7 @@ jobs:
             Write-Error "Expected exit code 2 for invalid analytics config, got $LASTEXITCODE"
             exit 1
           }
+          exit 0
 
       - name: Analytics config guardrail missing keys (expected fail)
         shell: pwsh
@@ -97,6 +98,7 @@ jobs:
             Write-Error "Expected exit code 2 for missing-keys analytics config, got $LASTEXITCODE"
             exit 1
           }
+          exit 0
 
       - name: Upload analytics sanity artifacts
         uses: actions/upload-artifact@v4
