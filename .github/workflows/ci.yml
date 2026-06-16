@@ -38,6 +38,9 @@ jobs:
       - name: Validate pages, inline JS, and catalog JSON
         run: node .github/scripts/validate-site.mjs
 
+      - name: Guard — PDR_PATH headers in agent task files
+        run: node .github/scripts/validate-pdr-path-task-files.mjs
+
       - name: Analytics sanity suite
         shell: pwsh
         run: |

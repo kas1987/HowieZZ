@@ -32,6 +32,7 @@ zelexdoll-theme/
 
 # ---- Build artifacts / distributables ----
 *.zip
+!docs/pdr/recovery-pack/HowieZZ_PDR_Recovery_Pack.zip
 *.pdf
 db/*.db
 db/catalog.db
