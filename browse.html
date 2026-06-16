@@ -36,6 +36,21 @@
   text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--line);padding-bottom:2px;transition:.2s}
 .browse-hero .back:hover{color:var(--text);border-color:var(--text)}
 
+/* ---- taxonomy clarifier strip (family vs series vs character) ---- */
+.tax-strip{max-width:var(--maxw);margin:22px auto 0;padding:0 24px;
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap;color:var(--muted);font-size:12.5px;line-height:1.5}
+.tax-strip .tx-chip{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.tax-strip .tx-chip b{color:var(--text);font-weight:600;letter-spacing:.3px}
+.tax-strip .tx-chip span{opacity:.85}
+.tax-strip .tx-arrow{color:var(--gold);opacity:.55}
+.tax-strip .tx-key{display:inline-block;width:8px;height:8px;border-radius:50%;flex-shrink:0}
+@media(max-width:680px){.tax-strip{font-size:12px;gap:8px}}
+
+/* family color dot on family filter pills */
+.fam-pill .fam-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:7px;
+  background:var(--fam-color,var(--muted));vertical-align:middle;transition:.2s}
+.fam-pill.active .fam-dot{background:#111}
+
 /* ---- filter bar ---- */
 .filterbar{
   position:sticky;top:62px;z-index:40;
@@ -108,6 +123,17 @@
 .empty-state .big{font-family:'Playfair Display',serif;font-style:italic;
   font-size:clamp(22px,4vw,36px);color:var(--muted);margin-bottom:16px}
 .empty-state p{color:var(--muted);font-size:var(--t-base);max-width:400px;margin:0 auto 24px}
+.empty-state .es-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+
+/* ---- concierge CTA band (browse → compare/contact) ---- */
+.browse-cta{max-width:var(--maxw);margin:8px auto 60px;padding:0 24px}
+.browse-cta .panel{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;
+  padding:24px 28px}
+.browse-cta .bc-copy{max-width:62ch}
+.browse-cta .bc-copy h3{font-family:'Playfair Display',serif;font-size:var(--t-xl);line-height:1.15}
+.browse-cta .bc-copy p{color:var(--muted);font-size:13px;line-height:1.6;margin-top:6px}
+.browse-cta .bc-actions{display:flex;gap:12px;flex-wrap:wrap}
+@media(max-width:640px){.browse-cta .panel{flex-direction:column;align-items:flex-start}}
 </style>
 </head>
 <body>
@@ -153,6 +179,15 @@
   </div>
 </div>
 
+<div class="tax-strip" aria-label="How this catalog is organised">
+  <span class="tx-chip"><span class="tx-key" style="background:var(--gold)"></span><b>Family</b> <span>= silhouette (WHR/BWR)</span></span>
+  <span class="tx-arrow">›</span>
+  <span class="tx-chip"><span class="tx-key" style="background:var(--blue)"></span><b>Series</b> <span>= product line</span></span>
+  <span class="tx-arrow">›</span>
+  <span class="tx-chip"><span class="tx-key" style="background:var(--cream)"></span><b>Character</b> <span>= named persona on a body</span></span>
+  <a href="family.html" style="margin-left:auto;color:var(--gold);font-size:11px;letter-spacing:1.4px;text-transform:uppercase">What's the difference? →</a>
+</div>
+
 <div class="count-bar">
   <div class="count-text" id="count-text"></div>
   <div class="compare-quick" id="compare-quick">
@@ -165,6 +200,19 @@
 
 <div id="grid-container">
   <div class="loading">Loading the ZELEX catalog…</div>
+</div>
+
+<div class="browse-cta reveal">
+  <div class="panel panel--accent">
+    <div class="bc-copy">
+      <h3>Narrowed it down?</h3>
+      <p>Add up to four bodies to your compare set as you browse, then weigh their proportion signatures side by side — or speak with the concierge for a made-to-order build.</p>
+    </div>
+    <div class="bc-actions">
+      <a class="btn" href="compare.html" id="cta-compare">Open Compare</a>
+      <a class="btn solid" href="contact.html" id="cta-contact">Request a Consultation</a>
+    </div>
+  </div>
 </div>
 
 <script src="assets/site.js"></script>
@@ -267,6 +315,20 @@ function init(m) {
   buildSeriesPills(m);
   buildFamilyPills(m);
 
+  // Deep link from family.html ("Browse These Characters") — pre-select a family pill.
+  const famParam = ZX.qs('family');
+  if (famParam && ZX.FAMILIES.indexOf(famParam) !== -1) {
+    state.family = famParam;
+    document.querySelectorAll('#family-pills .pill').forEach(p => {
+      const active = p.dataset.val === famParam;
+      p.classList.toggle('active', active);
+      if (active && p.dataset.val !== 'all') {
+        p.style.background = ZX.famColor(famParam);
+        p.style.borderColor = ZX.famColor(famParam);
+      }
+    });
+  }
+
   document.getElementById('photo-toggle').addEventListener('change', e => {
     state.photoOnly = e.target.checked;
     renderGrid();
@@ -306,6 +368,16 @@ function init(m) {
     renderGrid();
   });
 
+  const ctaCompare = document.getElementById('cta-compare');
+  if (ctaCompare) ctaCompare.addEventListener('click', function() {
+    const codes = selectedCompareCodes();
+    ZX.track('compare_handoff_click', { channel: 'compare', cta: 'browse_cta_compare', compare_count: codes.length, body_codes: codes.join(','), context: 'browse_cta', source_page: 'browse' });
+  });
+  const ctaContact = document.getElementById('cta-contact');
+  if (ctaContact) ctaContact.addEventListener('click', function() {
+    ZX.track('contact_intent_click', { channel: 'contact', cta: 'browse_cta_contact', context: 'browse_cta', source_page: 'browse' });
+  });
+
   refreshCompareQuick();
   renderGrid();
 }
@@ -341,11 +413,13 @@ function buildFamilyPills(m) {
     const btn = document.createElement('button');
     const isAll = val === 'all';
     btn.className = 'pill fam-pill' + (isAll ? ' active' : '');
-    btn.textContent = label;
     btn.dataset.val = val;
-    if (!isAll) {
+    if (isAll) {
+      btn.textContent = label;
+    } else {
       const color = ZX.famColor(val);
       btn.style.setProperty('--fam-color', color);
+      btn.innerHTML = '<span class="fam-dot"></span>' + ZX.esc(label);
       // subtle tint when inactive
       btn.addEventListener('mouseenter', () => { if (!btn.classList.contains('active')) btn.style.borderColor = color; });
       btn.addEventListener('mouseleave', () => { if (!btn.classList.contains('active')) btn.style.borderColor = ''; });
@@ -428,9 +502,12 @@ function renderGrid() {
 
   if (chars.length === 0) {
     container.innerHTML = '<div class="empty-state">' +
-      '<div class="big">No characters match</div>' +
-      '<p>Try broadening your filters or clearing the search.</p>' +
-      '<span class="reset-link" onclick="resetFilters()">Reset all filters</span>' +
+      '<div class="big">No characters match this combination</div>' +
+      '<p>Loosen a filter to see more of the cast — or let the concierge curate options in this silhouette for you.</p>' +
+      '<div class="es-actions">' +
+        '<button class="btn ghost" type="button" onclick="resetFilters()">Reset all filters</button>' +
+        '<a class="btn solid" href="contact.html">Ask the Concierge</a>' +
+      '</div>' +
       '</div>';
     return;
   }
