@@ -31,7 +31,7 @@ for (const f of PAGES) {
   }
 
   // baseline SEO / social metadata (kit pages only)
-  if (KIT_PAGES.includes(f)) {
+  if (!STANDALONE_PAGES.has(f)) {
     const META_CHECKS = [
       [/<meta\s+name="description"\s+content="[^"]+"/i, 'meta description'],
       [/<link\s+rel="canonical"\s+href="https?:\/\/[^"]+"/i, 'canonical link'],
