@@ -24,7 +24,11 @@ if (!existsSync(FILE)) {
         return;
       }
       if (!r.path || !r.kind) fail('source_refs[' + i + '] must include path and kind');
-      if (r.path && !existsSync(r.path)) fail('source_refs[' + i + '] path missing: ' + r.path);
+      // `_local/` holds gitignored, machine-local provenance material (e.g. downloaded
+      // theme references). Such refs document where data came from but are intentionally
+      // not committed, so they will never exist in CI — validate shape only, not existence.
+      const isLocalOnly = r.path && r.path.replace(/\\/g, '/').startsWith('_local/');
+      if (r.path && !isLocalOnly && !existsSync(r.path)) fail('source_refs[' + i + '] path missing: ' + r.path);
     });
 
     const requiredChannelFields = ['name', 'purpose', 'status', 'cadence', 'primary', 'secondary', 'primaryLabel', 'secondaryLabel'];
