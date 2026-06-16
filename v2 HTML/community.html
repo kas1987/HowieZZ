@@ -22,7 +22,12 @@
 .community-stack{margin-top:22px;border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:16px}
 .community-stack h2{margin:0 0 8px;font-size:30px;line-height:1.08}
 .community-list{margin:0;padding-left:18px;color:var(--muted);line-height:1.8}
+.handle-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px}
+.handle-card{border:1px solid var(--line);border-radius:12px;padding:12px;background:var(--panel2)}
+.handle-card h4{margin:0 0 4px;font-size:15px}
+.handle-card p{margin:0 0 8px;color:var(--muted);font-size:12px;line-height:1.5}
 @media(max-width:920px){.community-grid{grid-template-columns:1fr}}
+@media(max-width:920px){.handle-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -50,54 +55,33 @@
       <a class="btn ghost" href="quiz.html">Find Your Match</a>
     </div>
   </section>
+
+  <section class="community-stack" id="official-handles">
+    <h2>Official Handles Verification</h2>
+    <p style="margin:0;color:var(--muted)">Always verify account ownership before engaging. If unsure, use the confirmation links below.</p>
+    <div class="handle-grid" id="handle-grid"></div>
+  </section>
 </main>
 
 <script src="assets/site.js"></script>
 <script>
 ZX.mountNav('community.html');
 
-var channels = [
-  {
-    name: 'ZELEX Blog',
-    purpose: 'Product updates, release notes, craftsmanship stories, and official announcements.',
-    status: 'Public',
-    cadence: 'Weekly',
-    primary: 'https://www.zelexdoll.com/blogs/news',
-    secondary: 'contact.html?src=community&cta=blog_subscription&context=community&channel=contact',
-    primaryLabel: 'Open Blog',
-    secondaryLabel: 'Subscribe via Concierge'
-  },
-  {
-    name: 'Collector Magazine',
-    purpose: 'Long-form editorial issues, collector features, and seasonal curation highlights.',
-    status: 'Curated',
-    cadence: 'Monthly',
-    primary: 'contact.html?src=community&cta=magazine_waitlist&context=community&channel=contact',
-    secondary: 'craft.html',
-    primaryLabel: 'Join Magazine Waitlist',
-    secondaryLabel: 'Read Craft Journal'
-  },
-  {
-    name: 'Discord Lounge',
-    purpose: 'Real-time collector conversation, setup tips, and showcase threads.',
-    status: 'Invite Path',
-    cadence: 'Daily',
-    primary: 'contact.html?src=community&cta=discord_invite_request&context=community&channel=contact',
-    secondary: 'contact.html?src=community&cta=discord_moderation_help&context=community&channel=contact',
-    primaryLabel: 'Request Discord Invite',
-    secondaryLabel: 'Moderation / Safety Help'
-  },
-  {
-    name: 'Social Channels',
-    purpose: 'Short-form updates and media drops across Instagram, YouTube, and X-style broadcast lanes.',
-    status: 'Multi-channel',
-    cadence: 'Daily',
-    primary: 'contact.html?src=community&cta=social_directory_request&context=community&channel=contact',
-    secondary: 'browse.html',
-    primaryLabel: 'Get Official Social Directory',
-    secondaryLabel: 'Browse Current Catalog'
-  }
-];
+var FALLBACK_DATA = {
+  channels: [
+    {
+      name: 'ZELEX Blog',
+      purpose: 'Product updates, release notes, craftsmanship stories, and official announcements.',
+      status: 'Public',
+      cadence: 'Weekly',
+      primary: 'https://www.zelexdoll.com/blogs/news',
+      secondary: 'contact.html?src=community&cta=blog_subscription&context=community&channel=contact',
+      primaryLabel: 'Open Blog',
+      secondaryLabel: 'Subscribe via Concierge'
+    }
+  ],
+  official_handles: []
+};
 
 function cardHtml(item){
   return '<article class="community-card">' +
@@ -114,18 +98,51 @@ function cardHtml(item){
   '</article>';
 }
 
-document.getElementById('community-grid').innerHTML = channels.map(cardHtml).join('');
+function handleCardHtml(item){
+  return '<article class="handle-card">' +
+    '<h4>' + ZX.esc(item.platform || '') + '</h4>' +
+    '<p><strong style="color:var(--cream)">' + ZX.esc(item.handle || '') + '</strong><br>' + ZX.esc(item.verification || '') + '</p>' +
+    '<a class="btn ghost handle-link" data-platform="' + ZX.esc(item.platform || '') + '" href="' + ZX.esc(item.url || 'contact.html') + '">Verify Channel</a>' +
+  '</article>';
+}
 
-document.querySelectorAll('.community-link').forEach(function(el){
-  el.addEventListener('click', function(){
-    ZX.track('community_handoff_click', {
-      channel_name: el.getAttribute('data-channel') || '',
-      cta: el.getAttribute('data-cta') || '',
-      context: 'community',
-      source_page: 'community'
+function bindTracking(){
+  document.querySelectorAll('.community-link').forEach(function(el){
+    el.addEventListener('click', function(){
+      ZX.track('community_handoff_click', {
+        channel_name: el.getAttribute('data-channel') || '',
+        cta: el.getAttribute('data-cta') || '',
+        context: 'community',
+        source_page: 'community'
+      });
     });
   });
-});
+
+  document.querySelectorAll('.handle-link').forEach(function(el){
+    el.addEventListener('click', function(){
+      ZX.track('community_handoff_click', {
+        channel_name: el.getAttribute('data-platform') || '',
+        cta: 'verify_channel',
+        context: 'community',
+        source_page: 'community'
+      });
+    });
+  });
+}
+
+function renderCommunity(data){
+  var channels = (data && data.channels) || [];
+  var handles = (data && data.official_handles) || [];
+
+  document.getElementById('community-grid').innerHTML = channels.map(cardHtml).join('');
+  document.getElementById('handle-grid').innerHTML = handles.map(handleCardHtml).join('');
+  bindTracking();
+}
+
+fetch('db/community_channels.json')
+  .then(function(r){ return r.ok ? r.json() : FALLBACK_DATA; })
+  .then(renderCommunity)
+  .catch(function(){ renderCommunity(FALLBACK_DATA); });
 
 ZX.track('community_view', { context: 'community', source_page: 'community' });
 ZX.mountFooter();

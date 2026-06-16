@@ -25,6 +25,7 @@ Keep [v2 HTML](v2%20HTML) as a deterministic snapshot of current root HTML pages
 - Commit packaged HTML + manifest artifacts together for traceability.
 - Use [ .github/scripts/validate-site.mjs ](.github/scripts/validate-site.mjs) before commit.
 - Use [ .github/scripts/validate-pdr-path-task-files.mjs ](.github/scripts/validate-pdr-path-task-files.mjs) before commit.
+- CI now enforces freshness by running the packaging script and failing if [v2 HTML](v2%20HTML) changes are detected.
 
 ## Notes
 - Script prunes stale HTML files from [v2 HTML](v2%20HTML) before copying current root files.

@@ -41,6 +41,16 @@ jobs:
       - name: Guard — PDR_PATH headers in agent task files
         run: node .github/scripts/validate-pdr-path-task-files.mjs
 
+      - name: Guard — v2 HTML package is refreshed
+        shell: pwsh
+        run: |
+          ./scripts/refresh_v2_html.ps1 1
+          git diff --exit-code -- "v2 HTML"
+          if ($LASTEXITCODE -ne 0) {
+            Write-Error "v2 HTML package artifacts are stale. Run ./scripts/refresh_v2_html.ps1 and commit updated package files."
+            exit 1
+          }
+
       - name: Analytics sanity suite
         shell: pwsh
         run: |

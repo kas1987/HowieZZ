@@ -1,0 +1,64 @@
+{
+  "channels": [
+    {
+      "name": "ZELEX Blog",
+      "purpose": "Product updates, release notes, craftsmanship stories, and official announcements.",
+      "status": "Public",
+      "cadence": "Weekly",
+      "primary": "https://www.zelexdoll.com/blogs/news",
+      "secondary": "contact.html?src=community&cta=blog_subscription&context=community&channel=contact",
+      "primaryLabel": "Open Blog",
+      "secondaryLabel": "Subscribe via Concierge"
+    },
+    {
+      "name": "Collector Magazine",
+      "purpose": "Long-form editorial issues, collector features, and seasonal curation highlights.",
+      "status": "Curated",
+      "cadence": "Monthly",
+      "primary": "contact.html?src=community&cta=magazine_waitlist&context=community&channel=contact",
+      "secondary": "craft.html",
+      "primaryLabel": "Join Magazine Waitlist",
+      "secondaryLabel": "Read Craft Journal"
+    },
+    {
+      "name": "Discord Lounge",
+      "purpose": "Real-time collector conversation, setup tips, and showcase threads.",
+      "status": "Invite Path",
+      "cadence": "Daily",
+      "primary": "contact.html?src=community&cta=discord_invite_request&context=community&channel=contact",
+      "secondary": "contact.html?src=community&cta=discord_moderation_help&context=community&channel=contact",
+      "primaryLabel": "Request Discord Invite",
+      "secondaryLabel": "Moderation / Safety Help"
+    },
+    {
+      "name": "Social Channels",
+      "purpose": "Short-form updates and media drops across Instagram, YouTube, and X-style broadcast lanes.",
+      "status": "Multi-channel",
+      "cadence": "Daily",
+      "primary": "contact.html?src=community&cta=social_directory_request&context=community&channel=contact",
+      "secondary": "browse.html",
+      "primaryLabel": "Get Official Social Directory",
+      "secondaryLabel": "Browse Current Catalog"
+    }
+  ],
+  "official_handles": [
+    {
+      "platform": "Instagram",
+      "handle": "@zelexdoll",
+      "url": "contact.html?src=community&cta=instagram_handle_confirm&context=community&channel=contact",
+      "verification": "Confirm with concierge"
+    },
+    {
+      "platform": "YouTube",
+      "handle": "ZELEX Official",
+      "url": "contact.html?src=community&cta=youtube_handle_confirm&context=community&channel=contact",
+      "verification": "Confirm with concierge"
+    },
+    {
+      "platform": "Discord",
+      "handle": "Invite-only access",
+      "url": "contact.html?src=community&cta=discord_handle_confirm&context=community&channel=contact",
+      "verification": "Request official invite"
+    }
+  ]
+}
