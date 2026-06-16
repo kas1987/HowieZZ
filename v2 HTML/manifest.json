@@ -1,5 +1,5 @@
 {
-  "generated_utc": "2026-06-16T15:57:26.7087304Z",
+  "generated_utc": "2026-06-16T15:59:12.6803707Z",
   "source_root": "C:\\Users\\kas41\\archived\\HowieZZ",
   "destination": "C:\\Users\\kas41\\archived\\HowieZZ\\v2 HTML",
   "file_count": 14,
@@ -25,9 +25,9 @@
     },
     {
       "file": "community-events.html",
-      "size_bytes": 4080,
-      "sha256": "9d588204a9cf00b6a3d24168c3b562c9c42db8bb6a9d83836db5f77c4dd84c94",
-      "modified_utc": "2026-06-16T15:53:11.6266703Z"
+      "size_bytes": 5108,
+      "sha256": "3ee91f45d43b37fea38acb18d3f6223832cfb8eaa6a8d3329e083765ffefcecc",
+      "modified_utc": "2026-06-16T15:58:55.7027062Z"
     },
     {
       "file": "community.html",

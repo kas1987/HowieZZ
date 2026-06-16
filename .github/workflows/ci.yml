@@ -44,6 +44,11 @@ jobs:
       - name: Validate community events data schema
         run: node .github/scripts/validate-community-events-data.mjs
 
+      - name: Guard — community channel sync status (check mode)
+        shell: pwsh
+        run: |
+          ./scripts/sync_community_channels_from_reference.ps1 -CheckOnly
+
       - name: Guard — PDR_PATH headers in agent task files
         run: node .github/scripts/validate-pdr-path-task-files.mjs
 

@@ -18,6 +18,7 @@
 .event-card p{margin:0;color:var(--muted);font-size:13px;line-height:1.6}
 .event-meta{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 12px}
 .event-chip{display:inline-flex;align-items:center;padding:4px 9px;border:1px solid var(--line);border-radius:999px;font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted)}
+.events-provenance{margin-top:14px;border:1px dashed var(--line);border-radius:12px;padding:12px;color:var(--muted);font-size:12px;line-height:1.6;background:var(--panel2)}
 @media(max-width:920px){.events-list{grid-template-columns:1fr}}
 </style>
 </head>
@@ -31,6 +32,8 @@
   </section>
 
   <section class="events-list" id="events-list"></section>
+
+  <section class="events-provenance" id="events-provenance">Provenance: loading source metadata...</section>
 
   <div class="section-featured mt-18">
     <div class="section-head">Need A Custom Session?</div>
@@ -77,6 +80,19 @@ fetch('db/community_events.json')
   })
   .catch(function(){
     document.getElementById('events-list').innerHTML = '<div class="compare-empty">Events are loading from curation. Use Contact to request the next session.</div>';
+  });
+
+fetch('db/community_channels.json')
+  .then(function(r){ return r.ok ? r.json() : null; })
+  .then(function(data){
+    var refs = (data && data.meta && data.meta.source_refs) || [];
+    var generated = (data && data.meta && data.meta.generated_utc) || '';
+    var genLabel = generated ? generated.slice(0, 10) + ' UTC' : 'unknown';
+    var refText = refs.length ? refs.map(function(x){ return x.path; }).join(' | ') : 'no source refs';
+    document.getElementById('events-provenance').textContent = 'Provenance: Last verified ' + genLabel + '. Sources: ' + refText;
+  })
+  .catch(function(){
+    document.getElementById('events-provenance').textContent = 'Provenance: metadata unavailable, use Contact for verification.';
   });
 
 ZX.track('community_view', { context: 'community_events', source_page: 'community-events' });
