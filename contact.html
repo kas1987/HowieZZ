@@ -121,6 +121,92 @@
     .info-divider{border:none;border-top:1px solid var(--line);margin:24px 0}
     .info-email-row{font-size:13px;color:var(--muted);text-align:center}
     .info-email-row a{color:var(--gold)}
+
+    /* ====== Guided buyer-fit intake (FE-006 guided port) ====== */
+    /* audience switch */
+    .audience-switch{margin-bottom:30px}
+    .audience-switch .sw-eyebrow{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:11px}
+    .mode-cards{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    @media(max-width:560px){.mode-cards{grid-template-columns:1fr}}
+    .mode-card{display:flex;align-items:center;gap:15px;padding:18px;border-radius:var(--r-lg);cursor:pointer;
+      font-family:inherit;text-align:left;transition:.2s;border:1px solid var(--line);background:var(--panel);width:100%}
+    .mode-card .mc-icon{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;
+      color:var(--gold);background:color-mix(in srgb,var(--gold) 8%,transparent);border:1px solid color-mix(in srgb,var(--gold) 18%,transparent);transition:.2s}
+    .mode-card .mc-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:600;color:var(--text)}
+    .mode-card .mc-sub{font-size:12px;color:var(--muted);line-height:1.45;margin-top:3px;display:block}
+    .mode-card[aria-pressed="true"]{border-color:color-mix(in srgb,var(--gold) 60%,transparent);
+      background:linear-gradient(140deg,color-mix(in srgb,var(--gold) 12%,transparent),transparent 60%),var(--panel);
+      box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--gold) 20%,transparent),0 6px 22px rgba(0,0,0,.4)}
+    .mode-card[aria-pressed="true"] .mc-icon{color:var(--cream);background:color-mix(in srgb,var(--gold) 20%,transparent);border-color:color-mix(in srgb,var(--gold) 45%,transparent)}
+    .mode-card[aria-pressed="true"] .mc-title{color:var(--cream)}
+
+    /* buyer-fit field groups */
+    .fit-section{margin-bottom:30px}
+    .fit-section > .fit-q{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text);margin-bottom:4px}
+    .fit-section > .fit-help{font-size:12.5px;color:var(--muted);margin-bottom:13px;line-height:1.5}
+    .opt-grid{display:grid;gap:10px}
+    .opt-grid.use{grid-template-columns:repeat(auto-fit,minmax(168px,1fr))}
+    .opt-grid.cols3{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+    .opt-card{display:flex;flex-direction:column;align-items:flex-start;gap:8px;text-align:left;padding:14px 15px;border-radius:12px;
+      cursor:pointer;font-family:inherit;transition:.18s;border:1px solid var(--line);background:var(--panel);width:100%}
+    .opt-card .oc-top{display:flex;align-items:center;justify-content:space-between;width:100%}
+    .opt-card .oc-icon{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;
+      color:var(--gold);background:color-mix(in srgb,var(--gold) 8%,transparent);border:1px solid color-mix(in srgb,var(--gold) 16%,transparent);transition:.18s}
+    .opt-card .oc-check{width:20px;height:20px;border-radius:50%;display:none;align-items:center;justify-content:center;flex-shrink:0;color:#111;background:var(--gold)}
+    .opt-card .oc-label{font-size:13.5px;font-weight:600;letter-spacing:.2px;color:var(--text)}
+    .opt-card .oc-sub{font-size:11px;line-height:1.45;color:var(--muted)}
+    .opt-card .oc-bars{display:flex;gap:4px;width:100%;margin-top:2px}
+    .opt-card .oc-bars span{flex:1;height:4px;border-radius:3px;background:var(--line)}
+    .opt-card .oc-bars span.on{background:var(--gold)}
+    .opt-card[aria-pressed="true"]{border-color:color-mix(in srgb,var(--gold) 60%,transparent);
+      background:linear-gradient(140deg,color-mix(in srgb,var(--gold) 14%,transparent),color-mix(in srgb,var(--gold) 3%,transparent));
+      box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--gold) 22%,transparent)}
+    .opt-card[aria-pressed="true"] .oc-icon{color:var(--cream);background:color-mix(in srgb,var(--gold) 18%,transparent);border-color:color-mix(in srgb,var(--gold) 40%,transparent)}
+    .opt-card[aria-pressed="true"] .oc-label{color:var(--cream)}
+    .opt-card[aria-pressed="true"] .oc-check{display:flex}
+
+    /* realism gradient scale */
+    .realism-track{position:relative;padding:2px 0}
+    .realism-track .rt-bar{position:absolute;left:9%;right:9%;top:11px;height:5px;border-radius:5px;
+      background:linear-gradient(90deg,var(--Muse),var(--gold),var(--coral));opacity:.55}
+    .realism-track .rt-nodes{position:relative;display:flex}
+    .realism-node{flex:1;display:flex;flex-direction:column;align-items:center;gap:10px;cursor:pointer;font-family:inherit;background:none;border:none}
+    .realism-node .rn-dot{width:14px;height:14px;border-radius:50%;background:#2a2a2a;border:1px solid #555;transition:.18s}
+    .realism-node .rn-label{font-size:10px;letter-spacing:.4px;color:var(--muted);transition:.18s}
+    .realism-node[aria-pressed="true"] .rn-dot{width:22px;height:22px;border:2px solid var(--cream)}
+    .realism-node[aria-pressed="true"] .rn-label{color:var(--cream);font-weight:600}
+    .realism-desc{margin-top:16px;border:1px solid var(--line);border-radius:10px;padding:12px 15px;background:var(--panel);
+      font-size:13px;color:var(--text);display:flex;align-items:center;gap:10px}
+    .realism-desc .rd-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;background:var(--gold)}
+
+    /* customization chips + swatches */
+    .chip-row{display:flex;flex-wrap:wrap;gap:9px}
+    .cust-chip{display:inline-flex;align-items:center;gap:9px;padding:10px 16px;border-radius:var(--r-pill);cursor:pointer;
+      font-size:13px;font-family:inherit;transition:.18s;border:1px solid var(--line);color:var(--muted);background:transparent}
+    .cust-chip .cc-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;background:#555;transition:.18s}
+    .cust-chip[aria-pressed="true"]{border-color:color-mix(in srgb,var(--gold) 60%,transparent);color:var(--cream);background:color-mix(in srgb,var(--gold) 10%,transparent)}
+    .cust-chip[aria-pressed="true"] .cc-dot{background:var(--gold);box-shadow:0 0 8px color-mix(in srgb,var(--gold) 65%,transparent)}
+    .swatch-block{margin-top:12px;border:1px solid var(--line);border-radius:12px;padding:16px 18px;background:var(--panel)}
+    .swatch-block .sb-title{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:13px}
+    .swatch-row{display:flex;gap:16px;flex-wrap:wrap}
+    .swatch{display:flex;flex-direction:column;align-items:center;gap:7px;cursor:pointer;font-family:inherit;background:none;border:none}
+    .swatch .sw-dot{width:34px;height:34px;border-radius:50%;transition:.18s;border:1px solid rgba(255,255,255,.18)}
+    .swatch .sw-label{font-size:10px;letter-spacing:.3px;color:var(--muted)}
+    .swatch[aria-pressed="true"] .sw-dot{box-shadow:0 0 0 2px var(--panel),0 0 0 4px var(--gold);transform:scale(1.06)}
+    .swatch[aria-pressed="true"] .sw-label{color:var(--cream)}
+
+    /* "Your fit so far" sidebar */
+    .fit-summary{background:linear-gradient(150deg,color-mix(in srgb,var(--gold) 7%,transparent),transparent 55%),var(--panel);
+      border:1px solid color-mix(in srgb,var(--gold) 28%,transparent);border-radius:14px;padding:22px;margin-bottom:18px;position:sticky;top:86px}
+    .fit-summary .fs-eyebrow{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+    .fit-summary .fs-rows{display:flex;flex-direction:column;gap:11px}
+    .fit-summary .fs-row{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+    .fit-summary .fs-k{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);flex-shrink:0}
+    .fit-summary .fs-v{font-size:12.5px;font-weight:500;color:var(--cream);text-align:right;letter-spacing:.2px}
+    @media(max-width:900px){.fit-summary{position:static}}
+
+    .indev-note{font-size:11px;color:var(--muted);margin-top:8px;font-style:italic;letter-spacing:.3px;display:none}
+    .indev-note.show{display:block}
   </style>
 </head>
 <body>
@@ -142,6 +228,32 @@
 
     <!-- LEFT: form column -->
     <div class="reveal d2">
+
+      <!-- audience switch: New buyer <-> Collector -->
+      <div class="audience-switch" id="audience-switch">
+        <div class="sw-eyebrow">First, which sounds like you?</div>
+        <div class="mode-cards" role="group" aria-label="Audience">
+          <button type="button" class="mode-card" data-mode="new" aria-pressed="true">
+            <span class="mc-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="1.6"/><path d="M12 3.5v2.5"/><path d="M12 18v2.5"/><path d="M3.5 12h2.5"/><path d="M18 12h2.5"/></svg>
+            </span>
+            <span>
+              <span class="mc-title">New to ZELEX</span>
+              <span class="mc-sub">Guided, plain-language, with reassurance at each step.</span>
+            </span>
+          </button>
+          <button type="button" class="mode-card" data-mode="collector" aria-pressed="false">
+            <span class="mc-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h12l3 5-9 11L3 9z"/><line x1="3" y1="9" x2="21" y2="9"/><path d="M9.5 4L8 9l4 11 4-11-1.5-5"/></svg>
+            </span>
+            <span>
+              <span class="mc-title">Experienced collector</span>
+              <span class="mc-sub">Spec-forward and concise. Skip the basics.</span>
+            </span>
+          </button>
+        </div>
+      </div>
+
       <!-- character chip injected here when ?id= present -->
       <div id="char-chip-area"></div>
 
@@ -197,60 +309,66 @@
           <label for="f-family">Silhouette family interest <span style="color:var(--muted);font-size:10px">(optional)</span></label>
           <select id="f-family" name="family">
             <option value="">No preference yet / unsure</option>
-            <option value="The Classic">The Classic — timeless hourglass (+20%)</option>
+            <option value="The Classic">The Classic — timeless hourglass (+20%, in development)</option>
             <option value="The Icon">The Icon — glamour model (+30%)</option>
             <option value="The Muse">The Muse — tall, hip-dominant (+25%)</option>
             <option value="The Siren">The Siren — bust-dominant fantasy (+35%)</option>
             <option value="The Empress">The Empress — maximum plush (+40%)</option>
-            <option value="The Sculpt">The Sculpt — muscular definition (+30%)</option>
+            <option value="The Sculpt">The Sculpt — muscular definition (+30%, in development)</option>
           </select>
+          <div class="indev-note" id="family-indev">This family is currently in development — we'll advise on availability during your consultation.</div>
         </div>
 
-        <div class="form-group">
-          <label for="f-budget">Budget range <span style="color:var(--muted);font-size:10px">(optional)</span></label>
-          <select id="f-budget" name="budget">
-            <option value="">Prefer not to say / not sure</option>
-            <option value="$3,000–4,000">$3,000 – $4,000</option>
-            <option value="$4,000–5,000">$4,000 – $5,000</option>
-            <option value="$5,000+">$5,000 and above</option>
-            <option value="Not sure">I'm not sure yet</option>
-          </select>
+        <!-- ====== Guided buyer-fit fields ====== -->
+        <div class="fit-section">
+          <div class="fit-q">Intended use</div>
+          <div class="fit-help" id="help-use">How do you picture keeping this character? Pick whatever feels closest.</div>
+          <div class="opt-grid use" id="grp-use" role="group" aria-label="Intended use"></div>
         </div>
 
-        <div class="form-row">
-          <div class="form-group">
-            <label for="f-intent">Inquiry intent <span style="color:var(--muted);font-size:10px">(optional)</span></label>
-            <select id="f-intent" name="intent">
-              <option value="">Select intent</option>
-              <option value="First purchase guidance">First purchase guidance</option>
-              <option value="Body comparison support">Body comparison support</option>
-              <option value="Character recommendation">Character recommendation</option>
-              <option value="Customization and options">Customization and options</option>
-              <option value="Returning buyer consultation">Returning buyer consultation</option>
-            </select>
+        <div class="fit-section">
+          <div class="fit-q">Timeline</div>
+          <div class="fit-help" id="help-timeline">No rush — this just helps us set expectations on lead time.</div>
+          <div class="opt-grid cols3" id="grp-timeline" role="group" aria-label="Timeline"></div>
+        </div>
+
+        <div class="fit-section">
+          <div class="fit-q">Realism preference</div>
+          <div class="fit-help" id="help-realism">From understated and natural to bold, high-presence curves.</div>
+          <div class="realism-track">
+            <div class="rt-bar" aria-hidden="true"></div>
+            <div class="rt-nodes" id="grp-realism" role="group" aria-label="Realism preference"></div>
           </div>
-          <div class="form-group">
-            <label for="f-timeline">Purchase timeline <span style="color:var(--muted);font-size:10px">(optional)</span></label>
-            <select id="f-timeline" name="timeline">
-              <option value="">Select timeline</option>
-              <option value="Ready now (0-2 weeks)">Ready now (0-2 weeks)</option>
-              <option value="Near term (1-2 months)">Near term (1-2 months)</option>
-              <option value="Planning phase (3+ months)">Planning phase (3+ months)</option>
-              <option value="Just exploring">Just exploring</option>
-            </select>
-          </div>
+          <div class="realism-desc"><span class="rd-dot" id="realism-dot"></span><span id="realism-desc">A balanced, believable presence.</span></div>
         </div>
 
-        <div class="form-group">
-          <label for="f-use">Primary use context <span style="color:var(--muted);font-size:10px">(optional)</span></label>
-          <select id="f-use" name="use_context">
-            <option value="">Select context</option>
-            <option value="Private collection">Private collection</option>
-            <option value="Photography and content">Photography and content</option>
-            <option value="Display and styling">Display and styling</option>
-            <option value="Not sure yet">Not sure yet</option>
-          </select>
+        <div class="fit-section">
+          <div class="fit-q">Handling comfort</div>
+          <div class="fit-help" id="help-handling">These are full-weight figures. Tell us how much help you might want moving it.</div>
+          <div class="opt-grid cols3" id="grp-handling" role="group" aria-label="Handling comfort"></div>
         </div>
+
+        <div class="fit-section">
+          <div class="fit-q">Shipping &amp; privacy</div>
+          <div class="fit-help" id="help-privacy">Every order ships discreetly. Choose how private you need delivery to be.</div>
+          <div class="opt-grid cols3" id="grp-privacy" role="group" aria-label="Shipping and privacy"></div>
+        </div>
+
+        <div class="fit-section">
+          <div class="fit-q">Customization interest</div>
+          <div class="fit-help" id="help-custom">Want to tailor the look? Tap anything you're curious about — we'll explain it later.</div>
+          <div class="chip-row" id="grp-custom" role="group" aria-label="Customization interest"></div>
+          <div id="grp-swatches"></div>
+        </div>
+
+        <!-- hidden carriers for buyer-fit payload (non-PII) -->
+        <input type="hidden" name="use_context" id="f-use">
+        <input type="hidden" name="timeline" id="f-timeline">
+        <input type="hidden" name="realism" id="f-realism">
+        <input type="hidden" name="handling" id="f-handling">
+        <input type="hidden" name="privacy" id="f-privacy">
+        <input type="hidden" name="customization" id="f-customization">
+        <input type="hidden" name="intent" id="f-intent">
 
         <div class="form-group">
           <label for="f-message">Message <span class="req">*</span></label>
@@ -275,8 +393,16 @@
       </form>
     </div>
 
-    <!-- RIGHT: info panel -->
-    <aside class="info-panel reveal d3" aria-label="Inquiry information">
+    <!-- RIGHT: fit summary + info panel -->
+    <div class="reveal d3">
+
+    <!-- live "Your fit so far" running summary -->
+    <aside class="fit-summary" id="fit-summary" aria-label="Your fit so far" aria-live="polite">
+      <div class="fs-eyebrow">Your fit so far</div>
+      <div class="fs-rows" id="fit-rows"></div>
+    </aside>
+
+    <aside class="info-panel" aria-label="Inquiry information">
       <h3>What to expect</h3>
 
       <div class="info-item">
@@ -326,6 +452,8 @@
       </div>
     </aside>
 
+    </div><!-- /.aside column -->
+
   </div><!-- /.contact-layout -->
 </main>
 
@@ -361,8 +489,304 @@
   });
 }());
 
+// ─────────────────────────────────────────────────────────────
+// Guided buyer-fit intake (FE-006 guided port)
+// All values here are non-PII preference flags fed into the same
+// inquiry payload + analytics as the base form.
+// ─────────────────────────────────────────────────────────────
+var FIT = (function () {
+  // SVG icon set (inline, no external assets)
+  function svg(inner) {
+    return '<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + inner + '</svg>';
+  }
+  var ICON = {
+    collection: svg('<rect x="4" y="8" width="16" height="12" rx="2"/><path d="M4 8l1.6-3.2A1 1 0 0 1 6.5 4h11a1 1 0 0 1 .9.8L20 8"/><line x1="10" y1="12" x2="14" y2="12"/>'),
+    camera: svg('<rect x="3" y="7" width="18" height="13" rx="2.5"/><circle cx="12" cy="13.5" r="3.3"/><rect x="8.5" y="4.5" width="7" height="2.5" rx="1"/>'),
+    display: svg('<rect x="4" y="4" width="16" height="12" rx="1.5"/><line x1="4" y1="17" x2="20" y2="17"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="17" x2="12" y2="20"/>'),
+    home: svg('<path d="M4 11l8-6 8 6"/><path d="M6 10v9h12v-9"/><rect x="10" y="14" width="4" height="5" rx="0.5"/>'),
+    compass: svg('<circle cx="12" cy="12" r="9"/><path d="M15 9l-2.2 4.8L8 16l2.2-4.8z"/>'),
+    bolt: svg('<path d="M13 3L5 13.5h5.5L9 21l8-10.5h-5.5z"/>'),
+    clock: svg('<circle cx="12" cy="12" r="8.2"/><path d="M12 8v4.2l2.8 1.7"/>'),
+    calendar: svg('<rect x="4" y="5" width="16" height="16" rx="2"/><line x1="4" y1="9.5" x2="20" y2="9.5"/><line x1="8.5" y1="3" x2="8.5" y2="7"/><line x1="15.5" y1="3" x2="15.5" y2="7"/>'),
+    explore: svg('<circle cx="7.5" cy="15" r="3.4"/><circle cx="16.5" cy="15" r="3.4"/><path d="M10.9 14.3h2.2"/><path d="M7.5 11.6l1-3.6h2"/><path d="M16.5 11.6l-1-3.6h-2"/>'),
+    feather: svg('<path d="M20 4C13.5 4 7.5 9.5 6.5 16l-2.3 4"/><path d="M6.7 15.5h7.6"/><path d="M9 11.7c2.6 0 5-1.7 6.6-4.4"/>'),
+    anchor: svg('<circle cx="12" cy="5" r="2.4"/><line x1="12" y1="7.4" x2="12" y2="20"/><path d="M5 12.5a7 7 0 0 0 14 0"/><line x1="4" y1="12.5" x2="7.5" y2="12.5"/><line x1="16.5" y1="12.5" x2="20" y2="12.5"/>'),
+    scale: svg('<line x1="12" y1="4" x2="12" y2="20"/><path d="M5 8h14"/><path d="M5 8l-2.2 5h4.4z"/><path d="M19 8l-2.2 5h4.4z"/><line x1="8" y1="20" x2="16" y2="20"/>'),
+    box: svg('<rect x="4" y="8" width="16" height="12" rx="2"/><path d="M4 8l1.6-3.2A1 1 0 0 1 6.5 4h11a1 1 0 0 1 .9.8L20 8"/>'),
+    shieldCheck: svg('<path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 11.5l2 2 4-4"/>'),
+    shieldLock: svg('<path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><rect x="9.5" y="11" width="5" height="4" rx="1"/><path d="M10.5 11v-1.5a1.5 1.5 0 0 1 3 0V11"/>')
+  };
+  var CHECK = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg>';
+
+  // option definitions (value, label, sub, icon, meter-level)
+  var USE = [
+    ['private','Private collection','Personal enjoyment and keeping','collection'],
+    ['photo','Photography & content','Posing, styling, and shoots','camera'],
+    ['display','Display & styling','Wardrobe, scenes, presentation','display'],
+    ['companion','Companionship','A quiet, present figure at home','home'],
+    ['undecided','Still deciding','Help me think it through','compass']
+  ];
+  var TIME = [
+    ['now','Ready now','0–2 weeks','bolt'],
+    ['soon','Near term','1–2 months','clock'],
+    ['plan','Planning','3+ months out','calendar'],
+    ['explore','Just exploring','No timeline yet','explore']
+  ];
+  var HAND = [
+    ['solo','Solo-manageable','Lighter · ~25–30 kg','feather',1],
+    ['space','Dedicated space','Full weight · stays put','anchor',3],
+    ['unsure','Not sure yet','Advise me on weight','scale',2]
+  ];
+  var PRIV = [
+    ['standard','Standard','Plain, unbranded box','box',1],
+    ['discreet','Extra discreet','Nothing on label or billing','shieldCheck',2],
+    ['max','Maximum privacy','Coordinate delivery personally','shieldLock',3]
+  ];
+  var REAL_STOPS  = ['Natural','Soft','Balanced','Bold','Dramatic'];
+  var REAL_COLORS = ['#9FD6B6','#BFC79E','#D4A574','#DBA188','#E18B73'];
+  var REAL_DESC_NEW = ['As natural and understated as possible.','Mostly natural, gently flattering.','A balanced, believable presence.','Heightened, eye-catching curves.','Full dramatic, high-presence energy.'];
+  var REAL_DESC_COL = ['Conservative ratios · WHR ≈ 0.62','Natural-leaning · WHR ≈ 0.66','Balanced silhouette · WHR ≈ 0.70','Heightened · WHR ≈ 0.73','Dramatic · bust-forward · WHR ≈ 0.76'];
+  var CUSTOM = [['skin','Skin tone'],['eyes','Eye color'],['hair','Hair / wig'],['head','Head & face'],['body','Body options'],['implant','Implant softness']];
+  var SKIN = [['fair','Fair','#E7C6A8'],['natural','Natural','#D7A878'],['wheat','Wheat','#C0884F'],['tan','Tan','#9C6638'],['deep','Deep','#6E4424']];
+  var EYE  = [['blue','Blue','#6E93B8'],['hazel','Hazel','#8A6A3C'],['green','Green','#5C7D55'],['brown','Brown','#4A3326'],['grey','Grey','#8B8F93'],['amber','Amber','#AE752C']];
+  var HAIR = [['blonde','Blonde','#C7A458'],['brunette','Brunette','#5A3A24'],['black','Black','#221A15'],['auburn','Auburn','#7C3C22'],['silver','Silver','#C7C2BA']];
+
+  // labels keyed by value, for fit summary + payload
+  function labelOf(defs, val) {
+    for (var i = 0; i < defs.length; i++) if (defs[i][0] === val) return defs[i][1];
+    return '';
+  }
+
+  var state = {
+    mode: 'new',
+    use: 'private', timeline: 'soon', realism: 2,
+    handling: 'space', privacy: 'discreet',
+    custom: ['skin','eyes'], skin: 'natural', eye: 'hazel', hair: 'brunette'
+  };
+
+  var esc = (typeof ZX !== 'undefined' && ZX.esc) ? ZX.esc : function (s) { return String(s == null ? '' : s); };
+
+  // ── option-card renderer ──
+  function bars(level) {
+    var out = '';
+    for (var i = 1; i <= 3; i++) out += '<span class="' + (level >= i ? 'on' : '') + '"></span>';
+    return '<span class="oc-bars">' + out + '</span>';
+  }
+  function renderCards(containerId, field, defs) {
+    var el = document.getElementById(containerId);
+    if (!el) return;
+    el.innerHTML = defs.map(function (d) {
+      var sel = state[field] === d[0];
+      var level = d[4];
+      return '<button type="button" class="opt-card" data-field="' + field + '" data-value="' + esc(d[0]) + '" aria-pressed="' + sel + '">' +
+        '<span class="oc-top"><span class="oc-icon">' + (ICON[d[3]] || '') + '</span><span class="oc-check">' + CHECK + '</span></span>' +
+        '<span class="oc-label">' + esc(d[1]) + '</span>' +
+        '<span class="oc-sub">' + esc(d[2]) + '</span>' +
+        (level != null ? bars(level) : '') +
+      '</button>';
+    }).join('');
+  }
+  function renderRealism() {
+    var el = document.getElementById('grp-realism');
+    if (!el) return;
+    el.innerHTML = REAL_STOPS.map(function (label, i) {
+      var sel = state.realism === i;
+      var dotStyle = sel ? ('background:' + REAL_COLORS[i] + ';box-shadow:0 0 0 4px ' + hexA(REAL_COLORS[i], .25)) : '';
+      return '<button type="button" class="realism-node" data-realism="' + i + '" aria-pressed="' + sel + '" aria-label="' + esc(label) + '">' +
+        '<span class="rn-dot" style="' + dotStyle + '"></span><span class="rn-label">' + esc(label) + '</span></button>';
+    }).join('');
+    var dd = document.getElementById('realism-dot');
+    var desc = document.getElementById('realism-desc');
+    if (dd) dd.style.background = REAL_COLORS[state.realism];
+    if (desc) desc.textContent = (state.mode === 'new' ? REAL_DESC_NEW : REAL_DESC_COL)[state.realism];
+  }
+  function hexA(hex, a) {
+    var h = hex.replace('#',''); var r = parseInt(h.slice(0,2),16), g = parseInt(h.slice(2,4),16), b = parseInt(h.slice(4,6),16);
+    return 'rgba(' + r + ',' + g + ',' + b + ',' + a + ')';
+  }
+  function renderCustom() {
+    var el = document.getElementById('grp-custom');
+    if (!el) return;
+    el.innerHTML = CUSTOM.map(function (d) {
+      var sel = state.custom.indexOf(d[0]) >= 0;
+      return '<button type="button" class="cust-chip" data-custom="' + esc(d[0]) + '" aria-pressed="' + sel + '"><span class="cc-dot"></span>' + esc(d[1]) + '</button>';
+    }).join('');
+    renderSwatches();
+  }
+  function swatchBlock(title, field, defs) {
+    return '<div class="swatch-block"><div class="sb-title">' + esc(title) + '</div><div class="swatch-row">' +
+      defs.map(function (a) {
+        var sel = state[field] === a[0];
+        return '<button type="button" class="swatch" data-swatch-field="' + field + '" data-value="' + esc(a[0]) + '" aria-pressed="' + sel + '" aria-label="' + esc(a[1]) + '">' +
+          '<span class="sw-dot" style="background:' + esc(a[2]) + '"></span><span class="sw-label">' + esc(a[1]) + '</span></button>';
+      }).join('') + '</div></div>';
+  }
+  function renderSwatches() {
+    var el = document.getElementById('grp-swatches');
+    if (!el) return;
+    var html = '';
+    if (state.custom.indexOf('skin') >= 0) html += swatchBlock('Skin tone — pick a starting point', 'skin', SKIN);
+    if (state.custom.indexOf('eyes') >= 0) html += swatchBlock('Eye color', 'eye', EYE);
+    if (state.custom.indexOf('hair') >= 0) html += swatchBlock('Hair / wig', 'hair', HAIR);
+    el.innerHTML = html;
+  }
+
+  // ── audience copy ──
+  function applyAudienceCopy() {
+    var isNew = state.mode === 'new';
+    var hero = document.getElementById('hero-intro');
+    if (hero) hero.textContent = isNew
+      ? "New here? Take your time — we'll guide you in plain language and explain every option. A private consultation unlocks pricing, bespoke finishing, and delivery guidance, with no obligation."
+      : "Welcome back. Give us the specifics and we'll move straight to availability and configuration — pricing and bespoke finishing confirmed in a private briefing.";
+    var helps = {
+      'help-use':      [ 'How do you picture keeping this character? Pick whatever feels closest.', 'Primary use context.' ],
+      'help-timeline': [ 'No rush — this just helps us set expectations on lead time.', 'Target delivery window.' ],
+      'help-realism':  [ 'From understated and natural to bold, high-presence curves.', 'Silhouette intensity — drives WHR / BWR targeting.' ],
+      'help-handling': [ 'These are full-weight figures. Tell us how much help you might want moving it.', 'Handling class preference.' ],
+      'help-privacy':  [ 'Every order ships discreetly. Choose how private you need delivery to be.', 'Discretion level for packaging and billing.' ],
+      'help-custom':   [ "Want to tailor the look? Tap anything you're curious about — we'll explain it later.", 'Configuration interests — tap to specify swatches.' ]
+    };
+    Object.keys(helps).forEach(function (id) {
+      var e = document.getElementById(id); if (e) e.textContent = helps[id][isNew ? 0 : 1];
+    });
+    var btn = document.getElementById('submit-btn');
+    if (btn) btn.childNodes[0].nodeValue = isNew ? 'Request a Private Consultation ' : 'Send Configuration Inquiry ';
+  }
+
+  // ── live fit summary ──
+  function renderSummary() {
+    var rows = document.getElementById('fit-rows');
+    if (!rows) return;
+    var famSel = document.getElementById('f-family');
+    var famVal = famSel ? famSel.value : '';
+    var interests = CUSTOM.filter(function (d) { return state.custom.indexOf(d[0]) >= 0; }).map(function (d) { return d[1]; });
+    var items = [
+      ['Audience', state.mode === 'new' ? 'New buyer' : 'Collector', null],
+      ['Use', labelOf(USE, state.use), null],
+      ['Timeline', labelOf(TIME, state.timeline), null],
+      ['Realism', REAL_STOPS[state.realism], REAL_COLORS[state.realism]],
+      ['Handling', labelOf(HAND, state.handling), null],
+      ['Privacy', labelOf(PRIV, state.privacy), null]
+    ];
+    if (famVal) items.push(['Family', famVal.replace(/^The\s+/i, ''), null]);
+    items.push(['Tailoring', interests.length ? interests.join(', ') : 'None yet', null]);
+    rows.innerHTML = items.map(function (it) {
+      var vStyle = it[2] ? (' style="color:' + it[2] + ';font-weight:600"') : '';
+      return '<div class="fs-row"><span class="fs-k">' + esc(it[0]) + '</span><span class="fs-v"' + vStyle + '>' + esc(it[1]) + '</span></div>';
+    }).join('');
+  }
+
+  // ── sync hidden inputs for payload (non-PII labels) ──
+  function syncHidden() {
+    function set(id, v) { var e = document.getElementById(id); if (e) e.value = v; }
+    set('f-use', labelOf(USE, state.use));
+    set('f-timeline', labelOf(TIME, state.timeline));
+    set('f-realism', REAL_STOPS[state.realism]);
+    set('f-handling', labelOf(HAND, state.handling));
+    set('f-privacy', labelOf(PRIV, state.privacy));
+    var interests = CUSTOM.filter(function (d) { return state.custom.indexOf(d[0]) >= 0; });
+    var parts = interests.map(function (d) {
+      if (d[0] === 'skin')  return 'Skin: ' + cap(state.skin);
+      if (d[0] === 'eyes')  return 'Eyes: ' + cap(state.eye);
+      if (d[0] === 'hair')  return 'Hair: ' + cap(state.hair);
+      return d[1];
+    });
+    set('f-customization', parts.join('; '));
+    // map audience → existing intent field (concierge routing)
+    set('f-intent', state.mode === 'new' ? 'First purchase guidance' : 'Returning buyer consultation');
+  }
+  function cap(s) { return s ? s.charAt(0).toUpperCase() + s.slice(1) : ''; }
+
+  function refresh() { renderSummary(); syncHidden(); }
+
+  function renderAll() {
+    renderCards('grp-use', 'use', USE);
+    renderCards('grp-timeline', 'timeline', TIME);
+    renderCards('grp-handling', 'handling', HAND);
+    renderCards('grp-privacy', 'privacy', PRIV);
+    renderRealism();
+    renderCustom();
+    refresh();
+  }
+
+  function init() {
+    renderAll();
+    applyAudienceCopy();
+
+    // audience switch
+    var sw = document.getElementById('audience-switch');
+    if (sw) sw.addEventListener('click', function (e) {
+      var b = e.target.closest('.mode-card'); if (!b) return;
+      state.mode = b.getAttribute('data-mode');
+      sw.querySelectorAll('.mode-card').forEach(function (m) { m.setAttribute('aria-pressed', m === b ? 'true' : 'false'); });
+      applyAudienceCopy(); renderRealism(); refresh();
+    });
+
+    // single-select option cards (use/timeline/handling/privacy)
+    ['grp-use','grp-timeline','grp-handling','grp-privacy'].forEach(function (gid) {
+      var g = document.getElementById(gid);
+      if (!g) return;
+      g.addEventListener('click', function (e) {
+        var b = e.target.closest('.opt-card'); if (!b) return;
+        var field = b.getAttribute('data-field');
+        state[field] = b.getAttribute('data-value');
+        g.querySelectorAll('.opt-card').forEach(function (c) { c.setAttribute('aria-pressed', c === b ? 'true' : 'false'); });
+        refresh();
+      });
+    });
+
+    // realism scale
+    var rg = document.getElementById('grp-realism');
+    if (rg) rg.addEventListener('click', function (e) {
+      var b = e.target.closest('.realism-node'); if (!b) return;
+      state.realism = parseInt(b.getAttribute('data-realism'), 10) || 0;
+      renderRealism(); refresh();
+    });
+
+    // customization chips (multi-select) + swatches
+    var cg = document.getElementById('grp-custom');
+    if (cg) cg.addEventListener('click', function (e) {
+      var b = e.target.closest('.cust-chip'); if (!b) return;
+      var v = b.getAttribute('data-custom');
+      var i = state.custom.indexOf(v);
+      if (i >= 0) state.custom.splice(i, 1); else state.custom.push(v);
+      b.setAttribute('aria-pressed', i >= 0 ? 'false' : 'true');
+      renderSwatches(); refresh();
+    });
+    var sgWrap = document.getElementById('grp-swatches');
+    if (sgWrap) sgWrap.addEventListener('click', function (e) {
+      var b = e.target.closest('.swatch'); if (!b) return;
+      var field = b.getAttribute('data-swatch-field');
+      state[field] = b.getAttribute('data-value');
+      var block = b.closest('.swatch-row');
+      if (block) block.querySelectorAll('.swatch').forEach(function (s) { s.setAttribute('aria-pressed', s === b ? 'true' : 'false'); });
+      refresh();
+    });
+
+    // family select drives summary + in-development note
+    var famSel = document.getElementById('f-family');
+    if (famSel) famSel.addEventListener('change', function () {
+      var inDev = (famSel.value === 'The Classic' || famSel.value === 'The Sculpt');
+      var note = document.getElementById('family-indev');
+      if (note) note.classList.toggle('show', inDev);
+      refresh();
+    });
+  }
+
+  return {
+    init: init, refresh: refresh,
+    setRealismByFamily: function (famName) {
+      // map a prefilled family to a realism starting node (concierge default)
+      var map = { 'the classic': 1, 'the muse': 2, 'the icon': 3, 'the sculpt': 2, 'the siren': 3, 'the empress': 4 };
+      var k = String(famName || '').trim().toLowerCase();
+      if (map[k] != null) { state.realism = map[k]; renderRealism(); refresh(); }
+    }
+  };
+})();
+
 // Boot: mount nav, load catalog, prefill, backdrop, mount footer
 ZX.mountNav('contact.html');
+FIT.init();
 
 ZX.load().then(function(m) {
   prefill(m);
@@ -596,8 +1020,14 @@ function prefill(m) {
           famSel.value = famSel.options[fi].value; break;
         }
       }
+      var inDev = (famSel.value === 'The Classic' || famSel.value === 'The Sculpt');
+      var note = document.getElementById('family-indev');
+      if (note) note.classList.toggle('show', inDev);
     }
+    // nudge the guided realism scale toward the family's character, refresh summary
+    if (typeof FIT !== 'undefined') FIT.setRealismByFamily(ctxFamName);
   }
+  if (typeof FIT !== 'undefined') FIT.refresh();
 
   var msgField = document.getElementById('f-message');
   if (msgField && !msgField.value.trim()) {
@@ -701,10 +1131,13 @@ function buildMailto(fields) {
     fields.country ? 'Country: ' + fields.country : null,
     fields.character ? 'Selection of interest: ' + fields.character : null,
     fields.family  ? 'Silhouette family: ' + fields.family : null,
-    fields.budget  ? 'Budget: '  + fields.budget  : null,
-    fields.intent  ? 'Intent: '  + fields.intent  : null,
+    fields.intent  ? 'Audience / intent: ' + fields.intent : null,
     fields.timeline? 'Timeline: '+ fields.timeline: null,
-    fields.use_context ? 'Use context: ' + fields.use_context : null,
+    fields.use_context ? 'Intended use: ' + fields.use_context : null,
+    fields.realism ? 'Realism preference: ' + fields.realism : null,
+    fields.handling ? 'Handling comfort: ' + fields.handling : null,
+    fields.privacy ? 'Shipping & privacy: ' + fields.privacy : null,
+    fields.customization ? 'Customization interest: ' + fields.customization : null,
     '',
     'Message:',
     fields.message || ''
@@ -731,10 +1164,13 @@ function collectFields() {
     country:   val('f-country'),
     character: charVal,
     family:    val('f-family'),
-    budget:    val('f-budget'),
     intent:    val('f-intent'),
     timeline:  val('f-timeline'),
     use_context: val('f-use'),
+    realism:   val('f-realism'),
+    handling:  val('f-handling'),
+    privacy:   val('f-privacy'),
+    customization: val('f-customization'),
     message:   val('f-message')
   };
 }
@@ -801,6 +1237,11 @@ document.getElementById('inquiry-form').addEventListener('submit', function(e) {
     intent: fields.intent || '',
     family: fields.family || '',
     timeline: fields.timeline || '',
+    use_context: fields.use_context || '',
+    realism: fields.realism || '',
+    handling: fields.handling || '',
+    privacy: fields.privacy || '',
+    has_customization: !!fields.customization,
     context: 'contact_form',
     source_page: 'contact'
   }, getEntryMeta()));
