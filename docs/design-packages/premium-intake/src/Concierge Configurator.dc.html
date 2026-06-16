@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<template id="__bundler_thumbnail">
+<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+  <rect width="120" height="120" rx="22" fill="#161514"/>
+  <g transform="translate(60 62)">
+    <path d="M-22 -12 L0 -30 L22 -12 L0 30 Z" fill="none" stroke="#D4A574" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M-22 -12 H22 M-11 -21 L0 30 M11 -21 L0 30" stroke="#D4A574" stroke-width="1.8" opacity=".55" fill="none"/>
+  </g>
+</svg>
+</template>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  button{font:inherit;color:inherit;background:none;border:none}
+  input{font:inherit}
+  :focus-visible{outline:2px solid #D4A574;outline-offset:3px}
+  ::placeholder{color:#6f6f6f}
+  @keyframes fadeup{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  @keyframes pop{from{opacity:0;transform:translateY(6px) scale(.97)}to{opacity:1;transform:none}}
+  @keyframes drift{0%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-52%) scale(1.06)}100%{transform:translate(-50%,-50%) scale(1)}}
+  .silhouette path,.silhouette circle,.silhouette ellipse,.silhouette line{transition:all .45s cubic-bezier(.34,1.1,.64,1)}
+  .filterbar::-webkit-scrollbar{height:0}
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:radial-gradient(ellipse at 50% -10%,#1d1c1a,#121212 60%);color:#e8e8e8;font-family:Montserrat,system-ui,sans-serif;line-height:1.6">
+
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:15px 32px;border-bottom:1px solid #2a2a2a;background:rgba(18,18,18,.7);backdrop-filter:blur(10px);position:sticky;top:0;z-index:30">
+    <div style="font-family:'Playfair Display',serif;font-weight:700;letter-spacing:5px;font-size:18px;color:#F7E3C3">ZELE<span style="color:#5EA6E8">X</span></div>
+    <div style="display:flex;gap:7px;align-items:center">
+      <a href="Concierge Intake.dc.html" style="padding:7px 15px;border-radius:100px;font-size:10.5px;letter-spacing:1.5px;text-transform:uppercase;color:#9a9a9a;border:1px solid #333;transition:.18s" style-hover="color:#e8e8e8;border-color:#9a9a9a">Guided form</a>
+      <span style="padding:7px 15px;border-radius:100px;font-size:10.5px;letter-spacing:1.5px;text-transform:uppercase;background:#F7E3C3;color:#111;font-weight:600">Live configurator</span>
+    </div>
+  </div>
+
+  <main style="max-width:1240px;margin:0 auto;padding:40px 24px 70px">
+
+    <div style="font-size:12px;letter-spacing:5px;text-transform:uppercase;color:#D4A574;margin-bottom:12px">Live Configurator</div>
+    <h1 style="font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(30px,4.6vw,50px);line-height:1.05;letter-spacing:.5px;color:#F7E3C3;margin-bottom:14px">Shape your character, live.</h1>
+    <p style="color:#9a9a9a;font-size:15px;line-height:1.7;max-width:560px">Adjust any option and watch the architecture respond. Tap a filter to focus it — the panel follows what you're editing, with a tip on hand whenever you need one.</p>
+
+    <div class="filterbar" style="display:flex;gap:8px;overflow-x:auto;margin:28px 0 22px;padding-bottom:6px">
+      <sc-for list="{{ navChips }}" as="n" hint-placeholder-count="9">
+        <button type="button" style="{{ n.style }}" onClick="{{ n.onClick }}">
+          <span style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;opacity:.7">{{ n.label }}</span>
+          <span style="{{ n.valStyle }}">{{ n.value }}</span>
+        </button>
+      </sc-for>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 430px;gap:26px;align-items:start">
+
+      <section style="position:relative;border:1px solid #2e2a24;border-radius:20px;min-height:560px;overflow:hidden;background:#141312;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 18px rgba(0,0,0,.45)">
+        <div style="position:absolute;left:50%;top:50%;width:560px;height:560px;border-radius:50%;filter:blur(60px);opacity:.5;animation:drift 9s ease-in-out infinite;{{ backdropStyle }}"></div>
+
+        <div style="position:absolute;top:18px;left:18px;display:flex;flex-direction:column;gap:7px;z-index:2">
+          <span style="{{ famChipStyle }}">{{ famName }}</span>
+          <sc-if value="{{ famDev }}" hint-placeholder-val="{{ false }}">
+            <span style="display:inline-flex;align-items:center;gap:5px;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#9EA8B8;background:rgba(158,168,184,.1);border:1px solid rgba(158,168,184,.3);padding:3px 9px;border-radius:100px;width:fit-content">In development</span>
+          </sc-if>
+        </div>
+
+        <div style="position:absolute;top:18px;right:18px;display:flex;flex-direction:column;gap:8px;z-index:2;align-items:flex-end">
+          <sc-for list="{{ statItems }}" as="st" hint-placeholder-count="5">
+            <div style="display:flex;align-items:baseline;gap:8px;background:rgba(13,13,13,.6);backdrop-filter:blur(8px);border:1px solid #2e2a24;border-radius:9px;padding:6px 11px">
+              <span style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#6f6f6f">{{ st.k }}</span>
+              <span style="{{ st.vStyle }}">{{ st.v }}</span>
+            </div>
+          </sc-for>
+        </div>
+
+        <svg class="silhouette" viewBox="0 0 300 560" style="position:relative;z-index:1;width:100%;max-width:330px;height:auto;display:block;filter:drop-shadow(0 18px 28px rgba(0,0,0,.5))">
+          <ellipse cx="150" cy="430" rx="92" ry="15" fill="rgba(0,0,0,.32)"></ellipse>
+          <ellipse cx="{{ hair.cx }}" cy="{{ hair.cy }}" rx="{{ hair.rx }}" ry="{{ hair.ry }}" fill="{{ hairFill }}"></ellipse>
+          <ellipse cx="{{ hairL.cx }}" cy="{{ hairL.cy }}" rx="{{ hairL.rx }}" ry="{{ hairL.ry }}" fill="{{ hairFill }}"></ellipse>
+          <ellipse cx="{{ hairR.cx }}" cy="{{ hairR.cy }}" rx="{{ hairR.rx }}" ry="{{ hairR.ry }}" fill="{{ hairFill }}"></ellipse>
+          <path d="{{ silD }}" fill="{{ skinFill }}" stroke="{{ silStroke }}" stroke-width="1.5"></path>
+          <circle cx="150" cy="74" r="27" fill="{{ skinFill }}" stroke="{{ silStroke }}" stroke-width="1.5"></circle>
+          <circle cx="141" cy="73" r="3.4" fill="{{ eyeFill }}"></circle>
+          <circle cx="159" cy="73" r="3.4" fill="{{ eyeFill }}"></circle>
+          <line x1="{{ waistLine.x1 }}" y1="262" x2="{{ waistLine.x2 }}" y2="262" stroke="{{ guideColor }}" stroke-width="1.4" stroke-dasharray="4 4" opacity=".55"></line>
+          <line x1="{{ hipLine.x1 }}" y1="322" x2="{{ hipLine.x2 }}" y2="322" stroke="{{ guideColor }}" stroke-width="1.4" stroke-dasharray="4 4" opacity=".55"></line>
+        </svg>
+
+        <div style="position:absolute;bottom:18px;left:18px;z-index:2">
+          <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#6f6f6f;margin-bottom:3px">Working build</div>
+          <div style="font-family:'Playfair Display',serif;font-size:19px;font-weight:600;color:#F7E3C3">{{ famDesc }}</div>
+        </div>
+        <div style="position:absolute;bottom:18px;right:18px;z-index:2;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#6f6f6f">Silhouette diagram · not to scale</div>
+      </section>
+
+      <aside style="border:1px solid #2e2a24;border-radius:20px;background:#161514;position:sticky;top:88px;overflow:hidden">
+
+        <sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
+          <div>
+            <div style="padding:22px 24px 0">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+                <div>
+                  <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#6f6f6f;margin-bottom:3px">Now editing</div>
+                  <h2 style="font-family:'Playfair Display',serif;font-size:23px;font-weight:600;color:#F7E3C3">{{ panelTitle }}</h2>
+                </div>
+                <button type="button" onClick="{{ toggleTip }}" style="{{ tipBtnStyle }}">?<span style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;margin-left:5px">Tip</span></button>
+              </div>
+
+              <sc-if value="{{ tipOpen }}" hint-placeholder-val="{{ false }}">
+                <div style="margin-top:14px;border:1px solid rgba(212,165,116,.32);background:linear-gradient(140deg,rgba(212,165,116,.1),transparent 70%),#1b1814;border-radius:12px;padding:14px 16px;animation:pop .22s ease both">
+                  <div style="display:flex;align-items:center;gap:8px;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#D4A574;margin-bottom:7px">Concierge tip</div>
+                  <p style="font-size:12.5px;color:#cdb8a0;line-height:1.6">{{ panelHint }}</p>
+                </div>
+              </sc-if>
+            </div>
+
+            <div style="padding:20px 24px 22px">
+
+              <sc-if value="{{ panelFamily }}" hint-placeholder-val="{{ true }}">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+                  <sc-for list="{{ panelFamilies }}" as="f" hint-placeholder-count="6">
+                    <button type="button" style="{{ f.style }}" onClick="{{ f.onClick }}">
+                      <span style="display:flex;align-items:center;gap:8px">
+                        <span style="{{ f.dotStyle }}"></span>
+                        <span style="{{ f.nameStyle }}">{{ f.name }}</span>
+                      </span>
+                      <span style="font-size:11px;color:#9a9a9a;line-height:1.4">{{ f.desc }}</span>
+                      <span style="font-size:10px;letter-spacing:.5px;color:#6f6f6f;font-family:ui-monospace,monospace">{{ f.whr }}</span>
+                    </button>
+                  </sc-for>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ panelScale }}" hint-placeholder-val="{{ false }}">
+                <div>
+                  <div style="position:relative;padding:2px 0">
+                    <div style="position:absolute;left:9%;right:9%;top:11px;height:5px;border-radius:5px;background:linear-gradient(90deg,#9FD6B6,#D4A574,#E18B73);opacity:.55"></div>
+                    <div style="position:relative;display:flex">
+                      <sc-for list="{{ realismOpts }}" as="r" hint-placeholder-count="5">
+                        <button type="button" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:10px;cursor:pointer;font-family:inherit" onClick="{{ r.onClick }}">
+                          <span style="{{ r.nodeStyle }}"></span>
+                          <span style="{{ r.labelStyle }}">{{ r.label }}</span>
+                        </button>
+                      </sc-for>
+                    </div>
+                  </div>
+                  <div style="margin-top:16px;border:1px solid #2e2a24;border-radius:10px;padding:12px 15px;background:#1b1b1b;font-size:13px;color:#e8e8e8;display:flex;align-items:center;gap:10px">
+                    <span style="width:8px;height:8px;border-radius:50%;flex-shrink:0;{{ realismDotStyle }}"></span>{{ realismDesc }}
+                  </div>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ panelSwatch }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;gap:18px;flex-wrap:wrap">
+                  <sc-for list="{{ panelSwatches }}" as="sw" hint-placeholder-count="5">
+                    <button type="button" style="display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;font-family:inherit" onClick="{{ sw.onClick }}">
+                      <span style="{{ sw.swatchStyle }}"></span>
+                      <span style="{{ sw.labelStyle }}">{{ sw.label }}</span>
+                    </button>
+                  </sc-for>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ panelCards }}" hint-placeholder-val="{{ false }}">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+                  <sc-for list="{{ panelCardList }}" as="o" hint-placeholder-count="4">
+                    <button type="button" style="{{ o.style }}" onClick="{{ o.onClick }}">
+                      <span style="display:flex;align-items:center;justify-content:space-between;width:100%">
+                        <span style="{{ o.iconWrapStyle }}">{{ o.icon }}</span>
+                        <sc-if value="{{ o.sel }}" hint-placeholder-val="{{ false }}"><span style="{{ checkStyle }}">{{ checkIcon }}</span></sc-if>
+                      </span>
+                      <span style="{{ o.lblStyle }}">{{ o.label }}</span>
+                      <span style="font-size:11px;line-height:1.4;color:#9a9a9a">{{ o.sub }}</span>
+                    </button>
+                  </sc-for>
+                </div>
+              </sc-if>
+
+            </div>
+
+            <div style="border-top:1px solid #2a2620;padding:18px 24px;background:#131211">
+              <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#D4A574;margin-bottom:12px">Your build</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px 18px">
+                <sc-for list="{{ buildItems }}" as="b" hint-placeholder-count="8">
+                  <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px">
+                    <span style="font-size:9.5px;letter-spacing:1px;text-transform:uppercase;color:#6f6f6f">{{ b.k }}</span>
+                    <span style="{{ b.vStyle }}">{{ b.v }}</span>
+                  </div>
+                </sc-for>
+              </div>
+
+              <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;margin-top:18px">
+                <input type="checkbox" checked="{{ agree }}" onChange="{{ toggleAgree }}" style="width:16px;height:16px;flex-shrink:0;margin-top:2px;accent-color:#D4A574;cursor:pointer">
+                <span style="font-size:11.5px;color:#9a9a9a;line-height:1.55">I'm <strong style="color:#e8e8e8">18+</strong> and understand each character is <strong style="color:#e8e8e8">made to order</strong>. My details are never shared.</span>
+              </label>
+              <sc-if value="{{ consentErr }}" hint-placeholder-val="{{ false }}">
+                <div style="font-size:11px;color:#E18B73;margin:8px 0 0 26px">Please confirm you are 18+ to continue.</div>
+              </sc-if>
+
+              <button type="button" onClick="{{ submit }}" style="margin-top:16px;width:100%;font-family:'Playfair Display',serif;font-style:italic;letter-spacing:1px;font-size:15px;color:#F7E3C3;padding:15px;border-radius:12px;cursor:pointer;border:1px solid rgba(212,165,116,.45);background:linear-gradient(135deg,rgba(40,32,20,.95),rgba(28,23,16,.95));box-shadow:inset 0 0 0 1px rgba(212,165,116,.2),0 6px 22px rgba(0,0,0,.45);transition:.25s" style-hover="color:#D4A574;box-shadow:inset 0 0 0 1px rgba(212,165,116,.5),0 10px 30px rgba(0,0,0,.55)">Send this build to concierge</button>
+              <div style="text-align:center;font-size:11px;color:#6f6f6f;margin-top:10px">Replies within one business day · No obligation</div>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:40px 28px;animation:fadeup .5s ease both">
+            <div style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#9FD6B6;margin-bottom:12px">Build received</div>
+            <h2 style="font-family:'Playfair Display',serif;font-size:25px;font-weight:600;color:#F7E3C3;margin-bottom:12px">Your configuration is with us.</h2>
+            <p style="font-size:13.5px;color:#9a9a9a;line-height:1.7">We've captured your silhouette, finish, and preferences. A concierge will confirm availability and lead time discreetly — no obligation.</p>
+            <button type="button" onClick="{{ edit }}" style="margin-top:22px;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#D4A574;padding:11px 22px;border:1px solid rgba(212,165,116,.4);border-radius:10px;cursor:pointer;transition:.2s" style-hover="background:#D4A574;color:#111">Keep editing</button>
+          </div>
+        </sc-if>
+
+      </aside>
+
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;startFamily&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;The Classic&quot;,&quot;The Icon&quot;,&quot;The Muse&quot;,&quot;The Siren&quot;,&quot;The Empress&quot;,&quot;The Sculpt&quot;],&quot;default&quot;:&quot;The Muse&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  state = {
+    active: 'family',
+    family: this.props.startFamily || 'The Muse',
+    realism: 2,
+    skin: 'natural', eye: 'hazel', hair: 'brunette',
+    use: 'private', timeline: 'soon', handling: 'space', privacy: 'discreet',
+    tipFor: null, agree: false, consentErr: false, sent: false
+  };
+
+  setActive(g) { this.setState({ active: g }); }
+  pick(f, v) { this.setState({ [f]: v }); }
+  setRealism(i) { this.setState({ realism: i }); }
+  toggleTip() { this.setState(s => ({ tipFor: s.tipFor === s.active ? null : s.active })); }
+  toggleAgree() { this.setState({ agree: !this.state.agree, consentErr: false }); }
+  submit() { if (!this.state.agree) { this.setState({ consentErr: true }); return; } this.setState({ sent: true }); }
+  edit() { this.setState({ sent: false }); }
+
+  renderVals() {
+    const s = this.state;
+    const E = React.createElement;
+    const hexA = (hex, a) => { const h = hex.replace('#', ''); const r = parseInt(h.slice(0, 2), 16), g = parseInt(h.slice(2, 4), 16), b = parseInt(h.slice(4, 6), 16); return 'rgba(' + r + ',' + g + ',' + b + ',' + a + ')'; };
+
+    // ---- data ----
+    const SK = [['fair', 'Fair', '#E7C6A8'], ['natural', 'Natural', '#D7A878'], ['wheat', 'Wheat', '#C0884F'], ['tan', 'Tan', '#9C6638'], ['deep', 'Deep', '#6E4424']];
+    const EY = [['blue', 'Blue', '#6E93B8'], ['hazel', 'Hazel', '#8A6A3C'], ['green', 'Green', '#5C7D55'], ['brown', 'Brown', '#4A3326'], ['grey', 'Grey', '#8B8F93'], ['amber', 'Amber', '#AE752C']];
+    const HR = [['blonde', 'Blonde', '#C7A458'], ['brunette', 'Brunette', '#5A3A24'], ['black', 'Black', '#221A15'], ['auburn', 'Auburn', '#7C3C22'], ['silver', 'Silver', '#C7C2BA']];
+    const USE = [['private', 'Private collection', 'collection'], ['photo', 'Photography', 'camera'], ['display', 'Display & styling', 'display'], ['companion', 'Companionship', 'home'], ['undecided', 'Still deciding', 'compass']];
+    const TIME = [['now', 'Ready now', 'bolt', '0–2 weeks'], ['soon', 'Near term', 'clock', '1–2 months'], ['plan', 'Planning', 'calendar', '3+ months'], ['explore', 'Exploring', 'explore', 'No timeline']];
+    const HAND = [['solo', 'Solo-manageable', 'feather', 'Lighter · ~25–30 kg'], ['space', 'Dedicated space', 'anchor', 'Full weight'], ['unsure', 'Not sure', 'scale', 'Advise me']];
+    const PRIV = [['standard', 'Standard', 'box', 'Plain box'], ['discreet', 'Extra discreet', 'shieldCheck', 'No labels'], ['max', 'Maximum', 'shieldLock', 'Personal delivery']];
+    const realStops = ['Natural', 'Soft', 'Balanced', 'Bold', 'Dramatic'];
+    const realColors = ['#9FD6B6', '#BFC79E', '#D4A574', '#DBA188', '#E18B73'];
+    const FAM = {
+      'The Classic': { color: '#8FB7E0', dev: true, m: { bust: 1.00, waist: 1.00, hip: 1.00 }, st: [168, 40], desc: 'Balanced hourglass' },
+      'The Icon': { color: '#D4A574', dev: false, m: { bust: 1.03, waist: 0.95, hip: 1.00 }, st: [172, 39], desc: 'Editorial glamour' },
+      'The Muse': { color: '#9FD6B6', dev: false, m: { bust: 0.98, waist: 0.95, hip: 1.09 }, st: [170, 38], desc: 'Hip-led realism' },
+      'The Siren': { color: '#E18B73', dev: false, m: { bust: 1.17, waist: 0.92, hip: 1.00 }, st: [168, 41], desc: 'Bust-forward drama' },
+      'The Empress': { color: '#C792D6', dev: false, m: { bust: 1.18, waist: 1.12, hip: 1.20 }, st: [164, 46], desc: 'Plush abundance' },
+      'The Sculpt': { color: '#C7B07F', dev: true, m: { bust: 0.98, waist: 0.90, hip: 1.00 }, st: [170, 42], desc: 'Athletic definition' }
+    };
+    const famOrder = ['The Classic', 'The Icon', 'The Muse', 'The Siren', 'The Empress', 'The Sculpt'];
+    const fam = FAM[s.family] || FAM['The Muse'];
+    const fc = fam.color;
+
+    // ---- figure geometry ----
+    const cx = 150;
+    const base = { neck: 15, shoulder: 47, bust: 51, waist: 35, hip: 55, thigh: 41, knee: 24, ankle: 14 };
+    const drama = (s.realism - 2) * 0.06;
+    const bustW = base.bust * fam.m.bust * (1 + drama);
+    const waistW = base.waist * fam.m.waist * (1 - drama);
+    const hipW = base.hip * fam.m.hip * (1 + drama * 0.85);
+    const shoulderW = base.shoulder * (fam.m.bust > 1.05 ? 1.03 : 1.0);
+    const thighW = base.thigh * (hipW / base.hip) * 0.95;
+    const Y = { neck: 118, shoulder: 150, bust: 198, waist: 262, hip: 322, thigh: 388, knee: 448, ankle: 505 };
+    const R = [
+      { x: cx + base.neck, y: Y.neck }, { x: cx + shoulderW, y: Y.shoulder }, { x: cx + bustW, y: Y.bust },
+      { x: cx + waistW, y: Y.waist }, { x: cx + hipW, y: Y.hip }, { x: cx + thighW, y: Y.thigh },
+      { x: cx + base.knee, y: Y.knee }, { x: cx + base.ankle, y: Y.ankle }
+    ];
+    const L = R.map(p => ({ x: cx - (p.x - cx), y: p.y })).reverse();
+    const side = (pts) => { let d = ''; for (let i = 1; i < pts.length; i++) { const a = pts[i - 1], b = pts[i]; const dy = (b.y - a.y) * 0.42; d += 'C ' + a.x.toFixed(1) + ' ' + (a.y + dy).toFixed(1) + ' ' + b.x.toFixed(1) + ' ' + (b.y - dy).toFixed(1) + ' ' + b.x.toFixed(1) + ' ' + b.y.toFixed(1) + ' '; } return d; };
+    const silD = 'M ' + R[0].x.toFixed(1) + ' ' + R[0].y + ' ' + side(R) + 'Q ' + cx + ' ' + (Y.ankle + 18) + ' ' + L[0].x.toFixed(1) + ' ' + L[0].y + ' ' + side(L) + 'Z';
+    const whr = (waistW / hipW).toFixed(2);
+    const bwr = (bustW / waistW).toFixed(2);
+
+    // ---- icons ----
+    let kc = 0;
+    const svg = (kids) => E('svg', { width: 18, height: 18, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1.6, strokeLinecap: 'round', strokeLinejoin: 'round' }, kids);
+    const p = (d) => E('path', { key: kc++, d }); const ci = (cx, cy, r) => E('circle', { key: kc++, cx, cy, r });
+    const ln = (a, b, c, d) => E('line', { key: kc++, x1: a, y1: b, x2: c, y2: d }); const rc = (x, y, w, h, r) => E('rect', { key: kc++, x, y, width: w, height: h, rx: r });
+    const ICON = {
+      collection: () => svg([rc(4, 8, 16, 12, 2), p('M4 8l1.6-3.2A1 1 0 0 1 6.5 4h11a1 1 0 0 1 .9.8L20 8'), ln(10, 12, 14, 12)]),
+      camera: () => svg([rc(3, 7, 18, 13, 2.5), ci(12, 13.5, 3.3), rc(8.5, 4.5, 7, 2.5, 1)]),
+      display: () => svg([rc(4, 4, 16, 12, 1.5), ln(4, 17, 20, 17), ln(9, 20, 15, 20), ln(12, 17, 12, 20)]),
+      home: () => svg([p('M4 11l8-6 8 6'), p('M6 10v9h12v-9'), rc(10, 14, 4, 5, 0.5)]),
+      compass: () => svg([ci(12, 12, 9), p('M15 9l-2.2 4.8L8 16l2.2-4.8z')]),
+      bolt: () => svg([p('M13 3L5 13.5h5.5L9 21l8-10.5h-5.5z')]),
+      clock: () => svg([ci(12, 12, 8.2), p('M12 8v4.2l2.8 1.7')]),
+      calendar: () => svg([rc(4, 5, 16, 16, 2), ln(4, 9.5, 20, 9.5), ln(8.5, 3, 8.5, 7), ln(15.5, 3, 15.5, 7)]),
+      explore: () => svg([ci(7.5, 15, 3.4), ci(16.5, 15, 3.4), p('M10.9 14.3h2.2'), p('M7.5 11.6l1-3.6h2'), p('M16.5 11.6l-1-3.6h-2')]),
+      feather: () => svg([p('M20 4C13.5 4 7.5 9.5 6.5 16l-2.3 4'), p('M6.7 15.5h7.6'), p('M9 11.7c2.6 0 5-1.7 6.6-4.4')]),
+      anchor: () => svg([ci(12, 5, 2.4), ln(12, 7.4, 12, 20), p('M5 12.5a7 7 0 0 0 14 0'), ln(4, 12.5, 7.5, 12.5), ln(16.5, 12.5, 20, 12.5)]),
+      scale: () => svg([ln(12, 4, 12, 20), p('M5 8h14'), p('M5 8l-2.2 5h4.4z'), p('M19 8l-2.2 5h4.4z'), ln(8, 20, 16, 20)]),
+      box: () => svg([rc(4, 8, 16, 12, 2), p('M4 8l1.6-3.2A1 1 0 0 1 6.5 4h11a1 1 0 0 1 .9.8L20 8')]),
+      shieldCheck: () => svg([p('M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z'), p('M9 11.5l2 2 4-4')]),
+      shieldLock: () => svg([p('M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z'), rc(9.5, 11, 5, 4, 1), p('M10.5 11v-1.5a1.5 1.5 0 0 1 3 0V11')])
+    };
+    const check = () => E('svg', { width: 12, height: 12, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 2.6, strokeLinecap: 'round', strokeLinejoin: 'round' }, [E('path', { key: 'c', d: 'M5 12.5l4.5 4.5L19 7' })]);
+
+    // ---- shared styles ----
+    const card = (sel) => 'display:flex;flex-direction:column;align-items:flex-start;gap:7px;text-align:left;padding:13px 14px;border-radius:12px;cursor:pointer;font-family:inherit;transition:.18s;' + (sel ? 'border:1px solid rgba(212,165,116,.6);background:linear-gradient(140deg,rgba(212,165,116,.14),rgba(212,165,116,.035));box-shadow:inset 0 0 0 1px rgba(212,165,116,.22);' : 'border:1px solid #333;background:#1b1b1b;');
+    const lbl = (sel) => 'font-size:13px;font-weight:600;letter-spacing:.2px;color:' + (sel ? '#F7E3C3' : '#e8e8e8') + ';';
+    const iconWrap = (sel) => 'width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:' + (sel ? '#F7E3C3' : '#D4A574') + ';background:' + (sel ? 'rgba(212,165,116,.18)' : 'rgba(212,165,116,.08)') + ';border:1px solid ' + (sel ? 'rgba(212,165,116,.4)' : 'rgba(212,165,116,.16)') + ';';
+    const checkStyle = 'width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#111;background:#D4A574;';
+
+    // ---- builders ----
+    const swatch = (field, value, label, color) => { const sel = s[field] === value; return { label, swatchStyle: 'width:36px;height:36px;border-radius:50%;background:' + color + ';transition:.18s;border:1px solid rgba(255,255,255,.18);' + (sel ? 'box-shadow:0 0 0 2px #161514,0 0 0 4px #D4A574;transform:scale(1.06);' : ''), labelStyle: 'font-size:10.5px;letter-spacing:.3px;color:' + (sel ? '#F7E3C3' : '#9a9a9a'), onClick: () => this.pick(field, value) }; };
+    const cardOpt = (field, def) => { const [v, label, icon, sub] = def; const sel = s[field] === v; return { label, sub: sub || '', sel, icon: ICON[icon](), iconWrapStyle: iconWrap(sel), style: card(sel), lblStyle: lbl(sel), onClick: () => this.pick(field, v) }; };
+
+    const realismOpts = realStops.map((label, i) => { const sel = s.realism === i; return { label, nodeStyle: sel ? 'width:22px;height:22px;border-radius:50%;background:' + realColors[i] + ';border:2px solid #F7E3C3;box-shadow:0 0 0 4px ' + hexA(realColors[i], .25) : 'width:14px;height:14px;border-radius:50%;background:#2a2a2a;border:1px solid #555', labelStyle: 'font-size:10px;color:' + (sel ? '#F7E3C3' : '#6f6f6f') + ';font-weight:' + (sel ? '600' : '400'), onClick: () => this.setRealism(i) }; });
+    const realDesc = ['As natural and understated as possible.', 'Mostly natural, gently flattering.', 'A balanced, believable presence.', 'Heightened, eye-catching curves.', 'Full dramatic, high-presence energy.'];
+
+    const panelFamilies = famOrder.map(name => { const d = FAM[name]; const sel = s.family === name; return { name: name.replace('The ', ''), desc: d.desc + (d.dev ? ' · in dev' : ''), whr: 'WHR ' + (base.waist * d.m.waist / (base.hip * d.m.hip)).toFixed(2), dotStyle: 'width:11px;height:11px;border-radius:50%;flex-shrink:0;background:' + d.color + (sel ? ';box-shadow:0 0 8px ' + hexA(d.color, .8) : ''), nameStyle: 'font-family:\'Playfair Display\',serif;font-size:15.5px;font-weight:600;color:' + (sel ? '#F7E3C3' : '#e8e8e8'), style: card(sel), onClick: () => this.pick('family', name) }; });
+
+    // ---- active group routing ----
+    const A = s.active;
+    const swatchSet = A === 'skin' ? SK.map(a => swatch('skin', a[0], a[1], a[2])) : A === 'eye' ? EY.map(a => swatch('eye', a[0], a[1], a[2])) : A === 'hair' ? HR.map(a => swatch('hair', a[0], a[1], a[2])) : [];
+    const cardSet = A === 'use' ? USE.map(d => cardOpt('use', d)) : A === 'timeline' ? TIME.map(d => cardOpt('timeline', d)) : A === 'handling' ? HAND.map(d => cardOpt('handling', d)) : A === 'privacy' ? PRIV.map(d => cardOpt('privacy', d)) : [];
+
+    const TITLES = { family: 'Body family', realism: 'Realism', skin: 'Skin tone', eye: 'Eye color', hair: 'Hair / wig', use: 'Intended use', timeline: 'Timeline', handling: 'Handling', privacy: 'Shipping & privacy' };
+    const HINTS = {
+      family: 'Family sets the overall silhouette logic — hip-led, bust-forward, balanced, or plush. It is the single biggest choice, and it reshapes the diagram on the left.',
+      realism: 'Slide toward Natural for understated proportions or Dramatic for high-presence curves. This fine-tunes the waist-to-hip ratio you see live.',
+      skin: 'Skin tones here are a starting point — final finish (matte, gloss, blush) is set with your concierge.',
+      eye: 'Eyes are swappable. Pick a base now; heterochromia or custom iris work can be requested later.',
+      hair: 'Wigs are removable and restylable. This previews the everyday look only.',
+      use: 'Telling us how you will enjoy the piece helps us recommend the right finish and durability options.',
+      timeline: 'Made-to-order lead times vary by family and configuration; this just sets expectations.',
+      handling: 'These are full-weight figures. Solo-manageable trims weight; dedicated-space keeps full presence.',
+      privacy: 'Every order is discreet by default. Choose how invisible you need packaging and billing to be.'
+    };
+
+    // ---- nav chips ----
+    const valOf = { family: s.family.replace('The ', ''), realism: realStops[s.realism], skin: (SK.find(a => a[0] === s.skin) || [])[1], eye: (EY.find(a => a[0] === s.eye) || [])[1], hair: (HR.find(a => a[0] === s.hair) || [])[1], use: (USE.find(a => a[0] === s.use) || [])[1], timeline: (TIME.find(a => a[0] === s.timeline) || [])[1], handling: (HAND.find(a => a[0] === s.handling) || [])[1], privacy: (PRIV.find(a => a[0] === s.privacy) || [])[1] };
+    const navChips = ['family', 'realism', 'skin', 'eye', 'hair', 'use', 'timeline', 'handling', 'privacy'].map(k => { const on = A === k; return { label: TITLES[k], value: valOf[k], style: 'flex-shrink:0;display:flex;flex-direction:column;gap:2px;text-align:left;padding:9px 15px;border-radius:11px;cursor:pointer;font-family:inherit;transition:.18s;' + (on ? 'border:1px solid rgba(212,165,116,.6);background:rgba(212,165,116,.1);color:#F7E3C3;' : 'border:1px solid #2e2a24;background:#161514;color:#9a9a9a;'), valStyle: 'font-size:13px;font-weight:600;letter-spacing:.2px;color:' + (on ? '#F7E3C3' : '#e8e8e8'), onClick: () => this.setActive(k) }; });
+
+    // ---- build summary ----
+    const vS = 'font-size:12px;font-weight:600;color:#F7E3C3;text-align:right;letter-spacing:.2px';
+    const buildItems = [
+      { k: 'Family', v: s.family.replace('The ', ''), vStyle: 'font-size:12px;font-weight:600;text-align:right;color:' + fc },
+      { k: 'Realism', v: realStops[s.realism], vStyle: 'font-size:12px;font-weight:600;text-align:right;color:' + realColors[s.realism] },
+      { k: 'Skin', v: valOf.skin, vStyle: vS }, { k: 'Eyes', v: valOf.eye, vStyle: vS },
+      { k: 'Hair', v: valOf.hair, vStyle: vS }, { k: 'Use', v: valOf.use, vStyle: vS },
+      { k: 'Timeline', v: valOf.timeline, vStyle: vS }, { k: 'Privacy', v: valOf.privacy, vStyle: vS }
+    ];
+
+    const statItems = [
+      { k: 'WHR', v: whr, vStyle: 'font-family:ui-monospace,monospace;font-size:13px;font-weight:600;color:' + fc },
+      { k: 'BWR', v: bwr, vStyle: 'font-family:ui-monospace,monospace;font-size:13px;font-weight:600;color:#F7E3C3' },
+      { k: 'Stature', v: fam.st[0] + ' cm · ' + fam.st[1] + ' kg', vStyle: 'font-size:12px;font-weight:500;color:#e8e8e8' },
+      { k: 'Handling', v: valOf.handling, vStyle: 'font-size:12px;font-weight:500;color:#e8e8e8' },
+      { k: 'Privacy', v: valOf.privacy, vStyle: 'font-size:12px;font-weight:500;color:#e8e8e8' }
+    ];
+
+    return {
+      navChips, statItems, buildItems,
+      famName: s.family, famDesc: fam.desc, famDev: fam.dev,
+      famChipStyle: 'display:inline-flex;align-items:center;gap:6px;padding:5px 13px;border-radius:100px;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;font-weight:600;color:' + fc + ';background:' + hexA(fc, .14) + ';border:1px solid ' + hexA(fc, .35) + ';width:fit-content;backdrop-filter:blur(8px)',
+      backdropStyle: 'background:radial-gradient(circle,' + hexA(fc, .55) + ',transparent 68%)',
+      silD, skinFill: (SK.find(a => a[0] === s.skin) || [])[2], silStroke: hexA(fc, .5),
+      hairFill: (HR.find(a => a[0] === s.hair) || [])[2], eyeFill: (EY.find(a => a[0] === s.eye) || [])[2],
+      hair: { cx: 150, cy: 64, rx: 34, ry: 42 }, hairL: { cx: 119, cy: 132, rx: 9, ry: 40 }, hairR: { cx: 181, cy: 132, rx: 9, ry: 40 },
+      guideColor: fc, waistLine: { x1: (cx - waistW).toFixed(1), x2: (cx + waistW).toFixed(1) }, hipLine: { x1: (cx - hipW).toFixed(1), x2: (cx + hipW).toFixed(1) },
+      panelTitle: TITLES[A], panelHint: HINTS[A], tipOpen: s.tipFor === A,
+      tipBtnStyle: 'display:inline-flex;align-items:center;justify-content:center;padding:7px 12px;border-radius:100px;cursor:pointer;font-family:inherit;font-size:13px;font-weight:600;transition:.18s;' + (s.tipFor === A ? 'border:1px solid rgba(212,165,116,.6);background:rgba(212,165,116,.14);color:#F7E3C3;' : 'border:1px solid #333;color:#9a9a9a;'),
+      panelFamily: A === 'family', panelScale: A === 'realism', panelSwatch: A === 'skin' || A === 'eye' || A === 'hair', panelCards: A === 'use' || A === 'timeline' || A === 'handling' || A === 'privacy',
+      panelFamilies, realismOpts, realismDesc: realDesc[s.realism], realismDotStyle: 'background:' + realColors[s.realism],
+      panelSwatches: swatchSet, panelCardList: cardSet,
+      checkStyle, checkIcon: check(),
+      agree: s.agree, consentErr: s.consentErr, sent: s.sent, notSent: !s.sent,
+      toggleTip: () => this.toggleTip(), toggleAgree: () => this.toggleAgree(), submit: () => this.submit(), edit: () => this.edit()
+    };
+  }
+}
+</script>
+</body>
+</html>
