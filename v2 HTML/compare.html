@@ -4,6 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Compare Bodies - ZELEX Atlas</title>
+<meta name="description" content="Compare ZELEX body architectures by silhouette ratios, handling class, and buyer-fit signals.">
+<link rel="canonical" href="https://www.zelexdoll.com/compare.html">
+<meta property="og:title" content="Compare Bodies - ZELEX Atlas">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/site.css">
@@ -23,6 +27,8 @@
     <button class="btn ghost" id="clearBodies" type="button">Clear</button>
     <a class="btn concierge" href="contact.html">Ask concierge</a>
   </section>
+
+  <div id="compareChips" class="compare-chips" aria-label="Bodies on the table"></div>
 
   <section id="compareMount" aria-live="polite">
     <div class="compare-empty">Loading body profiles...</div>
@@ -55,9 +61,45 @@ function pct(v) {
 }
 
 function confidenceChip(b) {
-  if (b.estimated) return '<span class="stat stat-estimated">Estimated</span>';
+  if (b.estimated) return '<span class="stat stat-estimated">Estimated dimensions</span>';
   if (b.family_confidence) return '<span class="stat stat-verified">' + ZX.esc(b.family_confidence) + '</span>';
   return '<span class="stat stat-concept">Needs review</span>';
+}
+
+/* ---- DB-derived family + measurement helpers ----
+   model.families carries each family's whr/bwr ranges (canonical, matches
+   db/family_taxonomy.json). We look up a body's own family range so every
+   buyer-read line is measurement-led, not a hardcoded adjective. */
+let FAMILY_INDEX = null;
+function familyIndex(m) {
+  if (FAMILY_INDEX) return FAMILY_INDEX;
+  FAMILY_INDEX = {};
+  const fams = Array.isArray(m.families) ? m.families : Object.values(m.families || {});
+  fams.forEach(function (f) {
+    if (f && f.name) FAMILY_INDEX[f.name] = f;
+  });
+  return FAMILY_INDEX;
+}
+
+function familyOf(b) {
+  if (!b.family || !FAMILY_INDEX) return null;
+  return FAMILY_INDEX[b.family] || null;
+}
+
+// Position a ratio against its family's range: 'below' | 'in' | 'above' | null.
+function rangePos(v, range) {
+  if (v === null || v === undefined || v === '' || !Array.isArray(range)) return null;
+  const n = Number(v);
+  if (n < range[0]) return 'below';
+  if (n > range[1]) return 'above';
+  return 'in';
+}
+
+// "matches The Muse (near)" — confidence wording per the methodology doc.
+function familyMatch(b) {
+  if (!b.family) return 'Family not yet confirmed';
+  const conf = b.family_confidence ? ' (' + b.family_confidence + ')' : '';
+  return 'Matches ' + b.family + conf;
 }
 
 function ratioLabel(v, estimated) {
@@ -74,8 +116,10 @@ function compareSummaryCard(b) {
   return '<article class="compare-summary-card">' +
     '<div class="top"><h3>' + ZX.esc(b.body_code) + '</h3>' + fam + '</div>' +
     '<div class="grid">' +
-      '<div><span class="k">Buyer read</span><b>' + ZX.esc(buyerRead(b)) + '</b></div>' +
-      '<div><span class="k">Handling</span><b>' + ZX.esc(handlingRead(b)) + '</b></div>' +
+      '<div><span class="k">Buyer read</span><b>' + ZX.esc(buyerRead(b)) + '</b>' +
+        '<span class="hl-note">' + ZX.esc(buyerNote(b)) + '</span></div>' +
+      '<div><span class="k">Handling</span><b>' + ZX.esc(handlingRead(b)) + '</b>' +
+        '<span class="hl-note">' + ZX.esc(handlingNote(b)) + '</span></div>' +
       '<div><span class="k">Shape signal</span><b>WHR ' + ratioLabel(b.WHR, b.estimated) + ' · BWR ' + ratioLabel(b.BWR, b.estimated) + '</b></div>' +
       '<div><span class="k">Data state</span>' + confidenceChip(b) + '</div>' +
     '</div>' +
@@ -96,26 +140,77 @@ function bodyData(m, code) {
   return Object.assign({}, prof, b, { body_code: code, character: char });
 }
 
+// Headline buyer read = the body's own silhouette + intended buyer, straight
+// from model.profiles. No invented adjectives; falls back only when unclassified.
 function buyerRead(b) {
-  const f = b.family || '';
-  if (f === 'The Muse') return 'Natural / realism-forward';
-  if (f === 'The Siren') return 'Bust-forward / dramatic';
-  if (f === 'The Icon') return 'Glamour / camera-forward';
-  if (f === 'The Empress') return 'Plush / abundant';
-  if (f === 'The Classic') return 'Balanced / first-buyer safe';
-  if (f === 'The Sculpt') return 'Athletic / defined';
+  if (b.silhouette) {
+    return b.target_buyer ? b.silhouette + ' for the ' + b.target_buyer.toLowerCase() : b.silhouette;
+  }
+  if (b.family) return b.family;
   return 'Needs review';
+}
+
+// Supporting note = how THIS body's WHR/BWR sit against its family range, plus
+// the family-match confidence. Measurement-led per the copy guide (no "big/small").
+function buyerNote(b) {
+  if (!b.family) return 'Family not yet confirmed';
+  const fam = familyOf(b);
+  const bits = [];
+  if (fam) {
+    const whrPos = rangePos(b.WHR, fam.whr || fam.whr_range);
+    const bwrPos = rangePos(b.BWR, fam.bwr || fam.bwr_range);
+    const wr = fam.whr || fam.whr_range;
+    const br = fam.bwr || fam.bwr_range;
+    if (whrPos === 'in') bits.push('waist-to-hip inside the ' + b.family + ' range');
+    else if (whrPos === 'below') bits.push('waist-to-hip tighter than the family range (more hourglass)');
+    else if (whrPos === 'above') bits.push('waist-to-hip above the family range (straighter)');
+    if (bwrPos === 'in') bits.push('bust-to-waist on-range');
+    else if (bwrPos === 'below') bits.push('bust-to-waist under the family range');
+    else if (bwrPos === 'above') bits.push('bust-to-waist above the family range (more bust-forward)');
+    if (wr && br && bits.length) {
+      return familyMatch(b) + ' — ' + bits.join(', ') + ' (family WHR ' + wr[0] + '–' + wr[1] + ', BWR ' + br[0] + '–' + br[1] + ')';
+    }
+  }
+  return familyMatch(b);
+}
+
+function buyerCell(b) {
+  return '<b class="hl-read">' + ZX.esc(buyerRead(b)) + '</b>' +
+    '<span class="hl-note">' + ZX.esc(buyerNote(b)) + '</span>';
+}
+
+// Handling tiers are derived from the REAL catalogue weight spread (28–39.9 kg).
+// Within that band: lightest end is comfortable solo; the heaviest end is still
+// solo-liftable but easier positioned with a second pair of hands. No dead
+// >42 kg bucket — nothing in the catalogue reaches it.
+function handlingTier(w) {
+  if (w <= 32) return 'Solo-easy';        // ~28–32 kg
+  if (w <= 36) return 'Solo-manageable';  // ~32–36 kg
+  return 'Two-person positioning';        // ~36–39.9 kg
 }
 
 function handlingRead(b) {
   const w = Number(b.weight_kg || b.weight || 0);
   if (!w) return 'Unknown';
-  if (w <= 35) return 'Solo-manageable';
-  if (w <= 42) return 'Moderate';
-  return 'Dedicated-space preferred';
+  return handlingTier(w) + ' · ' + w + ' kg';
+}
+
+function handlingNote(b) {
+  const w = Number(b.weight_kg || b.weight || 0);
+  if (!w) return 'Weight not yet on record';
+  if (w <= 32) return 'At ' + w + ' kg, one person can lift, position, and store it comfortably';
+  if (w <= 36) return 'At ' + w + ' kg, manageable solo on a stable surface';
+  return 'At ' + w + ' kg — near the top of the catalogue; a second pair of hands eases positioning';
+}
+
+function handlingCell(b) {
+  const read = ZX.esc(handlingRead(b));
+  return '<b class="hl-read">' + read + '</b>' +
+    '<span class="hl-note">' + ZX.esc(handlingNote(b)) + '</span>';
 }
 
 function render(m) {
+  familyIndex(m);
   const codes = Array.from(new Set((m.characters || []).map(c => c.body_code).filter(Boolean))).sort();
   const select = document.getElementById('bodySelect');
 
@@ -147,13 +242,52 @@ function render(m) {
   ZX.mountFooter();
 }
 
+function renderChips(m, codes) {
+  const wrap = document.getElementById('compareChips');
+  if (!wrap) return;
+  if (!codes.length) { wrap.innerHTML = ''; return; }
+  wrap.innerHTML = codes.map(code => {
+    const b = bodyData(m, code);
+    const fam = b.family ? '<span class="fam ' + ZX.famClass(b.family) + '">' + ZX.esc(b.family) + '</span>' : '';
+    return '<span class="compare-chip">' +
+      '<span class="bcode">' + ZX.esc(code) + '</span>' + fam +
+      '<button type="button" class="compare-chip-x" data-code="' + ZX.esc(code) + '" aria-label="Remove ' + ZX.esc(code) + ' from comparison">&times;</button>' +
+    '</span>';
+  }).join('') + '<span class="compare-chip-count">' + codes.length + ' of 4</span>';
+
+  wrap.querySelectorAll('.compare-chip-x').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      const code = btn.getAttribute('data-code');
+      const next = selectedCodes().filter(Boolean).filter(c => c !== code);
+      saveCodes(next);
+      ZX.track('compare_set_changed', { action: 'remove', compare_count: next.length, body_codes: next.join(','), context: 'compare', source_page: 'compare' });
+      paint(m);
+    });
+  });
+}
+
 function paint(m) {
   const mount = document.getElementById('compareMount');
   const codes = selectedCodes().filter(Boolean).slice(0, 4);
 
+  renderChips(m, codes);
+
   if (!codes.length) {
     ZX.track('compare_view', { compare_count: 0, view_state: 'empty', context: 'compare', source_page: 'compare' });
-    mount.innerHTML = '<div class="compare-empty">Choose 2-4 body architectures to compare. Start with body codes you are already considering, then use family and ratio rows to understand silhouette differences.</div>';
+    mount.innerHTML =
+      '<div class="compare-empty">' +
+        '<div class="compare-empty-mark" aria-hidden="true">+</div>' +
+        '<h2>Nothing on the table yet.</h2>' +
+        '<p>Add two to four body architectures above. We translate the numbers into a plain buyer read &mdash; silhouette character and how the body handles &mdash; so you can decide without doing ratio math.</p>' +
+        '<div class="compare-empty-actions">' +
+          '<a class="btn solid" id="empty-quiz-link" href="quiz.html">Not sure where to start? Take the quiz</a>' +
+          '<a class="btn ghost" id="empty-browse-link" href="browse.html">Browse all bodies</a>' +
+        '</div>' +
+      '</div>';
+    var eq = document.getElementById('empty-quiz-link');
+    if (eq) eq.addEventListener('click', function(){ ZX.track('compare_handoff_click', { compare_count: 0, channel: 'quiz', cta: 'take_quiz', view_state: 'empty', context: 'compare', source_page: 'compare' }); });
+    var eb = document.getElementById('empty-browse-link');
+    if (eb) eb.addEventListener('click', function(){ ZX.track('compare_handoff_click', { compare_count: 0, channel: 'browse', cta: 'browse_bodies', view_state: 'empty', context: 'compare', source_page: 'compare' }); });
     return;
   }
 
@@ -164,7 +298,7 @@ function paint(m) {
     ['Body code', b => '<span class="bcode">' + ZX.esc(b.body_code) + '</span>'],
     ['Series', b => ZX.esc(b.series || '&mdash;')],
     ['Family', b => b.family ? '<span class="fam ' + ZX.famClass(b.family) + '">' + ZX.esc(b.family) + '</span>' : '&mdash;'],
-    ['Buyer read', b => ZX.esc(buyerRead(b))],
+    ['Buyer read', b => buyerCell(b)],
     ['Height', b => num(b.height_cm, 'cm')],
     ['Weight', b => num(b.weight_kg, 'kg')],
     ['Cup', b => b.cup ? ZX.esc(b.cup + '-cup') : '&mdash;'],
@@ -172,8 +306,8 @@ function paint(m) {
     ['WHR', b => ratioLabel(b.WHR, b.estimated)],
     ['BWR', b => ratioLabel(b.BWR, b.estimated)],
     ['Bust drop', b => num(b.bust_drop_cm, 'cm')],
-    ['Handling', b => ZX.esc(handlingRead(b))],
-    ['Confidence', b => confidenceChip(b)]
+    ['Handling', b => handlingCell(b)],
+    ['Data confidence', b => confidenceChip(b)]
   ];
 
   const summaries = '<section class="compare-summary" aria-label="Decision summary">' +

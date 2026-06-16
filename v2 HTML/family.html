@@ -4,6 +4,20 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ZELEX — Body Families</title>
+<meta name="description" content="The six ZELEX body families — Classic, Icon, Muse, Siren, Empress, and Sculpt — each defined by a WHR/BWR proportion signature you can verify with a tape measure.">
+<meta name="theme-color" content="#121212">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://www.zelexdoll.com/family.html">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ZELEX — The Character Atlas">
+<meta property="og:title" content="Body Families — ZELEX">
+<meta property="og:description" content="Six curated silhouette families, each with a defined WHR/BWR proportion signature.">
+<meta property="og:url" content="https://www.zelexdoll.com/family.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Body Families — ZELEX">
+<meta name="twitter:description" content="Six curated silhouette families, each with a defined WHR/BWR proportion signature.">
+<meta name="twitter:image" content="https://www.zelexdoll.com/assets/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/site.css">
@@ -17,8 +31,23 @@
   .hero .stats .n{font-family:'Playfair Display',serif;font-size:30px;color:var(--cream);display:block;line-height:1}
   .hero .stats .l{font-size:var(--t-xs);letter-spacing:2px;text-transform:uppercase;margin-top:6px}
 
+  /* ---- taxonomy explainer (family vs series vs character) ---- */
+  .tax-key{max-width:var(--maxw);margin:30px auto 0;padding:0 24px;
+    display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+  .tax-item{background:var(--s2);border:1px solid var(--b-subtle);border-radius:var(--r-md);
+    padding:16px 18px;position:relative}
+  .tax-item .tx-eyebrow{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:7px}
+  .tax-item h3{font-family:'Playfair Display',serif;font-size:18px;font-weight:600;line-height:1.1}
+  .tax-item p{color:var(--muted);font-size:12.5px;line-height:1.55;margin-top:6px}
+  .tax-item .tx-eg{display:block;margin-top:9px;font-size:10.5px;letter-spacing:.4px;color:var(--cream);opacity:.8;font-style:italic}
+  .tax-arrow{display:none}
+  @media(min-width:760px){
+    .tax-key{grid-template-columns:1fr auto 1fr auto 1fr;align-items:stretch}
+    .tax-arrow{display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:18px;opacity:.6}
+  }
+
   /* ---- index family card ---- */
-  .fam-grid{display:grid;gap:20px;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));margin-top:36px}
+  .fam-grid{display:grid;gap:20px;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));margin-top:24px}
   .fam-card{position:relative;overflow:hidden;isolation:isolate;
     background:var(--s2);border:1px solid color-mix(in srgb,var(--gold) 28%,transparent);border-radius:var(--r-lg);padding:28px 24px;
     display:flex;flex-direction:column;gap:10px;transition:.25s;cursor:pointer;min-height:240px;
@@ -37,9 +66,21 @@
   .fam-card .fc-name{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;line-height:1.1}
   .fam-card .fc-sig{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-top:2px}
   .fam-card .fc-desc{font-size:var(--t-base);color:var(--muted);line-height:1.55;flex:1}
-  .fam-card .fc-count{font-size:var(--t-sm);letter-spacing:1px;color:var(--muted);border-top:1px solid var(--b-subtle);padding-top:10px;margin-top:auto}
+  .fam-card .fc-count{font-size:var(--t-sm);letter-spacing:1px;color:var(--muted);border-top:1px solid var(--b-subtle);padding-top:10px;margin-top:auto;
+    display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
   .fam-card .fc-dev{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-style:italic}
   .fam-card .fc-ratio{font-size:11px;letter-spacing:1.4px;color:var(--muted);margin-top:4px;opacity:.75}
+  /* premium + buyer rail (measurement-led positioning) */
+  .fam-card .fc-rail{position:relative;z-index:2;display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:11px;color:var(--muted);letter-spacing:.3px;margin-top:2px}
+  .fam-card .fc-prem{font-weight:600;color:var(--cream);letter-spacing:.6px}
+  .fam-card .fc-buyer{font-style:italic}
+  .fam-card .fc-prem::before{content:"";display:inline-block;width:4px;height:4px;border-radius:50%;background:var(--gold);margin:0 7px 2px 0;vertical-align:middle}
+  /* in-development card: keep readable + give it a real next step */
+  .fam-card.dev .fc-devnote{position:relative;z-index:2;font-size:11.5px;color:var(--muted);line-height:1.5;font-style:italic;margin-top:2px}
+  .fam-card.dev .fc-devcta{position:relative;z-index:2;margin-top:auto;padding-top:10px;border-top:1px solid var(--b-subtle);
+    display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+  .fam-card.dev .fc-devcta a{font-size:10.5px;letter-spacing:1.6px;text-transform:uppercase;color:var(--gold);border-bottom:1px solid transparent;transition:.2s;cursor:pointer}
+  .fam-card.dev .fc-devcta a:hover{border-color:var(--gold)}
   .dev-narrative{color:var(--muted);font-size:14px;line-height:1.7;max-width:600px;margin:0 auto 28px}
   .dev-cta{text-align:center;margin-top:8px}
 
@@ -53,6 +94,17 @@
     background:var(--s2);border:1px solid var(--b-subtle);border-radius:var(--r-md);padding:10px 18px;margin-top:16px;font-size:13px}
   .fam-hero .prop-badge .pb-item .pb-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);display:block}
   .fam-hero .prop-badge .pb-item .pb-val{font-family:'Playfair Display',serif;font-size:var(--t-md);color:var(--cream)}
+  .fam-hero .fh-meta{display:inline-flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:14px}
+  .fam-hero .fh-meta .fh-prem{font-size:12px;letter-spacing:.6px;color:var(--cream);font-weight:600}
+  .fam-hero .fh-meta .fh-buyer{font-size:12px;letter-spacing:.4px;color:var(--muted);font-style:italic}
+  .fam-hero .fh-meta .fh-sep{width:1px;height:14px;background:var(--line)}
+  /* limited / single-character family — honest, not broken */
+  .limited-note{max-width:var(--maxw);margin:18px auto 0;padding:14px 18px;
+    background:rgba(224,169,69,.07);border:1px solid color-mix(in srgb,var(--st-pending) 30%,transparent);
+    border-radius:var(--r-md);color:var(--muted);font-size:13px;line-height:1.6;display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap}
+  .limited-note .ln-tag{flex-shrink:0}
+  .limited-note a{color:var(--gold);border-bottom:1px solid transparent;transition:.2s;white-space:nowrap}
+  .limited-note a:hover{border-color:var(--gold)}
 
   /* ---- section heads ---- */
   .sec{margin-top:28px}
@@ -139,32 +191,38 @@ const FAM_META = {
   "The Classic": {
     desc: "The timeless hourglass — balanced curves, centred mass, a body that reads as effortlessly complete. Proportions tuned to the first-time premium buyer who wants confidence, not spectacle.",
     sig: "Balanced hourglass · WHR 0.68–0.72 · BWR 1.40–1.50",
-    whr: "0.68–0.72", bwr: "1.40–1.50"
+    whr: "0.68–0.72", bwr: "1.40–1.50",
+    premium: "+20%", buyer: "First-time premium buyer"
   },
   "The Icon": {
     desc: "Glamour-model geometry: dramatic waist suppression, elongated torso, a silhouette built for the lens. The architect's choice for editorial shoots and curated Instagram aesthetics.",
     sig: "Glamour model · WHR 0.60–0.65 · BWR 1.50–1.60",
-    whr: "0.60–0.65", bwr: "1.50–1.60"
+    whr: "0.60–0.65", bwr: "1.50–1.60",
+    premium: "+30%", buyer: "Photographer / curator"
   },
   "The Muse": {
     desc: "Long-lined, hip-dominant, low-waist — the European aesthetic archetype. A tall, serene proportion that carries movement and couture with equal grace.",
     sig: "Tall hip-dominant · WHR 0.65–0.70 · BWR 1.30–1.40",
-    whr: "0.65–0.70", bwr: "1.30–1.40"
+    whr: "0.65–0.70", bwr: "1.30–1.40",
+    premium: "+25%", buyer: "European aesthetic buyer"
   },
   "The Siren": {
     desc: "Bust-forward fantasy architecture with a dramatically tapered waist. Maximum visual drama — the silhouette that anchors character, anime-crossover, and fantasy collector builds.",
     sig: "Bust-dominant fantasy · WHR 0.55–0.60 · BWR 1.60–1.75",
-    whr: "0.55–0.60", bwr: "1.60–1.75"
+    whr: "0.55–0.60", bwr: "1.60–1.75",
+    premium: "+35%", buyer: "Character / anime crossover"
   },
   "The Empress": {
     desc: "Maximum plush abundance — soft, generous proportions that celebrate body-positive opulence. The most tactile family in the architecture, and its most unapologetically feminine.",
     sig: "Maximum plush · WHR 0.58–0.64 · BWR 1.55–1.65",
-    whr: "0.58–0.64", bwr: "1.55–1.65"
+    whr: "0.58–0.64", bwr: "1.55–1.65",
+    premium: "+40%", buyer: "Body-positivity collector"
   },
   "The Sculpt": {
     desc: "Athletic musculature rendered in silicone — defined deltoids, articulated abdominals, sculpted glutes. Fitness realism elevated to fine-craft standard.",
     sig: "Muscular definition · WHR 0.65–0.68 · BWR 1.45–1.55",
-    whr: "0.65–0.68", bwr: "1.45–1.55"
+    whr: "0.65–0.68", bwr: "1.45–1.55",
+    premium: "+30%", buyer: "Fitness realism seeker"
   }
 };
 
@@ -194,18 +252,42 @@ function renderIndex(m) {
   const classified = m.characters.filter(c => c.body && c.body.family);
   const classifiedBodies = new Set(classified.map(c => c.body_code));
   const indexBdSrc = ZX.repImg(m.characters, 0);
+  const activeFamCount = ZX.FAMILIES.filter(fam =>
+    classified.some(c => c.body && c.body.family === fam)).length;
   document.getElementById('hero-slot').innerHTML = `
     <header class="hero has-backdrop">
       ${ZX.heroBackdrop(indexBdSrc)}
       <div class="eyebrow">Body Families</div>
       <h1><span class="em-grad">Six</span> Architectures</h1>
-      <p>Every ZELEX body belongs to one of six curated silhouette families — each with a defined proportion signature, named personality, and manufacturing lineage.</p>
+      <p>Every ZELEX body belongs to one of six curated silhouette families — each defined by a measurable WHR/BWR signature, a named premium, and a buyer it was tuned for. Four are in the catalogue today; two are in development.</p>
       <div class="stats">
-        <div><span class="n">6</span><span class="l">Families</span></div>
+        <div><span class="n">${activeFamCount}</span><span class="l">Available</span></div>
         <div><span class="n">${classifiedBodies.size}</span><span class="l">Architectures</span></div>
         <div><span class="n">${classified.length}</span><span class="l">Characters</span></div>
       </div>
-    </header>`;
+    </header>
+    <div class="tax-key reveal">
+      <div class="tax-item">
+        <span class="tx-eyebrow">Silhouette</span>
+        <h3>Family</h3>
+        <p>The proportion signature — defined by waist-to-hip and bust-to-waist ratios you can verify with a tape measure. Six in total.</p>
+        <span class="tx-eg">e.g. The Muse · WHR 0.65–0.70</span>
+      </div>
+      <div class="tax-arrow">→</div>
+      <div class="tax-item">
+        <span class="tx-eyebrow">Product line</span>
+        <h3>Series</h3>
+        <p>The manufacturing lineage a body is built in — K-Series, Inspiration, Fusion, or SLE. One family can span several series.</p>
+        <span class="tx-eg">e.g. Inspiration · hip-led naturalism</span>
+      </div>
+      <div class="tax-arrow">→</div>
+      <div class="tax-item">
+        <span class="tx-eyebrow">Named persona</span>
+        <h3>Character</h3>
+        <p>A named identity finished on one body — head, styling, and story. Many characters can share a single architecture.</p>
+        <span class="tx-eg">e.g. a Muse character on a 170 cm platform</span>
+      </div>
+    </div>`;
 
   /* build family body/char counts */
   const famBodies = {}, famChars = {};
@@ -235,36 +317,49 @@ function renderIndex(m) {
     const hasBodies = bodyCount > 0;
     const d = `d${Math.min(fi + 1, 6)}`;
 
+    const premBuyer = (meta.premium || meta.buyer)
+      ? `<div class="fc-rail">${meta.premium ? `<span class="fc-prem">${ZX.esc(meta.premium)} premium</span>` : ''}${meta.buyer ? `<span class="fc-buyer">${ZX.esc(meta.buyer)}</span>` : ''}</div>`
+      : '';
+
     if (!hasBodies) {
-      const ratioLine = meta.whr
-        ? `<div class="fc-ratio">WHR ${ZX.esc(meta.whr)} &middot; ${ZX.esc((meta.sig || '').split(' · ')[0])}</div>`
-        : '';
-      return `<div class="fam-card dev reveal ${d}">
+      // Honest in-development state: full description + signature + a real next step
+      // (open the family brief, or request notification). Never an empty/broken tile.
+      return `<a class="fam-card dev reveal ${d}" href="family.html?f=${encodeURIComponent(fam)}" aria-label="${ZX.esc(fam)} — in development">
         <div class="fc-name" style="color:${color}">${ZX.esc(fam)}</div>
         <div class="fc-sig">${ZX.esc((meta.sig || '').split(' · ').slice(1).join(' · '))}</div>
         <div class="fc-desc">${ZX.esc(meta.desc || '')}</div>
-        ${ratioLine}
-        <div class="fc-count"><span class="stat stat-concept">In Development</span></div>
-      </div>`;
+        ${premBuyer}
+        <div class="fc-devnote">Architectures are in final development — the proportion signature is locked; bodies are not yet in the catalogue.</div>
+        <div class="fc-devcta">
+          <span class="stat stat-concept">In Development</span>
+          <span>Read the brief →</span>
+        </div>
+      </a>`;
     }
 
     const bg = famImg[fam]
       ? `<div class="fc-bg" style="background-image:url('${famImg[fam]}')"></div>` : '';
+    const limited = charCount <= 1;
+    const countLabel = limited
+      ? `${bodyCount} architecture${bodyCount !== 1 ? 's' : ''} &middot; ${charCount} character`
+      : `${bodyCount} architecture${bodyCount !== 1 ? 's' : ''} &middot; ${charCount} characters`;
     return `<a class="fam-card reveal ${d}" href="family.html?f=${encodeURIComponent(fam)}">
       ${bg}
       <div class="fc-name" style="color:${color}">${ZX.esc(fam)}</div>
       <div class="fc-sig">${ZX.esc((meta.sig || '').split(' · ').slice(1).join(' · '))}</div>
       <div class="fc-desc">${ZX.esc(meta.desc || '')}</div>
-      <div class="fc-count">${bodyCount} architecture${bodyCount !== 1 ? 's' : ''} &middot; ${charCount} character${charCount !== 1 ? 's' : ''}</div>
+      ${premBuyer}
+      <div class="fc-count"><span>${countLabel}</span><span class="stat ${limited ? 'stat-pending' : 'stat-live'}">${limited ? 'Limited' : 'Available'}</span></div>
     </a>`;
   }).join('');
 
   document.getElementById('app').innerHTML =
     `<div class="fam-grid">${cards}</div>
      <div class="actions">
-       <a class="btn solid" href="options.html?tab=body">Explore Body Options</a>
        <a class="btn" href="quiz.html">Find Your Family</a>
-       <a class="btn ghost" href="browse.html">Browse All</a>
+       <a class="btn ghost" href="browse.html">Browse Every Character</a>
+       <a class="btn ghost" href="compare.html">Compare Side by Side</a>
+       <a class="btn solid" href="contact.html">Request a Private Consultation</a>
      </div>`;
   ZX.revealInit();
 }
@@ -313,6 +408,11 @@ function renderLanding(m, fam) {
       <h1><span class="em-grad">${ZX.esc(fam)}</span></h1>
       <div class="sig-line">${ZX.esc(meta.sig ? meta.sig.split(' · ').slice(1).join(' · ') : '')}</div>
       <p>${ZX.esc(meta.desc || '')}</p>
+      ${(meta.premium || meta.buyer) ? `<div class="fh-meta">
+        ${meta.premium ? `<span class="fh-prem">${ZX.esc(meta.premium)} premium</span>` : ''}
+        ${(meta.premium && meta.buyer) ? `<span class="fh-sep"></span>` : ''}
+        ${meta.buyer ? `<span class="fh-buyer">Tuned for the ${ZX.esc(meta.buyer.toLowerCase())}</span>` : ''}
+      </div>` : ''}
       <div class="prop-badge">
         <div class="pb-item">
           <span class="pb-label">WHR Range</span>
@@ -353,11 +453,22 @@ function renderLanding(m, fam) {
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px">${siblingPills}</div>
     </div>
     <div class="actions">
-      <a class="btn solid" href="options.html?tab=body&family=${encodeURIComponent(fam)}">Open Options For This Family</a>
-      <a class="btn" href="quiz.html">Take the Quiz</a>
-      <a class="btn ghost" href="browse.html">Browse All Characters</a>
+      <a class="btn" href="compare.html">Compare This Family</a>
+      <a class="btn ghost" href="browse.html?family=${encodeURIComponent(fam)}">Browse These Characters</a>
       <a class="btn ghost" href="family.html">All Families</a>
+      <a class="btn solid" href="contact.html?family=${encodeURIComponent(fam)}">Request a Private Consultation</a>
     </div>`;
+
+  /* Honest "limited" state for thin-but-real families (e.g. Empress n=1):
+     a curated note + concierge path, never a near-empty grid presented as the norm. */
+  if (famChars.length > 0 && famChars.length <= 1) {
+    const inquiry = `mailto:${ZX.INQUIRY_EMAIL}?subject=${encodeURIComponent('ZELEX — ' + fam + ' consultation')}`;
+    document.getElementById('hero-slot').insertAdjacentHTML('beforeend',
+      `<div class="limited-note reveal">
+        <span class="ln-tag stat stat-pending">Limited release</span>
+        <span><strong style="color:var(--text)">${ZX.esc(fam)}</strong> is a curated, single-architecture family today — one body, finished as ${famChars.length} character. The proportion signature is fully defined; further architectures are planned. For a made-to-order build in this silhouette, <a href="${inquiry}">speak with the concierge</a> or <a href="compare.html">compare it</a> against a neighbouring family.</span>
+      </div>`);
+  }
 
   /* show sticky controls bar (landing only) */
   document.getElementById('landing-controls').style.display = '';

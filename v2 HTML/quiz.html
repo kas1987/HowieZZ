@@ -4,6 +4,20 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ZELEX — Find Your Character</title>
+<meta name="description" content="Find your ZELEX character in ninety seconds — a five-question guide from a feeling to a body family to three characters made for you.">
+<meta name="theme-color" content="#121212">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://www.zelexdoll.com/quiz.html">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ZELEX — The Character Atlas">
+<meta property="og:title" content="Find Your Character — ZELEX">
+<meta property="og:description" content="A ninety-second guide from a feeling to a body family to three characters made for you.">
+<meta property="og:url" content="https://www.zelexdoll.com/quiz.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Find Your Character — ZELEX">
+<meta name="twitter:description" content="A ninety-second guide from a feeling to a body family to three characters made for you.">
+<meta name="twitter:image" content="https://www.zelexdoll.com/assets/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/site.css">
@@ -20,7 +34,7 @@
 }
 .intro .eyebrow { margin-bottom: 18px; }
 .intro h1 {
-  font-size: clamp(36px, 6vw, 62px);
+  font-size: clamp(28px, 6vw, 62px);
   font-weight: 700;
   line-height: 1.1;
   margin-bottom: 16px;
@@ -205,6 +219,17 @@
 .rank-item .pct{font-size:12px;font-weight:600;color:var(--cream)}
 .why-win{max-width:760px;margin:0 auto 20px;padding:12px 14px;border:1px solid color-mix(in srgb,var(--gold) 24%,transparent);border-radius:12px;background:linear-gradient(135deg,rgba(212,165,116,.08),transparent 45%),var(--panel);color:var(--muted);font-size:13px;line-height:1.5}
 .match-role{margin-top:8px;color:var(--muted);font-size:12px;line-height:1.45;padding:8px 10px;border:1px solid var(--line);border-radius:9px;background:rgba(255,255,255,.02)}
+.rhead .rtagline{color:var(--cream);max-width:560px;margin:10px auto 0;font-size:13.5px;line-height:1.6;opacity:.85}
+.rank-item .rank-range{font-size:10.5px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);opacity:.8}
+.indev-note{max-width:760px;margin:0 auto 20px;padding:14px 16px;border:1px solid color-mix(in srgb,var(--gold) 22%,transparent);border-radius:12px;background:rgba(255,255,255,.025)}
+.indev-note .stat{margin-bottom:8px;display:inline-block}
+.indev-note p{margin:0;color:var(--muted);font-size:13px;line-height:1.6}
+.shortlist-label{max-width:760px;margin:0 auto 14px;color:var(--gold);font-size:12px;letter-spacing:1.8px;text-transform:uppercase}
+@media(max-width:600px){
+  .match-grid{grid-template-columns:1fr 1fr}
+  .rank-item{flex-wrap:wrap}
+  .rank-item .rank-range{flex-basis:100%}
+}
 </style>
 </head>
 <body>
@@ -218,42 +243,51 @@
 ZX.mountNav('quiz.html');
 ZX.load().then(m => { render(m); ZX.mountFooter(); }).catch(() => ZX.fail());
 
+/* Each option carries family weights (w) AND a measurement leaning (whr/bwr) so the
+   result panel can speak in the deterministic WHR/BWR language of body-family-method.md.
+   whr lean: − = lower waist:hip (more hourglass);  + = higher waist:hip (straighter).
+   bwr lean: + = more bust-forward (higher bust:waist);  − = less bust-dominant.
+   Leanings are summed across answers then averaged into a directional reading; they are
+   NOT a measurement claim, only the axis the buyer is pulling toward. */
 const QUESTIONS = [
   { q: "What stature draws you in?", opts: [
-    { b: "Petite & compact",       s: "Under 162 cm",    w: { "The Classic": 2, "The Siren": 1, "The Empress": 1 } },
-    { b: "Balanced & mid-height",  s: "162–168 cm",      w: { "The Muse": 1, "The Icon": 2, "The Classic": 1 } },
-    { b: "Tall & striking",        s: "169 cm and up",   w: { "The Muse": 2, "The Icon": 1 } }
+    { b: "Petite & compact",       s: "Under 162 cm",    w: { "The Classic": 2, "The Siren": 1, "The Empress": 1 }, whr: 0,    bwr: 0.4 },
+    { b: "Balanced & mid-height",  s: "162–168 cm",      w: { "The Muse": 1, "The Icon": 2, "The Classic": 1 },     whr: -0.3, bwr: 0.3 },
+    { b: "Tall & striking",        s: "169 cm and up",   w: { "The Muse": 2, "The Icon": 1 },                       whr: 0.4,  bwr: -0.4 }
   ]},
   { q: "Which silhouette feels right?", opts: [
-    { b: "Subtle & restrained",    s: "Proportion over volume",  w: { "The Muse": 2, "The Sculpt": 1, "The Classic": 1 } },
-    { b: "Classic hourglass",      s: "Timeless curves",         w: { "The Classic": 3, "The Icon": 1 } },
-    { b: "Bold & bust-forward",    s: "Statement presence",      w: { "The Siren": 3, "The Icon": 1 } },
-    { b: "Plush & abundant",       s: "Soft, full, generous",    w: { "The Empress": 3, "The Siren": 1 } },
-    { b: "Lean & athletic",        s: "Fit and tapered",         w: { "The Sculpt": 3 } }
+    { b: "Subtle & restrained",    s: "Proportion over volume",  w: { "The Muse": 2, "The Sculpt": 1, "The Classic": 1 }, whr: 0.6,  bwr: -0.6 },
+    { b: "Classic hourglass",      s: "Timeless curves",         w: { "The Classic": 3, "The Icon": 1 },                  whr: 0.2,  bwr: 0.1 },
+    { b: "Bold & bust-forward",    s: "Statement presence",      w: { "The Siren": 3, "The Icon": 1 },                    whr: -0.6, bwr: 0.9 },
+    { b: "Plush & abundant",       s: "Soft, full, generous",    w: { "The Empress": 3, "The Siren": 1 },                 whr: -0.4, bwr: 0.7 },
+    { b: "Lean & athletic",        s: "Fit and tapered",         w: { "The Sculpt": 3 },                                  whr: 0.4,  bwr: 0.0 }
   ]},
   { q: "In a room, she should…", opts: [
-    { b: "Blend in beautifully",   s: "Understated, lived-in",   w: { "The Muse": 2, "The Classic": 1 } },
-    { b: "Be the centerpiece",     s: "Striking, unforgettable", w: { "The Siren": 2, "The Icon": 2, "The Empress": 1 } }
+    { b: "Blend in beautifully",   s: "Understated, lived-in",   w: { "The Muse": 2, "The Classic": 1 },                  whr: 0.4,  bwr: -0.3 },
+    { b: "Be the centerpiece",     s: "Striking, unforgettable", w: { "The Siren": 2, "The Icon": 2, "The Empress": 1 },  whr: -0.5, bwr: 0.7 }
   ]},
   { q: "Your space and handling?", opts: [
-    { b: "Apartment — solo-manageable", s: "Lighter is better",   w: { "The Classic": 2, "The Muse": 1 } },
-    { b: "Dedicated space",             s: "Weight is no concern", w: { "The Empress": 2, "The Siren": 1 } }
+    { b: "Apartment — solo-manageable", s: "Lighter is better",   w: { "The Classic": 2, "The Muse": 1 },                 whr: 0.3,  bwr: -0.2 },
+    { b: "Dedicated space",             s: "Weight is no concern", w: { "The Empress": 2, "The Siren": 1 },               whr: -0.4, bwr: 0.6 }
   ]},
   { q: "The mood you're after?", opts: [
-    { b: "Natural & relatable",    s: "The girl next door",    w: { "The Muse": 3, "The Classic": 1 } },
-    { b: "Glamour & camera",       s: "Editorial, photogenic", w: { "The Icon": 3, "The Classic": 1 } },
-    { b: "Fantasy & drama",        s: "Larger than life",      w: { "The Siren": 3, "The Empress": 1 } },
-    { b: "Fitness & definition",   s: "Toned realism",         w: { "The Sculpt": 3 } }
+    { b: "Natural & relatable",    s: "The girl next door",    w: { "The Muse": 3, "The Classic": 1 },                    whr: 0.4,  bwr: -0.3 },
+    { b: "Glamour & camera",       s: "Editorial, photogenic", w: { "The Icon": 3, "The Classic": 1 },                    whr: -0.3, bwr: 0.5 },
+    { b: "Fantasy & drama",        s: "Larger than life",      w: { "The Siren": 3, "The Empress": 1 },                   whr: -0.6, bwr: 0.9 },
+    { b: "Fitness & definition",   s: "Toned realism",         w: { "The Sculpt": 3 },                                    whr: 0.5,  bwr: 0.0 }
   ]}
 ];
 
-const FAM_DESC = {
-  "The Classic":  "A timeless hourglass — balanced, inviting, the one you live with.",
-  "The Icon":     "A glamour-model silhouette — built for the lens, camera-ready poise.",
-  "The Muse":     "Tall and hip-led — natural, elongated, quietly confident.",
-  "The Siren":    "Bust-dominant and magnetic — bold presence, impossible to ignore.",
-  "The Empress":  "Maximum plush — abundant, soft-dominant, regal.",
-  "The Sculpt":   "Muscular definition — deliberate, defined, statuesque."
+/* Family copy blocks — sourced verbatim in voice from docs/body-family-copy-guide.md §2.
+   Used for the result headline/tagline/eyebrow/archetype + premium positioning. No
+   invented family copy: every line maps to the guide. */
+const FAM_COPY = {
+  "The Classic": { eyebrow:"Quiet confidence", desc:"The hourglass that never ages — enduring elegance that feels instantly right.", tagline:"A timeless hourglass, +20% premium, crafted for your first premium moment.", archetype:"First-time premium buyer seeking a timeless, balanced silhouette.", premium:"+20%" },
+  "The Icon":    { eyebrow:"Curated glamour", desc:"Sculpted for the spotlight — a runway-ready presence that commands the lens.", tagline:"Glamour-model proportions, +30% premium, made for visual storytellers.", archetype:"Photographer or curator looking for a glamour-model figure to showcase.", premium:"+30%" },
+  "The Muse":    { eyebrow:"Inspired artistry", desc:"Tall, hip-dominant, unmistakably elegant — elevated poise that inspires every glance.", tagline:"A tall, hip-forward silhouette, +25% premium, crafted for European sensibilities.", archetype:"European aesthetic buyer who values height, hip-dominance, and refined poise.", premium:"+25%" },
+  "The Siren":   { eyebrow:"Fantasy allure", desc:"Bust-dominant fantasy embodied — a fantastical allure that turns imagination into reality.", tagline:"Bust-dominant fantasy proportions, +35% premium, built for crossover narratives.", archetype:"Character or anime crossover enthusiast desiring a fantasy-rich, bust-dominant shape.", premium:"+35%" },
+  "The Empress": { eyebrow:"Maximum plush", desc:"The fullest expression of comfort — plush confidence that celebrates every curve.", tagline:"Maximum plush silhouette, +40% premium, designed for collectors of body positivity.", archetype:"Body-positivity collector seeking maximum plushness and a comforting presence.", premium:"+40%" },
+  "The Sculpt":  { eyebrow:"Defined performance", desc:"Muscular definition, measured precision — athletic realism that feels unmistakably strong.", tagline:"Muscular definition within WHR 0.65–0.68, +30% premium, for the realism-focused collector.", archetype:"Fitness realism seeker who wants muscular definition and athletic proportion.", premium:"+30%" }
 };
 
 function render(m) {
@@ -337,7 +371,7 @@ function render(m) {
       btn.addEventListener('click', () => {
         const o = Q.opts[+btn.dataset.i];
         if (!o) return;
-        answers.push(o.w);
+        answers.push(o);
         if (step < QUESTIONS.length - 1) {
           step++;
           renderQ();
@@ -349,27 +383,58 @@ function render(m) {
   }
 
   function finish() {
-    // tally scores
-    const FAMS = ["The Classic","The Icon","The Muse","The Siren","The Empress","The Sculpt"];
+    // tally scores + accumulate the WHR/BWR directional leaning from each answer
+    const FAMS = (m.FAMILIES || ["The Classic","The Icon","The Muse","The Siren","The Empress","The Sculpt"]).slice();
     const score = {};
     FAMS.forEach(f => { score[f] = 0; });
+    let whrLean = 0, bwrLean = 0, leanN = 0;
     answers.forEach(w => {
-      Object.entries(w).forEach(([f, v]) => { score[f] = (score[f] || 0) + v; });
+      Object.entries(w.w || {}).forEach(([f, v]) => { score[f] = (score[f] || 0) + v; });
+      if (typeof w.whr === 'number') { whrLean += w.whr; leanN++; }
+      if (typeof w.bwr === 'number') { bwrLean += w.bwr; }
     });
+    // average leaning per question (range roughly −1..+1 on each axis)
+    const avgWhr = leanN ? whrLean / leanN : 0;
+    const avgBwr = leanN ? bwrLean / leanN : 0;
+
+    // family metric ranges (from body_profiles.json families) + status from live coverage
+    const famMeta = {};
+    (m.families || []).forEach(fm => { famMeta[fm.name] = fm; });
 
     // ranked by score
     const ranked = FAMS.slice().sort((a, b) => score[b] - score[a]);
     const totalScore = Math.max(1, Object.values(score).reduce((a, v) => a + (v > 0 ? v : 0), 0));
 
-    // live characters with a family
+    // live characters with a family — drives availability + the recommended shortlist
     const live = m.characters.filter(c => c.status === 'live' && c.body && c.body.family);
     const liveByFam = f => live.filter(c => c.body.family === f);
+    const isInDev = f => liveByFam(f).length === 0;
 
-    // pick winner — highest-scoring family with at least one live char
-    const win = ranked.find(f => liveByFam(f).length > 0) || ranked[0];
+    // expressed winner = top score (may be in-development — we do NOT silently swap it)
+    const expressed = ranked[0];
+    // sourced winner = top-scoring family that actually has live bodies to recommend
+    const win = ranked.find(f => liveByFam(f).length > 0) || expressed;
+    // when the expressed family is in development, find the nearest ACTIVE family by the
+    // method's normalized-distance metric (|ΔWHR|/0.05 + |ΔBWR|/0.10 on range centers)
+    const center = fm => fm ? [ (fm.whr[0]+fm.whr[1])/2, (fm.bwr[0]+fm.bwr[1])/2 ] : null;
+    function nearestActive(fromFam) {
+      const c0 = center(famMeta[fromFam]);
+      let best = null, bestD = Infinity;
+      FAMS.forEach(f => {
+        if (isInDev(f)) return;
+        const c1 = center(famMeta[f]);
+        if (!c0 || !c1) return;
+        const d = Math.abs(c0[0]-c1[0])/0.05 + Math.abs(c0[1]-c1[1])/0.10;
+        if (d < bestD) { bestD = d; best = f; }
+      });
+      return best;
+    }
+    const inDevFallback = isInDev(expressed) ? (nearestActive(expressed) || win) : null;
+    // the family we actually pull recommended bodies from
+    const sourceFam = inDevFallback || win;
 
-    // pick up to 4 matches from the top family — diversified by body_code first
-    const pool = liveByFam(win);
+    // pick up to 4 matches from the source family — diversified by body_code first
+    const pool = liveByFam(sourceFam);
     const seenBody = new Set();
     const matches = [];
     for (const c of pool) {
@@ -381,8 +446,8 @@ function render(m) {
       if (!matches.includes(c)) matches.push(c);
     }
 
-    // fill remaining slots from second-ranked family before any cross-family fallback
-    const runner = ranked.find(f => f !== win && liveByFam(f).length > 0);
+    // fill remaining slots from the next active family before any cross-family fallback
+    const runner = ranked.find(f => f !== sourceFam && liveByFam(f).length > 0);
     const fillFrom = runner ? liveByFam(runner) : [];
     let fromSecond = 0;
     for (const c of fillFrom) {
@@ -412,17 +477,27 @@ function render(m) {
       fam,
       score: score[fam],
       pct: Math.round((score[fam] / totalScore) * 100),
-      liveCount: liveByFam(fam).length
+      liveCount: liveByFam(fam).length,
+      inDev: isInDev(fam)
     }));
-    const winnerEntry = top3.find(x => x.fam === win) || { fam: win, score: score[win], pct: 0, liveCount: liveByFam(win).length };
+    // The headline family is the EXPRESSED winner (so an in-dev result is honest);
+    // its match % reflects its own score.
+    const winnerEntry = top3.find(x => x.fam === expressed) || { fam: expressed, score: score[expressed], pct: 0, liveCount: liveByFam(expressed).length, inDev: isInDev(expressed) };
     const runnerScore = runner ? score[runner] : 0;
-    const scoreGap = Math.max(0, score[win] - runnerScore);
+    const scoreGap = Math.max(0, score[expressed] - runnerScore);
     const compareBodies = Array.from(new Set(matches.map(c => c.body_code).filter(Boolean))).slice(0, 4);
     const compareCodes = compareBodies.join(',');
 
+    // build the measurement-led reasoning payload, grounded in WHR/BWR ranges + leaning
+    const reasoning = buildReasoning(expressed, sourceFam, famMeta, avgWhr, avgBwr, matches, win);
+
     const quizResult = {
       ts: new Date().toISOString(),
-      winner: win,
+      winner: expressed,
+      source_family: sourceFam,
+      in_development: isInDev(expressed),
+      lean_whr: Math.round(avgWhr * 100) / 100,
+      lean_bwr: Math.round(avgBwr * 100) / 100,
       runner_up: runner || '',
       top3: top3,
       match_ids: matches.map(c => c.character_id),
@@ -434,15 +509,38 @@ function render(m) {
     document.getElementById('pbar').style.width = '100%';
 
     hide('qscreen');
-    showResult(win, runner, matches, splitAt, top3, winnerEntry, scoreGap, compareBodies, compareCodes);
+    showResult(expressed, sourceFam, runner, matches, splitAt, top3, winnerEntry, scoreGap, compareBodies, compareCodes, reasoning, isInDev(expressed), avgWhr, avgBwr, famMeta);
   }
 
-  function showResult(win, runner, matches, splitAt, top3, winnerEntry, scoreGap, compareBodies, compareCodes) {
-    const famColor = ZX.famColor(win);
-    const desc = FAM_DESC[win] || '';
+  // ---- measurement-led reasoning, grounded in the WHR/BWR method doc ----
+  function fmtR(v) { return (Math.round(v * 1000) / 1000).toFixed(2); }
+  // Map a family's WHR/BWR range to plain measurement language + the user's leaning.
+  function buildReasoning(expressed, sourceFam, famMeta, avgWhr, avgBwr, matches, win) {
+    const fm = famMeta[expressed];
+    // direction words from the accumulated leaning (deterministic, axis-based)
+    const whrDir = avgWhr < -0.15 ? 'a lower waist-to-hip ratio (a more pronounced hourglass)'
+                 : avgWhr > 0.15  ? 'a higher, more balanced waist-to-hip ratio'
+                 : 'a balanced waist-to-hip ratio';
+    const bwrDir = avgBwr > 0.2  ? 'a bust-forward bust-to-waist ratio'
+                 : avgBwr < -0.2 ? 'a restrained, proportion-led bust-to-waist ratio'
+                 : 'a moderate bust-to-waist ratio';
+    // Confidence wording mirrors the method doc's exact/near/loose ladder. A quiz captures a
+    // directional leaning, not a measured body, so the strongest honest read is "near".
+    const confidence = 'near';
+    const ranges = fm ? `WHR ${fmtR(fm.whr[0])}–${fmtR(fm.whr[1])} and BWR ${fmtR(fm.bwr[0])}–${fmtR(fm.bwr[1])}` : '';
+    return { whrDir, bwrDir, ranges, confidence, fm };
+  }
+
+  function showResult(expressed, sourceFam, runner, matches, splitAt, top3, winnerEntry, scoreGap, compareBodies, compareCodes, reasoning, inDev, avgWhr, avgBwr, famMeta) {
+    const famColor = ZX.famColor(expressed);
+    const copy = FAM_COPY[expressed] || { eyebrow:'Your match', desc:'', tagline:'', archetype:'', premium:'' };
+    const srcColor = ZX.famColor(sourceFam);
+    const srcCopy = FAM_COPY[sourceFam] || copy;
     const rscreen = document.getElementById('rscreen');
     const quizSummary = [
-      'winner=' + win,
+      'winner=' + expressed,
+      inDev ? 'in_development=1;source=' + sourceFam : 'source=' + sourceFam,
+      'lean=whr' + (Math.round(avgWhr*100)/100) + ',bwr' + (Math.round(avgBwr*100)/100),
       'top=' + top3.map(x => x.fam + ':' + x.pct + '%').join('|'),
       'compare=' + compareCodes
     ].join(';');
@@ -451,50 +549,81 @@ function render(m) {
       const divider = (i === splitAt && i > 0 && runner)
         ? `<div class="match-divider">Also from ${ZX.esc(runner)}</div>`
         : '';
-      const reason = c.body && c.body.family === win
-        ? 'Core match: aligns with your winning family silhouette.'
-        : (runner && c.body && c.body.family === runner
-            ? 'Runner-up support: gives you a nearby proportion alternative.'
-            : 'Wildcard fit: included to broaden your shortlist.');
-      return `${divider}<div class="reveal d${i + 1}">${ZX.charCard(c)}<div class="match-role">${ZX.esc(c.persona.title)} · ${ZX.esc(reason)}</div></div>`;
+      const b = c.body || {};
+      // per-card measurement line: show the body's actual WHR/BWR (the deterministic signal)
+      const metricLine = (b.WHR != null)
+        ? `WHR ${fmtR(b.WHR)} · BWR ${fmtR(b.BWR)}${b.estimated ? ' · est.' : ''}`
+        : '';
+      const reason = b.family === sourceFam
+        ? 'Sits inside your matched family ranges.'
+        : (runner && b.family === runner
+            ? `Nearby ${ZX.esc(runner)} alternative for comparison.`
+            : 'Adjacent fit to broaden your shortlist.');
+      return `${divider}<div class="reveal d${i + 1}">${ZX.charCard(c)}<div class="match-role">${metricLine ? metricLine + ' · ' : ''}${ZX.esc(reason)}</div></div>`;
     }).join('');
 
     const ranking = `<section class="result-ranking reveal d1">
       <h3>Top family scores</h3>
       <div class="rank-list">
-        ${top3.map(r => `<div class="rank-item">
+        ${top3.map(r => {
+          const fm = famMeta[r.fam];
+          const rg = fm ? `${fmtR(fm.whr[0])}–${fmtR(fm.whr[1])} WHR` : '';
+          return `<div class="rank-item">
           <div class="left">
             <span class="idx">#${r.idx}</span>
             <span class="name">${ZX.esc(r.fam)}</span>
-            ${r.liveCount === 0 ? '<span class="stat stat-concept">In development</span>' : '<span class="stat stat-verified">Live</span>'}
+            ${rg ? `<span class="rank-range">${rg}</span>` : ''}
+            ${r.inDev ? '<span class="stat stat-concept">In development</span>' : '<span class="stat stat-verified">Live now</span>'}
           </div>
           <span class="pct">${r.pct}%</span>
-        </div>`).join('')}
+        </div>`;
+        }).join('')}
       </div>
     </section>`;
 
+    // measurement-led "why this matched" — cites the family's WHR/BWR ranges + user leaning
     const whyWin = `<div class="why-win reveal d2">
-      <strong style="color:var(--cream)">Why this won:</strong>
-      ${ZX.esc(win)} led your response profile at ${winnerEntry.pct}% signal strength${runner ? `, ahead of ${runner} by ${scoreGap} score point${scoreGap === 1 ? '' : 's'}` : ''}. Your shortlist keeps this silhouette first while still giving one adjacent path for comparison.
+      <strong style="color:var(--cream)">Why ${ZX.esc(expressed)} matched (${reasoning.confidence}):</strong>
+      Your answers lean toward ${reasoning.whrDir} and ${reasoning.bwrDir}. That profile sits closest to the
+      ${ZX.esc(expressed)} family, defined by ${reasoning.ranges || 'its published ratio ranges'}${copy.premium ? ` (${copy.premium} premium)` : ''}.
+      It led your profile at ${winnerEntry.pct}%${runner ? `, ahead of ${ZX.esc(runner)} by ${scoreGap} point${scoreGap === 1 ? '' : 's'}` : ''}.
+      Classification follows the deterministic WHR / BWR method — a private consultation confirms the exact measured body.
     </div>`;
+
+    // honest in-development panel — never dead-ends; routes to the nearest active family
+    const inDevPanel = inDev ? `<div class="indev-note reveal d2">
+      <span class="stat stat-concept">In development</span>
+      <p><strong style="color:var(--cream)">${ZX.esc(expressed)}</strong> is still in development — no measured bodies are catalogued in it yet
+      (${reasoning.ranges || 'its ratio ranges are defined'}). The closest family we can build for you today is
+      <strong style="color:${srcColor}">${ZX.esc(sourceFam)}</strong> (${srcCopy.tagline ? ZX.esc(srcCopy.tagline) : 'an active family'}).
+      The shortlist below is drawn from ${ZX.esc(sourceFam)}; the concierge can also note your interest in ${ZX.esc(expressed)} for upcoming releases.</p>
+    </div>` : '';
+
+    // headline + tagline use copy-guide voice; on in-dev results the shortlist label points at the source family
+    const shortlistLabel = inDev
+      ? `Closest available — from ${ZX.esc(sourceFam)}`
+      : `Three made for you — from ${ZX.esc(expressed)}`;
 
     rscreen.innerHTML = `
       <div class="rhead">
-        <div class="eyebrow">Your match</div>
-        <h2>You are drawn to <em style="color:${famColor}">${ZX.esc(win)}</em></h2>
-        <p class="rdesc">${ZX.esc(desc)}</p>
+        <div class="eyebrow">${ZX.esc(copy.eyebrow)}</div>
+        <h2>You lean toward <em style="color:${famColor}">${ZX.esc(expressed)}</em></h2>
+        <p class="rdesc">${ZX.esc(copy.desc)}</p>
+        ${copy.tagline ? `<p class="rtagline">${ZX.esc(copy.tagline)}</p>` : ''}
         <div class="rfam-accent" style="background:${famColor}"></div>
       </div>
       ${ranking}
       ${whyWin}
+      ${inDevPanel}
+      <div class="shortlist-label reveal d2">${shortlistLabel}</div>
       <div class="match-grid" id="match-grid">
         ${cardItems}
       </div>
       <div class="ractions">
         <button class="btn ghost" id="retake-btn">↻ Retake the quiz</button>
-        <button class="btn solid" id="compare-matches-btn">Compare matches</button>
-        <a class="btn" href="family.html?f=${encodeURIComponent(win)}">Browse ${ZX.esc(win)}</a>
-        <a class="btn concierge" href="contact.html?compare=${encodeURIComponent(compareCodes)}&src=quiz&cta=ask_concierge_after_quiz&context=quiz_result&channel=contact&quiz_summary=${encodeURIComponent(quizSummary)}">Ask concierge</a>
+        <button class="btn solid" id="compare-matches-btn">Compare these bodies</button>
+        <a class="btn" href="family.html?f=${encodeURIComponent(sourceFam)}">Browse ${ZX.esc(sourceFam)}</a>
+        <a class="btn concierge" href="contact.html?compare=${encodeURIComponent(compareCodes)}&src=quiz&cta=ask_concierge_after_quiz&context=quiz_result&channel=contact&quiz_summary=${encodeURIComponent(quizSummary)}">Request a private consultation</a>
       </div>
     `;
 

@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ZELEX — Live Configurator</title>
+<meta name="description" content="Shape a ZELEX architecture live — a measurement-led configurator. Choose a body family and watch the silhouette respond to its waist-to-hip and bust-to-waist ratios, then hand your build to a private concierge.">
+<meta name="theme-color" content="#121212">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://www.zelexdoll.com/configurator.html">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ZELEX — The Character Atlas">
+<meta property="og:title" content="Live Configurator — ZELEX">
+<meta property="og:description" content="Shape an architecture live, driven by WHR/BWR family ratios, then request a private consultation.">
+<meta property="og:url" content="https://www.zelexdoll.com/configurator.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Live Configurator — ZELEX">
+<meta name="twitter:description" content="Shape an architecture live, driven by WHR/BWR family ratios.">
+<meta name="twitter:image" content="https://www.zelexdoll.com/assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<!-- Page-specific styles live in assets/site.css under "configurator page". This block is intentionally empty. -->
+</head>
+<body>
+<div class="crumbs" id="crumbs"></div>
+<main id="app">
+  <div class="loading">Loading catalog…</div>
+</main>
+
+<script src="assets/site.js"></script>
+<script>
+ZX.mountNav('configurator.html');
+ZX.load().then(m => { render(m); ZX.mountFooter(); }).catch(() => ZX.fail());
+
+/* ============================================================
+   Live Configurator — measurement-led, concierge-voiced.
+
+   The silhouette is an ABSTRACT ARCHITECTURE DIAGRAM, not a product render.
+   It is driven entirely by each family's WHR (waist:hip) and BWR (bust:waist)
+   ranges as published in db/body_profiles.json (model.families) and
+   docs/body-family-method.md — the same deterministic ratios used across the
+   Atlas. The realism slider nudges within those bounds; skin/hair/eye only
+   tint the diagram (they never change geometry).
+   ============================================================ */
+
+/* Tint tables (finish previews only — final finish is set with concierge). */
+const SKIN = [['fair','Fair','#E7C6A8'],['natural','Natural','#D7A878'],['wheat','Wheat','#C0884F'],['tan','Tan','#9C6638'],['deep','Deep','#6E4424']];
+const EYES = [['blue','Blue','#6E93B8'],['hazel','Hazel','#8A6A3C'],['green','Green','#5C7D55'],['brown','Brown','#4A3326'],['grey','Grey','#8B8F93'],['amber','Amber','#AE752C']];
+const HAIR = [['blonde','Blonde','#C7A458'],['brunette','Brunette','#5A3A24'],['black','Black','#221A15'],['auburn','Auburn','#7C3C22'],['silver','Silver','#C7C2BA']];
+const REAL_STOPS = ['Natural','Soft','Balanced','Bold','Dramatic'];
+const REAL_COLORS = ['#9FD6B6','#BFC79E','#D4A574','#DBA188','#E18B73'];
+const REAL_DESC = [
+  'As natural and understated as the family ratios allow.',
+  'Mostly natural, gently flattering within range.',
+  'A balanced, believable presence — mid-range ratios.',
+  'Heightened, eye-catching curves toward the range edge.',
+  'Full dramatic presence at the limit of the family range.'
+];
+
+/* Family display order (real families first, then in-development). */
+const FAM_ORDER = ['The Icon','The Muse','The Siren','The Empress','The Classic','The Sculpt'];
+
+function render(m) {
+  const crumbs = document.getElementById('crumbs');
+  if (crumbs) crumbs.innerHTML = `<a href="index.html">Atlas</a><span>›</span> Configure`;
+
+  const app = document.getElementById('app');
+
+  /* ---- family metadata from the catalog (WHR/BWR ranges) ---- */
+  // map families by name; build a fast lookup of which families have live bodies.
+  const famMeta = {};
+  (m.families || []).forEach(f => { famMeta[f.name] = f; });
+  const live = (m.characters || []).filter(c => c.status === 'live' && c.body && c.body.family);
+  const liveCount = f => live.filter(c => c.body.family === f).length;
+  // "in development" = zero catalogued bodies (Classic & Sculpt today — body-family-method.md §6)
+  const isInDev = f => liveCount(f) === 0;
+
+  // Families present in data; fall back to ZX.FAMILIES if data is sparse.
+  const knownFams = FAM_ORDER.filter(f => famMeta[f] || (m.FAMILIES || []).includes(f));
+  const fams = knownFams.length ? knownFams : (m.FAMILIES || ZX.FAMILIES).slice();
+
+  // initial family: prefer ?family= param, else first active family with bodies.
+  const reqFamily = ZX.qs('family');
+  const initialFamily = (reqFamily && fams.includes(reqFamily)) ? reqFamily
+    : (fams.find(f => !isInDev(f)) || fams[0]);
+
+  /* ---- representative stature per family (cm/kg) from live bodies ---- */
+  // Pulled from the catalog so the "stature" stat is grounded, not invented.
+  function famStature(f) {
+    const bodies = live.filter(c => c.body.family === f).map(c => c.body);
+    if (!bodies.length) return null;
+    const avg = (k) => Math.round(bodies.reduce((a, b) => a + (b[k] || 0), 0) / bodies.length);
+    return { h: avg('height_cm'), w: avg('weight_kg') };
+  }
+
+  /* ---- state ---- */
+  const state = {
+    family: initialFamily,
+    realism: 2,
+    skin: 'natural', eye: 'hazel', hair: 'brunette',
+    tipOpen: false
+  };
+
+  // helpers
+  const hexA = (hex, a) => { const h = hex.replace('#',''); return `rgba(${parseInt(h.slice(0,2),16)},${parseInt(h.slice(2,4),16)},${parseInt(h.slice(4,6),16)},${a})`; };
+  const tone = (arr, key) => (arr.find(x => x[0] === key) || [])[2] || '#888';
+  const toneLabel = (arr, key) => (arr.find(x => x[0] === key) || [])[1] || '';
+
+  /* ============================================================
+     Geometry: derive ratios from the family's WHR/BWR ranges.
+     - whrTarget/bwrTarget interpolate ACROSS the family range using the
+       realism slider (0..4 → range min..max), so a family's own published
+       ratios — not magic numbers — set the silhouette.
+     - WHR (waist:hip): lower → cinch waist relative to hip (hourglass).
+     - BWR (bust:waist): higher → bust pushed forward relative to waist.
+     ============================================================ */
+  function geometry() {
+    const fm = famMeta[state.family];
+    // fall back to a neutral mid-range if a family lacks published ranges
+    const whrR = (fm && fm.whr) || [0.66, 0.72];
+    const bwrR = (fm && fm.bwr) || [1.35, 1.45];
+    const t = state.realism / (REAL_STOPS.length - 1); // 0..1
+    // Dramatic end favours a lower WHR (more hourglass) and higher BWR (bust-forward),
+    // so we walk WHR from max→min and BWR from min→max as realism rises.
+    const whr = whrR[1] + (whrR[0] - whrR[1]) * t;
+    const bwr = bwrR[0] + (bwrR[1] - bwrR[0]) * t;
+
+    // Map ratios to half-widths around a central axis (cx=150) in the 300x560 viewbox.
+    const cx = 150;
+    const hipW = 55;                 // hip is the anchor reference width
+    const waistW = hipW * whr;       // waist:hip = WHR
+    const bustW = waistW * bwr;       // bust:waist = BWR
+    const neck = 15;
+    const shoulderW = Math.max(bustW * 0.92, 44);
+    const thighW = hipW * 0.74;
+    const knee = 24, ankle = 14;
+    const Y = { neck:118, shoulder:150, bust:198, waist:262, hip:322, thigh:388, knee:448, ankle:505 };
+    const R = [
+      { x: cx + neck, y: Y.neck }, { x: cx + shoulderW, y: Y.shoulder }, { x: cx + bustW, y: Y.bust },
+      { x: cx + waistW, y: Y.waist }, { x: cx + hipW, y: Y.hip }, { x: cx + thighW, y: Y.thigh },
+      { x: cx + knee, y: Y.knee }, { x: cx + ankle, y: Y.ankle }
+    ];
+    const L = R.map(p => ({ x: cx - (p.x - cx), y: p.y })).reverse();
+    const side = (pts) => { let d=''; for (let i=1;i<pts.length;i++){ const a=pts[i-1], b=pts[i]; const dy=(b.y-a.y)*0.42; d+=`C ${a.x.toFixed(1)} ${(a.y+dy).toFixed(1)} ${b.x.toFixed(1)} ${(b.y-dy).toFixed(1)} ${b.x.toFixed(1)} ${b.y.toFixed(1)} `; } return d; };
+    const silD = `M ${R[0].x.toFixed(1)} ${R[0].y} ${side(R)}Q ${cx} ${Y.ankle+18} ${L[0].x.toFixed(1)} ${L[0].y} ${side(L)}Z`;
+    return { silD, whr, bwr, waistW, hipW, cx };
+  }
+
+  /* ---- build DOM scaffold ---- */
+  app.innerHTML = `
+    <section class="cfg-head">
+      <div class="eyebrow">Live Configurator</div>
+      <h1 class="cfg-h1">Shape your character, <em>live</em>.</h1>
+      <p class="cfg-lead">Choose a body family and the architecture redraws from its measured waist-to-hip and bust-to-waist ratios. Tint it, nudge the realism, and hand the build to a concierge — no obligation.</p>
+    </section>
+
+    <div class="cfg-grid">
+      <section class="cfg-stage panel" aria-label="Architecture diagram">
+        <div class="cfg-glow" id="cfg-glow"></div>
+        <div class="cfg-stage-tl">
+          <span class="fam" id="cfg-famchip"></span>
+          <span class="stat stat-concept" id="cfg-devchip" hidden>In development</span>
+        </div>
+        <div class="cfg-stage-tr" id="cfg-stats" aria-live="polite"></div>
+        <svg class="cfg-silhouette" id="cfg-svg" viewBox="0 0 300 560" role="img" aria-label="Abstract body architecture diagram">
+          <ellipse cx="150" cy="430" rx="92" ry="15" fill="rgba(0,0,0,.32)"></ellipse>
+          <ellipse id="hair-top"  cx="150" cy="64"  rx="34" ry="42"></ellipse>
+          <ellipse id="hair-l"    cx="119" cy="132" rx="9"  ry="40"></ellipse>
+          <ellipse id="hair-r"    cx="181" cy="132" rx="9"  ry="40"></ellipse>
+          <path id="cfg-body"></path>
+          <circle id="cfg-head" cx="150" cy="74" r="27"></circle>
+          <circle id="eye-l" cx="141" cy="73" r="3.4"></circle>
+          <circle id="eye-r" cx="159" cy="73" r="3.4"></circle>
+          <line id="waist-line" y1="262" y2="262" stroke-width="1.4" stroke-dasharray="4 4" opacity=".55"></line>
+          <line id="hip-line"   y1="322" y2="322" stroke-width="1.4" stroke-dasharray="4 4" opacity=".55"></line>
+        </svg>
+        <div class="cfg-stage-bl">
+          <div class="cfg-build-eyebrow">Working build</div>
+          <div class="cfg-build-title" id="cfg-silhouette-name"></div>
+        </div>
+        <div class="cfg-stage-br">Silhouette diagram · driven by family WHR/BWR · not to scale</div>
+      </section>
+
+      <aside class="cfg-panel panel">
+        <div class="cfg-panel-head">
+          <div>
+            <div class="cfg-now-editing">Configure</div>
+            <h2 class="cfg-panel-title">Body family</h2>
+          </div>
+          <button type="button" class="cfg-tip-btn" id="cfg-tip-btn">? <span>Tip</span></button>
+        </div>
+        <div class="cfg-tip" id="cfg-tip" hidden>
+          <div class="cfg-tip-label">Concierge tip</div>
+          <p id="cfg-tip-text"></p>
+        </div>
+
+        <div class="cfg-section">
+          <div class="cfg-label">Body family</div>
+          <div class="cfg-fam-grid" id="cfg-fam-grid"></div>
+        </div>
+
+        <div class="cfg-section">
+          <div class="cfg-label">Realism</div>
+          <div class="cfg-scale" id="cfg-scale"></div>
+          <div class="cfg-real-desc"><span class="cfg-real-dot" id="cfg-real-dot"></span><span id="cfg-real-text"></span></div>
+        </div>
+
+        <div class="cfg-section">
+          <div class="cfg-label">Skin tone</div>
+          <div class="cfg-swatches" id="cfg-skin"></div>
+        </div>
+        <div class="cfg-section">
+          <div class="cfg-label">Eye color</div>
+          <div class="cfg-swatches" id="cfg-eye"></div>
+        </div>
+        <div class="cfg-section">
+          <div class="cfg-label">Hair / wig</div>
+          <div class="cfg-swatches" id="cfg-hair"></div>
+        </div>
+
+        <div class="cfg-summary">
+          <div class="cfg-summary-eyebrow">Your build</div>
+          <div class="cfg-build-list" id="cfg-build-list"></div>
+          <p class="cfg-mto-note">Skin, eyes, and hair preview the everyday look only. Each character is <strong>made to order</strong> and final finish is set with your concierge. You must be <strong>18+</strong>.</p>
+          <a class="btn concierge cfg-cta" id="cfg-cta" href="contact.html">Request a Private Consultation</a>
+          <div class="cfg-cta-note">Replies within one business day · No obligation</div>
+        </div>
+      </aside>
+    </div>
+  `;
+
+  /* ---- per-group concierge tips ---- */
+  const TIP_TEXT = "Family sets the silhouette logic from its published waist-to-hip and bust-to-waist ratios — it is the single biggest choice and it reshapes the diagram. Realism walks within that family's range; skin, eyes, and hair only preview the finish.";
+
+  /* ---- references ---- */
+  const $ = id => document.getElementById(id);
+  const elBody = $('cfg-body'), elHead = $('cfg-head'), elEyeL = $('eye-l'), elEyeR = $('eye-r');
+  const elHairT = $('hair-top'), elHairL = $('hair-l'), elHairR = $('hair-r');
+  const elWaist = $('waist-line'), elHip = $('hip-line');
+
+  /* ---- family selector ---- */
+  function buildFamGrid() {
+    $('cfg-fam-grid').innerHTML = fams.map(f => {
+      const fm = famMeta[f];
+      const dev = isInDev(f);
+      const sel = state.family === f;
+      const c = ZX.famColor(f);
+      const whrTxt = fm ? `WHR ${fm.whr[0]}–${fm.whr[1]}` : '';
+      const sil = fm ? fm.silhouette : '';
+      return `<button type="button" class="cfg-fam-card${sel?' sel':''}" data-fam="${ZX.esc(f)}" aria-pressed="${sel}">
+        <span class="cfg-fam-top">
+          <span class="cfg-fam-dot" style="background:${c}${sel?`;box-shadow:0 0 8px ${hexA(c,.8)}`:''}"></span>
+          <span class="cfg-fam-name">${ZX.esc(f.replace('The ',''))}</span>
+          ${dev?'<span class="stat stat-concept cfg-fam-dev">In dev</span>':''}
+        </span>
+        <span class="cfg-fam-desc">${ZX.esc(sil)}</span>
+        <span class="cfg-fam-whr">${ZX.esc(whrTxt)}</span>
+      </button>`;
+    }).join('');
+    $('cfg-fam-grid').querySelectorAll('.cfg-fam-card').forEach(b => {
+      b.addEventListener('click', () => { state.family = b.dataset.fam; sync(); });
+    });
+  }
+
+  /* ---- realism scale ---- */
+  function buildScale() {
+    $('cfg-scale').innerHTML = `<div class="cfg-scale-track"></div><div class="cfg-scale-nodes">` +
+      REAL_STOPS.map((label, i) => {
+        const sel = state.realism === i;
+        return `<button type="button" class="cfg-scale-node${sel?' sel':''}" data-i="${i}" aria-label="${ZX.esc(label)}">
+          <span class="cfg-node-dot" style="${sel?`background:${REAL_COLORS[i]};box-shadow:0 0 0 4px ${hexA(REAL_COLORS[i],.25)}`:''}"></span>
+          <span class="cfg-node-label">${ZX.esc(label)}</span>
+        </button>`;
+      }).join('') + `</div>`;
+    $('cfg-scale').querySelectorAll('.cfg-scale-node').forEach(b => {
+      b.addEventListener('click', () => { state.realism = +b.dataset.i; sync(); });
+    });
+  }
+
+  /* ---- swatch rows ---- */
+  function buildSwatches(elId, table, field) {
+    $(elId).innerHTML = table.map(([key, label, color]) => {
+      const sel = state[field] === key;
+      return `<button type="button" class="cfg-swatch${sel?' sel':''}" data-key="${key}" aria-label="${ZX.esc(label)}" aria-pressed="${sel}">
+        <span class="cfg-sw-dot" style="background:${color}"></span>
+        <span class="cfg-sw-label">${ZX.esc(label)}</span>
+      </button>`;
+    }).join('');
+    $(elId).querySelectorAll('.cfg-swatch').forEach(b => {
+      b.addEventListener('click', () => { state[field] = b.dataset.key; sync(); });
+    });
+  }
+
+  /* ---- live sync of diagram + summary + CTA ---- */
+  function sync() {
+    const fm = famMeta[state.family];
+    const fc = ZX.famColor(state.family);
+    const g = geometry();
+    const skinFill = tone(SKIN, state.skin);
+    const hairFill = tone(HAIR, state.hair);
+    const eyeFill = tone(EYES, state.eye);
+
+    // glow + family chip
+    $('cfg-glow').style.background = `radial-gradient(circle, ${hexA('#D4A574',.0)}, transparent 70%)`;
+    $('cfg-glow').style.background = `radial-gradient(circle, ${famGlow(state.family)}, transparent 68%)`;
+    const famChip = $('cfg-famchip');
+    famChip.textContent = state.family;
+    famChip.className = 'fam ' + ZX.famClass(state.family);
+    $('cfg-devchip').hidden = !isInDev(state.family);
+
+    // silhouette
+    elBody.setAttribute('d', g.silD);
+    elBody.setAttribute('fill', skinFill);
+    elBody.setAttribute('stroke', hexA(fc, .5));
+    elBody.setAttribute('stroke-width', '1.5');
+    elHead.setAttribute('fill', skinFill);
+    elHead.setAttribute('stroke', hexA(fc, .5));
+    elHead.setAttribute('stroke-width', '1.5');
+    elEyeL.setAttribute('fill', eyeFill); elEyeR.setAttribute('fill', eyeFill);
+    [elHairT, elHairL, elHairR].forEach(e => e.setAttribute('fill', hairFill));
+    elWaist.setAttribute('x1', (g.cx - g.waistW).toFixed(1)); elWaist.setAttribute('x2', (g.cx + g.waistW).toFixed(1)); elWaist.setAttribute('stroke', fc);
+    elHip.setAttribute('x1', (g.cx - g.hipW).toFixed(1)); elHip.setAttribute('x2', (g.cx + g.hipW).toFixed(1)); elHip.setAttribute('stroke', fc);
+
+    // stats (top-right of stage)
+    const st = famStature(state.family);
+    const statRows = [
+      ['WHR', g.whr.toFixed(2), `font-family:ui-monospace,monospace;color:${fc}`],
+      ['BWR', g.bwr.toFixed(2), `font-family:ui-monospace,monospace;color:var(--cream)`],
+      ['Realism', REAL_STOPS[state.realism], `color:${REAL_COLORS[state.realism]}`]
+    ];
+    if (st) statRows.push(['Stature', `${st.h} cm · ${st.w} kg`, 'color:var(--text)']);
+    else statRows.push(['Stature', 'By consultation', 'color:var(--muted)']);
+    $('cfg-stats').innerHTML = statRows.map(([k, v, s]) =>
+      `<div class="cfg-stat-pill"><span class="cfg-stat-k">${k}</span><span class="cfg-stat-v" style="${s}">${ZX.esc(String(v))}</span></div>`
+    ).join('');
+
+    // working-build name
+    $('cfg-silhouette-name').textContent = fm ? fm.silhouette : state.family.replace('The ', '');
+    $('cfg-silhouette-name').style.color = 'var(--cream)';
+
+    // realism descriptor
+    $('cfg-real-dot').style.background = REAL_COLORS[state.realism];
+    $('cfg-real-text').textContent = REAL_DESC[state.realism];
+
+    // panel title reflects the family being configured
+    $('cfg-panel-title') && ($('cfg-panel-title').textContent = 'Body family');
+
+    // build summary
+    const items = [
+      ['Family', state.family.replace('The ', ''), `color:${fc}`],
+      ['Realism', REAL_STOPS[state.realism], `color:${REAL_COLORS[state.realism]}`],
+      ['Skin', toneLabel(SKIN, state.skin), 'color:var(--cream)'],
+      ['Eyes', toneLabel(EYES, state.eye), 'color:var(--cream)'],
+      ['Hair', toneLabel(HAIR, state.hair), 'color:var(--cream)'],
+      ['WHR / BWR', `${g.whr.toFixed(2)} / ${g.bwr.toFixed(2)}`, 'color:var(--cream)'],
+      ['Premium', fm ? fm.premium : '—', 'color:var(--cream)'],
+      ['Availability', isInDev(state.family) ? 'In development' : 'Available', isInDev(state.family) ? 'color:var(--st-concept)' : 'color:var(--st-live)']
+    ];
+    $('cfg-build-list').innerHTML = items.map(([k, v, s]) =>
+      `<div class="cfg-build-row"><span class="cfg-build-k">${k}</span><span class="cfg-build-v" style="${s}">${ZX.esc(String(v))}</span></div>`
+    ).join('');
+
+    // selection states without full rebuild
+    $('cfg-fam-grid').querySelectorAll('.cfg-fam-card').forEach(b => {
+      const on = b.dataset.fam === state.family; b.classList.toggle('sel', on); b.setAttribute('aria-pressed', on);
+    });
+    refreshSwatchSel('cfg-skin', state.skin); refreshSwatchSel('cfg-eye', state.eye); refreshSwatchSel('cfg-hair', state.hair);
+    buildScale();
+
+    // CTA → concierge intake, carrying the family (full name) + a privacy-safe build summary.
+    // No PII — only family / realism / finish flags travel in the querystring.
+    const buildFlags = [
+      'family=' + state.family.replace('The ', ''),
+      'realism=' + REAL_STOPS[state.realism],
+      'whr=' + g.whr.toFixed(2), 'bwr=' + g.bwr.toFixed(2),
+      'skin=' + state.skin, 'eye=' + state.eye, 'hair=' + state.hair,
+      isInDev(state.family) ? 'status=in_development' : 'status=available'
+    ].join(';');
+    const cta = $('cfg-cta');
+    cta.href = 'contact.html?family=' + encodeURIComponent(state.family)
+      + '&src=configurator&cta=request_private_consultation&context=configurator_build&channel=contact'
+      + '&config_summary=' + encodeURIComponent(buildFlags);
+
+    // analytics: family + realism + finish flags only (no PII)
+    ZX.track('configurator_change', {
+      family: state.family, realism: REAL_STOPS[state.realism],
+      skin: state.skin, eye: state.eye, hair: state.hair,
+      in_development: isInDev(state.family), context: 'configurator', source_page: 'configurator'
+    });
+  }
+
+  function famGlow(f) { return hexA(rawFamHex(f), .5); }
+  // resolve the family accent to a concrete hex for the radial glow (CSS vars don't
+  // interpolate inside a gradient string portably, so we mirror the palette here).
+  function rawFamHex(f) {
+    const map = { 'The Classic':'#8FB7E0','The Icon':'#D4A574','The Muse':'#9FD6B6','The Siren':'#E18B73','The Empress':'#C792D6','The Sculpt':'#C7B07F' };
+    return map[f] || '#D4A574';
+  }
+
+  function refreshSwatchSel(elId, key) {
+    $(elId).querySelectorAll('.cfg-swatch').forEach(b => {
+      const on = b.dataset.key === key; b.classList.toggle('sel', on); b.setAttribute('aria-pressed', on);
+    });
+  }
+
+  /* ---- tip toggle ---- */
+  $('cfg-tip-text').textContent = TIP_TEXT;
+  $('cfg-tip-btn').addEventListener('click', () => {
+    state.tipOpen = !state.tipOpen;
+    $('cfg-tip').hidden = !state.tipOpen;
+    $('cfg-tip-btn').classList.toggle('on', state.tipOpen);
+  });
+
+  // CTA click analytics (family only — privacy-safe)
+  $('cfg-cta').addEventListener('click', () => {
+    ZX.track('configurator_to_contact_click', {
+      family: state.family, in_development: isInDev(state.family),
+      cta: 'request_private_consultation', context: 'configurator', source_page: 'configurator', channel: 'contact'
+    });
+  });
+
+  /* ---- first paint ---- */
+  buildFamGrid();
+  buildSwatches('cfg-skin', SKIN, 'skin');
+  buildSwatches('cfg-eye', EYES, 'eye');
+  buildSwatches('cfg-hair', HAIR, 'hair');
+  sync();
+}
+</script>
+</body>
+</html>
