@@ -126,9 +126,13 @@ window.ZX = (function () {
       ['index.html','Atlas'], ['browse.html','Browse'], ['family.html','Families'],
       ['quiz.html','Find Yours'], ['contact.html','Contact']
     ];
-    const links = items.map(([h,l])=>`<a href="${h}" class="${active===h?'active':''}">${l}</a>`).join('');
+    const links = items.map(([h,l])=>`<a href="${h}"${active===h?' aria-current="page"':''} class="${active===h?'active':''}">${l}</a>`).join('');
+    // Ensure a skip-link target exists, then inject skip link + primary nav.
+    const main = document.querySelector('main');
+    if (main && !main.id) main.id = 'main';
     document.body.insertAdjacentHTML('afterbegin',
-      `<nav class="nav"><a class="brand" href="index.html">ZEL<span class="x">E</span>X</a><div class="links">${links}</div></nav>`);
+      `<a class="skip-link" href="#${(main&&main.id)||'main'}">Skip to content</a>` +
+      `<nav class="nav" aria-label="Primary"><a class="brand" href="index.html" aria-label="ZELEX — home">ZEL<span class="x">E</span>X</a><div class="links">${links}</div></nav>`);
     // subtle nav elevation once the page scrolls past the hero lip
     const nav = document.querySelector('.nav');
     if (nav) addEventListener('scroll', ()=>nav.classList.toggle('up', (window.scrollY||0) > 40), {passive:true});

@@ -24,7 +24,7 @@ Static site, no build step or dependencies to view — just Python 3 to serve it
 
 | Page | URL | What it is |
 |------|-----|-----------|
-| Home | `index.html` | The Atlas landing — hero, three doors, series rail, featured cast |
+| Home | `index.html` | The Atlas landing — hero, three doors, six-family rail, series rail, featured cast |
 | Browse | `browse.html` | All 76 characters in one filterable grid (series / family / photographed / search) |
 | Series | `series.html?s=SLE` | One series → its body architectures |
 | Body | `body.html?b=ZK168B` | One architecture → measurement signature + its 4 characters |
@@ -33,6 +33,21 @@ Static site, no build step or dependencies to view — just Python 3 to serve it
 | Find Yours | `quiz.html` | 5-question persona quiz → Body Family → 3 character matches |
 | The Craft | `craft.html` | Brand & method narrative |
 | Contact | `contact.html` / `contact.html?id=…` | Real inquiry form (prefilled per character) |
+
+## Discoverability & accessibility support files
+
+The site ships with the launch hygiene a static catalog needs — all enforced by CI
+(`.github/scripts/validate-site.mjs`):
+
+- Per-page SEO + social metadata — every kit page carries a unique `<meta name="description">`,
+  a `<link rel="canonical">`, Open Graph / Twitter Card tags, `theme-color`, and an SVG favicon.
+- `robots.txt` + `sitemap.xml` — point crawlers at the nine canonical pages.
+- `404.html` — branded not-found page (kit nav + footer).
+- `assets/favicon.svg` — the monogram mark (SVG so no binary asset enters the repo).
+- Skip-to-content link + visible focus rings — injected by `ZX.mountNav`, styled in `site.css`.
+
+> Canonical/OG URLs use `https://www.zelexdoll.com` as the base — update if the production
+> domain differs.
 
 ## ⚙️ Before launch — owner settings (edit the top of `assets/site.js`)
 
