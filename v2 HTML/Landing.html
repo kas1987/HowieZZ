@@ -31,17 +31,24 @@
   .hero h1 .em{font-style:italic;color:var(--gold)}
   .hero p{color:var(--muted);max-width:640px;margin:0 auto;font-size:var(--t-md)}
   .hero .cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:32px}
-  /* Mobile: one obvious primary action, secondaries stacked beneath it, all
-     full-width with safe tap height — no three cramped pills wrapping mid-row. */
-  @media(max-width:560px){
-    .hero{padding:74px 20px 54px}
-    .hero .cta{flex-direction:column;align-items:stretch;gap:11px;margin-top:26px}
-    .hero .cta .btn{width:100%;text-align:center;padding:15px 22px}
-    .stats{gap:26px 34px;margin-top:30px}
-  }
   .stats{display:flex;gap:40px;justify-content:center;flex-wrap:wrap;margin-top:40px}
   .stats .n{font-family:'Playfair Display',serif;font-size:32px;color:var(--cream);display:block;line-height:1}
   .stats .l{font-size:var(--t-xs);letter-spacing:2px;text-transform:uppercase;margin-top:6px;color:var(--muted)}
+  /* doors */
+  .doors{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:54px 0 10px}
+  @media(max-width:880px){.doors{grid-template-columns:1fr}}
+  .door{position:relative;border:1px solid var(--b-subtle);border-radius:16px;overflow:hidden;min-height:300px;
+    display:flex;flex-direction:column;justify-content:flex-end;padding:26px;transition:.25s;background:#0d0d0d;
+    box-shadow:0 0 0 1px rgba(212,165,116,.12),0 0 26px rgba(212,165,116,.08)}
+  .door .dimg{position:absolute;inset:0;background-size:cover;background-position:top center;opacity:.42;transition:.4s}
+  .door::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(10,10,10,.92),rgba(10,10,10,.25))}
+  .door:hover{border-color:var(--gold);transform:translateY(-5px);box-shadow:0 16px 40px rgba(0,0,0,.55),0 0 0 1px rgba(212,165,116,.14),0 0 30px rgba(212,165,116,.16)}
+  .door:hover .dimg{opacity:.6;transform:scale(1.05)}
+  .door .dc{position:relative;z-index:2}
+  .door .dk{color:var(--gold);letter-spacing:3px;text-transform:uppercase;font-size:11px}
+  .door h3{font-size:27px;margin:8px 0 6px}
+  .door p{color:var(--muted);font-size:13.5px;max-width:340px}
+  .door .arrow{color:var(--blue);margin-top:14px;font-size:13px;letter-spacing:1px;text-transform:uppercase}
   /* series rail */
   .seriesrail{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:18px}
   @media(max-width:880px){.seriesrail{grid-template-columns:repeat(2,1fr)}}
@@ -70,7 +77,6 @@
   .intent-card p{color:var(--muted);font-size:12.5px;line-height:1.45;min-height:56px}
   .intent-card .btn{width:fit-content}
   @media(max-width:980px){.intent-grid{grid-template-columns:1fr}}
-  @media(max-width:560px){.intent-card .btn{width:100%;text-align:center}}
   /* body-family rail */
   .famrail{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:18px}
   @media(max-width:880px){.famrail{grid-template-columns:repeat(2,1fr)}}
@@ -93,14 +99,13 @@
   <div class="bgimg" id="heroBg"></div>
   <div class="inner">
     <div class="eyebrow">A Curated Collection</div>
-    <h1>Find the body <span class="em em-grad">made for you.</span></h1>
-    <p>Every ZELEX begins with a measured silhouette, cast as named, photographed
-       characters across four series and six body families. Tell us what you are drawn
-       to — we will point you to the architecture that fits.</p>
+    <h1>The Character <span class="em em-grad">Atlas</span></h1>
+    <p>Every body is an architecture. Every architecture, cast as characters — measured,
+       named, and photographed. Not a catalog. A collection of individuals.</p>
     <div class="cta">
-      <a class="btn solid" href="quiz.html">Find your match</a>
-      <a class="btn" href="compare.html">Compare bodies</a>
-      <a class="btn ghost" href="#explore">Browse the atlas</a>
+      <a class="btn solid" href="#explore">Explore the Atlas</a>
+      <a class="btn" href="quiz.html">Find your character</a>
+      <a class="btn ghost" href="compare.html">Compare Bodies</a>
     </div>
     <div class="stats" id="stats"></div>
   </div>
@@ -120,29 +125,51 @@
         <div class="eyebrow no-rule">Start here</div>
         <h2>Pick your path in under 10 seconds.</h2>
       </div>
-      <p>New to ZELEX? Take the quiz. Weighing specific bodies? Open compare. Already know the look you want? Browse the live cast.</p>
+      <p>New buyers: quiz first. Comparing known body codes: open compare. Already know your character direction: browse live cast.</p>
     </div>
     <div class="intent-grid">
       <article class="intent-card">
-        <div class="step">Guided</div>
+        <div class="step">Step 1</div>
         <h3>Find Your Match</h3>
         <p>Answer a short intent quiz to get your best-fit family and three character starting points.</p>
         <a class="btn solid" href="quiz.html">Start quiz</a>
       </article>
       <article class="intent-card">
-        <div class="step">Side by side</div>
+        <div class="step">Step 2</div>
         <h3>Compare Bodies</h3>
         <p>Compare up to four architectures by silhouette ratios, handling class, and confidence state.</p>
         <a class="btn" href="compare.html">Open compare</a>
       </article>
       <article class="intent-card">
-        <div class="step">Self-guided</div>
+        <div class="step">Step 3</div>
         <h3>Browse Characters</h3>
-        <p>Review the photographed cast and shortlist personalities before opening a concierge inquiry.</p>
+        <p>Review photographed cast and shortlist personalities before opening a concierge inquiry.</p>
         <a class="btn ghost" href="browse.html">Browse live cast</a>
       </article>
     </div>
   </section>
+
+  <!-- three doors -->
+  <div class="doors">
+    <a class="door reveal d1" href="#explore">
+      <div class="dimg" data-door="atlas"></div>
+      <div class="dc"><div class="dk">Browse</div><h3>The Atlas</h3>
+        <p>Four series, nineteen body architectures, seventy-six characters — explore by series and silhouette.</p>
+        <div class="arrow">Enter →</div></div>
+    </a>
+    <a class="door reveal d2" href="quiz.html">
+      <div class="dimg" data-door="quiz"></div>
+      <div class="dc"><div class="dk">Discover</div><h3>Find Yours</h3>
+        <p>A ninety-second guide from a feeling to a Body Family to three characters made for you.</p>
+        <div class="arrow">Begin →</div></div>
+    </a>
+    <a class="door reveal d3" href="craft.html">
+      <div class="dimg" data-door="craft"></div>
+      <div class="dc"><div class="dk">Understand</div><h3>The Craft</h3>
+        <p>Why every ZELEX begins with a measurement — the method behind the collection.</p>
+        <div class="arrow">Read →</div></div>
+    </a>
+  </div>
 
   <!-- body families -->
   <div class="featrow" id="families">
@@ -153,7 +180,21 @@
      defined by a proportion signature you can verify with a tape measure.</div>
   <div class="famrail" id="familyRail"></div>
 
-  <!-- compare preview — keep the real decision layer near the top of the page -->
+  <!-- series rail -->
+  <div class="section-head reveal" id="explore">The Four Series</div>
+  <div class="section-sub reveal d1">Each series is a distinct design language. Step into one to see its body architectures.</div>
+
+  <div class="section-head reveal">Choose by silhouette family</div>
+  <div class="section-sub reveal d1">The fastest path is not product code first - it is buyer intent, silhouette, and handling confidence.</div>
+  <div class="family-chooser reveal d2">
+    <a class="family-tile" style="--fam-color:var(--Classic)" href="family.html?f=The%20Classic"><div class="k">Balanced</div><h3>The Classic</h3><p>Timeless hourglass for first-time premium buyers.</p><span class="stat stat-concept status-note">In development</span></a>
+    <a class="family-tile" style="--fam-color:var(--Icon)" href="family.html?f=The%20Icon"><div class="k">Editorial</div><h3>The Icon</h3><p>Camera-forward glamour and polished visual presence.</p></a>
+    <a class="family-tile" style="--fam-color:var(--Muse)" href="family.html?f=The%20Muse"><div class="k">Naturalism</div><h3>The Muse</h3><p>Hip-led realism and believable everyday elegance.</p></a>
+    <a class="family-tile" style="--fam-color:var(--Siren)" href="family.html?f=The%20Siren"><div class="k">Fantasy</div><h3>The Siren</h3><p>Bust-forward drama and high-presence character energy.</p></a>
+    <a class="family-tile" style="--fam-color:var(--Empress)" href="family.html?f=The%20Empress"><div class="k">Plush</div><h3>The Empress</h3><p>Soft-dominant abundance, fullness, and regal weight.</p></a>
+    <a class="family-tile" style="--fam-color:var(--Sculpt)" href="family.html?f=The%20Sculpt"><div class="k">Defined</div><h3>The Sculpt</h3><p>Athletic realism and deliberately structured presence.</p><span class="stat stat-concept status-note">In development</span></a>
+  </div>
+
   <section class="compare-preview reveal d2">
     <div>
       <div class="eyebrow no-rule">Compare before contact</div>
@@ -168,9 +209,6 @@
     </div>
   </section>
 
-  <!-- series rail -->
-  <div class="section-head reveal" id="explore">The Four Series</div>
-  <div class="section-sub reveal d1">Each series is a distinct design language. Step into one to see its body architectures.</div>
   <div class="seriesrail" id="seriesRail"></div>
 
   <!-- featured characters -->
@@ -210,10 +248,14 @@ function render(m){
     [m.characters.filter(c=>c.status==='live').length, 'Photographed']
   ].map(([n,l])=>`<div><span class="n">${n}</span><span class="l">${l}</span></div>`).join('');
 
-  // hero backdrop — strongest naturalistic live character
+  // hero + door backgrounds — distinct strong images per slot
   const pick = (s,i)=>{ const a=(m.bySeries[s]||[]).filter(c=>c.status==='live'&&ZX.img(c)); return a[i]||a[0]; };
   const heroC = pick('Inspiration',0) || pick('K-Series',0) || live[0];
   if (heroC) document.getElementById('heroBg').style.backgroundImage = `url('${ZX.img(heroC)}')`;
+  const doorPick = { atlas: pick('SLE',2)||live[3], quiz: pick('K-Series',1)||live[7], craft: pick('Fusion',0)||live[11] };
+  document.querySelectorAll('[data-door]').forEach(el=>{
+    const c = doorPick[el.dataset.door]; if (c) el.style.backgroundImage = `url('${ZX.img(c)}')`;
+  });
 
   // body families — all six (active families link; zero-body families flagged dev)
   renderFamilies(m);
