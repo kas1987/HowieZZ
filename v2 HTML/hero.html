@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ZELEX — Choose Your Atlas</title>
+<meta name="description" content="Discover a new character or explore the full ZELEX Atlas. A luxury editorial experience for collectors.">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="canonical" href="https://kas1987.github.io/HowieZZ/hero.html">
+<meta property="og:title" content="ZELEX — Choose Your Atlas">
+<meta property="og:description" content="Discover a new character or explore the full ZELEX Atlas. A luxury editorial experience for collectors.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kas1987.github.io/HowieZZ/hero.html">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+<style>
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  width: 100%; height: 100%;
+  overflow: hidden;
+  background: #0a0a0a;
+  font-family: system-ui, 'Segoe UI', sans-serif;
+  color: #F7E3C3;
+}
+
+/* ── Stage ── */
+.stage {
+  position: relative;
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+}
+
+/* ── Panels ── */
+.panel {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  cursor: default;
+  transition: flex-basis 1.2s cubic-bezier(0.4,0,0.2,1);
+}
+.stage.hover-l .panel-l { flex-basis: 56%; }
+.stage.hover-l .panel-r { flex-basis: 44%; }
+.stage.hover-r .panel-r { flex-basis: 56%; }
+.stage.hover-r .panel-l { flex-basis: 44%; }
+
+/* ── Editorial card ── */
+.editorial-card {
+  position: relative;
+  z-index: 1;
+  width: 88%;
+  height: 87%;
+  border: 1px solid rgba(212,165,116,0.13);
+  border-radius: 4px;
+  overflow: hidden;
+  background: #0e0c0b;
+  transition:
+    width  1.2s cubic-bezier(0.4,0,0.2,1),
+    height 1.2s cubic-bezier(0.4,0,0.2,1),
+    border-color 0.9s ease,
+    border-radius 0.9s ease;
+}
+
+/* Card expands on panel hover */
+.stage.hover-l .panel-l .editorial-card,
+.stage.hover-r .panel-r .editorial-card {
+  width: 100%;
+  height: 100%;
+  border-color: transparent;
+  border-radius: 0;
+}
+
+/* Opposite card recedes */
+.stage.hover-l .panel-r .editorial-card,
+.stage.hover-r .panel-l .editorial-card {
+  opacity: 0.34;
+  transform: scale(0.97);
+  transition:
+    width  1.2s cubic-bezier(0.4,0,0.2,1),
+    height 1.2s cubic-bezier(0.4,0,0.2,1),
+    border-color 0.9s ease,
+    border-radius 0.9s ease,
+    opacity 0.9s ease,
+    transform 1.2s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* ── Card image — <img> object-fit:cover, no distortion on zoom ── */
+.card-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  opacity: 1;
+  transition: transform 1.8s cubic-bezier(0.4,0,0.2,1), opacity 0.7s ease;
+}
+.stage.hover-l .panel-l .card-image,
+.stage.hover-r .panel-r .card-image {
+  transform: scale(1.03);
+}
+
+/* ── Color glow — gold left, purple right ── */
+.card-glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.42;
+  transition: opacity 1.2s ease;
+}
+.panel-l .card-glow {
+  background: radial-gradient(
+    ellipse at 68% 62%,
+    rgba(212,165,116,0.30) 0%,
+    transparent 68%
+  );
+}
+.panel-r .card-glow {
+  background: radial-gradient(
+    ellipse at 32% 62%,
+    rgba(160,90,220,0.30) 0%,
+    transparent 68%
+  );
+}
+.stage.hover-l .panel-l .card-glow,
+.stage.hover-r .panel-r .card-glow {
+  opacity: 1;
+}
+
+/* ── Bottom scrim ── */
+.card-scrim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,0.88) 0%,
+    rgba(0,0,0,0.18) 48%,
+    transparent 100%
+  );
+}
+
+/* ── Quote block ── */
+/*
+  Left panel : right side of card (inner, toward center), border-right = golden |
+  Right panel: left side of card (inner, toward center), border-left  = golden |
+  Slides in from center direction on hover.
+*/
+.card-quote-block {
+  position: absolute;
+  bottom: 96px;
+  max-width: 175px;
+  z-index: 10;
+  pointer-events: none;
+  opacity: 0;
+  transition:
+    opacity 1.1s ease,
+    transform 1.1s cubic-bezier(0.4,0,0.2,1);
+}
+.panel-l .card-quote-block {
+  right: 8%;
+  text-align: right;
+  border-right: 1.5px solid rgba(212,165,116,0.65);
+  padding-right: 10px;
+  transform: translateX(18px);
+}
+.panel-r .card-quote-block {
+  left: 8%;
+  text-align: left;
+  border-left: 1.5px solid rgba(212,165,116,0.65);
+  padding-left: 10px;
+  transform: translateX(-18px);
+}
+.stage.hover-l .panel-l .card-quote-block,
+.stage.hover-r .panel-r .card-quote-block {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.doll-name {
+  font-family: 'Dancing Script', cursive;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: 0.5px;
+  margin-bottom: 5px;
+  /* color set by JS from pink/red/orange palette */
+}
+.card-quote {
+  font-style: italic;
+  font-size: 10.5px;
+  line-height: 1.7;
+  color: rgba(247,227,195,0.70);
+}
+.model-label {
+  font-style: italic;
+  font-size: 7.5px;
+  letter-spacing: 1.5px;
+  color: rgba(255,255,255,0.38);
+  margin-top: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── CTA group — panel level, sits beside thumbnail at bottom ──
+   Left panel : thumbnail at left:16px (58px wide) → CTA at left:84px
+   Right panel: thumbnail at right:16px             → CTA at right:84px
+*/
+.card-cta-group {
+  position: absolute;
+  z-index: 25;
+  bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.cta-l { left: 84px; }
+.cta-r { right: 84px; }
+
+.cta-label {
+  font-size: 9px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: #D4A574;
+  text-align: center;
+}
+
+.cta-btn {
+  position: relative;
+  display: inline-block;
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #F7E3C3;
+  border: 1px solid rgba(212,165,116,0.5);
+  padding: 10px 22px;
+  border-radius: 40px;
+  background: rgba(0,0,0,0.42);
+  white-space: nowrap;
+  cursor: pointer;
+  text-decoration: none;
+  overflow: hidden;
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
+}
+.cta-btn:hover {
+  border-color: rgba(212,165,116,0.9);
+  box-shadow: 0 0 22px rgba(212,165,116,0.3);
+  animation: bounceBtn 1.8s ease-in-out infinite;
+}
+
+/* Shimmer pseudo-element */
+.cta-btn::after {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 50%;
+  background: linear-gradient(90deg, transparent, rgba(212,165,116,0.45), transparent);
+  opacity: 0;
+  pointer-events: none;
+}
+.cta-l .cta-btn:hover::after {
+  opacity: 1;
+  animation: shimmerL 1.4s ease-in-out infinite;
+}
+.cta-r .cta-btn:hover::after {
+  opacity: 1;
+  animation: shimmerR 1.4s ease-in-out infinite;
+}
+
+@keyframes bounceBtn {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-5px); }
+}
+@keyframes shimmerL {
+  0%   { left: 110%; }
+  100% { left: -60%; }
+}
+@keyframes shimmerR {
+  0%   { left: -60%; }
+  100% { left: 110%; }
+}
+
+/* ── Thumbnails — bottom corners of each panel ── */
+.thumb {
+  position: absolute;
+  bottom: 20px;
+  width: 58px;
+  height: 74px;
+  border: 1px solid rgba(212,165,116,0.45);
+  border-radius: 6px;
+  background: #0e0c0b center/cover no-repeat;
+  z-index: 30;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  /* hidden until triggered */
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    box-shadow 0.4s ease,
+    border-color 0.4s ease,
+    opacity 0.8s ease,
+    transform 0.8s cubic-bezier(0.4,0,0.2,1);
+}
+.thumb-l { left: 16px; }
+.thumb-r { right: 16px; }
+.thumb.visible   { opacity: 1; transform: translateY(0); }
+.thumb.dismissing { opacity: 0; transform: translateY(18px); }
+.thumb:hover {
+  border-color: rgba(212,165,116,0.95);
+  box-shadow: 0 0 20px rgba(212,165,116,0.5), 0 0 6px rgba(212,165,116,0.25);
+}
+/* Placeholder icon when no image yet */
+.thumb-placeholder {
+  font-size: 14px;
+  opacity: 0.25;
+  color: rgba(212,165,116,0.8);
+  pointer-events: none;
+}
+
+/* ── Logo — top-right, above both panels ── */
+.logo {
+  position: absolute;
+  top: 20px;
+  right: 24px;
+  z-index: 40;
+  text-align: right;
+  cursor: default;
+  pointer-events: auto;
+}
+.logo-text {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: 8px;
+  color: #ffffff;
+  text-transform: uppercase;
+  line-height: 1;
+  transition: color 0.5s ease, text-shadow 0.5s ease;
+}
+.logo:hover .logo-text {
+  color: #f0c88a;
+  text-shadow:
+    0 0 18px rgba(212,165,116,0.9),
+    0 0 40px rgba(212,165,116,0.45),
+    0 0 80px rgba(212,165,116,0.2);
+}
+.logo-tag {
+  font-size: 8px;
+  letter-spacing: 4px;
+  color: rgba(212,165,116,0.60);
+  text-transform: uppercase;
+  margin-top: 5px;
+  font-style: italic;
+}
+
+/* ── Hint ── */
+.hint {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 40;
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(212,165,116,0.28);
+  white-space: nowrap;
+  pointer-events: none;
+  transition: opacity 0.7s ease;
+}
+.stage.hover-l .hint,
+.stage.hover-r .hint { opacity: 0; }
+
+/* ── Focus ring ── */
+.cta-btn:focus-visible {
+  outline: 2px solid #D4A574;
+  outline-offset: 3px;
+}
+
+/* ── Mobile ── */
+@media (max-width: 768px) {
+  html, body { overflow: auto; }
+  .stage {
+    flex-direction: column;
+    height: auto;
+    min-height: 100svh;
+  }
+  .panel {
+    flex-basis: auto !important;
+    width: 100%;
+    height: 50svh;
+    min-height: 280px;
+  }
+  .editorial-card {
+    width: 94%;
+    height: 90%;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .card-image { transform: none !important; }
+  .card-quote-block {
+    opacity: 1 !important;
+    transform: translateX(0) !important;
+  }
+  .hint { display: none; }
+  .logo { top: 14px; right: 16px; }
+  .logo-text { font-size: 22px; }
+  /* On mobile: left panel label/button — let them sit naturally */
+}
+</style>
+</head>
+<body>
+
+<div class="stage" id="stage">
+
+  <!-- ═══ LEFT PANEL — Discover → index.html ═══ -->
+  <div class="panel panel-l" id="panelL">
+
+    <div class="editorial-card" id="cardL">
+      <img class="card-image" id="imgL" alt="" role="presentation">
+      <div class="card-glow"></div>
+      <div class="card-scrim"></div>
+
+      <!-- Quote block: right-of-center, slides from center, gold border-right -->
+      <div class="card-quote-block" id="quoteBlockL">
+        <div class="doll-name" id="nameL"></div>
+        <div class="card-quote" id="quoteL"></div>
+        <div class="model-label" id="modelL"></div>
+      </div>
+    </div>
+
+    <!-- CTA group: panel level, right of bottom-left thumbnail -->
+    <div class="card-cta-group cta-l">
+      <span class="cta-label">Discover</span>
+      <a href="index.html" class="cta-btn" aria-label="Discover — start your journey">&#8592; Begin</a>
+    </div>
+
+    <!-- Thumbnail: bottom-left corner -->
+    <div class="thumb thumb-l" id="thumbL" role="button" aria-label="Return to previous image">
+      <span class="thumb-placeholder" aria-hidden="true">&#9633;</span>
+    </div>
+  </div>
+
+  <!-- ═══ RIGHT PANEL — Explore → Landing.html ═══ -->
+  <div class="panel panel-r" id="panelR">
+
+    <div class="editorial-card" id="cardR">
+      <img class="card-image" id="imgR" alt="" role="presentation">
+      <div class="card-glow"></div>
+      <div class="card-scrim"></div>
+
+      <!-- Quote block: left-of-center, slides from center, gold border-left -->
+      <div class="card-quote-block" id="quoteBlockR">
+        <div class="doll-name" id="nameR"></div>
+        <div class="card-quote" id="quoteR"></div>
+        <div class="model-label" id="modelR"></div>
+      </div>
+    </div>
+
+    <!-- CTA group: panel level, left of bottom-right thumbnail -->
+    <div class="card-cta-group cta-r">
+      <span class="cta-label">Explore</span>
+      <a href="Landing.html" class="cta-btn" aria-label="Explore the Atlas — experienced collectors">Enter &#8594;</a>
+    </div>
+
+    <!-- Thumbnail: bottom-right corner -->
+    <div class="thumb thumb-r" id="thumbR" role="button" aria-label="Return to previous image">
+      <span class="thumb-placeholder" aria-hidden="true">&#9633;</span>
+    </div>
+  </div>
+
+  <!-- Logo — above both panels -->
+  <div class="logo" aria-label="ZELEX Character Atlas">
+    <div class="logo-text">ZELEX</div>
+    <div class="logo-tag">Luxury. Lives.</div>
+  </div>
+
+  <div class="hint" aria-hidden="true">Choose your Atlas</div>
+
+</div><!-- /stage -->
+
+<script src="assets/site.js"></script>
+<script>
+(function () {
+  /* ── Quote pools ── */
+  const LEFT_QUOTES = [
+    "You don't know my name yet. But you will.",
+    "Start with a feeling. I'll meet you on the other side.",
+    "Every collector finds me differently. Let yours begin here."
+  ];
+  const RIGHT_QUOTES = [
+    "You already speak my language. Come find me in the Atlas.",
+    "You know what you're looking for. I've been measured, named, and waiting.",
+    "The architecture is already in your hands. Enter the Atlas."
+  ];
+
+  /* ── Name color palette — pink / red / orange ── */
+  const NAME_COLORS = [
+    '#F472B6','#E85878','#FF6B35','#FB923C',
+    '#E63946','#F9A8D4','#FF4D6D','#F4845F'
+  ];
+
+  function pick(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
+  }
+
+  /* Break quote at sentence/clause boundaries (., ,) */
+  function formatQuote(q) {
+    return q.replace(/([.,])\s+/g, '$1<br>');
+  }
+
+  /* ── Hover state ── */
+  const stage  = document.getElementById('stage');
+  const panelL = document.getElementById('panelL');
+  const panelR = document.getElementById('panelR');
+
+  panelL.addEventListener('mouseenter', function () {
+    stage.classList.add('hover-l');
+    stage.classList.remove('hover-r');
+  });
+  panelL.addEventListener('mouseleave', function () {
+    stage.classList.remove('hover-l');
+  });
+  panelR.addEventListener('mouseenter', function () {
+    stage.classList.add('hover-r');
+    stage.classList.remove('hover-l');
+  });
+  panelR.addEventListener('mouseleave', function () {
+    stage.classList.remove('hover-r');
+  });
+
+  /* ── Thumbnail logic ── */
+  var thumbTimers = { l: null, r: null };
+
+  function showThumb(side) {
+    var el = side === 'l' ? document.getElementById('thumbL') : document.getElementById('thumbR');
+    clearTimeout(thumbTimers[side]);
+    el.classList.remove('dismissing');
+    el.classList.add('visible');
+    thumbTimers[side] = setTimeout(function () {
+      dismissThumb(side);
+    }, 4000);
+  }
+
+  function dismissThumb(side) {
+    var el = side === 'l' ? document.getElementById('thumbL') : document.getElementById('thumbR');
+    el.classList.add('dismissing');
+    setTimeout(function () {
+      el.classList.remove('visible', 'dismissing');
+    }, 800);
+  }
+
+  ['thumbL','thumbR'].forEach(function (id, i) {
+    var el   = document.getElementById(id);
+    var side = i === 0 ? 'l' : 'r';
+    el.addEventListener('mouseenter', function () {
+      clearTimeout(thumbTimers[side]);
+    });
+    el.addEventListener('mouseleave', function () {
+      thumbTimers[side] = setTimeout(function () { dismissThumb(side); }, 1500);
+    });
+  });
+
+  /* ── Image crossfade ── */
+  function crossfade(imgEl, nextUrl, onSwap) {
+    imgEl.style.opacity = '0';
+    setTimeout(function () {
+      imgEl.src = nextUrl;
+      if (onSwap) onSwap();
+    }, 700);
+    setTimeout(function () {
+      imgEl.style.opacity = '1';
+    }, 800);
+  }
+
+  /* ── Image rotation ── */
+  var rotTimers = { l: null, r: null };
+  var pools     = { l: [], r: [] };
+  var current   = { l: '', r: '' };
+
+  function nextImage(side) {
+    var pool = pools[side];
+    if (pool.length <= 1) return null;
+    var others = pool.filter(function (url) { return url !== current[side]; });
+    return others.length ? pick(others) : null;
+  }
+
+  function rotateSide(side) {
+    var imgEl   = side === 'l' ? document.getElementById('imgL') : document.getElementById('imgR');
+    var thumbEl = side === 'l' ? document.getElementById('thumbL') : document.getElementById('thumbR');
+    var nextUrl = nextImage(side);
+    if (!nextUrl) {
+      scheduleRotation(side);
+      return;
+    }
+
+    var prevUrl = current[side];
+
+    /* Set thumb background before crossfade */
+    if (prevUrl) {
+      thumbEl.style.backgroundImage = 'url(\'' + prevUrl + '\')';
+      /* Hide placeholder once real image is set */
+      var ph = thumbEl.querySelector('.thumb-placeholder');
+      if (ph) ph.style.display = 'none';
+      showThumb(side);
+    }
+
+    /* Thumbnail click: revert to previous image */
+    thumbEl.dataset.revertUrl = prevUrl;
+
+    crossfade(imgEl, nextUrl, function () {
+      current[side] = nextUrl;
+    });
+
+    scheduleRotation(side);
+  }
+
+  function scheduleRotation(side) {
+    clearTimeout(rotTimers[side]);
+    var delay = Math.random() * 4000 + 3000; /* 3–7s */
+    rotTimers[side] = setTimeout(function () { rotateSide(side); }, delay);
+  }
+
+  /* Thumbnail click → revert to previous image */
+  ['thumbL','thumbR'].forEach(function (id, i) {
+    var el   = document.getElementById(id);
+    var side = i === 0 ? 'l' : 'r';
+    var imgEl = side === 'l' ? document.getElementById('imgL') : document.getElementById('imgR');
+    el.addEventListener('click', function () {
+      var revertUrl = el.dataset.revertUrl;
+      if (!revertUrl) return;
+      clearTimeout(rotTimers[side]);
+      crossfade(imgEl, revertUrl, function () {
+        current[side] = revertUrl;
+      });
+      dismissThumb(side);
+      /* Resume rotation after a short pause */
+      setTimeout(function () { scheduleRotation(side); }, 5000);
+    });
+  });
+
+  /* ── ZX.load() — wire characters and images ── */
+  ZX.load().then(function (m) {
+    var live = m.characters.filter(function (c) {
+      return c.status === 'live' && ZX.img(c);
+    });
+    if (!live.length) return;
+
+    /* Pick two characters, different series preferred */
+    var shuffled = live.slice().sort(function () { return 0.5 - Math.random(); });
+    var charL    = shuffled[0];
+    var charR    = shuffled.find(function (c) { return c.series !== charL.series; }) || shuffled[1] || charL;
+
+    /* Build same-series image pools for rotation */
+    pools.l = live.filter(function (c) { return c.series === charL.series; }).map(ZX.img);
+    pools.r = live.filter(function (c) { return c.series === charR.series; }).map(ZX.img);
+
+    /* Set initial images */
+    var urlL = ZX.img(charL);
+    var urlR = ZX.img(charR);
+    var imgL = document.getElementById('imgL');
+    var imgR = document.getElementById('imgR');
+    imgL.src = urlL;
+    imgR.src = urlR;
+    current.l = urlL;
+    current.r = urlR;
+
+    /* Doll names */
+    var nameElL = document.getElementById('nameL');
+    var nameElR = document.getElementById('nameR');
+    nameElL.textContent = (charL.persona && charL.persona.name) ? charL.persona.name : 'ZELEX';
+    nameElR.textContent = (charR.persona && charR.persona.name) ? charR.persona.name : 'ZELEX';
+    nameElL.style.color = pick(NAME_COLORS);
+    nameElR.style.color = pick(NAME_COLORS);
+
+    /* Quotes */
+    document.getElementById('quoteL').innerHTML = formatQuote(pick(LEFT_QUOTES));
+    document.getElementById('quoteR').innerHTML = formatQuote(pick(RIGHT_QUOTES));
+
+    /* Model labels — compact, one line */
+    function modelLabel(c) {
+      var parts = [];
+      if (c.body_code) parts.push(c.body_code);
+      if (c.series)    parts.push(c.series);
+      return parts.join(' · ');
+    }
+    document.getElementById('modelL').textContent = modelLabel(charL);
+    document.getElementById('modelR').textContent = modelLabel(charR);
+
+    /* Start rotation */
+    scheduleRotation('l');
+    scheduleRotation('r');
+
+  }).catch(function () {
+    /* No images — panels render cleanly on dark background */
+    document.getElementById('quoteL').innerHTML = formatQuote(pick(LEFT_QUOTES));
+    document.getElementById('quoteR').innerHTML = formatQuote(pick(RIGHT_QUOTES));
+  });
+
+})();
+</script>
+</body>
+</html>
