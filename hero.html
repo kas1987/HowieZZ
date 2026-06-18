@@ -629,6 +629,7 @@ html, body {
 
   function scheduleRotation(side) {
     clearTimeout(rotTimers[side]);
+    if (pools[side].length <= 1) return;
     var delay = Math.random() * 4000 + 3000; /* 3–7s */
     rotTimers[side] = setTimeout(function () { rotateSide(side); }, delay);
   }
