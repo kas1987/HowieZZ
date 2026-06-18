@@ -42,7 +42,8 @@ Get-ChildItem -Path $dest -File -Filter '*.html' | ForEach-Object {
 
 for ($i = 1; $i -le $loopCount; $i++) {
   foreach ($file in $sourceFiles) {
-    Copy-Item -Path $file.FullName -Destination (Join-Path $dest $file.Name) -Force
+    $content = [IO.File]::ReadAllText($file.FullName) -replace "`r`n", "`n" -replace "`r", "`n"
+    [IO.File]::WriteAllText((Join-Path $dest $file.Name), $content, [Text.Encoding]::UTF8)
   }
 }
 
