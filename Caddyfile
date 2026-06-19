@@ -1,5 +1,5 @@
 howiez.local {
-	root * C:/Users/kas41/archived/HowieZZ
+	root * .
 	file_server {
 		index Landing.html
 	}

@@ -9,9 +9,12 @@ if %errorlevel% neq 0 (
     exit /b
 )
 
+:: ─── Ensure working directory is the repo root (elevation resets cwd) ────────
+cd /d "%~dp0"
+
 set "HOSTS=C:\Windows\System32\drivers\etc\hosts"
 set "ENTRY=127.0.0.1  howiez.local"
-set "CADDYFILE=C:\Users\kas41\archived\HowieZZ\Caddyfile"
+set "CADDYFILE=%~dp0Caddyfile"
 
 :: ─── Add hosts entry if missing ──────────────────────────────────────────────
 findstr /c:"howiez.local" "%HOSTS%" >nul 2>&1
