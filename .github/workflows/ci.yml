@@ -41,6 +41,18 @@ jobs:
           python -m py_compile scripts/*.py
           echo "Python scripts compiled OK"
 
+      - name: Install Python test dependencies
+        run: python -m pip install --upgrade pytest pytest-cov
+
+      - name: Run Python unit tests
+        run: python -m pytest --cov --cov-report=term-missing --cov-fail-under=50
+
+      - name: Install Node dependencies
+        run: npm ci
+
+      - name: Run JavaScript unit tests
+        run: npm run coverage
+
       - name: Validate pages, inline JS, and catalog JSON
         run: node .github/scripts/validate-site.mjs
 

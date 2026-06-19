@@ -1,0 +1,34 @@
+[tool.pytest.ini_options]
+testpaths = ["tests/python"]
+addopts = "-q"
+
+[tool.coverage.run]
+branch = true
+source = ["scripts"]
+# These modules are one-shot ETL / web-scraper / report / local-server scripts.
+# They are dominated by network calls, interactive output, or large dumps that
+# are not meaningful to unit test, so they are scoped out of the coverage gate.
+# The measured surface is the core data-pipeline + analytics library code.
+omit = [
+    "scripts/add_estimates.py",
+    "scripts/_audit.py",
+    "scripts/_verify_site.py",
+    "scripts/analyze_series.py",
+    "scripts/analyze_independent_groupings.py",
+    "scripts/build_competitor_catalog_taxonomy.py",
+    "scripts/build_independent_db.py",
+    "scripts/build_package.py",
+    "scripts/check_db.py",
+    "scripts/download_assets.py",
+    "scripts/extract_assets.py",
+    "scripts/fetch_new_fusion.py",
+    "scripts/inspect_scrape.py",
+    "scripts/make_thumbs.py",
+    "scripts/merge_stories.py",
+    "scripts/print_report.py",
+    "scripts/rebuild_k_series_personas.py",
+]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = false
