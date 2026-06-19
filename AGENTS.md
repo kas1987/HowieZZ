@@ -19,13 +19,6 @@ Accepted examples:
 - `docs/pdr/recovery-pack/HowieZZ_PDR_Recovery_Pack/docs/pdr/PDR-003-body-compare-tool.md`
 - `docs/pdr/PDR-010-competitor-family-coverage-roi-validation.md`
 
-## Hard gate
-
-If `PDR_PATH` is missing, ambiguous, or not in this repo:
-- Stop immediately.
-- Ask for the exact path.
-- Do not plan, edit, or execute until the path is provided.
-
 ## Scope rule
 
 Implement only what is in the cited `PDR_PATH` plus directly required dependencies.
