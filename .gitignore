@@ -70,6 +70,9 @@ _local/
 .01_Per GPT/
 docs/superpowers/
 
+# ---- Node ----
+node_modules/
+
 # ---- Python ----
 __pycache__/
 *.pyc

@@ -39,6 +39,18 @@ jobs:
           python -m py_compile scripts/*.py
           echo "Python scripts compiled OK"
 
+      - name: Install Python test dependencies
+        run: pip install pytest
+
+      - name: Run Python unit tests
+        run: python -m pytest --tb=short -q
+
+      - name: Install Node test dependencies
+        run: npm install
+
+      - name: Run JavaScript unit tests
+        run: npm test
+
       - name: Validate pages, inline JS, and catalog JSON
         run: node .github/scripts/validate-site.mjs
 
