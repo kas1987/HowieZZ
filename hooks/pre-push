@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# Pre-push hook — runs the full test suite before any push.
+# Install once with:  npm run install-hooks
+#
+# To skip in an emergency (avoid unless you know why tests are failing):
+#   git push --no-verify
+
+set -euo pipefail
+
+echo "pre-push: running tests…"
+
+# Python unit tests (build_profiles, build_db, build_characters)
+if command -v python3 &>/dev/null; then
+  python3 -m pytest --tb=short -q
+else
+  python -m pytest --tb=short -q
+fi
+
+# JavaScript unit tests (site.js runtime)
+# Skip gracefully if node_modules hasn't been installed yet.
+if [ -d "node_modules" ]; then
+  npm test --silent
+else
+  echo "  [skip] node_modules not found — run 'npm install' to enable JS tests"
+fi
+
+echo "pre-push: all tests passed."

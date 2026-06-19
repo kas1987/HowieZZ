@@ -41,7 +41,9 @@ def is_torso(code, height_cm):
 PHOTO_RE = re.compile(r"-(\d{2,4})(?:[_.]|$)")
 def is_factory(filename, rel_path):
     rp = (rel_path or "").replace("\\", "/").lower()
-    if "/heads/" in rp or "/specs/" in rp or "/measure" in rp:
+    # Paths are relative to ASSETS so Heads/ and Measure/ appear without a leading slash.
+    # Use prefix-agnostic substrings ("heads/", "measure") rather than "/heads/", "/measure".
+    if "heads/" in rp or "/specs/" in rp or "measure" in rp:
         return True
     return PHOTO_RE.search(filename or "") is None   # no -NNN index = not a photoshoot frame
 
