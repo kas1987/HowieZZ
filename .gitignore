@@ -77,6 +77,16 @@ __pycache__/
 .venv/
 venv/
 
+# ---- Test / coverage tooling ----
+node_modules/
+.pytest_cache/
+.coverage
+.coverage.*
+coverage/
+htmlcov/
+coverage.xml
+.vitest/
+
 # ---- OS / editor cruft ----
 .DS_Store
 Thumbs.db
