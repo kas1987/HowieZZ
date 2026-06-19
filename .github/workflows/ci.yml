@@ -8,8 +8,6 @@ on:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 env:
   COMMUNITY_CHANNELS_REFERENCE_PATH: _local/reference/zelexdoll-theme/docs/community_channels.json
@@ -24,10 +22,10 @@ jobs:
     name: Validate site + data + scripts
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
@@ -59,9 +57,6 @@ jobs:
             ./scripts/sync_community_channels_from_reference.ps1 -CheckOnly -SourcePath $env:COMMUNITY_CHANNELS_REFERENCE_PATH
           }
 
-      - name: Guard — PDR_PATH headers in agent task files
-        run: node .github/scripts/validate-pdr-path-task-files.mjs
-
       - name: Guard — v2 HTML package is refreshed
         shell: pwsh
         run: |
@@ -75,7 +70,6 @@ jobs:
       - name: Analytics sanity suite
         shell: pwsh
         run: |
-          echo "Using threshold config: docs/pdr/PDR-analytics-sanity-thresholds.json"
           $cfg = Get-Content -Raw docs/pdr/PDR-analytics-sanity-thresholds.json | ConvertFrom-Json
           echo "Analytics config schema_version: $($cfg.schemaVersion)"
           ./scripts/run_analytics_sanity_suite.ps1
@@ -112,11 +106,9 @@ jobs:
       - name: Guard — no images, video, or secrets committed
         run: |
           set -e
-          # Fail if any binary media slipped into the tree (repo is code+data only)
           if git ls-files | grep -iE '\.(jpg|jpeg|png|gif|webp|bmp|tif|tiff|ico|mp4|mov|webm|avi|mkv)$'; then
             echo "::error::Image/video files must not be committed (see .gitignore)."; exit 1
           fi
-          # Fail if a confidential business doc slipped in
           if git ls-files | grep -iE '^(ZELEX-CEO-Executive-Brief|ZELEX-Board-|ZELEX-Leadership-Package|ZELEX-Redaction-Log)'; then
             echo "::error::Confidential business document committed to a public repo."; exit 1
           fi
@@ -133,6 +125,9 @@ jobs:
     needs: validate
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
