@@ -54,13 +54,15 @@ class TestIsFactory:
     # -- paths that are definitely factory / catalog images ------------------
 
     def test_heads_path_is_factory(self):
-        assert is_factory("GE03_1-Fair.jpg", "Heads/Hard/GE03_1-Fair.jpg") is True
+        # Use a -101-indexed filename so the path check is the gating condition,
+        # not the PHOTO_RE fallback (which would also return True for non-indexed names).
+        assert is_factory("GE03_1-Fair-101.jpg", "Heads/Hard/GE03_1-Fair-101.jpg") is True
 
     def test_specs_path_is_factory(self):
-        assert is_factory("ZG162D.webp", "I-Series/specs/ZG162D.webp") is True
+        assert is_factory("ZG162D-101.webp", "I-Series/specs/ZG162D-101.webp") is True
 
     def test_measure_path_is_factory(self):
-        assert is_factory("ZK168B.webp", "Measure/ZK168B.webp") is True
+        assert is_factory("ZK168B-101.webp", "Measure/ZK168B-101.webp") is True
 
     def test_uppercase_paths_detected(self):
         assert is_factory("foo.jpg", "I-Series/SPECS/bar.jpg") is True
@@ -84,8 +86,8 @@ class TestIsFactory:
     def test_photoshoot_frame_205(self):
         assert is_factory("shoot-205.jpg", "K-Series/KE03_1+ZK168B/shoot-205.jpg") is False
 
-    def test_photoshoot_frame_two_digit_not_enough(self):
-        # PHOTO_RE requires 2–4 digits; 2-digit index IS accepted
+    def test_photoshoot_frame_two_digit_is_enough(self):
+        # PHOTO_RE requires 2–4 digits; 2-digit index IS accepted as a photoshoot frame
         assert is_factory("shoot-10.jpg", "I-Series/shoot/shoot-10.jpg") is False
 
     def test_photoshoot_with_none_path(self):
