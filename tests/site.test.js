@@ -440,3 +440,186 @@ describe('load', () => {
     expect(model.series).not.toContain('Fusion')
   })
 })
+
+// ---------------------------------------------------------------------------
+// famClass()
+// ---------------------------------------------------------------------------
+
+describe('famClass', () => {
+  let famClass
+  beforeAll(() => { famClass = loadZX().famClass })
+
+  it('converts "The Classic" to "fam--classic"', () =>
+    expect(famClass('The Classic')).toBe('fam--classic'))
+
+  it('converts "The Icon" to "fam--icon"', () =>
+    expect(famClass('The Icon')).toBe('fam--icon'))
+
+  it('converts "The Muse" to "fam--muse"', () =>
+    expect(famClass('The Muse')).toBe('fam--muse'))
+
+  it('converts "The Siren" to "fam--siren"', () =>
+    expect(famClass('The Siren')).toBe('fam--siren'))
+
+  it('converts "The Empress" to "fam--empress"', () =>
+    expect(famClass('The Empress')).toBe('fam--empress'))
+
+  it('converts "The Sculpt" to "fam--sculpt"', () =>
+    expect(famClass('The Sculpt')).toBe('fam--sculpt'))
+
+  it('returns "fam--unclassified" for null', () =>
+    expect(famClass(null)).toBe('fam--unclassified'))
+
+  it('returns "fam--unclassified" for undefined', () =>
+    expect(famClass(undefined)).toBe('fam--unclassified'))
+
+  it('returns "fam--unclassified" for empty string', () =>
+    expect(famClass('')).toBe('fam--unclassified'))
+
+  it('returns "fam--unclassified" for unknown family', () =>
+    expect(famClass('The Athlete')).toBe('fam--unclassified'))
+})
+
+// ---------------------------------------------------------------------------
+// qs()
+// ---------------------------------------------------------------------------
+
+describe('qs', () => {
+  let qs
+
+  beforeAll(() => { qs = loadZX().qs })
+  beforeEach(() => { vi.stubGlobal('location', { search: '' }) })
+  afterEach(() => { vi.unstubAllGlobals() })
+
+  function withSearch(search) {
+    vi.stubGlobal('location', { search })
+  }
+
+  it('extracts f parameter from ?f=siren', () => {
+    withSearch('?f=siren')
+    expect(qs('f')).toBe('siren')
+  })
+
+  it('extracts id parameter from ?id=K-ZK168B-01', () => {
+    withSearch('?id=K-ZK168B-01')
+    expect(qs('id')).toBe('K-ZK168B-01')
+  })
+
+  it('returns null for missing parameter in empty search', () => {
+    withSearch('')
+    expect(qs('f')).toBeNull()
+  })
+
+  it('returns null for missing parameter when others present', () => {
+    withSearch('?a=1')
+    expect(qs('b')).toBeNull()
+  })
+
+  it('extracts parameter from multiple parameters', () => {
+    withSearch('?a=1&b=2')
+    expect(qs('b')).toBe('2')
+  })
+})
+
+// ---------------------------------------------------------------------------
+// getCompareBodies() / setCompareBodies() / addCompareBody()
+// ---------------------------------------------------------------------------
+
+describe('compare bodies', () => {
+  let getCompareBodies, setCompareBodies, addCompareBody
+
+  beforeAll(() => {
+    const zx = loadZX()
+    getCompareBodies = zx.getCompareBodies
+    setCompareBodies = zx.setCompareBodies
+    addCompareBody   = zx.addCompareBody
+  })
+  beforeEach(() => { localStorage.clear() })
+
+  // --- getCompareBodies tests ---
+
+  it('returns empty array when localStorage is empty', () =>
+    expect(getCompareBodies()).toEqual([]))
+
+  it('parses stored array from localStorage', () => {
+    localStorage.setItem('zx_compare_bodies', JSON.stringify(['ZK168B', 'ZK170D']))
+    expect(getCompareBodies()).toEqual(['ZK168B', 'ZK170D'])
+  })
+
+  it('strips falsy values from stored array', () => {
+    localStorage.setItem('zx_compare_bodies', JSON.stringify(['ZK168B', null, 'ZK170D', false]))
+    expect(getCompareBodies()).toEqual(['ZK168B', 'ZK170D'])
+  })
+
+  it('strips "." values from stored array', () => {
+    localStorage.setItem('zx_compare_bodies', JSON.stringify(['ZK168B', '.', 'ZK170D']))
+    expect(getCompareBodies()).toEqual(['ZK168B', 'ZK170D'])
+  })
+
+  it('caps results at 4 entries even if more are stored', () => {
+    localStorage.setItem('zx_compare_bodies', JSON.stringify(['A', 'B', 'C', 'D', 'E']))
+    expect(getCompareBodies()).toEqual(['A', 'B', 'C', 'D'])
+  })
+
+  it('returns empty array when non-array is stored', () => {
+    localStorage.setItem('zx_compare_bodies', JSON.stringify('not-an-array'))
+    expect(getCompareBodies()).toEqual([])
+  })
+
+  // --- setCompareBodies tests ---
+
+  it('stores array and returns it', () => {
+    const result = setCompareBodies(['A', 'B'])
+    expect(result).toEqual(['A', 'B'])
+    expect(JSON.parse(localStorage.getItem('zx_compare_bodies'))).toEqual(['A', 'B'])
+  })
+
+  it('strips falsy values and "." when setting', () => {
+    const result = setCompareBodies(['A', null, 'B', '.', 'C'])
+    expect(result).toEqual(['A', 'B', 'C'])
+  })
+
+  it('caps at 4 entries when setting', () => {
+    const result = setCompareBodies(['A', 'B', 'C', 'D', 'E'])
+    expect(result).toEqual(['A', 'B', 'C', 'D'])
+  })
+
+  it('returns empty array for non-array input', () => {
+    const result = setCompareBodies('not-an-array')
+    expect(result).toEqual([])
+  })
+
+  // --- addCompareBody tests ---
+
+  it('adds new code and returns { added: true }', () => {
+    const result = addCompareBody('ZK168B')
+    expect(result.added).toBe(true)
+    expect(result.bodies).toContain('ZK168B')
+  })
+
+  it('returns { added: false } when adding duplicate code', () => {
+    setCompareBodies(['ZK168B'])
+    const result = addCompareBody('ZK168B')
+    expect(result.added).toBe(false)
+    expect(result.bodies).toEqual(['ZK168B'])
+  })
+
+  it('returns { added: false } for empty string', () => {
+    const result = addCompareBody('')
+    expect(result.added).toBe(false)
+    expect(result.bodies).toEqual([])
+  })
+
+  it('returns { added: false } for "."', () => {
+    const result = addCompareBody('.')
+    expect(result.added).toBe(false)
+    expect(result.bodies).toEqual([])
+  })
+
+  it('does not add 5th code when 4 already present', () => {
+    setCompareBodies(['A', 'B', 'C', 'D'])
+    const result = addCompareBody('E')
+    expect(result.bodies).toHaveLength(4)
+    expect(result.bodies).not.toContain('E')
+  })
+})
