@@ -40,7 +40,7 @@ jobs:
           echo "Python scripts compiled OK"
 
       - name: Install Python test dependencies
-        run: pip install pytest
+        run: pip install pytest pytest-cov Pillow
 
       - name: Run Python unit tests
         run: python -m pytest --tb=short -q

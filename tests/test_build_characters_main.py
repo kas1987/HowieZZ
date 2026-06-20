@@ -195,17 +195,17 @@ class TestBuildCharactersMain:
 
     def test_torso_body_excluded(self, tmp_db, monkeypatch):
         # ZX84J is in TORSO_CODES, so even if we add it, it should be skipped
+        import contextlib
         db_path = tmp_db / "db" / "catalog.db"
-        conn = sqlite3.connect(db_path)
-        conn.execute("INSERT INTO bodies VALUES (?,?,?,?,?)", ('ZX84J', 'K', 84.0, 'E', 'Torso'))
-        conn.execute(
-            "INSERT INTO products(code, head_code, face_code, folder_path, image_count, price, live_handle, body_code) VALUES (?,?,?,?,?,?,?,?)",
-            ('TORSO_PROD', 'GE99_1', None, 'K-Series/TORSO_PROD/', 2, 500.0, 'tp', 'ZX84J')
-        )
-        conn.execute("INSERT INTO product_assets(product_code, media_type, filename, rel_path) VALUES (?,?,?,?)",
-                     ('TORSO_PROD', 'image', 'IMG-101.jpg', 'K-Series/TORSO_PROD/IMG-101.jpg'))
-        conn.commit()
-        conn.close()
+        with contextlib.closing(sqlite3.connect(db_path)) as conn:
+            conn.execute("INSERT INTO bodies VALUES (?,?,?,?,?)", ('ZX84J', 'K', 84.0, 'E', 'Torso'))
+            conn.execute(
+                "INSERT INTO products(code, head_code, face_code, folder_path, image_count, price, live_handle, body_code) VALUES (?,?,?,?,?,?,?,?)",
+                ('TORSO_PROD', 'GE99_1', None, 'K-Series/TORSO_PROD/', 2, 500.0, 'tp', 'ZX84J')
+            )
+            conn.execute("INSERT INTO product_assets(product_code, media_type, filename, rel_path) VALUES (?,?,?,?)",
+                         ('TORSO_PROD', 'image', 'IMG-101.jpg', 'K-Series/TORSO_PROD/IMG-101.jpg'))
+            conn.commit()
         bc.main()
         chars = json.loads((tmp_db / "db" / "characters.json").read_text())["characters"]
         # ZX84J should be excluded — only ZK168B's 4 chars

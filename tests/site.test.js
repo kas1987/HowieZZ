@@ -486,14 +486,13 @@ describe('famClass', () => {
 
 describe('qs', () => {
   let qs
-  let origLocation
 
   beforeAll(() => { qs = loadZX().qs })
-  beforeEach(() => { origLocation = globalThis.location })
-  afterEach(() => { globalThis.location = origLocation })
+  beforeEach(() => { vi.stubGlobal('location', { search: '' }) })
+  afterEach(() => { vi.unstubAllGlobals() })
 
   function withSearch(search) {
-    globalThis.location = { search }
+    vi.stubGlobal('location', { search })
   }
 
   it('extracts f parameter from ?f=siren', () => {

@@ -7,8 +7,6 @@ Tests cover:
 - main() — orchestration of body_profiles.json and characters.json processing
 """
 import json
-import pytest
-from pathlib import Path
 from unittest.mock import patch, MagicMock
 import make_thumbs
 
@@ -436,16 +434,18 @@ class TestMainCharactersJson:
             src.parent.mkdir(parents=True)
             src.write_text("fake")
 
+            no_profiles = tmp_path / "no_profiles.json"
             with patch.object(make_thumbs, 'CHARACTERS', chars_file):
-                mock_image = MagicMock()
-                mock_image.__enter__ = lambda s: mock_image
-                mock_image.__exit__ = MagicMock(return_value=False)
-                mock_image.size = (800, 600)
-                mock_image.convert.return_value = mock_image
+                with patch.object(make_thumbs, 'BODY_PROFILES', no_profiles):
+                    mock_image = MagicMock()
+                    mock_image.__enter__ = lambda s: mock_image
+                    mock_image.__exit__ = MagicMock(return_value=False)
+                    mock_image.size = (800, 600)
+                    mock_image.convert.return_value = mock_image
 
-                with patch('make_thumbs.Image') as MockImage:
-                    MockImage.open.return_value = mock_image
-                    make_thumbs.main()
+                    with patch('make_thumbs.Image') as MockImage:
+                        MockImage.open.return_value = mock_image
+                        make_thumbs.main()
 
             # Verify JSON was updated
             updated = json.loads(chars_file.read_text(encoding="utf-8"))
@@ -465,8 +465,10 @@ class TestMainCharactersJson:
             }
             chars_file.write_text(json.dumps(data), encoding="utf-8")
 
+            no_profiles = tmp_path / "no_profiles.json"
             with patch.object(make_thumbs, 'CHARACTERS', chars_file):
-                make_thumbs.main()
+                with patch.object(make_thumbs, 'BODY_PROFILES', no_profiles):
+                    make_thumbs.main()
 
             # Should complete without error
             updated = json.loads(chars_file.read_text(encoding="utf-8"))
@@ -496,16 +498,18 @@ class TestMainBodyProfilesJson:
             src.parent.mkdir(parents=True)
             src.write_text("fake")
 
+            no_chars = tmp_path / "no_chars.json"
             with patch.object(make_thumbs, 'BODY_PROFILES', profiles_file):
-                mock_image = MagicMock()
-                mock_image.__enter__ = lambda s: mock_image
-                mock_image.__exit__ = MagicMock(return_value=False)
-                mock_image.size = (800, 600)
-                mock_image.convert.return_value = mock_image
+                with patch.object(make_thumbs, 'CHARACTERS', no_chars):
+                    mock_image = MagicMock()
+                    mock_image.__enter__ = lambda s: mock_image
+                    mock_image.__exit__ = MagicMock(return_value=False)
+                    mock_image.size = (800, 600)
+                    mock_image.convert.return_value = mock_image
 
-                with patch('make_thumbs.Image') as MockImage:
-                    MockImage.open.return_value = mock_image
-                    make_thumbs.main()
+                    with patch('make_thumbs.Image') as MockImage:
+                        MockImage.open.return_value = mock_image
+                        make_thumbs.main()
 
             # Verify JSON was updated
             updated = json.loads(profiles_file.read_text(encoding="utf-8"))

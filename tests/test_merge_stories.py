@@ -1,6 +1,6 @@
 """Tests for merge_stories.validate_and_merge function."""
 import pytest
-from merge_stories import validate_and_merge, PROFILE_FIELDS
+from merge_stories import validate_and_merge
 
 
 class TestValidateAndMerge:

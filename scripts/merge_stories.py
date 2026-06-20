@@ -34,9 +34,14 @@ def validate_and_merge(parts_data, valid_ids):
             if cid not in valid_ids:
                 problems.append(f"{filename}: unknown character_id {cid}")
                 continue
+            if not isinstance(body, dict):
+                problems.append(f"{cid}: invalid body format (expected dict)")
+                continue
             if not body.get("story"):
                 problems.append(f"{cid}: missing story")
-            prof = body.get("profile") or {}
+            prof = body.get("profile")
+            if not isinstance(prof, dict):
+                prof = {}
             for f in PROFILE_FIELDS:
                 if not prof.get(f):
                     problems.append(f"{cid}: profile.{f} missing")
