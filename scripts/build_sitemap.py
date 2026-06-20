@@ -37,8 +37,13 @@ def main() -> None:
         ("index.html", "weekly", "1.0"),
         ("browse.html", "weekly", "0.9"),
         ("family.html", "weekly", "0.9"),
+        ("community.html", "weekly", "0.8"),
         ("quiz.html", "monthly", "0.8"),
+        ("compare.html", "monthly", "0.7"),
+        ("options.html", "monthly", "0.7"),
+        ("configurator.html", "monthly", "0.6"),
         ("craft.html", "monthly", "0.6"),
+        ("community-events.html", "monthly", "0.6"),
         ("contact.html", "monthly", "0.6"),
     ]
 

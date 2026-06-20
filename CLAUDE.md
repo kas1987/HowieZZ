@@ -63,17 +63,38 @@ build_package.py     # stage deliverable (code + images) + zip
 
 ## Pages
 
+Primary nav pages (appear in `mountNav()` and `mountFooter()`):
+
 | File | Route |
 |------|-------|
 | `index.html` | Atlas homepage |
 | `browse.html` | Filterable character grid |
-| `series.html?s=…` | Per-series landing |
 | `family.html?f=…` | Body-family index |
+| `compare.html` | Side-by-side body comparison tool |
+| `options.html` | Customization options guide |
+| `community.html` | Community hub |
+| `quiz.html` | "Find Yours" persona quiz |
+| `configurator.html` | Live configurator |
+| `contact.html?id=…` | Inquiry form |
+
+Content pages (reachable via links, not top nav):
+
+| File | Route |
+|------|-------|
+| `series.html?s=…` | Per-series landing |
 | `body.html?b=…` | Body architecture detail |
 | `character.html?id=…` | Character detail |
-| `quiz.html` | "Find Yours" persona quiz |
-| `craft.html` | Brand narrative |
-| `contact.html?id=…` | Inquiry form |
+| `craft.html` | Brand narrative (footer link only) |
+| `community-events.html` | Community events (linked from community.html) |
+
+Support / variant pages (not in nav or sitemap):
+
+| File | Notes |
+|------|-------|
+| `404.html` | Custom error page |
+| `hero.html` | Alternate homepage variant (A/B) |
+| `Landing.html` | Alternate landing variant |
+| `index-gallery-original.html` | Legacy standalone gallery (no shared kit) |
 
 ---
 
