@@ -60,32 +60,57 @@ A living, accessible component library is available at **[docs/component-storybo
 
 Use this as a reference when creating new components. All components meet WCAG AA accessibility standards.
 
+## Phase 1: Foundation & Runbooks
+
+Phase 1 (Weeks 1-6, 2026) establishes core infrastructure: design tokens, CDN, build pipeline, and analytics. Every developer must be familiar with these runbooks:
+
+| Runbook | Purpose | Read First If You're |
+|---------|---------|-----|
+| [`docs/design-tokens-runbook.md`](docs/design-tokens-runbook.md) | How to add/modify CSS tokens (colors, spacing, type, shadows) | Editing styles |
+| [`docs/cdn-runbook.md`](docs/cdn-runbook.md) | How to upload images to CDN, manage manifest, troubleshoot delivery | Adding images |
+| [`docs/pipeline-runbook.md`](docs/pipeline-runbook.md) | How to run build orchestrator, resume after failure, parallelize stages | Running builds |
+| [`docs/analytics-runbook.md`](docs/analytics-runbook.md) | How to wire GA4 events, test with GTM Preview, debug data quality | Working with analytics |
+| [`docs/phase1-faq.md`](docs/phase1-faq.md) | Answers to 30+ common Phase 1 questions | Stuck on something |
+| [`docs/PHASE1-KICKOFF.md`](docs/PHASE1-KICKOFF.md) | Training summary & team responsibilities | New to this project |
+
+**Key Phase 1 Rules:**
+1. **Design Tokens:** Never use hardcoded colors, spacing, or font sizes. Always use `var(--token-name)`.
+2. **Images:** All images hosted on CDN. Run pipeline to auto-upload. Pre-push hook validates manifest freshness.
+3. **Build Pipeline:** Use `build_orchestrator.py` (not individual scripts). It parallelizes, caches, and handles retries.
+4. **Analytics:** Events fire via `ZX.analytics()` to dataLayer → GTM → GA4. Test with debug mode before merging.
+
 ## Building the catalog
 
 Run the **Build Orchestrator** to generate all catalog data:
 
 ```bash
 # Full pipeline with intelligent caching and parallel execution
-python scripts/build_orchestrator.py
+python scripts/build_orchestrator.py --full
 
 # Or use convenience wrappers
 ./scripts/build.sh              # macOS/Linux
 scripts\build.bat               # Windows
 
-# Resume from last failure
+# Resume from last failure (safer than full rebuild)
 python scripts/build_orchestrator.py --resume
 
 # Full rebuild (reset database)
 python scripts/build_orchestrator.py --reset
 ```
 
-See [`docs/BUILD-ORCHESTRATOR.md`](docs/BUILD-ORCHESTRATOR.md) for full docs.
+See [`docs/pipeline-runbook.md`](docs/pipeline-runbook.md) for detailed pipeline docs, including troubleshooting and performance tuning.
 
 ## Conventions
 
+- **Design Tokens (Phase 1):** All colors, spacing, type sizes, and shadows use CSS variables defined in `assets/site.css` `:root`. Never hardcode hex codes or pixel values in CSS. See [`docs/design-tokens-runbook.md`](docs/design-tokens-runbook.md).
+  - ✓ `color: var(--color-primary);`
+  - ✓ `padding: var(--sp4);`
+  - ✗ `color: #d4a574;`
+  - ✗ `padding: 16px;`
 - Every page uses the shared kit (`ZX` global from `assets/site.js`). Prefer extending the kit over per-page one-offs so all pages stay consistent.
 - Regenerate data with the orchestrator (see above); don't hand-edit generated `db/*.json` except the curated inputs (`character_overlay.json`, `body_measurements.json`).
 - Match the surrounding code's style, naming, and comment density.
+- All images must be uploaded via pipeline; see [`docs/cdn-runbook.md`](docs/cdn-runbook.md) for workflow.
 
 ## Tests
 
