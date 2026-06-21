@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-06-21T12:42:39.762284",
-  "pipeline_start": 1782060159.7622843,
-  "pipeline_end": 1782060159.7622843,
-  "total_duration_secs": 0.0,
+  "timestamp": "2026-06-21T13:08:42.820421",
+  "pipeline_start": 1782061722.8204215,
+  "pipeline_end": 1782061722.8214214,
+  "total_duration_secs": 0.0009999275207519531,
   "stages": {
     "db": {
       "name": "db",
@@ -68,10 +68,23 @@
       "retry_count": 0,
       "max_retries": 1,
       "exit_code": 0
+    },
+    "pages": {
+      "name": "pages",
+      "status": "complete",
+      "start_time": 1782061722.8204215,
+      "end_time": 1782061722.8214214,
+      "duration_secs": 0.0009999275207519531,
+      "error": null,
+      "input_hash": "e63551ff2f8899d9",
+      "output_hash": "88aa79387f3a7ca5",
+      "retry_count": 0,
+      "max_retries": 1,
+      "exit_code": 0
     }
   },
   "reset_requested": false,
   "resume_mode": false,
   "exit_code": 0,
-  "summary": "All 0 stages completed successfully in 0.0s"
+  "summary": "All 1 stages completed successfully in 0.0s"
 }

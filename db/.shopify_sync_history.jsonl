@@ -3,3 +3,13 @@
 {"timestamp": "2026-06-21T16:54:48.571457", "level": "ERROR", "message": "Auth failed: 401. Check SHOPIFY_ACCESS_TOKEN."}
 {"timestamp": "2026-06-21T16:54:48.571457", "level": "WARN", "message": "Rate limited. Waiting 1s before retry."}
 {"timestamp": "2026-06-21T16:54:48.571457", "level": "INFO", "message": "Shopify API rate: 1/40"}
+{"timestamp": "2026-06-21T17:35:01.383903", "level": "INFO", "message": "Shopify API rate: 1/40"}
+{"timestamp": "2026-06-21T17:35:01.385903", "level": "INFO", "message": "Shopify API rate: <Mock name='request().headers.get()' id='2259407813648'>"}
+{"timestamp": "2026-06-21T17:35:01.386903", "level": "ERROR", "message": "Auth failed: 401. Check SHOPIFY_ACCESS_TOKEN."}
+{"timestamp": "2026-06-21T17:35:01.388903", "level": "WARN", "message": "Rate limited. Waiting 1s before retry."}
+{"timestamp": "2026-06-21T17:35:01.388903", "level": "INFO", "message": "Shopify API rate: 1/40"}
+{"timestamp": "2026-06-21T17:39:05.038949", "level": "INFO", "message": "Shopify API rate: 1/40"}
+{"timestamp": "2026-06-21T17:39:05.038949", "level": "INFO", "message": "Shopify API rate: <Mock name='request().headers.get()' id='2131886626192'>"}
+{"timestamp": "2026-06-21T17:39:05.038949", "level": "ERROR", "message": "Auth failed: 401. Check SHOPIFY_ACCESS_TOKEN."}
+{"timestamp": "2026-06-21T17:39:05.043616", "level": "WARN", "message": "Rate limited. Waiting 1s before retry."}
+{"timestamp": "2026-06-21T17:39:05.043616", "level": "INFO", "message": "Shopify API rate: 1/40"}
