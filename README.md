@@ -144,6 +144,42 @@ A pre-push hook can run both suites automatically — see
 `main` is protected — work on a branch and open a PR; CI must pass. See
 [CONTRIBUTING.md](CONTRIBUTING.md).
 
+---
+
+## Comprehensive Documentation
+
+### Core References
+
+- **[ARCHITECTURE.md](ARCHITECTURE.md)** — System design, data flow, frontend architecture, page routing, deployment
+- **[DATA-SCHEMA.md](DATA-SCHEMA.md)** — Detailed specifications for all JSON structures, database schema, validation rules
+- **[API.md](API.md)** — Complete runtime API reference (ZX global object, methods, event hooks)
+- **[GLOSSARY.md](GLOSSARY.md)** — Terminology index (Body, Character, Series, Family, WHR/BWR, etc.)
+- **[DECISIONS.md](DECISIONS.md)** — Architecture decision log (rationale for key design choices)
+- **[MIGRATION-GUIDE.md](MIGRATION-GUIDE.md)** — Operational tasks (adding bodies, editing characters, deploying, troubleshooting)
+
+### Quick Links
+
+- [Build Pipeline Details](docs/BUILD-ORCHESTRATOR.md) — Parallel execution, idempotence, resume mechanics
+- [Character Schema](docs/character-schema.md) — Character record structure and validation
+- [Story Schema](docs/story-schema.md) — Story input format and grounding rules
+- [Product Direction Records](docs/pdr/) — Business strategy and positioning briefing
+
+### Navigation by Role
+
+**Developers:**
+→ Start with [ARCHITECTURE.md](ARCHITECTURE.md), then [API.md](API.md) for runtime details.
+
+**Data/Build Engineers:**
+→ Read [DATA-SCHEMA.md](DATA-SCHEMA.md) and [docs/BUILD-ORCHESTRATOR.md](docs/BUILD-ORCHESTRATOR.md).
+
+**Product/Content Team:**
+→ Use [MIGRATION-GUIDE.md](MIGRATION-GUIDE.md) for adding bodies + characters, [GLOSSARY.md](GLOSSARY.md) for terminology.
+
+**Operational/Deployment:**
+→ See [MIGRATION-GUIDE.md](MIGRATION-GUIDE.md) (deployment, rollback, recovery).
+
+---
+
 ## PDR source of truth
 
 - Recovery baseline: `docs/pdr/recovery-pack/HowieZZ_PDR_Recovery_Pack/`
