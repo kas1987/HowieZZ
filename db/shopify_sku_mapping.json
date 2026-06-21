@@ -1,0 +1,50 @@
+{
+  "$schema": "Shopify SKU mapping v1.0",
+  "description": "Maps internal ZELEX product codes to Shopify product IDs and variants",
+  "mapping_rules": {
+    "complete_dolls": {
+      "pattern": "{head_code}+{body_code}",
+      "shopify_prefix": "ZELEX-",
+      "example": "ZFE01_1+ZF161D -> ZELEX-ZFE01_1-ZF161D"
+    },
+    "bodies_standalone": {
+      "pattern": "{body_code}",
+      "shopify_prefix": "ZX-BODY-",
+      "example": "ZF161D -> ZX-BODY-ZF161D"
+    },
+    "heads_standalone": {
+      "pattern": "{head_code}",
+      "shopify_prefix": "ZX-HEAD-",
+      "example": "ZFE01_1 -> ZX-HEAD-ZFE01_1"
+    }
+  },
+  "metadata_fields": {
+    "series": "Maps to product collection tag",
+    "character_id": "Links to characters.json for narrative context",
+    "body_family": "WHR classification (Classic, Icon, Muse, Siren, Empress, Sculpt)",
+    "height_cm": "Body spec — also variant filter",
+    "cup_size": "Body spec — chest measurement",
+    "body_line": "Body line family for grouping"
+  },
+  "sync_fields": [
+    "title",
+    "description",
+    "sku",
+    "barcode",
+    "price",
+    "inventory_quantity",
+    "status",
+    "published_scope",
+    "variant_image",
+    "variant_title",
+    "tags",
+    "metafields"
+  ],
+  "last_full_sync": null,
+  "full_sync_interval_hours": 6,
+  "incremental_sync_interval_minutes": 30,
+  "conflict_resolution": {
+    "strategy": "shopify_canonical",
+    "description": "Shopify is source-of-truth for inventory; ZELEX DB is canonical for specs"
+  }
+}

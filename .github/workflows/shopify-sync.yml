@@ -1,0 +1,198 @@
+name: Shopify Feed Sync
+
+on:
+  schedule:
+    # Run full sync every 6 hours (00:00, 06:00, 12:00, 18:00 UTC)
+    - cron: '0 0,6,12,18 * * *'
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'Sync mode'
+        required: true
+        default: 'full'
+        type: choice
+        options:
+          - full
+          - incremental
+          - dry-run
+
+permissions:
+  contents: read
+
+jobs:
+  shopify-sync:
+    name: Sync Shopify products with ZELEX catalog
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    env:
+      SHOPIFY_STORE_URL: ${{ secrets.SHOPIFY_STORE_URL }}
+      SHOPIFY_ACCESS_TOKEN: ${{ secrets.SHOPIFY_ACCESS_TOKEN }}
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      SYNC_MODE: ${{ github.event.inputs.mode || 'full' }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
+
+      - name: Validate Shopify credentials
+        run: |
+          if [ -z "$SHOPIFY_STORE_URL" ]; then
+            echo "::error::SHOPIFY_STORE_URL secret is not configured"
+            exit 1
+          fi
+          if [ -z "$SHOPIFY_ACCESS_TOKEN" ]; then
+            echo "::error::SHOPIFY_ACCESS_TOKEN secret is not configured"
+            exit 1
+          fi
+          echo "✓ Shopify credentials validated"
+
+      - name: Run Shopify sync
+        id: sync
+        run: |
+          python scripts/sync_shopify_feed.py
+          exit_code=$?
+          echo "exit_code=$exit_code" >> $GITHUB_OUTPUT
+          exit $exit_code
+
+      - name: Upload sync artifacts
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: shopify-sync-artifacts
+          path: db/.shopify_sync*
+          retention-days: 30
+
+      - name: Report success
+        if: success()
+        run: |
+          echo "✓ Shopify sync completed successfully"
+          echo "Sync state: $(cat db/.shopify_sync_state.json | jq '.state')"
+
+      - name: Report warnings
+        if: failure() && steps.sync.outputs.exit_code == '2'
+        run: |
+          echo "⚠ Shopify sync completed with warnings"
+          tail -20 db/.shopify_sync_history.jsonl
+
+      - name: Report errors
+        if: failure() && steps.sync.outputs.exit_code != '2'
+        run: |
+          echo "✗ Shopify sync failed"
+          tail -50 db/.shopify_sync_history.jsonl
+          exit 1
+
+  rollback-guard:
+    name: Verify catalog integrity post-sync
+    runs-on: ubuntu-latest
+    needs: shopify-sync
+    if: always()
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Validate catalog schema
+        run: |
+          python -c "
+          import json
+          with open('db/catalog.json') as f:
+              catalog = json.load(f)
+          assert 'products' in catalog, 'Missing products key'
+          assert len(catalog['products']) > 0, 'Catalog is empty'
+          assert 'series' in catalog, 'Missing series key'
+          print(f'✓ Catalog schema valid: {len(catalog[\"products\"])} products')
+          "
+
+      - name: Check for sync state corruption
+        run: |
+          python -c "
+          import json
+          from pathlib import Path
+          sync_state = Path('db/.shopify_sync_state.json')
+          if sync_state.exists():
+              with open(sync_state) as f:
+                  state = json.load(f)
+              assert 'state' in state, 'Missing state field'
+              assert state['state'] in ('clean', 'warning'), f'Invalid state: {state[\"state\"]}'
+              print(f'✓ Sync state valid: {state[\"state\"]}')
+          "
+
+  slack-notification:
+    name: Send Slack notification
+    runs-on: ubuntu-latest
+    needs: [shopify-sync, rollback-guard]
+    if: always()
+
+    steps:
+      - name: Determine status
+        id: status
+        run: |
+          if [ "${{ needs.shopify-sync.result }}" == "success" ] && [ "${{ needs.rollback-guard.result }}" == "success" ]; then
+            echo "status=✓ Success" >> $GITHUB_OUTPUT
+            echo "color=good" >> $GITHUB_OUTPUT
+          elif [ "${{ needs.shopify-sync.result }}" == "failure" ]; then
+            echo "status=✗ Sync Failed" >> $GITHUB_OUTPUT
+            echo "color=danger" >> $GITHUB_OUTPUT
+          else
+            echo "status=⚠ Rollback Guard Failed" >> $GITHUB_OUTPUT
+            echo "color=warning" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Post to Slack
+        if: secrets.SLACK_WEBHOOK_URL != ''
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          payload: |
+            {
+              "attachments": [
+                {
+                  "fallback": "Shopify Sync ${{ steps.status.outputs.status }}",
+                  "color": "${{ steps.status.outputs.color }}",
+                  "title": "Shopify Feed Sync ${{ steps.status.outputs.status }}",
+                  "text": "Sync: ${{ needs.shopify-sync.result }} | Guard: ${{ needs.rollback-guard.result }}",
+                  "fields": [
+                    {
+                      "title": "Repository",
+                      "value": "${{ github.repository }}",
+                      "short": true
+                    },
+                    {
+                      "title": "Workflow",
+                      "value": "${{ github.workflow }}",
+                      "short": true
+                    },
+                    {
+                      "title": "Branch",
+                      "value": "${{ github.ref_name }}",
+                      "short": true
+                    },
+                    {
+                      "title": "Run",
+                      "value": "<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View>",
+                      "short": true
+                    }
+                  ],
+                  "footer": "Shopify Sync Automation",
+                  "ts": ${{ github.event.pull_request.updated_at || github.event.head_commit.timestamp }}
+                }
+              ]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
