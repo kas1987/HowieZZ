@@ -1,0 +1,61 @@
+{
+  "version": "1.0",
+  "generated_at": "2026-06-21T16:43:58.889524+00:00",
+  "cdn_enabled": true,
+  "cdn_provider": "cloudinary",
+  "cdn_base_url": "https://res.cloudinary.com/howiez/image/upload",
+  "fallback_local": true,
+  "asset_mappings": {
+    "site_css": {
+      "local_path": "assets/site.css",
+      "cdn_path": "zelex/site/site.css",
+      "cdn_url": "https://res.cloudinary.com/howiez/image/upload/zelex/site/site.css",
+      "hash": "2b531395ef73",
+      "size_bytes": 55117,
+      "type": "text/css"
+    },
+    "site_js": {
+      "local_path": "assets/site.js",
+      "cdn_path": "zelex/site/site.js",
+      "cdn_url": "https://res.cloudinary.com/howiez/image/upload/zelex/site/site.js",
+      "hash": "765fce138176",
+      "size_bytes": 27587,
+      "type": "application/javascript"
+    }
+  },
+  "image_folders": {
+    "thumbs": {
+      "local_folder": "",
+      "cdn_folder": "zelex/thumbs",
+      "cdn_url_template": "https://res.cloudinary.com/howiez/image/upload/zelex/thumbs/",
+      "count": 0,
+      "total_size_mb": 0.0,
+      "transformations": {}
+    },
+    "photoshoots": {
+      "local_folder": "",
+      "cdn_folder": "zelex/photoshoots",
+      "cdn_url_template": "https://res.cloudinary.com/howiez/image/upload/zelex/photoshoots/",
+      "count": 0,
+      "total_size_mb": 0.0,
+      "transformations": {}
+    }
+  },
+  "transformations": {
+    "thumbs": {
+      "quality": "auto:low",
+      "format": "auto",
+      "width": 300
+    },
+    "photoshoots": {
+      "quality": "auto:good",
+      "format": "auto",
+      "responsive": true
+    }
+  },
+  "retry_strategy": {
+    "max_attempts": 2,
+    "timeout_ms": 5000,
+    "fallback_delay_ms": 500
+  }
+}

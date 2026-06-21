@@ -1,62 +1,49 @@
 {
-  "version": "1.0",
+  "version": "2.0",
   "schema_version": "2026-06-21",
-  "generated_at": "2026-06-21T00:00:00Z",
+  "generated_at": "2026-06-21T16:43:52.589516+00:00",
   "cdn_provider": "cloudinary",
   "cdn_base_url": "https://res.cloudinary.com/howiez/image/upload",
   "fallback_local": true,
+  "dry_run": true,
   "assets": {
     "site_css": {
       "local_path": "assets/site.css",
-      "cdn_path": "zelex/site",
-      "version": "1.0",
-      "hash": "",
-      "size_bytes": 0,
+      "cdn_path": "zelex/site/site.css",
+      "version": "2.0",
+      "hash": "2b531395ef73",
+      "size_bytes": 55117,
       "type": "text/css"
     },
     "site_js": {
       "local_path": "assets/site.js",
-      "cdn_path": "zelex/site",
-      "version": "1.0",
-      "hash": "",
-      "size_bytes": 0,
+      "cdn_path": "zelex/site/site.js",
+      "version": "2.0",
+      "hash": "765fce138176",
+      "size_bytes": 27587,
       "type": "application/javascript"
     }
   },
   "images": {
     "thumbs": {
-      "local_folder": "assets/thumbs",
-      "cdn_folder": "zelex/thumbs",
-      "version": "1.0",
+      "files": [],
       "count": 0,
-      "total_size_mb": 0,
-      "fallback_enabled": true,
-      "transformation": {
-        "quality": "auto:low",
-        "format": "auto"
-      }
+      "version": "2.0",
+      "total_size_mb": 0.0
     },
     "photoshoots": {
-      "local_folder": "assets/Fusion-Series",
-      "cdn_folder": "zelex/photoshoots",
-      "version": "1.0",
+      "files": [],
       "count": 0,
-      "total_size_mb": 0,
-      "fallback_enabled": true,
-      "transformation": {
-        "quality": "auto:good",
-        "format": "auto",
-        "responsive_width": "auto"
-      }
+      "version": "2.0",
+      "total_size_mb": 0.0
     }
   },
   "metadata": {
-    "cdn_credentials_env_var": "ZELEX_CDN_URL_BASE",
-    "cdn_api_key_env_var": "ZELEX_CDN_API_KEY",
+    "cdn_credentials_env_var": "ZELEX_CDN_API_KEY",
     "cdn_api_secret_env_var": "ZELEX_CDN_API_SECRET",
-    "last_sync": "never",
-    "sync_status": "not_synced",
-    "total_assets": 0,
-    "total_size_mb": 0
+    "last_sync": "not_synced",
+    "sync_status": "dry_run",
+    "total_assets": 2,
+    "total_size_mb": 0.08
   }
 }
