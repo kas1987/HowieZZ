@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  zelex:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: zelex-dev
+    ports:
+      - "9000:9000"   # Python dev server
+      - "2015:2015"   # Caddy (alt port to avoid conflicts)
+    volumes:
+      - .:/workspace
+      - /workspace/.git
+      - /workspace/.pytest_cache
+      - /workspace/.coverage
+      - zelex-node-modules:/workspace/node_modules
+      - zelex-pip-cache:/root/.cache/pip
+    working_dir: /workspace
+    environment:
+      - NODE_ENV=development
+      - PORT=9000
+    command: /bin/bash -c "npm install && python -m pytest --tb=short -q && python serve.py 9000"
+    stdin_open: true
+    tty: true
+    networks:
+      - zelex-network
+
+  # Optional: Caddy server for advanced dev (alternative to Python serve.py)
+  caddy:
+    image: caddy:2-alpine
+    container_name: zelex-caddy
+    ports:
+      - "2015:2015"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - .:/srv:ro
+      - caddy-data:/data
+    working_dir: /srv
+    command: caddy run --config /etc/caddy/Caddyfile
+    networks:
+      - zelex-network
+    profiles:
+      - caddy  # Enable with: docker-compose --profile caddy up
+
+volumes:
+  zelex-node-modules:
+  zelex-pip-cache:
+  caddy-data:
+
+networks:
+  zelex-network:
+    driver: bridge
