@@ -43,6 +43,23 @@ chore(ci): bump actions/checkout to v4
 
 If you need to add a genuinely new tracked file type, update `.gitignore` in the same PR and explain why.
 
+## Component Storybook
+
+A living, accessible component library is available at **[docs/component-storybook.html](docs/component-storybook.html)**. It documents all UI patterns used across the site:
+
+- **Buttons** — default, solid, ghost, concierge styles
+- **Status Chips** — live, verified, pending, estimated, concept
+- **Family Tags** — all six body-family classifications
+- **Cards** — character and body-architecture layouts
+- **Panels** — content containers and accents
+- **Form Elements** — inputs, textareas, selects, validation
+- **Filters** — toggleable pills and choice groups
+- **Grids** — responsive column systems
+- **Modals** — dialogs and confirmations
+- **Accessibility Features** — focus indicators, WCAG AA compliance, keyboard navigation, screen reader support
+
+Use this as a reference when creating new components. All components meet WCAG AA accessibility standards.
+
 ## Conventions
 
 - Every page uses the shared kit (`ZX` global from `assets/site.js`). Prefer extending the kit over per-page one-offs so all pages stay consistent.

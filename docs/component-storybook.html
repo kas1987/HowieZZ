@@ -1,0 +1,1481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ZELEX Component Storybook</title>
+  <meta name="description" content="A comprehensive, accessible component library for the ZELEX Character Atlas.">
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* Design tokens */
+    :root {
+      --blue: #5EA6E8;
+      --coral: #E18B73;
+      --gold: #D4A574;
+      --cream: #F7E3C3;
+      --bg: #121212;
+      --panel: #1b1b1b;
+      --panel2: #242424;
+      --line: #333;
+      --text: #e8e8e8;
+      --muted: #ababab;
+
+      /* Body Family colors */
+      --Classic: #8FB7E0;
+      --Icon: #D4A574;
+      --Muse: #9FD6B6;
+      --Siren: #E18B73;
+      --Empress: #C792D6;
+      --Sculpt: #C7B07F;
+
+      /* Status colors */
+      --st-live: #6BC88A;
+      --st-verified: #5EA6E8;
+      --st-pending: #E0A945;
+      --st-estimated: #C792D6;
+      --st-concept: #9EA8B8;
+
+      /* Spacing */
+      --sp1: 4px;
+      --sp2: 8px;
+      --sp3: 12px;
+      --sp4: 16px;
+      --sp5: 24px;
+      --sp6: 32px;
+
+      /* Type scale */
+      --t-xs: 0.625rem;
+      --t-sm: 0.75rem;
+      --t-base: 0.875rem;
+      --t-md: 1rem;
+      --t-lg: 1.25rem;
+      --t-xl: 1.75rem;
+
+      /* Radius */
+      --r-sm: 6px;
+      --r-md: 10px;
+      --r-lg: 14px;
+      --r-pill: 100px;
+
+      /* Shadows */
+      --sh-card: 0 2px 10px rgba(0,0,0,.45);
+      --sh-card-hover: 0 16px 40px rgba(0,0,0,.6), 0 0 28px rgba(212,165,116,.14);
+      --sh-focus: 0 0 0 3px rgba(212,165,116,.35);
+      --sh-panel: 0 1px 3px rgba(0,0,0,.4);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Montserrat', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+      padding: 60px 24px 80px;
+    }
+
+    h1, h2, h3, h4, .serif {
+      font-family: 'Playfair Display', Georgia, serif;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* WCAG AA Focus indicators */
+    :focus-visible {
+      outline: 2px solid var(--gold);
+      outline-offset: 3px;
+      border-radius: 2px;
+    }
+
+    .btn:focus-visible {
+      outline-offset: 4px;
+    }
+
+    input:focus-visible, textarea:focus-visible, select:focus-visible {
+      outline: none;
+      border-color: var(--gold);
+      box-shadow: var(--sh-focus);
+    }
+
+    /* Accessibility utilities */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .skip-to-main {
+      position: fixed;
+      top: 8px;
+      left: 8px;
+      z-index: 100;
+      transform: translateY(-160%);
+      background: var(--cream);
+      color: #111;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      padding: 10px 18px;
+      border-radius: var(--r-sm);
+      box-shadow: var(--sh-card-hover);
+      transition: transform 0.18s ease;
+    }
+
+    .skip-to-main:focus {
+      transform: translateY(0);
+    }
+
+    /* ========== Layout ========== */
+    main {
+      max-width: 1340px;
+      margin: 0 auto;
+    }
+
+    .sb-header {
+      text-align: center;
+      margin-bottom: 60px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .sb-header h1 {
+      font-size: clamp(28px, 5vw, 48px);
+      font-weight: 700;
+      letter-spacing: 2px;
+      margin-bottom: 12px;
+    }
+
+    .sb-header .sb-eyebrow {
+      color: var(--gold);
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      font-size: 12px;
+      display: inline-block;
+      margin-bottom: 18px;
+    }
+
+    .sb-header p {
+      color: var(--muted);
+      font-size: var(--t-base);
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    .sb-toc {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+      margin-top: 32px;
+      padding-top: 24px;
+      border-top: 1px solid var(--line);
+    }
+
+    .sb-toc a {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border: 1px solid var(--line);
+      border-radius: var(--r-md);
+      color: var(--gold);
+      font-size: 12px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: 0.2s;
+    }
+
+    .sb-toc a:hover {
+      border-color: var(--gold);
+      background: rgba(212, 165, 116, 0.08);
+    }
+
+    /* Component Section */
+    .sb-section {
+      margin-bottom: 80px;
+      scroll-margin-top: 80px;
+    }
+
+    .sb-section-head {
+      font-size: var(--t-xl);
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      margin-bottom: 8px;
+      color: var(--gold);
+      text-transform: uppercase;
+    }
+
+    .sb-section-sub {
+      color: var(--muted);
+      font-size: var(--t-base);
+      margin-bottom: 32px;
+      max-width: 600px;
+    }
+
+    /* Component showcase */
+    .sb-showcase {
+      display: grid;
+      gap: 32px;
+    }
+
+    .sb-component {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--line);
+      border-radius: var(--r-lg);
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .sb-component-title {
+      font-size: var(--t-lg);
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: 1px;
+    }
+
+    .sb-component-desc {
+      font-size: var(--t-sm);
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .sb-demo {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 16px;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: var(--r-md);
+      min-height: 60px;
+    }
+
+    .sb-variant {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--line);
+    }
+
+    .sb-variant-label {
+      font-size: var(--t-sm);
+      color: var(--gold);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .sb-code {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--r-sm);
+      padding: 12px;
+      font-family: ui-monospace, monospace;
+      font-size: 12px;
+      color: var(--cream);
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+
+    /* ========== Component Styles ========== */
+
+    /* Buttons */
+    .btn {
+      display: inline-block;
+      padding: 12px 26px;
+      border: 1px solid var(--gold);
+      border-radius: var(--r-md);
+      color: var(--gold);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-size: 12px;
+      transition: 0.25s;
+      cursor: pointer;
+      font-family: inherit;
+      background: transparent;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .btn:hover {
+      background: var(--gold);
+      color: #111;
+    }
+
+    .btn.solid {
+      background: var(--cream);
+      border-color: var(--cream);
+      color: #111;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn.solid:hover {
+      background: var(--gold);
+      border-color: var(--gold);
+    }
+
+    .btn.solid::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 60%;
+      height: 100%;
+      background: linear-gradient(100deg, transparent, rgba(255,255,255,.45), transparent);
+      transform: skewX(-18deg) translateX(-200%);
+      transition: transform 0.55s ease;
+      pointer-events: none;
+    }
+
+    .btn.solid:hover::after {
+      transform: skewX(-18deg) translateX(300%);
+    }
+
+    .btn.ghost {
+      border-color: var(--line);
+      color: var(--muted);
+    }
+
+    .btn.ghost:hover {
+      border-color: var(--text);
+      color: var(--text);
+      background: transparent;
+    }
+
+    .btn.concierge {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      letter-spacing: 1.5px;
+      text-transform: none;
+      font-size: var(--t-base);
+      padding: 13px 30px;
+      border-color: var(--gold);
+      color: var(--cream);
+      background: linear-gradient(135deg, rgba(30,24,18,.9), rgba(42,34,22,.9));
+      box-shadow: inset 0 0 0 1px rgba(212,165,116,.22), 0 4px 18px rgba(0,0,0,.45);
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .btn.concierge::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(50,38,22,.95), rgba(65,48,25,.95));
+      opacity: 0;
+      transition: opacity 0.25s;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .btn.concierge:hover::before {
+      opacity: 1;
+    }
+
+    .btn.concierge:hover {
+      color: var(--gold);
+      box-shadow: inset 0 0 0 1px rgba(212,165,116,.5), 0 8px 28px rgba(0,0,0,.55);
+    }
+
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    /* Status Chips */
+    .stat {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: var(--t-xs);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      font-weight: 600;
+      padding: 3px 9px;
+      border-radius: var(--r-pill);
+      white-space: nowrap;
+    }
+
+    .stat::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      background: currentColor;
+      box-shadow: 0 0 0 1px rgba(0,0,0,.35);
+    }
+
+    .stat-live {
+      color: var(--st-live);
+      background: rgba(107, 200, 138, 0.12);
+      border: 1px solid rgba(107, 200, 138, 0.3);
+    }
+
+    .stat-verified {
+      color: var(--st-verified);
+      background: rgba(94, 166, 232, 0.12);
+      border: 1px solid rgba(94, 166, 232, 0.34);
+    }
+
+    .stat-pending {
+      color: var(--st-pending);
+      background: rgba(224, 169, 69, 0.11);
+      border: 1px dashed rgba(224, 169, 69, 0.4);
+    }
+
+    .stat-estimated {
+      color: var(--st-estimated);
+      background: rgba(199, 146, 214, 0.09);
+      border: 1px solid rgba(199, 146, 214, 0.26);
+    }
+
+    .stat-estimated::before {
+      background: transparent;
+      box-shadow: inset 0 0 0 1.5px currentColor;
+    }
+
+    .stat-concept {
+      color: var(--st-concept);
+      background: rgba(158, 168, 184, 0.07);
+      border: 1px solid rgba(158, 168, 184, 0.18);
+      font-weight: 500;
+      opacity: 0.92;
+    }
+
+    .stat-concept::before {
+      background: transparent;
+      box-shadow: inset 0 0 0 1.5px currentColor;
+    }
+
+    /* Family Chips */
+    .fam {
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: var(--r-pill);
+      font-weight: 600;
+      display: inline-block;
+      border: 1px solid currentColor;
+      background: transparent;
+      color: var(--muted);
+    }
+
+    .fam--classic { color: var(--Classic); }
+    .fam--icon { color: var(--Icon); }
+    .fam--muse { color: var(--Muse); }
+    .fam--siren { color: var(--Siren); }
+    .fam--empress { color: var(--Empress); }
+    .fam--sculpt { color: var(--Sculpt); }
+
+    /* Grid */
+    .grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .grid.g4 { grid-template-columns: repeat(4, 1fr); }
+    .grid.g3 { grid-template-columns: repeat(3, 1fr); }
+    .grid.g2 { grid-template-columns: repeat(2, 1fr); }
+
+    @media(max-width: 980px) {
+      .grid.g4, .grid.g3 { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media(max-width: 520px) {
+      .grid.g4, .grid.g3, .grid.g2 { grid-template-columns: 1fr; }
+    }
+
+    /* Cards */
+    .card {
+      background: var(--panel);
+      border: 1px solid rgba(212, 165, 116, 0.18);
+      border-radius: var(--r-lg);
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--sh-card);
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      border-color: var(--gold);
+      box-shadow: var(--sh-card-hover);
+    }
+
+    .card .imgwrap {
+      position: relative;
+      aspect-ratio: 3/4;
+      background: #0d0d0d;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .card .b {
+      padding: 14px;
+      flex-grow: 1;
+    }
+
+    .card .pname {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      font-weight: 600;
+      line-height: 1.1;
+      margin-bottom: 4px;
+    }
+
+    .card .ptitle {
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .card .ptag {
+      color: var(--gold);
+      font-style: italic;
+      font-size: 12.5px;
+      font-family: 'Playfair Display', serif;
+    }
+
+    /* Panel */
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--r-lg);
+      padding: var(--sp6);
+      box-shadow: var(--sh-panel);
+    }
+
+    .panel--accent {
+      border-color: rgba(212, 165, 116, 0.26);
+      background: linear-gradient(135deg, rgba(212,165,116,.06), transparent 38%), var(--panel);
+    }
+
+    .panel-title {
+      font-family: 'Playfair Display', serif;
+      font-size: var(--t-xl);
+      line-height: 1.15;
+      margin-bottom: var(--sp2);
+    }
+
+    .panel-sub {
+      color: var(--muted);
+      font-size: var(--t-base);
+      margin-bottom: var(--sp5);
+      max-width: 62ch;
+    }
+
+    /* Form Elements */
+    .form-group {
+      margin-bottom: var(--sp5);
+    }
+
+    .form-group > label {
+      display: block;
+      font-size: var(--t-sm);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 7px;
+    }
+
+    .form-group > label .req {
+      color: var(--coral);
+      margin-left: 2px;
+    }
+
+    .field,
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      background: #161616;
+      border: 1px solid var(--line);
+      color: var(--text);
+      border-radius: var(--r-md);
+      padding: 12px 14px;
+      font-family: inherit;
+      font-size: var(--t-base);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .field::placeholder,
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: #6f6f6f;
+    }
+
+    .field:focus,
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: var(--gold);
+      box-shadow: 0 0 0 2px rgba(212, 165, 116, 0.16);
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .form-group select option {
+      background: var(--panel2);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp4);
+    }
+
+    @media(max-width: 640px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .field-hint {
+      font-size: var(--t-sm);
+      color: var(--muted);
+      margin-top: 6px;
+      line-height: 1.45;
+    }
+
+    .field-err {
+      font-size: var(--t-sm);
+      color: var(--coral);
+      margin-top: 5px;
+    }
+
+    .consent-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: var(--sp5);
+    }
+
+    .consent-row input[type="checkbox"] {
+      width: 17px;
+      height: 17px;
+      flex-shrink: 0;
+      margin-top: 2px;
+      accent-color: var(--gold);
+      cursor: pointer;
+    }
+
+    .consent-row label {
+      font-size: var(--t-base);
+      color: var(--muted);
+      line-height: 1.55;
+      cursor: pointer;
+    }
+
+    .consent-row label a {
+      color: var(--gold);
+      text-decoration: underline;
+    }
+
+    /* Pills / Filters */
+    .pill {
+      padding: 6px 16px;
+      border: 1px solid var(--line);
+      border-radius: var(--r-pill);
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: var(--t-sm);
+      letter-spacing: 0.5px;
+      font-family: inherit;
+      transition: 0.2s;
+      white-space: nowrap;
+    }
+
+    .pill:hover {
+      color: var(--text);
+      border-color: var(--muted);
+    }
+
+    .pill.active {
+      background: var(--cream);
+      color: #111;
+      border-color: var(--cream);
+      font-weight: 600;
+    }
+
+    /* Modal / Dialog */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px);
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--r-lg);
+      padding: 32px;
+      max-width: 500px;
+      width: 100%;
+      max-height: 80vh;
+      overflow-y: auto;
+      animation: modal-in 0.25s ease;
+    }
+
+    @keyframes modal-in {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      gap: 16px;
+    }
+
+    .modal-title {
+      font-family: 'Playfair Display', serif;
+      font-size: var(--t-lg);
+      font-weight: 600;
+    }
+
+    .modal-close {
+      background: transparent;
+      border: none;
+      color: var(--text);
+      font-size: 24px;
+      cursor: pointer;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      transition: 0.2s;
+    }
+
+    .modal-close:hover {
+      color: var(--gold);
+    }
+
+    .modal-footer {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+    }
+
+    /* Responsive */
+    @media(max-width: 640px) {
+      body {
+        padding: 40px 16px 60px;
+      }
+
+      .sb-component {
+        padding: 20px;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .sb-demo {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .sb-demo .btn {
+        width: 100%;
+      }
+    }
+
+    /* Print-friendly */
+    @media print {
+      .sb-toc, .sb-code {
+        display: none;
+      }
+    }
+
+    /* Prefers reduced motion */
+    @media(prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<a href="#main" class="skip-to-main">Skip to main content</a>
+
+<main id="main">
+
+  <!-- Header -->
+  <header class="sb-header">
+    <div class="sb-eyebrow">Component Library</div>
+    <h1>ZELEX Storybook</h1>
+    <p>A comprehensive, accessible component library for the Character Atlas. All components meet WCAG AA standards with high-contrast focus indicators, semantic HTML, and inclusive color design.</p>
+
+    <nav class="sb-toc" aria-label="Jump to section">
+      <a href="#buttons">Buttons</a>
+      <a href="#status">Status Chips</a>
+      <a href="#families">Family Tags</a>
+      <a href="#cards">Cards</a>
+      <a href="#panels">Panels</a>
+      <a href="#forms">Forms</a>
+      <a href="#filters">Filters</a>
+      <a href="#grids">Grids</a>
+      <a href="#modals">Modals</a>
+      <a href="#accessibility">Accessibility</a>
+    </nav>
+  </header>
+
+  <!-- Buttons -->
+  <section class="sb-section" id="buttons">
+    <h2 class="sb-section-head">Buttons</h2>
+    <p class="sb-section-sub">Primary call-to-action buttons in three styles: default, solid, ghost, and concierge. All buttons feature high-contrast focus rings and smooth hover states.</p>
+
+    <div class="sb-showcase">
+      <div class="sb-component">
+        <div class="sb-component-title">Default Button</div>
+        <div class="sb-component-desc">Gold outline with hover fill. Standard interactive element for most CTAs.</div>
+        <div class="sb-demo">
+          <button class="btn" type="button">Learn More</button>
+          <button class="btn" type="button">View Options</button>
+        </div>
+        <div class="sb-code">&lt;button class="btn"&gt;Learn More&lt;/button&gt;</div>
+      </div>
+
+      <div class="sb-component">
+        <div class="sb-component-title">Solid Button</div>
+        <div class="sb-component-desc">Filled secondary CTA with shine effect. Higher visual weight for primary actions.</div>
+        <div class="sb-demo">
+          <button class="btn solid" type="button">Request Consultation</button>
+          <button class="btn solid" type="button">Find Your Match</button>
+        </div>
+        <div class="sb-code">&lt;button class="btn solid"&gt;Request Consultation&lt;/button&gt;</div>
+      </div>
+
+      <div class="sb-component">
+        <div class="sb-component-title">Ghost Button</div>
+        <div class="sb-component-desc">Low-emphasis button for secondary actions. Subtle dark line with text highlight on hover.</div>
+        <div class="sb-demo">
+          <button class="btn ghost" type="button">Browse</button>
+          <button class="btn ghost" type="button">Clear Filters</button>
+        </div>
+        <div class="sb-code">&lt;button class="btn ghost"&gt;Browse&lt;/button&gt;</div>
+      </div>
+
+      <div class="sb-component">
+        <div class="sb-component-title">Concierge Button</div>
+        <div class="sb-component-desc">Premium gradient CTA for high-intent actions. Serif italic styling with warm shadow accents.</div>
+        <div class="sb-demo">
+          <button class="btn concierge" type="button">Begin Concierge Inquiry</button>
+        </div>
+        <div class="sb-code">&lt;button class="btn concierge"&gt;Begin Concierge Inquiry&lt;/button&gt;</div>
+      </div>
+
+      <div class="sb-component">
+        <div class="sb-component-title">Button States</div>
+        <div class="sb-component-desc">Disabled buttons show reduced opacity. Use <code>:disabled</code> attribute to prevent interaction.</div>
+        <div class="sb-demo">
+          <button class="btn" type="button" disabled>Disabled</button>
+          <button class="btn solid" type="button" disabled>Disabled</button>
+          <button class="btn ghost" type="button" disabled>Disabled</button>
+        </div>
+      </div>
+
+      <div class="sb-component">
+        <div class="sb-component-title">Button as Link</div>
+        <div class="sb-component-desc">Buttons can be implemented with <code>&lt;a&gt;</code> elements. Styling remains identical.</div>
+        <div class="sb-demo">
+          <a class="btn" href="#buttons">Learn More</a>
+          <a class="btn solid" href="#buttons">Get Started</a>
+          <a class="btn ghost" href="#buttons">More Info</a>
+        </div>
+        <div class="sb-code">&lt;a class="btn" href="/page"&gt;Learn More&lt;/a&gt;</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Status Chips -->
+  <section class="sb-section" id="status">
+    <h2 class="sb-section-head">Status Chips</h2>
+    <p class="sb-section-sub">Five distinct status indicators for buyer trust signals. Each uses unique hue, visual weight, and icon style to ensure clarity.</p>
+
+    <div class="sb-showcase">
+      <div class="sb-component">
+        <div class="sb-component-title">Live Status</div>
+        <div class="sb-component-desc">Indicates item is catalogued and available for purchase. Green with solid ring.</div>
+        <div class="sb-demo">
+          <span class="stat stat-live">Live</span>
+        </div>
+        <div class="sb-code">&lt;span class="stat stat-live"&gt;Live&lt;/span&gt;</div>
+      </div>
+
+      <div class="sb-component">
+        <div class="sb-component-title">Verified Status</div>
+        <div class="sb-component-desc">Confirmed and photographed. Blue with solid ring. Strongest trust signal.</div>
+        <div class="sb-demo">
+          <span class="stat stat-verified">Verified</span>
+        </div>
+        <div class="sb-code">&lt;span class="stat stat-verified"&gt;Verified&lt;/span&gt;</div>
+      </div>
+
+      <div class="sb-component">
+        <div class="sb-component-title">Pending Status</div>
+        <div class="sb-component-desc">Shoot pending — promised but not yet delivered. Amber with dashed ring.</div>
+        <div class="sb-demo">
+          <span class="stat stat-pending">Pending</span>
+        </div>
+        <div class="sb-code">&lt;span class="stat stat-pending"&gt;Pending&lt;/span&gt;</div>
+      </div>
+
+      <div class="sb-component">
+        <div class="sb-component-title">Estimated Status</div>
+        <div class="sb-component-desc">Interpolated data. Orchid with hollow dot signals inexact values.</div>
+        <div class="sb-demo">
+          <span class="stat stat-estimated">Estimated</span>
+        </div>
+        <div class="sb-code">&lt;span class="stat stat-estimated"&gt;Estimated&lt;/span&gt;</div>
+      </div>
+
+      <div class="sb-component">
+        <div class="sb-component-title">Concept Status</div>
+        <div class="sb-component-desc">Concept only — deliberately the quietest signal. Slate with hollow dot and reduced opacity.</div>
+        <div class="sb-demo">
+          <span class="stat stat-concept">Concept</span>
+        </div>
+        <div class="sb-code">&lt;span class="stat stat-concept"&gt;Concept&lt;/span&gt;</div>
+      </div>
+
+      <div class="sb-component">
+        <div class="sb-component-title">Mixed Status Example</div>
+        <div class="sb-component-desc">Multiple statuses in one view. Each is visually distinct and never confusable.</div>
+        <div class="sb-demo" style="flex-direction: column; gap: 8px; align-items: flex-start;">
+          <span class="stat stat-verified">Verified</span>
+          <span class="stat stat-live">Live</span>
+          <span class="stat stat-pending">Pending</span>
+          <span class="stat stat-estimated">Estimated</span>
+          <span class="stat stat-concept">Concept</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Family Tags -->
+  <section class="sb-section" id="families">
+    <h2 class="sb-section-head">Family Tags</h2>
+    <p class="sb-section-sub">Six body-family classification chips. Each family has a distinct color that matches the design system palette.</p>
+
+    <div class="sb-showcase">
+      <div class="sb-component">
+        <div class="sb-component-title">All Families</div>
+        <div class="sb-component-desc">Complete set of six body-family classifications with their accent colors.</div>
+        <div class="sb-demo" style="flex-direction: column; gap: 12px; align-items: flex-start;">
+          <span class="fam fam--classic">The Classic</span>
+          <span class="fam fam--icon">The Icon</span>
+          <span class="fam fam--muse">The Muse</span>
+          <span class="fam fam--siren">The Siren</span>
+          <span class="fam fam--empress">The Empress</span>
+          <span class="fam fam--sculpt">The Sculpt</span>
+        </div>
+        <div class="sb-code">&lt;span class="fam fam--classic"&gt;The Classic&lt;/span&gt;</div>
+      </div>
+
+      <div class="sb-component">
+        <div class="sb-component-title">Inline Usage</div>
+        <div class="sb-component-desc">Family tags work inline within text for character specifications and filters.</div>
+        <div class="sb-demo" style="flex-wrap: wrap; gap: 8px;">
+          <span class="fam fam--classic">Classic</span>
+          <span class="fam fam--muse">Muse</span>
+          <span class="fam fam--siren">Siren</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cards -->
+  <section class="sb-section" id="cards">
+    <h2 class="sb-section-head">Cards</h2>
+    <p class="sb-section-sub">Character and body-architecture cards with image containers, hover lift, and metadata. Used in grids throughout the site.</p>
+
+    <div class="sb-showcase">
+      <div class="sb-component">
+        <div class="sb-component-title">Character Card</div>
+        <div class="sb-component-desc">Card with image (3:4 aspect), name, title, and family tag. Lifts on hover.</div>
+        <div class="sb-demo" style="justify-content: center; min-height: auto; padding: 24px;">
+          <div class="card" style="width: 180px;">
+            <div class="imgwrap">[Image placeholder]</div>
+            <div class="b">
+              <div class="pname">Aurora</div>
+              <div class="ptitle">K-Series</div>
+              <span class="fam fam--muse">Muse</span>
+            </div>
+          </div>
+        </div>
+        <div class="sb-code">&lt;div class="card"&gt;
+  &lt;div class="imgwrap"&gt;&lt;/div&gt;
+  &lt;div class="b"&gt;
+    &lt;div class="pname"&gt;Aurora&lt;/div&gt;
+    &lt;div class="ptitle"&gt;K-Series&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</div>
+      </div>
+
+      <div class="sb-component">
+        <div class="sb-component-title">Card Grid (g4)</div>
+        <div class="sb-component-desc">Four-column responsive grid. Collapses to 2 cols at 980px, 1 col at 520px.</div>
+        <div class="sb-demo" style="min-height: auto; padding: 0; justify-content: center;">
+          <div class="grid g4" style="width: 100%; gap: 16px;">
+            <div class="card" style="width: 100%;">
+              <div class="imgwrap">[Image]</div>
+              <div class="b"><div class="pname">Character 1</div></div>
+            </div>
+            <div class="card" style="width: 100%;">
+              <div class="imgwrap">[Image]</div>
+              <div class="b"><div class="pname">Character 2</div></div>
+            </div>
+            <div class="card" style="width: 100%;">
+              <div class="imgwrap">[Image]</div>
+              <div class="b"><div class="pname">Character 3</div></div>
+            </div>
+            <div class="card" style="width: 100%;">
+              <div class="imgwrap">[Image]</div>
+              <div class="b"><div class="pname">Character 4</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Panels -->
+  <section class="sb-section" id="panels">
+    <h2 class="sb-section-head">Panels</h2>
+    <p class="sb-section-sub">Boxed content containers for forms, callouts, and summaries. Two variants: default and accent (gold border + gradient).</p>
+
+    <div class="sb-showcase">
+      <div class="sb-component">
+        <div class="sb-component-title">Default Panel</div>
+        <div class="sb-component-desc">Standard surface for organizing related content.</div>
+        <div class="sb-demo" style="padding: 0; min-height: auto;">
+          <div class="panel" style="width: 100%;">
+            <div class="panel-title">About This Body</div>
+            <div class="panel-sub">Detailed technical specifications and silhouette reference.</div>
+            <p>This body family excels in contemporary styling. WHR/BWR metrics place it in the athletic category with emphasis on shoulder articulation and pelvic range.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="sb-component">
+        <div class="sb-component-title">Accent Panel</div>
+        <div class="sb-component-desc">Premium highlight with gold accent border and gradient overlay.</div>
+        <div class="sb-demo" style="padding: 0; min-height: auto;">
+          <div class="panel panel--accent" style="width: 100%;">
+            <div class="panel-title">Concierge Service</div>
+            <div class="panel-sub">Our specialist team is ready to help you find your perfect character.</div>
+            <button class="btn concierge">Request a Consultation</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Forms -->
+  <section class="sb-section" id="forms">
+    <h2 class="sb-section-head">Form Elements</h2>
+    <p class="sb-section-sub">Coherent field system for contact forms, quizzes, and input panels. All inputs feature gold focus rings and semantic labeling.</p>
+
+    <div class="sb-showcase">
+      <div class="sb-component">
+        <div class="sb-component-title">Text Input</div>
+        <div class="sb-component-desc">Standard single-line text field with label and optional hint.</div>
+        <div class="sb-demo" style="flex-direction: column; align-items: stretch; min-height: auto; padding: 16px;">
+          <div class="form-group">
+            <label for="input-example">Full Name <span class="req">*</span></label>
+            <input type="text" id="input-example" class="field" placeholder="Enter your name" aria-describedby="hint-example">
+            <div class="field-hint" id="hint-example">We'll use this to personalize your inquiry.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sb-component">
+        <div class="sb-component-title">Email Input</div>
+        <div class="sb-component-desc">Type-specific email field with browser validation.</div>
+        <div class="sb-demo" style="flex-direction: column; align-items: stretch; min-height: auto; padding: 16px;">
+          <div class="form-group">
+            <label for="email-example">Email <span class="req">*</span></label>
+            <input type="email" id="email-example" class="field" placeholder="you@example.com">
+          </div>
+        </div>
+      </div>
+
+      <div class="sb-component">
+        <div class="sb-component-title">Textarea</div>
+        <div class="sb-component-desc">Multi-line text input with vertical resize. Min-height 120px.</div>
+        <div class="sb-demo" style="flex-direction: column; align-items: stretch; min-height: auto; padding: 16px;">
+          <div class="form-group">
+            <label for="textarea-example">Message <span class="req">*</span></label>
+            <textarea id="textarea-example" class="field" placeholder="Tell us more…"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="sb-component">
+        <div class="sb-component-title">Select Dropdown</div>
+        <div class="sb-component-desc">Custom-styled dropdown menu with accessible options.</div>
+        <div class="sb-demo" style="flex-direction: column; align-items: stretch; min-height: auto; padding: 16px;">
+          <div class="form-group">
+            <label for="select-example">Body Family <span class="req">*</span></label>
+            <select id="select-example" class="field">
+              <option value="">Select a family…</option>
+              <option value="classic">The Classic</option>
+              <option value="icon">The Icon</option>
+              <option value="muse">The Muse</option>
+              <option value="siren">The Siren</option>
+              <option value="empress">The Empress</option>
+              <option value="sculpt">The Sculpt</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="sb-component">
+        <div class="sb-component-title">Checkbox (Consent)</div>
+        <div class="sb-component-desc">Custom consent row with link support. Never visually minimized.</div>
+        <div class="sb-demo" style="flex-direction: column; align-items: stretch; min-height: auto; padding: 16px;">
+          <div class="consent-row">
+            <input type="checkbox" id="consent-example">
+            <label for="consent-example">I confirm I'm 18+ and have read the <a href="#">privacy policy</a></label>
+          </div>
+        </div>
+      </div>
+
+      <div class="sb-component">
+        <div class="sb-component-title">Two-Column Layout</div>
+        <div class="sb-component-desc">Form row grid for side-by-side fields. Collapses to single column on mobile.</div>
+        <div class="sb-demo" style="flex-direction: column; align-items: stretch; min-height: auto; padding: 16px;">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="first">First Name</label>
+              <input type="text" id="first" class="field" placeholder="First">
+            </div>
+            <div class="form-group">
+              <label for="last">Last Name</label>
+              <input type="text" id="last" class="field" placeholder="Last">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sb-component">
+        <div class="sb-component-title">Error State</div>
+        <div class="sb-component-desc">Coral border and error message for validation failures.</div>
+        <div class="sb-demo" style="flex-direction: column; align-items: stretch; min-height: auto; padding: 16px;">
+          <div class="form-group">
+            <label for="err-example">Phone Number</label>
+            <input type="tel" id="err-example" class="field err-field" value="invalid">
+            <div class="field-err show">Please enter a valid phone number.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Filters -->
+  <section class="sb-section" id="filters">
+    <h2 class="sb-section-head">Filter & Choice Pills</h2>
+    <p class="sb-section-sub">Toggle pills for filtering and single/multi-select interactions. Active state uses cream background.</p>
+
+    <div class="sb-showcase">
+      <div class="sb-component">
+        <div class="sb-component-title">Inactive Pill</div>
+        <div class="sb-component-desc">Default state with dark border and muted text.</div>
+        <div class="sb-demo">
+          <button class="pill" type="button">K-Series</button>
+          <button class="pill" type="button">Inspiration</button>
+        </div>
+        <div class="sb-code">&lt;button class="pill"&gt;K-Series&lt;/button&gt;</div>
+      </div>
+
+      <div class="sb-component">
+        <div class="sb-component-title">Active Pill</div>
+        <div class="sb-component-desc">Cream fill with bold text. Applied when filter is selected.</div>
+        <div class="sb-demo">
+          <button class="pill active" type="button">K-Series</button>
+          <button class="pill" type="button">Inspiration</button>
+        </div>
+        <div class="sb-code">&lt;button class="pill active"&gt;K-Series&lt;/button&gt;</div>
+      </div>
+
+      <div class="sb-component">
+        <div class="sb-component-title">Filter Group</div>
+        <div class="sb-component-desc">Multiple related pills with label. Typical browse page filter bar.</div>
+        <div class="sb-demo" style="flex-wrap: wrap; gap: 8px; width: 100%;">
+          <div style="display: flex; gap: 8px; width: 100%; flex-wrap: wrap; align-items: center;">
+            <span style="font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); white-space: nowrap;">Series:</span>
+            <button class="pill active" type="button">K-Series</button>
+            <button class="pill" type="button">Inspiration</button>
+            <button class="pill" type="button">Fusion</button>
+            <button class="pill" type="button">SLE</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Grids -->
+  <section class="sb-section" id="grids">
+    <h2 class="sb-section-head">Grid Layouts</h2>
+    <p class="sb-section-sub">Responsive grid system with four, three, and two-column options. Automatically stacks on mobile.</p>
+
+    <div class="sb-showcase">
+      <div class="sb-component">
+        <div class="sb-component-title">g4 (4-column grid)</div>
+        <div class="sb-component-desc">Desktop: 4 cols · 980px: 2 cols · 520px: 1 col</div>
+        <div class="sb-demo" style="min-height: auto; padding: 0;">
+          <div class="grid g4" style="width: 100%; gap: 12px;">
+            <div style="aspect-ratio: 1; background: rgba(212,165,116,0.1); border: 1px solid var(--line); border-radius: var(--r-md); display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 12px;">Item 1</div>
+            <div style="aspect-ratio: 1; background: rgba(212,165,116,0.1); border: 1px solid var(--line); border-radius: var(--r-md); display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 12px;">Item 2</div>
+            <div style="aspect-ratio: 1; background: rgba(212,165,116,0.1); border: 1px solid var(--line); border-radius: var(--r-md); display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 12px;">Item 3</div>
+            <div style="aspect-ratio: 1; background: rgba(212,165,116,0.1); border: 1px solid var(--line); border-radius: var(--r-md); display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 12px;">Item 4</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sb-component">
+        <div class="sb-component-title">g3 (3-column grid)</div>
+        <div class="sb-component-desc">Desktop: 3 cols · 980px: 2 cols · 520px: 1 col</div>
+        <div class="sb-demo" style="min-height: auto; padding: 0;">
+          <div class="grid g3" style="width: 100%; gap: 12px;">
+            <div style="aspect-ratio: 1; background: rgba(212,165,116,0.1); border: 1px solid var(--line); border-radius: var(--r-md); display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 12px;">Item 1</div>
+            <div style="aspect-ratio: 1; background: rgba(212,165,116,0.1); border: 1px solid var(--line); border-radius: var(--r-md); display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 12px;">Item 2</div>
+            <div style="aspect-ratio: 1; background: rgba(212,165,116,0.1); border: 1px solid var(--line); border-radius: var(--r-md); display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 12px;">Item 3</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sb-component">
+        <div class="sb-component-title">g2 (2-column grid)</div>
+        <div class="sb-component-desc">Desktop: 2 cols · 520px: 1 col. Used for body comparisons.</div>
+        <div class="sb-demo" style="min-height: auto; padding: 0;">
+          <div class="grid g2" style="width: 100%; gap: 12px;">
+            <div style="aspect-ratio: 1; background: rgba(212,165,116,0.1); border: 1px solid var(--line); border-radius: var(--r-md); display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 12px;">Item 1</div>
+            <div style="aspect-ratio: 1; background: rgba(212,165,116,0.1); border: 1px solid var(--line); border-radius: var(--r-md); display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 12px;">Item 2</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Modals -->
+  <section class="sb-section" id="modals">
+    <h2 class="sb-section-head">Modals & Dialogs</h2>
+    <p class="sb-section-sub">Overlay dialogs for confirmations, forms, and alerts. Includes scrim, header with close button, and footer actions.</p>
+
+    <div class="sb-showcase">
+      <div class="sb-component">
+        <div class="sb-component-title">Modal Structure</div>
+        <div class="sb-component-desc">Basic modal with header, content, and footer action buttons.</div>
+        <button class="btn solid" type="button" onclick="document.getElementById('demo-modal').classList.add('active')">Open Modal</button>
+        <div class="modal" id="demo-modal" onclick="if(event.target === this) this.classList.remove('active')">
+          <div class="modal-content" role="dialog" aria-labelledby="modal-title">
+            <div class="modal-header">
+              <h3 class="modal-title" id="modal-title">Confirm Action</h3>
+              <button class="modal-close" aria-label="Close modal" type="button" onclick="document.getElementById('demo-modal').classList.remove('active')">×</button>
+            </div>
+            <p style="color: var(--muted); margin-bottom: 20px;">Are you sure you want to proceed? This action cannot be undone.</p>
+            <div class="modal-footer">
+              <button class="btn ghost" type="button" onclick="document.getElementById('demo-modal').classList.remove('active')">Cancel</button>
+              <button class="btn solid" type="button" onclick="document.getElementById('demo-modal').classList.remove('active')">Confirm</button>
+            </div>
+          </div>
+        </div>
+        <div class="sb-code">&lt;div class="modal active"&gt;
+  &lt;div class="modal-content" role="dialog"&gt;
+    &lt;div class="modal-header"&gt;
+      &lt;h3 class="modal-title"&gt;Title&lt;/h3&gt;
+      &lt;button class="modal-close"&gt;×&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;p&gt;Content here&lt;/p&gt;
+    &lt;div class="modal-footer"&gt;
+      &lt;button class="btn ghost"&gt;Cancel&lt;/button&gt;
+      &lt;button class="btn solid"&gt;Confirm&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Accessibility -->
+  <section class="sb-section" id="accessibility">
+    <h2 class="sb-section-head">Accessibility Features</h2>
+    <p class="sb-section-sub">All components are built to WCAG AA standards with semantic HTML, keyboard navigation, and assistive technology support.</p>
+
+    <div class="sb-showcase">
+      <div class="sb-component">
+        <div class="sb-component-title">Focus Indicators</div>
+        <div class="sb-component-desc">Gold outline with 3px offset on all interactive elements. High contrast against both light and dark backgrounds.</div>
+        <div class="sb-demo" style="flex-direction: column; align-items: stretch; gap: 12px; min-height: auto;">
+          <button class="btn" type="button">Try tabbing through these elements</button>
+          <button class="btn solid" type="button">All interactive components</button>
+          <input type="text" class="field" placeholder="Including form fields">
+          <a href="#accessibility">And links too</a>
+        </div>
+        <div class="sb-code">:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}</div>
+      </div>
+
+      <div class="sb-component">
+        <div class="sb-component-title">Color Contrast</div>
+        <div class="sb-component-desc">All text meets WCAG AA standards (4.5:1 for small text, 3:1 for large). Non-red/green-dependent status indicators.</div>
+        <div class="sb-demo" style="flex-direction: column; gap: 12px; align-items: flex-start;">
+          <div>
+            <small style="color: var(--muted); display: block; margin-bottom: 4px;">Text on background</small>
+            <div style="color: var(--text); font-weight: 600;">High contrast (#e8e8e8 on #121212)</div>
+          </div>
+          <div>
+            <small style="color: var(--muted); display: block; margin-bottom: 4px;">Muted text</small>
+            <div style="color: var(--muted);">Still meets 4.5:1 (#ababab on #121212)</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sb-component">
+        <div class="sb-component-title">Semantic HTML</div>
+        <div class="sb-component-desc">Proper heading hierarchy, form labels, ARIA labels, and list structures for screen readers.</div>
+        <div class="sb-code">&lt;!-- ✓ Good --&gt;
+&lt;button class="btn" type="button"&gt;Submit&lt;/button&gt;
+&lt;label for="email"&gt;Email&lt;/label&gt;
+&lt;input id="email" type="email"&gt;
+
+&lt;!-- ✗ Avoid --&gt;
+&lt;div class="btn" onclick="..."&gt;Submit&lt;/div&gt;
+&lt;input placeholder="Email"&gt;</div>
+      </div>
+
+      <div class="sb-component">
+        <div class="sb-component-title">Keyboard Navigation</div>
+        <div class="sb-component-desc">All interactive elements are keyboard accessible. Tab order follows visual flow.</div>
+        <div class="sb-code">• Tab: Move to next interactive element
+• Shift+Tab: Move to previous element
+• Enter: Activate button or submit form
+• Space: Toggle checkboxes or activate buttons
+• Arrow keys: Navigate select options
+• Escape: Close modals (if implemented)</div>
+      </div>
+
+      <div class="sb-component">
+        <div class="sb-component-title">Screen Reader Support</div>
+        <div class="sb-component-desc">ARIA labels, roles, and live regions for assistive technology users.</div>
+        <div class="sb-code">&lt;!-- Status indicators --&gt;
+&lt;span class="stat stat-live" aria-label="Live Status"&gt;
+  Live
+&lt;/span&gt;
+
+&lt;!-- Modals --&gt;
+&lt;div role="dialog" aria-labelledby="title"&gt;
+  &lt;h3 id="title"&gt;Confirm&lt;/h3&gt;
+&lt;/div&gt;
+
+&lt;!-- Skip link --&gt;
+&lt;a href="#main" class="skip-to-main"&gt;
+  Skip to main content
+&lt;/a&gt;</div>
+      </div>
+
+      <div class="sb-component">
+        <div class="sb-component-title">Reduced Motion</div>
+        <div class="sb-component-desc">Respects <code>prefers-reduced-motion</code> media query. Animations are disabled for users who prefer it.</div>
+        <div class="sb-code">@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}</div>
+      </div>
+
+      <div class="sb-component">
+        <div class="sb-component-title">Form Validation</div>
+        <div class="sb-component-desc">Error messages are associated with inputs via <code>aria-describedby</code>. Hints and errors are always visible, never hidden.</div>
+        <div class="sb-demo" style="flex-direction: column; align-items: stretch; min-height: auto; padding: 16px;">
+          <div class="form-group">
+            <label for="validated">Email <span class="req">*</span></label>
+            <input type="email" id="validated" class="field" placeholder="your@email.com" aria-describedby="email-hint">
+            <div class="field-hint" id="email-hint">We'll never share your email.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer style="margin-top: 100px; padding-top: 40px; border-top: 1px solid var(--line); text-align: center; color: var(--muted);">
+    <p style="margin-bottom: 12px; font-size: var(--t-base);">ZELEX Component Storybook — Built with accessibility first</p>
+    <p style="font-size: var(--t-sm); margin-bottom: 20px;">
+      <a href="https://www.w3.org/WAI/WCAG21/quickref/" style="color: var(--gold);">WCAG 2.1 Level AA</a> ·
+      <a href="https://www.a11y-project.com/" style="color: var(--gold);">A11y Project</a> ·
+      <a href="https://www.zelexdoll.com" style="color: var(--gold);">ZELEX Character Atlas</a>
+    </p>
+    <p style="font-size: var(--t-xs); opacity: 0.7;">Last updated: June 2026</p>
+  </footer>
+
+</main>
+
+</body>
+</html>
