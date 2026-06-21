@@ -1,0 +1,77 @@
+{
+  "timestamp": "2026-06-21T12:42:39.762284",
+  "pipeline_start": 1782060159.7622843,
+  "pipeline_end": 1782060159.7622843,
+  "total_duration_secs": 0.0,
+  "stages": {
+    "db": {
+      "name": "db",
+      "status": "skipped",
+      "start_time": 1782060018.7402945,
+      "end_time": 1782060018.7402945,
+      "duration_secs": 0.0,
+      "error": null,
+      "input_hash": "f6966be35e2db018",
+      "output_hash": "290991a224421831",
+      "retry_count": 0,
+      "max_retries": 3,
+      "exit_code": 0
+    },
+    "profiles": {
+      "name": "profiles",
+      "status": "skipped",
+      "start_time": 1782060000.6606135,
+      "end_time": 1782060000.6606135,
+      "duration_secs": 0.0,
+      "error": null,
+      "input_hash": "fb212c5ad73a5557",
+      "output_hash": "590011f8155292ec",
+      "retry_count": 0,
+      "max_retries": 2,
+      "exit_code": 0
+    },
+    "characters": {
+      "name": "characters",
+      "status": "skipped",
+      "start_time": 1782060000.6606135,
+      "end_time": 1782060000.6606135,
+      "duration_secs": 0.0,
+      "error": null,
+      "input_hash": "da43c226edb90c38",
+      "output_hash": "dc426a5e7e55e0f9",
+      "retry_count": 0,
+      "max_retries": 2,
+      "exit_code": 0
+    },
+    "merge_stories": {
+      "name": "merge_stories",
+      "status": "skipped",
+      "start_time": 1782060000.6606135,
+      "end_time": 1782060000.6606135,
+      "duration_secs": 0.0,
+      "error": null,
+      "input_hash": "3cfe7203a777b20b",
+      "output_hash": "2b03aae9fb40b6a7",
+      "retry_count": 0,
+      "max_retries": 1,
+      "exit_code": 0
+    },
+    "thumbs": {
+      "name": "thumbs",
+      "status": "skipped",
+      "start_time": 1782060000.6606135,
+      "end_time": 1782060000.6606135,
+      "duration_secs": 0.0,
+      "error": null,
+      "input_hash": "24789ffd70fcf907",
+      "output_hash": "4d0d6e0c153af3ce",
+      "retry_count": 0,
+      "max_retries": 1,
+      "exit_code": 0
+    }
+  },
+  "reset_requested": false,
+  "resume_mode": false,
+  "exit_code": 0,
+  "summary": "All 0 stages completed successfully in 0.0s"
+}

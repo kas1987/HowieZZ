@@ -102,11 +102,18 @@ See [`docs/pipeline-runbook.md`](docs/pipeline-runbook.md) for detailed pipeline
 
 ## Conventions
 
-- **Design Tokens (Phase 1):** All colors, spacing, type sizes, and shadows use CSS variables defined in `assets/site.css` `:root`. Never hardcode hex codes or pixel values in CSS. See [`docs/design-tokens-runbook.md`](docs/design-tokens-runbook.md).
-  - ✓ `color: var(--color-primary);`
-  - ✓ `padding: var(--sp4);`
+- **Design Tokens (Refactored):** All colors, spacing, type sizes, shadows, transitions, and z-indices use CSS variables defined in `assets/site.css` `:root`. Never hardcode values. See [`docs/design-tokens.md`](docs/design-tokens.md) for the complete token system (150+ tokens organized by category).
+  - ✓ `color: var(--color-primary-gold);`
+  - ✓ `padding: var(--spacing-4) var(--spacing-5);`
+  - ✓ `box-shadow: var(--shadow-card-rest);`
   - ✗ `color: #d4a574;`
-  - ✗ `padding: 16px;`
+  - ✗ `padding: 16px 24px;`
+  - ✗ `box-shadow: 0 2px 10px rgba(0,0,0,.45);`
+
+  **Token organization:** Colors (primary, surface, text, status, families) • Typography (fonts, sizes, line-height, letter-spacing) • Spacing (4px scale, 8 steps) • Radius (sm → pill) • Shadows (8 predefined) • Transitions (durations + easing) • Layout • Forms • Z-index stack.
+
+  **Common gotcha:** If a value appears in more than one rule, create a token. If a value appears in a single rule and is unlikely to change, it may stay hardcoded (e.g., specific keyframe transforms, grid-template math). Ask in PR if unsure.
+
 - Every page uses the shared kit (`ZX` global from `assets/site.js`). Prefer extending the kit over per-page one-offs so all pages stay consistent.
 - Regenerate data with the orchestrator (see above); don't hand-edit generated `db/*.json` except the curated inputs (`character_overlay.json`, `body_measurements.json`).
 - Match the surrounding code's style, naming, and comment density.
