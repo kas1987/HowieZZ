@@ -1,0 +1,27 @@
+{
+  "version": 2,
+  "buildCommand": "npm run build",
+  "outputDirectory": ".",
+  "env": {
+    "NODE_ENV": "production",
+    "ALLOWED_ORIGINS": "@zelex_allowed_origins",
+    "CATALOG_URL": "@zelex_catalog_url",
+    "CHARACTERS_URL": "@zelex_characters_url",
+    "BODY_PROFILES_URL": "@zelex_body_profiles_url",
+    "ANALYTICS_URL": "@zelex_analytics_url"
+  },
+  "functions": {
+    "api/recommend.js": {
+      "memory": 128,
+      "maxDuration": 10,
+      "runtime": "nodejs18.x"
+    }
+  },
+  "regions": ["sfo1", "iad1"],
+  "rewrites": [
+    {
+      "source": "/api/recommend",
+      "destination": "/api/recommend.js"
+    }
+  ]
+}

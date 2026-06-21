@@ -1,0 +1,75 @@
+# ZELEX — Netlify Configuration
+# Quiz Recommendation Engine + Edge Functions
+
+[build]
+  command = "echo 'No build step needed'"
+  publish = "."
+
+# Edge functions
+[[edge_functions]]
+  path = "/recommend"
+  function = "recommend"
+
+[[edge_functions]]
+  path = "/track"
+  function = "track"
+
+# Redirects for API endpoints
+[[redirects]]
+  from = "/api/recommend"
+  to = "/.netlify/functions/recommend"
+  status = 200
+  force = false
+
+[[redirects]]
+  from = "/api/track"
+  to = "/.netlify/functions/track"
+  status = 200
+  force = false
+
+# Cache headers for data files
+[[headers]]
+  for = "/db/*"
+  [headers.values]
+    Cache-Control = "public, max-age=3600, stale-while-revalidate=86400"
+
+# Cache headers for assets
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# CORS for API endpoints
+[[headers]]
+  for = "/api/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+    Access-Control-Allow-Methods = "GET, POST, PUT, DELETE, OPTIONS"
+    Access-Control-Allow-Headers = "Content-Type, X-Session-ID, X-AB-Variant"
+    Access-Control-Max-Age = "86400"
+
+# Environment variables
+[context.production.environment]
+  ALLOWED_ORIGINS = "https://www.zelexdoll.com,https://zelexdoll.com"
+  CATALOG_URL = "/db/catalog.json"
+  CHARACTERS_URL = "/db/characters.json"
+  BODY_PROFILES_URL = "/db/body_profiles.json"
+  ANALYTICS_URL = "/api/track"
+  ANALYTICS_BACKEND_URL = "https://analytics.example.com/ingest"
+  NODE_ENV = "production"
+
+[context.preview.environment]
+  ALLOWED_ORIGINS = "*"
+  CATALOG_URL = "/db/catalog.json"
+  CHARACTERS_URL = "/db/characters.json"
+  BODY_PROFILES_URL = "/db/body_profiles.json"
+  ANALYTICS_URL = "/api/track"
+  NODE_ENV = "preview"
+
+[context.deploy-preview.environment]
+  ALLOWED_ORIGINS = "*"
+  CATALOG_URL = "/db/catalog.json"
+  CHARACTERS_URL = "/db/characters.json"
+  BODY_PROFILES_URL = "/db/body_profiles.json"
+  ANALYTICS_URL = "/api/track"
+  NODE_ENV = "development"

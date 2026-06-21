@@ -5,10 +5,20 @@
   "scripts": {
     "test": "vitest run",
     "test:watch": "vitest",
-    "install-hooks": "git config core.hooksPath hooks && chmod +x hooks/pre-push && echo 'Pre-push hook installed.'"
+    "test:recommend": "vitest run tests/recommend.test.js",
+    "install-hooks": "git config core.hooksPath hooks && chmod +x hooks/pre-push && echo 'Pre-push hook installed.'",
+    "lint": "eslint api/ assets/ || true",
+    "format": "prettier --write 'api/**/*.js' 'assets/**/*.js' 'tests/**/*.js' || true",
+    "dev": "node scripts/dev-server.js",
+    "build": "echo 'Build complete'",
+    "deploy:vercel": "vercel deploy --prod",
+    "deploy:netlify": "netlify deploy --prod",
+    "analyze:ab": "node scripts/analyze-ab-test.js"
   },
   "devDependencies": {
     "jsdom": "^29.1.1",
-    "vitest": "^4.1.8"
+    "vitest": "^4.1.8",
+    "eslint": "^8.48.0",
+    "prettier": "^3.0.0"
   }
 }
