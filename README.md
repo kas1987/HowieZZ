@@ -63,16 +63,42 @@ Windows users can double-click **`Start-Windows.bat`**; macOS users
 
 ## The build pipeline
 
-The catalog data in `db/` is generated, not hand-authored. Run order:
+The catalog data in `db/` is generated, not hand-authored. The **Build Orchestrator**
+manages parallel execution with intelligent caching, resume capability, and retry logic.
 
+### Quick build
+```bash
+# Full pipeline (parallel execution, ~10s)
+python scripts/build_orchestrator.py
+
+# Full rebuild (reset database, re-scan all assets)
+python scripts/build_orchestrator.py --reset
+
+# Resume from last failure
+python scripts/build_orchestrator.py --resume
+
+# Specific stages only
+python scripts/build_orchestrator.py --stages=profiles,characters
+```
+
+### Execution plan
 ```
 build_db.py          # scan assets + live feed → catalog.db + catalog.json
-build_profiles.py    # WHR/BWR analysis → classify into the 6 Body Families
-build_characters.py  # Series → Body → 4 characters → photoshoot|placeholder
+build_profiles.py    # WHR/BWR analysis → classify into the 6 Body Families (parallel)
+build_characters.py  # Series → Body → 4 characters → photoshoot|placeholder (parallel)
 merge_stories.py     # fold story/profile inputs into characters.json
-make_thumbs.py       # generate hero/gallery thumbnails  (re-run after build_characters)
+make_thumbs.py       # generate hero/gallery thumbnails (parallel)
 build_package.py     # stage the deliverable (code + referenced images) + zip
 ```
+
+**Features:**
+- ✓ **Parallel execution:** Groups 1–2 run concurrently (~3x speedup)
+- ✓ **Idempotence:** Skips stages if inputs unchanged
+- ✓ **Resume:** Pick up from last failure with `--resume`
+- ✓ **Intelligent retry:** Auto-recover transient failures
+- ✓ **State tracking:** Full execution history in `db/.orchestrator/state.json`
+
+See [`docs/BUILD-ORCHESTRATOR.md`](docs/BUILD-ORCHESTRATOR.md) for detailed docs.
 
 Hand-curation lives in `db/character_overlay.json` (name/title/story swaps, hero
 image selection, gallery cleaning) and `db/body_measurements.json`

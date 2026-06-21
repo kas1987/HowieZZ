@@ -60,10 +60,31 @@ A living, accessible component library is available at **[docs/component-storybo
 
 Use this as a reference when creating new components. All components meet WCAG AA accessibility standards.
 
+## Building the catalog
+
+Run the **Build Orchestrator** to generate all catalog data:
+
+```bash
+# Full pipeline with intelligent caching and parallel execution
+python scripts/build_orchestrator.py
+
+# Or use convenience wrappers
+./scripts/build.sh              # macOS/Linux
+scripts\build.bat               # Windows
+
+# Resume from last failure
+python scripts/build_orchestrator.py --resume
+
+# Full rebuild (reset database)
+python scripts/build_orchestrator.py --reset
+```
+
+See [`docs/BUILD-ORCHESTRATOR.md`](docs/BUILD-ORCHESTRATOR.md) for full docs.
+
 ## Conventions
 
 - Every page uses the shared kit (`ZX` global from `assets/site.js`). Prefer extending the kit over per-page one-offs so all pages stay consistent.
-- Regenerate data with the pipeline (see [README](README.md)); don't hand-edit generated `db/*.json` except the curated inputs (`character_overlay.json`, `body_measurements.json`).
+- Regenerate data with the orchestrator (see above); don't hand-edit generated `db/*.json` except the curated inputs (`character_overlay.json`, `body_measurements.json`).
 - Match the surrounding code's style, naming, and comment density.
 
 ## Tests
