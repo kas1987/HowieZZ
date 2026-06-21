@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>ZELEX Fragment Library Showcase</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/site.css">
+  <style>
+    .showcase-section {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 60px 24px;
+      border-bottom: 1px solid var(--color-border-strong);
+    }
+
+    .showcase-section h2 {
+      font-family: var(--font-serif);
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--color-primary-cream);
+    }
+
+    .showcase-desc {
+      color: var(--color-text-muted);
+      font-size: var(--size-text-base);
+      margin-bottom: 30px;
+      max-width: 600px;
+    }
+
+    .showcase-grid {
+      display: grid;
+      gap: 24px;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+
+    .fragment-demo {
+      background: var(--color-surface-2);
+      border: 1px solid var(--color-border-strong);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      min-height: 200px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .fragment-label {
+      font-size: var(--size-text-xs);
+      letter-spacing: var(--letter-spacing-widest);
+      text-transform: uppercase;
+      color: var(--color-primary-blue);
+      margin-bottom: 10px;
+    }
+
+    code {
+      background: var(--color-surface-0);
+      color: var(--color-primary-cream);
+      padding: 2px 6px;
+      border-radius: var(--radius-sm);
+      font-family: monospace;
+      font-size: 11px;
+      letter-spacing: 0.5px;
+    }
+
+    /* Hero showcase */
+    .hero-showcase {
+      background: radial-gradient(ellipse at top, #1e1e1e, #121212 72%);
+      padding: 60px 24px;
+      text-align: center;
+      border-radius: var(--radius-xl);
+      margin-bottom: 20px;
+    }
+
+    .hero-showcase h1 {
+      font-size: clamp(32px, 6vw, 56px);
+      font-weight: 700;
+      margin: 16px 0;
+      letter-spacing: 1px;
+    }
+
+    .hero-showcase p {
+      color: var(--color-text-muted);
+      max-width: 600px;
+      margin: 0 auto;
+      font-size: var(--size-text-base);
+    }
+
+    .cta-showcase {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    /* Card grid for demo */
+    .card-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    /* Demo family cards */
+    .fam-demo {
+      background: var(--color-surface-2);
+      border: 1px solid var(--color-border-strong);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-height: 140px;
+    }
+
+    .fam-demo .fn {
+      font-family: var(--font-serif);
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1.1;
+    }
+
+    .fam-demo .fs {
+      font-size: 11px;
+      letter-spacing: 1.3px;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      margin-top: 2px;
+    }
+
+    .fam-demo .fm {
+      margin-top: auto;
+      font-size: 12px;
+      letter-spacing: 0.5px;
+      color: var(--color-text-muted);
+      border-top: 1px solid var(--color-border-strong);
+      padding-top: 10px;
+    }
+
+    /* Utility */
+    .mt-40 {
+      margin-top: 40px;
+    }
+
+    .text-center {
+      text-align: center;
+    }
+
+    .toc {
+      background: var(--color-surface-2);
+      border: 1px solid var(--color-border-strong);
+      border-radius: var(--radius-lg);
+      padding: 30px;
+      position: sticky;
+      top: 80px;
+      max-width: 400px;
+      margin-bottom: 40px;
+    }
+
+    .toc h3 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 14px;
+      color: var(--color-primary-cream);
+    }
+
+    .toc ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .toc a {
+      font-size: var(--size-text-sm);
+      color: var(--color-primary-blue);
+      text-decoration: none;
+      transition: 0.2s;
+    }
+
+    .toc a:hover {
+      color: var(--color-primary-cream);
+    }
+
+    main {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 40px;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 40px 24px;
+      align-items: start;
+    }
+
+    @media(max-width: 1000px) {
+      main {
+        grid-template-columns: 1fr;
+      }
+      .toc {
+        position: static;
+        max-width: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header style="padding: 40px 24px; text-align: center; background: radial-gradient(ellipse at top, #1e1e1e, #121212 72%); border-bottom: 1px solid var(--color-border-strong);">
+  <div class="eyebrow">Component Reference</div>
+  <h1 style="font-size: 48px; margin: 14px 0; font-weight: 700;">ZELEX Fragment Library</h1>
+  <p style="color: var(--color-text-muted); max-width: 600px; margin: 0 auto; font-size: 15px;">Interactive showcase of 30+ reusable components from the ZELEX Character Atlas.</p>
+</header>
+
+<main>
+  <nav class="toc">
+    <h3>Sections</h3>
+    <ul>
+      <li><a href="#nav">Navigation</a></li>
+      <li><a href="#buttons">Buttons & CTAs</a></li>
+      <li><a href="#cards">Card Components</a></li>
+      <li><a href="#filters">Filters & Controls</a></li>
+      <li><a href="#forms">Forms</a></li>
+      <li><a href="#panels">Panels & Info</a></li>
+      <li><a href="#stats">Stats & Metrics</a></li>
+      <li><a href="#badges">Badges & Status</a></li>
+      <li><a href="#utilities">Utilities</a></li>
+    </ul>
+  </nav>
+
+  <div>
+
+<!-- NAVIGATION SECTION -->
+<section class="showcase-section" id="nav">
+  <h2>Navigation & Headers</h2>
+  <p class="showcase-desc">Global navigation, breadcrumbs, and page headers with responsive behavior.</p>
+
+  <div class="fragment-demo">
+    <div class="fragment-label">Header Hero (index.html, browse.html)</div>
+    <div class="hero-showcase">
+      <div class="eyebrow">A Curated Collection</div>
+      <h1>Find the body <span class="em-grad">made for you.</span></h1>
+      <p>Every ZELEX begins with a measured silhouette, cast as named, photographed characters across four series and six body families.</p>
+      <div class="cta-showcase">
+        <a class="btn solid" href="#">Find your match</a>
+        <a class="btn" href="#">Compare bodies</a>
+        <a class="btn ghost" href="#">Browse the atlas</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="fragment-demo">
+    <div class="fragment-label">Breadcrumbs</div>
+    <div class="crumbs" style="padding: 0;">
+      <a href="#">Atlas</a><span>›</span>Browse
+    </div>
+  </div>
+
+  <div class="fragment-demo">
+    <div class="fragment-label">Section Headers</div>
+    <div class="section-head">The Six Body Families</div>
+    <div class="section-sub">The Atlas's backbone — every body belongs to one silhouette family, defined by a proportion signature you can verify.</div>
+  </div>
+</section>
+
+<!-- BUTTONS SECTION -->
+<section class="showcase-section" id="buttons">
+  <h2>Buttons & CTAs</h2>
+  <p class="showcase-desc">All button variants with hover states and responsive mobile behavior.</p>
+
+  <div class="fragment-demo">
+    <div class="fragment-label">Button Variants</div>
+    <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+      <a class="btn solid" href="#">Primary (Solid)</a>
+      <a class="btn" href="#">Secondary (Default)</a>
+      <a class="btn ghost" href="#">Tertiary (Ghost)</a>
+      <a class="btn concierge" href="#">Concierge</a>
+      <a class="btn done" href="#">Done State</a>
+    </div>
+  </div>
+
+  <div class="fragment-demo">
+    <div class="fragment-label">Concierge Band (index.html)</div>
+    <section class="concierge-band" style="margin: 0;">
+      <div>
+        <div class="eyebrow no-rule">Private Next Step</div>
+        <h3 style="font-size: 26px; margin: 8px 0;">Still deciding?</h3>
+        <p>Let the body architecture narrow it down. Use the quiz or compare tool first.</p>
+      </div>
+      <div class="actions-end">
+        <a class="btn solid" href="#">Find your match</a>
+        <a class="btn concierge" href="#">Begin concierge inquiry</a>
+      </div>
+    </section>
+  </div>
+</section>
+
+<!-- CARD SECTION -->
+<section class="showcase-section" id="cards">
+  <h2>Card Components</h2>
+  <p class="showcase-desc">Character, body, family, and intent cards used across all pages.</p>
+
+  <div class="fragment-demo">
+    <div class="fragment-label">Character Card</div>
+    <a class="card" href="#" style="margin-top: 10px;">
+      <div class="imgwrap">
+        <div style="width: 100%; aspect-ratio: 3/4; background: linear-gradient(135deg, rgba(212,165,116,0.1), transparent); display: flex; align-items: center; justify-content: center; color: var(--color-text-muted);">
+          [Character Image]
+        </div>
+        <span class="repbadge">Live</span>
+      </div>
+      <div class="b">
+        <div class="pname-row">
+          <span class="pname">Character Name</span>
+          <div class="card-meta-rail">
+            <span class="cupchip">B Cup</span>
+            <span class="stat stat-live">Live</span>
+          </div>
+        </div>
+        <div class="ptitle">Series Name</div>
+        <div class="ptag">Character tagline</div>
+      </div>
+    </a>
+  </div>
+
+  <div class="fragment-demo">
+    <div class="fragment-label">Family Card (index.html, family.html)</div>
+    <div class="card-row">
+      <a class="fcard" href="#" style="text-decoration: none; color: inherit;">
+        <div class="fn" style="color: #8FB7E0;">The Classic</div>
+        <div class="fs">Timeless hourglass · WHR 0.68–0.72</div>
+        <div class="fm">3 architectures · 12 characters <span class="arrow" style="color: var(--color-primary-blue);">→</span></div>
+      </a>
+      <a class="fcard" href="#" style="text-decoration: none; color: inherit;">
+        <div class="fn" style="color: #D4A574;">The Icon</div>
+        <div class="fs">Glamour model · WHR 0.60–0.65</div>
+        <div class="fm">4 architectures · 8 characters <span class="arrow" style="color: var(--color-primary-blue);">→</span></div>
+      </a>
+      <div class="fcard dev">
+        <div class="fn" style="color: #C792D6;">The Empress</div>
+        <div class="fs">Maximum plush · WHR 0.58–0.64</div>
+        <div class="fm"><span class="stat stat-concept">In Development</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fragment-demo">
+    <div class="fragment-label">Intent Card (index.html, contact.html)</div>
+    <article class="intent-card" style="margin-top: 10px;">
+      <div class="step">Guided</div>
+      <h3>Find Your Match</h3>
+      <p>Answer a short intent quiz to get your best-fit family and three character starting points.</p>
+      <a class="btn solid" href="#">Start quiz</a>
+    </article>
+  </div>
+
+  <div class="fragment-demo">
+    <div class="fragment-label">Trust Strip (index.html)</div>
+    <section class="trust-strip" style="margin: 0; padding: 0;">
+      <div class="trust-item"><b>Made to order</b><span>No standing-stock confusion</span></div>
+      <div class="trust-item"><b>Measured bodies</b><span>WHR/BWR silhouette logic</span></div>
+      <div class="trust-item"><b>Private inquiry</b><span>Concierge-first decision path</span></div>
+      <div class="trust-item"><b>Adults only</b><span>18+ collector experience</span></div>
+    </section>
+  </div>
+</section>
+
+<!-- FILTERS SECTION -->
+<section class="showcase-section" id="filters">
+  <h2>Filters & Controls</h2>
+  <p class="showcase-desc">Filter bars, pill buttons, search boxes, and toggle controls.</p>
+
+  <div class="fragment-demo">
+    <div class="fragment-label">Filter Pills (browse.html, family.html)</div>
+    <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px;">
+      <button class="pill active" style="cursor: default;">All</button>
+      <button class="pill">Inspiration</button>
+      <button class="pill">K-Series</button>
+      <button class="pill">Standard</button>
+      <button class="pill">Legacy</button>
+    </div>
+  </div>
+
+  <div class="fragment-demo">
+    <div class="fragment-label">Family Filter Pills (Color-Coded)</div>
+    <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px;">
+      <button class="pill fam-pill active" style="cursor: default;">All</button>
+      <button class="pill fam-pill" style="--fam-color: #8FB7E0;"><span class="fam-dot"></span>Classic</button>
+      <button class="pill fam-pill" style="--fam-color: #D4A574;"><span class="fam-dot"></span>Icon</button>
+      <button class="pill fam-pill" style="--fam-color: #9FD6B6;"><span class="fam-dot"></span>Muse</button>
+    </div>
+  </div>
+
+  <div class="fragment-demo">
+    <div class="fragment-label">Search Box (browse.html)</div>
+    <div class="search-wrap" style="width: 100%;">
+      <span class="search-icon">⌕</span>
+      <input type="text" placeholder="Name or body code…" style="width: 100%;">
+    </div>
+  </div>
+
+  <div class="fragment-demo">
+    <div class="fragment-label">Count Bar (browse.html)</div>
+    <div class="count-bar" style="margin: 0; padding: 0; max-width: 100%;">
+      <div class="count-text">Showing <strong>24</strong> of <strong>102</strong> characters</div>
+      <span class="reset-link" style="cursor: default;">Reset filters</span>
+    </div>
+  </div>
+</section>
+
+<!-- FORMS SECTION -->
+<section class="showcase-section" id="forms">
+  <h2>Form Components</h2>
+  <p class="showcase-desc">Text inputs, checkboxes, option grids, and form layouts.</p>
+
+  <div class="fragment-demo">
+    <div class="fragment-label">Text Input Group (contact.html)</div>
+    <div class="form-group" style="margin-bottom: 0;">
+      <label for="email">Email Address <span class="req">*</span></label>
+      <input type="email" id="email" placeholder="you@example.com">
+      <div class="field-hint">We'll reply to this email within 24 hours.</div>
+    </div>
+  </div>
+
+  <div class="fragment-demo">
+    <div class="fragment-label">Form Row (Two-Column)</div>
+    <div class="form-row">
+      <div class="form-group" style="margin-bottom: 0;">
+        <label>First Name <span class="req">*</span></label>
+        <input type="text" placeholder="First">
+      </div>
+      <div class="form-group" style="margin-bottom: 0;">
+        <label>Last Name <span class="req">*</span></label>
+        <input type="text" placeholder="Last">
+      </div>
+    </div>
+  </div>
+
+  <div class="fragment-demo">
+    <div class="fragment-label">Consent Checkbox (contact.html)</div>
+    <div class="consent-row" style="margin-bottom: 0;">
+      <input type="checkbox" id="consent">
+      <label for="consent">I agree to the <a href="#" style="color: var(--color-accent);">privacy policy</a> and consent to be contacted.</label>
+    </div>
+  </div>
+
+  <div class="fragment-demo">
+    <div class="fragment-label">Option Grid (contact.html, quiz.html)</div>
+    <div class="opts" style="margin-top: 10px;">
+      <button class="opt" aria-pressed="false">
+        <div>
+          <div style="font-weight: 600;">Body-Focused</div>
+          <div style="font-size: 12px; color: var(--color-text-muted); margin-top: 3px;">Proportion & silhouette</div>
+        </div>
+      </button>
+      <button class="opt" aria-pressed="true" style="border-color: var(--color-accent); background: color-mix(in srgb, var(--color-accent) 9%, var(--color-surface-2)); color: var(--color-primary-cream);">
+        <div>
+          <div style="font-weight: 600;">Face & Features</div>
+          <div style="font-size: 12px; color: var(--color-text-muted); margin-top: 3px;">Character expression</div>
+        </div>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- PANELS SECTION -->
+<section class="showcase-section" id="panels">
+  <h2>Panels & Info</h2>
+  <p class="showcase-desc">Container panels, sidebar info, and context cards.</p>
+
+  <div class="fragment-demo">
+    <div class="fragment-label">Standard Panel</div>
+    <div class="panel" style="margin-top: 10px;">
+      <h3 style="font-family: var(--font-serif); font-size: 20px; margin-bottom: 12px;">Panel Title</h3>
+      <p style="color: var(--color-text-muted); margin: 0;">This is a standard panel with accent border. Use for grouping related content and info sections.</p>
+    </div>
+  </div>
+
+  <div class="fragment-demo">
+    <div class="fragment-label">Accent Panel (Gold Border)</div>
+    <div class="panel panel--accent" style="margin-top: 10px;">
+      <h3 style="font-family: var(--font-serif); font-size: 20px; margin-bottom: 12px;">Important Information</h3>
+      <p style="color: var(--color-text-muted); margin: 0;">Highlighted panel with gradient background and gold accent border.</p>
+    </div>
+  </div>
+
+  <div class="fragment-demo">
+    <div class="fragment-label">Context Card (contact.html)</div>
+    <div class="context-card fam-edge" style="margin-top: 10px;">
+      <div class="cc-head">
+        <div style="width: 60px; height: 80px; background: linear-gradient(135deg, rgba(212,165,116,0.1), transparent); border-radius: 6px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--color-text-muted);">[Img]</div>
+        <div class="cc-id">
+          <div class="cc-eyebrow">Character</div>
+          <div class="cc-name">Character Name</div>
+          <div class="cc-title">Series Name</div>
+          <div class="cc-fam">
+            <span class="dot" style="background: #8FB7E0;"></span>
+            The Classic
+          </div>
+        </div>
+      </div>
+      <div class="cc-stats">
+        <div class="cc-stat">
+          <div class="k">Height</div>
+          <div class="v">165 <small>cm</small></div>
+        </div>
+        <div class="cc-stat">
+          <div class="k">Cup</div>
+          <div class="v">C</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS SECTION -->
+<section class="showcase-section" id="stats">
+  <h2>Statistics & Metrics</h2>
+  <p class="showcase-desc">Stats display, ratio metrics, and measurement badges.</p>
+
+  <div class="fragment-demo">
+    <div class="fragment-label">Stats Display (index.html)</div>
+    <div class="stats" style="margin: 0; margin-top: 10px;">
+      <div>
+        <span class="n">6</span>
+        <span class="l">Body Families</span>
+      </div>
+      <div>
+        <span class="n">48</span>
+        <span class="l">Architectures</span>
+      </div>
+      <div>
+        <span class="n">102</span>
+        <span class="l">Characters</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="fragment-demo">
+    <div class="fragment-label">Ratio Stats (character.html)</div>
+    <div class="glance-ratios" style="margin: 0; margin-top: 10px; border: none; padding: 0;">
+      <span class="rstat">
+        <svg class="rsvg" viewBox="0 0 16 16"><path d="M4 6h8M4 10h8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+        <span>WHR 0.70 (In range)</span>
+      </span>
+      <span class="rstat">
+        <svg class="rsvg" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>
+        <span>BWR 0.45</span>
+      </span>
+      <span class="conf-chip exact">Verified</span>
+    </div>
+  </div>
+</section>
+
+<!-- BADGES SECTION -->
+<section class="showcase-section" id="badges">
+  <h2>Badges & Status</h2>
+  <p class="showcase-desc">Status indicators, family badges, and confidence chips.</p>
+
+  <div class="fragment-demo">
+    <div class="fragment-label">Status Badges (Stat Chips)</div>
+    <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;">
+      <span class="stat stat-live">Live</span>
+      <span class="stat stat-verified">Verified</span>
+      <span class="stat stat-pending">Estimated</span>
+      <span class="stat stat-estimated">Estimated</span>
+      <span class="stat stat-concept">In Development</span>
+    </div>
+  </div>
+
+  <div class="fragment-demo">
+    <div class="fragment-label">Family Badges (All Families)</div>
+    <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;">
+      <span class="fam fam--classic">The Classic</span>
+      <span class="fam fam--icon">The Icon</span>
+      <span class="fam fam--muse">The Muse</span>
+      <span class="fam fam--siren">The Siren</span>
+      <span class="fam fam--empress">The Empress</span>
+      <span class="fam fam--sculpt">The Sculpt</span>
+    </div>
+  </div>
+</section>
+
+<!-- UTILITIES SECTION -->
+<section class="showcase-section" id="utilities">
+  <h2>Utility Components</h2>
+  <p class="showcase-desc">Empty states, loading, errors, and key-value displays.</p>
+
+  <div class="fragment-demo">
+    <div class="fragment-label">Empty State (browse.html)</div>
+    <div class="empty-state" style="padding: 40px 20px; margin: 0;">
+      <div class="big">No characters match this combination</div>
+      <p>Loosen a filter to see more of the cast — or let the concierge curate options.</p>
+      <div class="es-actions">
+        <button class="btn ghost">Reset all filters</button>
+        <a class="btn solid" href="#">Ask the Concierge</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="fragment-demo">
+    <div class="fragment-label">Key-Value Display</div>
+    <dl class="kv" style="margin: 0; margin-top: 10px;">
+      <dt>Height</dt><dd>165 cm</dd>
+      <dt>Weight</dt><dd>62 kg</dd>
+      <dt>Cup</dt><dd>C</dd>
+      <dt>Handling Class</dt><dd>Solo-manageable</dd>
+    </dl>
+  </div>
+
+  <div class="fragment-demo">
+    <div class="fragment-label">Compare Preview (index.html)</div>
+    <section class="compare-preview" style="margin: 0; margin-top: 10px;">
+      <div>
+        <div class="eyebrow no-rule">Compare before contact</div>
+        <h3 style="font-size: 24px; margin: 8px 0;">Body architecture is the real decision layer.</h3>
+        <p style="font-size: 14px; margin: 8px 0;">Compare up to four bodies before asking concierge.</p>
+      </div>
+      <div class="compare-points">
+        <span>Natural vs dramatic silhouette</span>
+        <span>Solo-manageable handling</span>
+        <span>Verified confidence</span>
+      </div>
+    </section>
+  </div>
+</section>
+
+  </div>
+</main>
+
+<footer style="text-align: center; padding: 40px 24px; border-top: 1px solid var(--color-border-strong); color: var(--color-text-muted); font-size: 12px; margin-top: 60px;">
+  <p>ZELEX Fragment Library Showcase — Production-Ready Components<br><a href="FRAGMENT_LIBRARY.md" style="color: var(--color-primary-blue); text-decoration: none;">📖 Full Documentation</a></p>
+</footer>
+
+</body>
+</html>

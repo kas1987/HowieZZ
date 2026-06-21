@@ -16,6 +16,9 @@ assets/*
 !assets/event-tracking.js
 !assets/pii-scrubber.js
 !assets/gtm-schema.json
+# ---- Community Hub widgets & SEO (launch 2026-06-21) ----
+!assets/gallery-widget.js
+!assets/seo-schema.js
 
 # Belt-and-suspenders: no raster images or video anywhere in the tree
 *.jpg
