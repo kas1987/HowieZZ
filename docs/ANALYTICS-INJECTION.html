@@ -1,0 +1,110 @@
+<!--
+  ZELEX Character Atlas — Analytics Injection Snippet
+
+  Add this to EVERY HTML page in the <head> and <body> sections.
+
+  Load order matters:
+  1. ga4-init.js (GTM + GA4 bootstrap, initializes dataLayer)
+  2. Event-tracking.js (exposes ZX.EventTracker with all tracking functions)
+  3. pii-scrubber.js (wraps ZX.track() to auto-scrub PII before emission)
+
+  Then page-specific initialization can call ZX.track() safely.
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- ... existing meta tags, stylesheets, etc. ... -->
+
+  <!-- ========== ANALYTICS: GA4 + GTM INITIALIZATION ========== -->
+  <!-- This MUST be in <head> and loaded BEFORE any page code -->
+  <script src="assets/ga4-init.js"></script>
+
+  <!-- ... rest of head ... -->
+</head>
+<body>
+  <!-- ... page content ... -->
+
+  <!-- ========== ANALYTICS: Core Libraries ========== -->
+  <!-- Load these before page-specific tracking -->
+
+  <!-- Site.js (defines ZX.track() and core functionality) -->
+  <script src="assets/site.js"></script>
+
+  <!-- PII Scrubber (auto-wraps ZX.track() to remove PII) -->
+  <script src="assets/pii-scrubber.js"></script>
+
+  <!-- Event Tracking Module (exposes ZX.EventTracker with 50+ tracking functions) -->
+  <script src="assets/event-tracking.js"></script>
+
+  <!-- ========== PAGE-SPECIFIC INITIALIZATION ========== -->
+  <script>
+    // Example: Track page view
+    ZX.EventTracker.trackPageView('navigation');
+
+    // Example: Load model and render
+    ZX.load()
+      .then(model => {
+        ZX.mountNav('index.html');
+        ZX.mountFooter();
+        // ... render page content ...
+
+        // Track navigation links
+        document.querySelectorAll('a[href]').forEach(link => {
+          link.addEventListener('click', (e) => {
+            const href = link.getAttribute('href');
+            const text = link.textContent;
+            if (href && !href.startsWith('#')) {
+              ZX.EventTracker.trackNavigate('index.html', text, 'navigation');
+            }
+          });
+        });
+      })
+      .catch(err => {
+        ZX.fail();
+        ZX.EventTracker.trackErrorPageLoad('data_load_failed', err.message);
+      });
+  </script>
+</body>
+</html>
+
+<!--
+  ========== REFERENCE: Event Tracking Examples ==========
+
+  // Page views
+  ZX.EventTracker.trackPageView('navigation');
+
+  // Browse & filter
+  ZX.EventTracker.trackBrowseView(false);
+  ZX.EventTracker.trackBrowseFilterApply('series', 'K-Series', ['K-001', 'K-002']);
+  ZX.EventTracker.trackCharacterView('K-Series-001-Muse', 'ICON-2203', 'K-Series', 'The Muse', 'Akira');
+
+  // Quiz
+  ZX.EventTracker.trackQuizStart('browse.html');
+  ZX.EventTracker.trackQuizQuestionView(1);
+  ZX.EventTracker.trackQuizAnswerSelect(1, 'elegant');
+  ZX.EventTracker.trackQuizComplete('The Muse', ['K-001-Muse', 'Inspiration-001-Muse'], 95);
+
+  // Comparison
+  ZX.EventTracker.trackCompareAdd('ICON-2203', 'browse.html', 1);
+  ZX.EventTracker.trackCompareMetricInspect('WHR', 'ICON-2203');
+  ZX.EventTracker.trackCompareHandoffClick('inquire', 'compare.html', ['ICON-2203', 'SIREN-1505'], 2);
+
+  // Contact form
+  ZX.EventTracker.trackContactView('K-Series-001-Muse', 'character.html');
+  ZX.EventTracker.trackContactFormFocus('email');
+  ZX.EventTracker.trackContactFormInput('email');
+  ZX.EventTracker.trackContactFormSubmit(3);
+  ZX.EventTracker.trackContactFormSuccess();
+
+  // Errors
+  ZX.EventTracker.trackErrorDataFetch('json_parse_error', 'Unexpected token', 'db/characters.json');
+  ZX.EventTracker.trackErrorFormValidation('contact', 'email', 'invalid_format');
+
+  // Debug/Audit
+  ZX.PIIScrubber.enableAudit();
+  console.table(ZX.PIIScrubber.getAuditLog());
+  ZX.PIIScrubber.exportAudit('csv');  // or 'json'
+
+  ========== REFERENCE END ==========
+-->

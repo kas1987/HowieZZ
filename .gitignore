@@ -11,6 +11,11 @@ assets/*
 !assets/site.js
 # The favicon is a tiny inline SVG mark (no raster/binary), part of the shipped kit.
 !assets/favicon.svg
+# ---- Analytics & GTM (minimal JS + config, essential for tracking) ----
+!assets/ga4-init.js
+!assets/event-tracking.js
+!assets/pii-scrubber.js
+!assets/gtm-schema.json
 
 # Belt-and-suspenders: no raster images or video anywhere in the tree
 *.jpg

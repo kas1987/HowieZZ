@@ -1,0 +1,160 @@
+{
+  "containerVersion": {
+    "version": "1",
+    "tag": [
+      {
+        "accountId": "REPLACE_WITH_ACCOUNT_ID",
+        "containerId": "REPLACE_WITH_CONTAINER_ID",
+        "tagId": "1",
+        "name": "GA4 - Page View",
+        "type": "gaawe",
+        "parameter": [
+          {
+            "type": "BOOLEAN",
+            "key": "sendEcommerce",
+            "value": "false"
+          },
+          {
+            "type": "TEMPLATE",
+            "key": "eventName",
+            "value": "page_view"
+          }
+        ],
+        "fingerprint": "1686052200186",
+        "firingTriggerId": ["2"]
+      },
+      {
+        "accountId": "REPLACE_WITH_ACCOUNT_ID",
+        "containerId": "REPLACE_WITH_CONTAINER_ID",
+        "tagId": "2",
+        "name": "GA4 - Custom Events (dataLayer)",
+        "type": "gaawe",
+        "parameter": [
+          {
+            "type": "BOOLEAN",
+            "key": "sendEcommerce",
+            "value": "false"
+          },
+          {
+            "type": "TEMPLATE",
+            "key": "eventName",
+            "value": "{{Event}}"
+          }
+        ],
+        "fingerprint": "1686052300256",
+        "firingTriggerId": ["3"]
+      }
+    ],
+    "trigger": [
+      {
+        "accountId": "REPLACE_WITH_ACCOUNT_ID",
+        "containerId": "REPLACE_WITH_CONTAINER_ID",
+        "triggerId": "2",
+        "name": "All Pages",
+        "type": "pageview",
+        "customEventFilter": [],
+        "fingerprint": "1686052200000",
+        "tagManagerUrl": "https://tagmanager.google.com"
+      },
+      {
+        "accountId": "REPLACE_WITH_ACCOUNT_ID",
+        "containerId": "REPLACE_WITH_CONTAINER_ID",
+        "triggerId": "3",
+        "name": "Custom Event - dataLayer push",
+        "type": "customEvent",
+        "customEventFilter": [
+          {
+            "type": "CONTAINS",
+            "parameter": [
+              {
+                "type": "TEMPLATE",
+                "key": "eventName",
+                "value": "{{_event}}"
+              },
+              {
+                "type": "TEMPLATE",
+                "key": "checkValue",
+                "value": "event"
+              }
+            ]
+          }
+        ],
+        "fingerprint": "1686052300000",
+        "tagManagerUrl": "https://tagmanager.google.com"
+      }
+    ],
+    "variable": [
+      {
+        "accountId": "REPLACE_WITH_ACCOUNT_ID",
+        "containerId": "REPLACE_WITH_CONTAINER_ID",
+        "variableId": "1",
+        "name": "Event",
+        "type": "v",
+        "parameter": [
+          {
+            "type": "INTEGER",
+            "key": "index",
+            "value": "1"
+          }
+        ],
+        "fingerprint": "1686052200100"
+      },
+      {
+        "accountId": "REPLACE_WITH_ACCOUNT_ID",
+        "containerId": "REPLACE_WITH_CONTAINER_ID",
+        "variableId": "2",
+        "name": "dataLayer - session_id",
+        "type": "d",
+        "parameter": [
+          {
+            "type": "STRING",
+            "key": "name",
+            "value": "session_id"
+          }
+        ],
+        "fingerprint": "1686052200150"
+      },
+      {
+        "accountId": "REPLACE_WITH_ACCOUNT_ID",
+        "containerId": "REPLACE_WITH_CONTAINER_ID",
+        "variableId": "3",
+        "name": "dataLayer - body_code",
+        "type": "d",
+        "parameter": [
+          {
+            "type": "STRING",
+            "key": "name",
+            "value": "body_code"
+          }
+        ],
+        "fingerprint": "1686052200160"
+      },
+      {
+        "accountId": "REPLACE_WITH_ACCOUNT_ID",
+        "containerId": "REPLACE_WITH_CONTAINER_ID",
+        "variableId": "4",
+        "name": "dataLayer - character_id",
+        "type": "d",
+        "parameter": [
+          {
+            "type": "STRING",
+            "key": "name",
+            "value": "character_id"
+          }
+        ],
+        "fingerprint": "1686052200170"
+      }
+    ],
+    "folder": [],
+    "built_in_variable": [
+      "CONTAINER_ID",
+      "ENVIRONMENT_NAME",
+      "DEBUG_MODE",
+      "PAGE_URL",
+      "PAGE_HOSTNAME",
+      "PAGE_PATH"
+    ],
+    "fingerprint": "1686052200000",
+    "tagManagerUrl": "https://tagmanager.google.com"
+  }
+}
