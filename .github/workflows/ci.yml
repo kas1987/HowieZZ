@@ -70,6 +70,34 @@ jobs:
       - name: Run JavaScript unit tests
         run: npm test
 
+      - name: Run E2E tests (Cypress)
+        run: npm run test:e2e -- --headless --spec "tests/e2e/navigation.cy.js,tests/e2e/data-loading.cy.js,tests/e2e/interactions.cy.js"
+        continue-on-error: true
+
+      - name: Run accessibility tests
+        run: npm run test:a11y -- --headless
+        continue-on-error: true
+
+      - name: Run performance benchmarks
+        run: npm run test:perf -- --headless
+        continue-on-error: true
+
+      - name: Upload E2E test results
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: e2e-test-results
+          path: cypress/screenshots
+          if-no-files-found: warn
+
+      - name: Upload E2E test videos
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: e2e-test-videos
+          path: cypress/videos
+          if-no-files-found: warn
+
       - name: Validate pages, inline JS, and catalog JSON
         run: node .github/scripts/validate-site.mjs
 

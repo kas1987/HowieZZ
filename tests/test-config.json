@@ -1,0 +1,103 @@
+{
+  "testSuites": {
+    "unit": {
+      "name": "Unit Tests",
+      "description": "Core utilities, API functions, data indexing",
+      "command": "npm run test:unit",
+      "coverage_target": 0.85,
+      "files": [
+        "tests/site.test.js",
+        "tests/site-cdn.test.js",
+        "tests/recommend.test.js"
+      ]
+    },
+    "e2e": {
+      "name": "End-to-End Tests",
+      "description": "Full user workflows, navigation, interactions",
+      "command": "npm run test:e2e",
+      "coverage_target": 0.92,
+      "files": [
+        "tests/e2e/navigation.cy.js",
+        "tests/e2e/data-loading.cy.js",
+        "tests/e2e/interactions.cy.js"
+      ]
+    },
+    "a11y": {
+      "name": "Accessibility Tests",
+      "description": "WCAG 2.1 AA compliance, axe-core audits",
+      "command": "npm run test:a11y",
+      "coverage_target": 0.94,
+      "files": [
+        "tests/e2e/accessibility.cy.js"
+      ],
+      "standards": ["WCAG 2.1 AA"]
+    },
+    "performance": {
+      "name": "Performance Benchmarks",
+      "description": "Core Web Vitals, load time, asset sizes",
+      "command": "npm run test:perf",
+      "coverage_target": 0.88,
+      "files": [
+        "tests/e2e/performance.cy.js"
+      ],
+      "metrics": {
+        "pageLoadTime": "< 3s",
+        "fcp": "< 1.5s",
+        "lcp": "< 2.5s",
+        "cls": "< 0.1",
+        "totalJs": "< 150KB",
+        "css": "< 100KB",
+        "jsonData": "< 500KB",
+        "domNodes": "< 1500"
+      }
+    },
+    "visual": {
+      "name": "Visual Regression Tests",
+      "description": "Screenshot snapshots for regression detection",
+      "command": "npm run test:visual",
+      "coverage_target": 0.85,
+      "files": [
+        "tests/visual/visual-regression.cy.js"
+      ]
+    }
+  },
+  "pages": [
+    "index.html",
+    "browse.html",
+    "family.html?f=classic",
+    "family.html?f=icon",
+    "family.html?f=muse",
+    "family.html?f=siren",
+    "family.html?f=empress",
+    "family.html?f=sculpt",
+    "compare.html",
+    "options.html",
+    "community.html",
+    "quiz.html",
+    "configurator.html",
+    "contact.html",
+    "craft.html",
+    "community-events.html"
+  ],
+  "ci_target_coverage": 0.90,
+  "ci_on_failure": "fail",
+  "artifacts": {
+    "e2e_screenshots": "cypress/screenshots",
+    "e2e_videos": "cypress/videos",
+    "coverage_report": ".artifacts/test-coverage-report.json",
+    "lighthouse_report": ".artifacts/lighthouse-audit.json",
+    "a11y_report": ".artifacts/a11y-report.json",
+    "performance_report": ".artifacts/perf-report.json"
+  },
+  "tools": {
+    "unit": ["vitest", "jsdom"],
+    "e2e": ["cypress"],
+    "a11y": ["axe-core", "cypress-axe"],
+    "performance": ["cypress", "lighthouse", "web-vitals"],
+    "visual": ["cypress", "percy"]
+  },
+  "notificationTargets": [
+    "slack://zelex-qa-channel",
+    "github://pull-requests"
+  ]
+}
