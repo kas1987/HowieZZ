@@ -134,6 +134,9 @@ jobs:
           path: .artifacts/analytics
           if-no-files-found: error
 
+      - name: Guard — CDN manifest freshness
+        run: node .github/scripts/check-cdn-manifest.mjs
+
       - name: Guard — no images, video, or secrets committed
         run: |
           set -e
