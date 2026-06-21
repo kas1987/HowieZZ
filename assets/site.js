@@ -475,10 +475,104 @@ window.ZX = (function () {
       </div></a>`;
   }
 
+  /* ---- CDN / asset delivery ---- */
+  let _cdnConfig = null;
+
+  async function loadCdnConfig(){
+    if (_cdnConfig) return _cdnConfig;
+    try {
+      const resp = await fetch('db/cdn_config.json', { cache: 'no-store' });
+      if (!resp.ok) throw new Error('cdn_config.json not found');
+      _cdnConfig = await resp.json();
+      if (analyticsDebugEnabled()) console.debug('[ZX CDN] Config loaded:', _cdnConfig);
+    } catch (e) {
+      if (analyticsDebugEnabled()) console.debug('[ZX CDN] Config load failed, using fallback:', e.message);
+      _cdnConfig = { cdn_enabled: false, fallback_local: true };
+    }
+    return _cdnConfig;
+  }
+
+  function getCdnUrl(localPath){
+    if (!_cdnConfig || !_cdnConfig.cdn_enabled) return localPath;
+    // Map local paths to CDN URLs based on asset type
+    if (localPath === 'assets/site.css') {
+      return _cdnConfig.asset_mappings?.site_css?.cdn_url || localPath;
+    }
+    if (localPath === 'assets/site.js') {
+      return _cdnConfig.asset_mappings?.site_js?.cdn_url || localPath;
+    }
+    // For images, construct CDN URL from folder template
+    if (localPath.includes('assets/thumbs/')) {
+      const relPath = localPath.replace('assets/thumbs/', '');
+      const template = _cdnConfig.image_folders?.thumbs?.cdn_url_template || '';
+      return template ? template + relPath : localPath;
+    }
+    if (localPath.includes('assets/') && (localPath.includes('-Series/') || localPath.endsWith('.jpg'))) {
+      const relPath = localPath.replace('assets/', '');
+      const template = _cdnConfig.image_folders?.photoshoots?.cdn_url_template || '';
+      return template ? template + relPath : localPath;
+    }
+    return localPath;
+  }
+
+  async function loadImageWithFallback(src, attempts = 0){
+    const maxAttempts = (_cdnConfig?.retry_strategy?.max_attempts) || 2;
+    const timeoutMs = (_cdnConfig?.retry_strategy?.timeout_ms) || 5000;
+
+    return new Promise(resolve => {
+      const timer = setTimeout(() => {
+        if (attempts < maxAttempts - 1) {
+          const fallbackSrc = src.includes('res.cloudinary') ?
+            src.replace(/res\.cloudinary\.com\/[^\/]+\//, 'assets/') :
+            src;
+          if (fallbackSrc !== src) {
+            loadImageWithFallback(fallbackSrc, attempts + 1).then(resolve);
+          } else {
+            resolve({ src, loaded: false, error: 'timeout' });
+          }
+        } else {
+          resolve({ src, loaded: false, error: 'max_attempts_exceeded' });
+        }
+      }, timeoutMs);
+
+      const img = new Image();
+      img.onload = () => {
+        clearTimeout(timer);
+        resolve({ src, loaded: true });
+      };
+      img.onerror = () => {
+        clearTimeout(timer);
+        if (attempts < maxAttempts - 1) {
+          const fallbackSrc = src.includes('res.cloudinary') ?
+            src.replace(/res\.cloudinary\.com\/[^\/]+\//, 'assets/') :
+            src;
+          if (fallbackSrc !== src) {
+            loadImageWithFallback(fallbackSrc, attempts + 1).then(resolve);
+          } else {
+            resolve({ src, loaded: false, error: 'load_failed' });
+          }
+        } else {
+          resolve({ src, loaded: false, error: 'all_attempts_failed' });
+        }
+      };
+      img.src = src;
+    });
+  }
+
+  // Initialize CDN config on page load
+  try {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', loadCdnConfig, { once: true });
+    } else {
+      loadCdnConfig().catch(() => {});
+    }
+  } catch (e) {}
+
   return { load, famColor, famClass, qs, esc, img, inquireHref, contactHref, INQUIRY_EMAIL, FORM_ENDPOINT,
            getCompareBodies, setCompareBodies, addCompareBody,
            track,
            mountNav, mountFooter, fail, charCard, bodyCard, metricsLegend,
            repImg, heroBackdrop, revealInit,
+           loadCdnConfig, getCdnUrl, loadImageWithFallback,
            SERIES_ORDER, SERIES_SUB, FAMILIES };
 })();
