@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Contact & Inquiries — ZELEX</title>
+  <meta name="description" content="Make a discreet, made-to-order inquiry about a ZELEX character — answered personally, within one business day.">
+  <meta name="theme-color" content="#121212">
+  <meta name="robots" content="index,follow">
+  <link rel="canonical" href="https://www.zelexdoll.com/contact.html">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="ZELEX — The Character Atlas">
+  <meta property="og:title" content="Contact &amp; Inquiries — ZELEX">
+  <meta property="og:description" content="A discreet, made-to-order inquiry path — answered personally, within one business day.">
+  <meta property="og:url" content="https://www.zelexdoll.com/contact.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Contact &amp; Inquiries — ZELEX">
+  <meta name="twitter:description" content="A discreet, made-to-order inquiry path — answered personally, within one business day.">
+  <meta name="twitter:image" content="https://www.zelexdoll.com/assets/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/site.css">
+  <style>
+    /* ====== VARIANT B: Progressive Disclosure + Quiz Bridge ====== */
+
+    .contact-hero{padding:52px 0 36px;text-align:left;position:relative}
+    .contact-hero h1{font-size:clamp(32px,5vw,56px);font-weight:700;line-height:1.1;margin:10px 0 18px}
+    .contact-hero p{color:var(--muted);font-size:15px;line-height:1.75;max-width:560px}
+
+    .contact-layout{display:grid;grid-template-columns:1fr 400px;gap:52px;align-items:start;margin-top:48px}
+    @media(max-width:900px){.contact-layout{grid-template-columns:1fr;gap:36px}}
+
+    /* ---- quiz-prefill banner ---- */
+    .quiz-prefill-banner{background:linear-gradient(135deg,rgba(159,214,182,.12),transparent),var(--panel);border:1px solid rgba(159,214,182,.3);border-radius:14px;padding:20px 24px;margin-bottom:32px;display:none}
+    .quiz-prefill-banner.show{display:flex;align-items:center;gap:16px}
+    .quiz-prefill-icon{width:40px;height:40px;border-radius:50%;background:rgba(159,214,182,.18);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+    .quiz-prefill-text{flex:1;min-width:0}
+    .quiz-prefill-text .label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--Muse);font-weight:600;margin-bottom:3px}
+    .quiz-prefill-text .msg{font-size:13px;color:var(--muted);line-height:1.5}
+    .quiz-prefill-text .msg strong{color:var(--cream)}
+    .quiz-prefill-clear{background:none;border:none;color:var(--muted);cursor:pointer;font-size:12px;letter-spacing:1px;text-transform:uppercase;opacity:.7;transition:.2s;flex-shrink:0;padding:6px 12px;text-align:right}
+    .quiz-prefill-clear:hover{opacity:1}
+
+    /* ---- phase system ---- */
+    .form-phase{display:none;opacity:0;transition:opacity .3s ease}
+    .form-phase.show{display:block;opacity:1}
+
+    /* ---- phase 0: entry gate (name + email + intent) ---- */
+    .phase-0{margin-bottom:36px}
+    .phase-0-intro{margin-bottom:24px;padding:24px;background:var(--panel);border-radius:14px;border:1px solid color-mix(in srgb,var(--gold) 18%,transparent)}
+    .phase-0-intro .eyebrow{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+    .phase-0-intro .msg{font-size:14px;color:var(--text);line-height:1.6}
+
+    /* ---- phase 1: character context (optional) ---- */
+    .phase-1{margin-bottom:32px}
+    .char-chip{display:flex;align-items:center;gap:14px;background:var(--panel2);border:1px solid color-mix(in srgb,var(--gold) 35%,transparent);border-radius:var(--r-md);padding:12px 16px;margin-bottom:24px}
+    .char-chip img{width:52px;height:70px;object-fit:cover;object-position:top center;border-radius:var(--r-sm);flex-shrink:0;background:#0d0d0d}
+    .char-chip .chip-thumb-ph{width:52px;height:70px;border-radius:var(--r-sm);flex-shrink:0;background:var(--s2);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:22px;color:var(--gold)}
+    .char-chip .chip-info{}
+    .char-chip .chip-label{font-size:var(--t-xs);letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:3px}
+    .char-chip .chip-name{font-family:'Playfair Display',serif;font-size:18px;font-weight:600;line-height:1.2}
+    .char-chip .chip-sub{font-size:11px;color:var(--muted);margin-top:2px;letter-spacing:.5px}
+
+    /* ---- phase 2: buyer-fit (progressive disclosure) ---- */
+    .phase-2{margin-bottom:32px}
+    .phase-2-toggle{display:flex;align-items:center;gap:12px;margin-bottom:24px;padding:18px 20px;background:linear-gradient(140deg,color-mix(in srgb,var(--gold) 8%,transparent),transparent),var(--panel);border:1px solid color-mix(in srgb,var(--gold) 28%,transparent);border-radius:14px;cursor:pointer;font-family:inherit;transition:.2s;user-select:none}
+    .phase-2-toggle:hover{border-color:color-mix(in srgb,var(--gold) 45%,transparent)}
+    .phase-2-toggle .toggle-icon{width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;transition:.2s}
+    .phase-2-toggle[aria-expanded="false"] .toggle-icon{transform:rotate(0)}
+    .phase-2-toggle[aria-expanded="true"] .toggle-icon{transform:rotate(180deg);color:var(--gold)}
+    .phase-2-toggle .toggle-text{flex:1;min-width:0}
+    .phase-2-toggle .toggle-label{font-size:13px;font-weight:600;color:var(--cream);display:block;margin-bottom:2px}
+    .phase-2-toggle .toggle-sub{font-size:12px;color:var(--muted)}
+
+    .phase-2-fields{max-height:0;overflow:hidden;opacity:0;transition:max-height .4s ease,opacity .3s ease .1s;will-change:max-height}
+    .phase-2-fields.expanded{max-height:2400px;opacity:1}
+
+    /* ---- form groups (WCAG: fieldset) ---- */
+    .fit-section{margin-bottom:26px;padding:20px;background:var(--panel);border-radius:12px;border:1px solid var(--line)}
+    .fit-section > .fit-q{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text);margin-bottom:4px;font-weight:600}
+    .fit-section > .fit-help{font-size:12.5px;color:var(--muted);margin-bottom:13px;line-height:1.5}
+    .opt-grid{display:grid;gap:10px}
+    .opt-grid.use{grid-template-columns:repeat(auto-fit,minmax(168px,1fr))}
+    .opt-grid.cols3{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+    .opt-card{display:flex;flex-direction:column;align-items:flex-start;gap:8px;text-align:left;padding:14px 15px;border-radius:12px;
+      cursor:pointer;font-family:inherit;transition:.18s;border:1px solid var(--line);background:var(--panel2);width:100%;text-align:center;align-items:center}
+    .opt-card .oc-label{font-size:13.5px;font-weight:600;letter-spacing:.2px;color:var(--text)}
+    .opt-card .oc-sub{font-size:11px;line-height:1.45;color:var(--muted)}
+    .opt-card[aria-pressed="true"]{border-color:color-mix(in srgb,var(--gold) 60%,transparent);
+      background:linear-gradient(140deg,color-mix(in srgb,var(--gold) 14%,transparent),color-mix(in srgb,var(--gold) 3%,transparent));
+      box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--gold) 22%,transparent)}
+    .opt-card[aria-pressed="true"] .oc-label{color:var(--cream)}
+
+    /* ---- phase 3: message & consent ---- */
+    .phase-3{margin-bottom:32px}
+    .form-group{margin-bottom:20px}
+    .form-group label{display:block;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text);margin-bottom:7px;font-weight:600}
+    .form-group label .req{color:var(--coral);margin-left:2px}
+    .form-group input,.form-group textarea,.form-group select{
+      width:100%;background:var(--panel2);border:1px solid var(--line);border-radius:var(--r-md);
+      color:var(--text);font-family:'Montserrat',sans-serif;font-size:14px;padding:11px 14px;
+      transition:.2s;outline:none;appearance:none;-webkit-appearance:none}
+    .form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:var(--gold);box-shadow:0 0 0 2px rgba(212,165,116,.15)}
+    .form-group input.err-field,.form-group textarea.err-field,.form-group select.err-field{border-color:var(--coral)}
+    .form-group textarea{resize:vertical;min-height:100px}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    @media(max-width:600px){.form-row{grid-template-columns:1fr}}
+    .field-err{font-size:11px;color:var(--coral);margin-top:5px;display:none}
+    .field-err.show{display:block}
+
+    .consent-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:24px}
+    .consent-row input[type=checkbox]{width:17px;height:17px;flex-shrink:0;margin-top:2px;accent-color:var(--gold);cursor:pointer}
+    .consent-row label{font-size:12px;color:var(--muted);line-height:1.55;cursor:pointer;font-weight:normal}
+    .consent-row label a{color:var(--gold);text-decoration:underline}
+
+    /* ---- submit + states ---- */
+    #submit-btn{width:100%;padding:15px;font-size:13px;letter-spacing:3px;position:relative}
+    #submit-btn:disabled{opacity:.55;cursor:not-allowed}
+    #submit-spinner{display:none;width:16px;height:16px;border:2px solid rgba(212,165,116,.3);border-top-color:var(--gold);border-radius:50%;animation:spin .7s linear infinite;position:absolute;right:20px;top:50%;transform:translateY(-50%)}
+    @keyframes spin{to{transform:translateY(-50%) rotate(360deg)}}
+
+    /* ---- success / error banners ---- */
+    #form-success,#form-error{display:none;border-radius:10px;padding:24px 28px;margin-top:0;margin-bottom:24px}
+    #form-success{background:rgba(159,214,182,.1);border:1px solid rgba(159,214,182,.35)}
+    #form-success h3{font-family:'Playfair Display',serif;font-size:22px;color:var(--Muse);margin-bottom:8px}
+    #form-success p{font-size:14px;color:var(--muted);line-height:1.7}
+    #form-success a{color:var(--gold);text-decoration:underline}
+    #form-error{background:rgba(225,139,115,.08);border:1px solid rgba(225,139,115,.3)}
+    #form-error h3{font-family:'Playfair Display',serif;font-size:18px;color:var(--coral);margin-bottom:8px}
+    #form-error p{font-size:14px;color:var(--muted);line-height:1.7}
+    #form-error a{color:var(--gold);text-decoration:underline}
+
+    /* ---- info panel (sticky) ---- */
+    .info-panel{background:var(--panel);border:1px solid rgba(212,165,116,.22);border-radius:14px;padding:32px 28px;position:sticky;top:86px}
+    .info-panel h3{font-family:'Playfair Display',serif;font-size:20px;font-weight:600;margin-bottom:20px;color:var(--cream)}
+    .info-item{display:flex;gap:14px;margin-bottom:22px;align-items:flex-start}
+    .info-item:last-child{margin-bottom:0}
+    .info-icon{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px;background:rgba(212,165,116,.12);border:1px solid rgba(212,165,116,.22)}
+    .info-item h4{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+    .info-item p{font-size:13px;color:var(--muted);line-height:1.6}
+    .info-divider{border:none;border-top:1px solid var(--line);margin:24px 0}
+    .info-email-row{font-size:13px;color:var(--muted);text-align:center}
+    .info-email-row a{color:var(--gold)}
+
+    @media(max-width:900px){.info-panel{position:static;margin-top:48px}}
+  </style>
+</head>
+<body>
+
+<div class="crumbs">
+  <a href="index.html">Atlas</a><span>›</span> Contact
+</div>
+
+<main>
+  <div class="contact-hero has-backdrop">
+    <div class="eyebrow reveal">Private Consultation</div>
+    <h1 class="reveal d1">Request a Private <span class="em-grad">Consultation</span></h1>
+    <p class="reveal d2">Every ZELEX character is made to order — crafted individually, never from standing stock.
+       Share a little about what you're looking for and we'll respond personally, with care and without pressure.</p>
+  </div>
+
+  <div class="contact-layout">
+
+    <!-- LEFT: form column -->
+    <div class="reveal d2">
+
+      <!-- Quiz prefill banner (shown if sessionStorage has quiz result) -->
+      <div class="quiz-prefill-banner" id="quiz-banner">
+        <div class="quiz-prefill-icon">✓</div>
+        <div class="quiz-prefill-text">
+          <div class="label">Picking up from your quiz</div>
+          <div class="msg">We've pre-filled your preferences. Feel free to adjust or skip ahead.</div>
+        </div>
+        <button type="button" class="quiz-prefill-clear" id="quiz-clear">Clear</button>
+      </div>
+
+      <!-- success state -->
+      <div id="form-success">
+        <h3>Your consultation request has been received.</h3>
+        <p>A member of our team will be in touch discreetly within one business day to begin your private briefing.<br>
+          You may also reach us directly at
+          <a id="success-email-link" href="#"><!-- filled by JS --></a>.</p>
+      </div>
+
+      <!-- error state -->
+      <div id="form-error" role="alert">
+        <h3>Something went wrong.</h3>
+        <p id="form-error-msg"><span id="form-error-text">We couldn't send your message right now. Please try again, or reach us directly at</span>
+          <a id="error-email-link" href="#"><!-- filled by JS --></a>.</p>
+      </div>
+
+      <!-- the form itself -->
+      <form id="inquiry-form" novalidate>
+
+        <!-- ========== PHASE 0: Entry Gate ========== -->
+        <div class="form-phase phase-0 show" id="phase-0">
+          <div class="phase-0-intro">
+            <div class="eyebrow">Let's get started</div>
+            <div class="msg">A quick note is all you need. We'll follow up with any questions and details.</div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="f-name">Name <span class="req">*</span></label>
+              <input type="text" id="f-name" name="name" placeholder="Your name" autocomplete="name" required>
+              <div class="field-err" id="err-name">Please enter your name.</div>
+            </div>
+            <div class="form-group">
+              <label for="f-email">Email <span class="req">*</span></label>
+              <input type="email" id="f-email" name="email" placeholder="your@email.com" autocomplete="email" required>
+              <div class="field-err" id="err-email">Please enter a valid email address.</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="f-message">What are you looking for? <span class="req">*</span></label>
+            <textarea id="f-message" name="message" placeholder="A character, a body type, or just a feeling..." required></textarea>
+            <div class="field-err" id="err-message">Please tell us what you're looking for.</div>
+          </div>
+
+          <!-- hidden intent field -->
+          <input type="hidden" name="intent" id="f-intent" value="">
+        </div>
+
+        <!-- ========== PHASE 1: Character Context ========== -->
+        <div class="form-phase phase-1" id="phase-1">
+          <div id="char-chip-area"></div>
+        </div>
+
+        <!-- ========== PHASE 2: Buyer-Fit (Collapsible) ========== -->
+        <div class="form-phase phase-2" id="phase-2">
+          <button type="button" class="phase-2-toggle" id="phase-2-toggle" aria-expanded="false" aria-controls="phase-2-fields">
+            <span class="toggle-icon">▼</span>
+            <span class="toggle-text">
+              <span class="toggle-label">Help us narrow it down</span>
+              <span class="toggle-sub">Timeline, preferences, customization ideas</span>
+            </span>
+          </button>
+
+          <div class="phase-2-fields" id="phase-2-fields">
+            <!-- Use context -->
+            <fieldset class="fit-section">
+              <legend class="fit-q">What's the primary use?</legend>
+              <div class="fit-help">How do you picture keeping this character?</div>
+              <div class="opt-grid use" id="grp-use" role="group"></div>
+            </fieldset>
+
+            <!-- Timeline -->
+            <fieldset class="fit-section">
+              <legend class="fit-q">What's your timeline?</legend>
+              <div class="fit-help">No rush — this just helps us set expectations on lead time.</div>
+              <div class="opt-grid cols3" id="grp-timeline" role="group"></div>
+            </fieldset>
+
+            <!-- Family select -->
+            <fieldset class="fit-section">
+              <legend class="fit-q">Silhouette family interest</legend>
+              <div class="fit-help">Curious about a particular body type?</div>
+              <select id="f-family" name="family">
+                <option value="">No preference yet</option>
+                <option value="The Classic">The Classic — timeless hourglass</option>
+                <option value="The Icon">The Icon — glamour model</option>
+                <option value="The Muse">The Muse — tall, hip-dominant</option>
+                <option value="The Siren">The Siren — bust-dominant fantasy</option>
+                <option value="The Empress">The Empress — maximum plush</option>
+                <option value="The Sculpt">The Sculpt — muscular definition</option>
+              </select>
+            </fieldset>
+
+            <!-- Handling -->
+            <fieldset class="fit-section">
+              <legend class="fit-q">Handling comfort</legend>
+              <div class="fit-help">These are full-weight figures. Let us know your comfort level.</div>
+              <div class="opt-grid cols3" id="grp-handling" role="group"></div>
+            </fieldset>
+
+            <!-- Privacy -->
+            <fieldset class="fit-section">
+              <legend class="fit-q">Shipping & privacy</legend>
+              <div class="fit-help">Every order ships discreetly. Choose your privacy level.</div>
+              <div class="opt-grid cols3" id="grp-privacy" role="group"></div>
+            </fieldset>
+          </div>
+
+          <!-- hidden carriers for buyer-fit payload (non-PII) -->
+          <input type="hidden" name="use_context" id="f-use">
+          <input type="hidden" name="timeline" id="f-timeline">
+          <input type="hidden" name="handling" id="f-handling">
+          <input type="hidden" name="privacy" id="f-privacy">
+        </div>
+
+        <!-- ========== PHASE 3: Consent & Submit ========== -->
+        <div class="form-phase phase-3 show" id="phase-3">
+          <div class="consent-row">
+            <input type="checkbox" id="f-consent" name="consent" required aria-label="Age and contact consent">
+            <label for="f-consent">I confirm that I am 18 years of age or older and I agree to be contacted regarding this inquiry. I understand my information will not be shared with third parties. <a href="#" title="Privacy policy">Privacy &amp; discretion</a>.</label>
+          </div>
+          <div class="field-err" id="err-consent" style="margin-top:-16px;margin-bottom:18px">Please confirm you are 18+ to proceed.</div>
+
+          <button type="submit" class="btn solid" id="submit-btn">
+            Request a Private Consultation
+            <span id="submit-spinner"></span>
+          </button>
+          <p style="font-size:11px;color:var(--muted);text-align:center;margin-top:12px;letter-spacing:.3px;line-height:1.6">
+            A private briefing, not a checkout. No pressure, no commitment — your details stay between us.
+          </p>
+        </div>
+
+      </form>
+    </div>
+
+    <!-- RIGHT: info panel -->
+    <div class="reveal d3">
+    <aside class="info-panel" aria-label="Inquiry information">
+      <h3>What to expect</h3>
+
+      <div class="info-item">
+        <div class="info-icon">✦</div>
+        <div>
+          <h4>Response time</h4>
+          <p>We reply to every inquiry personally, typically within one business day.</p>
+        </div>
+      </div>
+
+      <div class="info-item">
+        <div class="info-icon">◈</div>
+        <div>
+          <h4>Made to order</h4>
+          <p>Every ZELEX character is produced individually — no standing stock. Lead times vary by series and configuration.</p>
+        </div>
+      </div>
+
+      <div class="info-item">
+        <div class="info-icon">⬡</div>
+        <div>
+          <h4>What to include</h4>
+          <p>The body code or character you're interested in, any questions about customization (skin tone, head, options), and rough timing. Even vague is fine.</p>
+        </div>
+      </div>
+
+      <div class="info-item">
+        <div class="info-icon">◎</div>
+        <div>
+          <h4>No pressure</h4>
+          <p>A consultation is exactly that — a private conversation, not a commitment. We're happy to walk you through silhouettes, measurements, and pricing.</p>
+        </div>
+      </div>
+
+      <div class="info-item">
+        <div class="info-icon">◇</div>
+        <div>
+          <h4>Discretion &amp; privacy</h4>
+          <p>Your details stay between us — never shared with third parties, never used for marketing. Plain, unbranded packaging.</p>
+        </div>
+      </div>
+
+      <hr class="info-divider">
+      <div class="info-email-row">
+        Or email us directly:<br>
+        <a id="panel-email-link" href="#"><!-- filled by JS --></a>
+      </div>
+    </aside>
+    </div>
+
+  </div>
+</main>
+
+<script src="assets/site.js"></script>
+<script>
+/*
+ * ========================================
+ * VARIANT B: Progressive Disclosure + Quiz Bridge
+ * ========================================
+ * Key improvements:
+ * - Phase 0: Minimal entry gate (name, email, message)
+ * - Phase 1: Character context (if prefill present)
+ * - Phase 2: Buyer-fit fields (collapsible, on-demand)
+ * - Quiz bridge: Auto-loads quiz state from sessionStorage
+ * - WCAG AA: fieldset, aria-labels, role="alert"
+ */
+
+// ── Wire email links ──────────────────────────────────────────
+(function wireEmailLinks() {
+  const email = ZX.INQUIRY_EMAIL || 'inquiries@zelexdoll.com';
+  const mailto = 'mailto:' + email;
+  const els = ['success-email-link','error-email-link','panel-email-link'];
+  els.forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) { el.href = mailto; el.textContent = email; }
+  });
+}());
+
+// ── Buyer-fit option definitions ──────────────────────────────
+var FIT = (function () {
+  function svg(inner) {
+    return '<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + inner + '</svg>';
+  }
+  var ICON = {
+    collection: svg('<rect x="4" y="8" width="16" height="12" rx="2"/><path d="M4 8l1.6-3.2A1 1 0 0 1 6.5 4h11a1 1 0 0 1 .9.8L20 8"/><line x1="10" y1="12" x2="14" y2="12"/>'),
+    camera: svg('<rect x="3" y="7" width="18" height="13" rx="2.5"/><circle cx="12" cy="13.5" r="3.3"/><rect x="8.5" y="4.5" width="7" height="2.5" rx="1"/>'),
+    display: svg('<rect x="4" y="4" width="16" height="12" rx="1.5"/><line x1="4" y1="17" x2="20" y2="17"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="17" x2="12" y2="20"/>'),
+    home: svg('<path d="M4 11l8-6 8 6"/><path d="M6 10v9h12v-9"/><rect x="10" y="14" width="4" height="5" rx="0.5"/>'),
+    clock: svg('<circle cx="12" cy="12" r="8.2"/><path d="M12 8v4.2l2.8 1.7"/>'),
+    calendar: svg('<rect x="4" y="5" width="16" height="16" rx="2"/><line x1="4" y1="9.5" x2="20" y2="9.5"/><line x1="8.5" y1="3" x2="8.5" y2="7"/><line x1="15.5" y1="3" x2="15.5" y2="7"/>'),
+    bolt: svg('<path d="M13 3L5 13.5h5.5L9 21l8-10.5h-5.5z"/>'),
+    feather: svg('<path d="M20 4C13.5 4 7.5 9.5 6.5 16l-2.3 4"/><path d="M6.7 15.5h7.6"/><path d="M9 11.7c2.6 0 5-1.7 6.6-4.4"/>'),
+    anchor: svg('<circle cx="12" cy="5" r="2.4"/><line x1="12" y1="7.4" x2="12" y2="20"/><path d="M5 12.5a7 7 0 0 0 14 0"/><line x1="4" y1="12.5" x2="7.5" y2="12.5"/><line x1="16.5" y1="12.5" x2="20" y2="12.5"/>'),
+    box: svg('<rect x="4" y="8" width="16" height="12" rx="2"/><path d="M4 8l1.6-3.2A1 1 0 0 1 6.5 4h11a1 1 0 0 1 .9.8L20 8"/>'),
+    shieldCheck: svg('<path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 11.5l2 2 4-4"/>'),
+    shieldLock: svg('<path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><rect x="9.5" y="11" width="5" height="4" rx="1"/><path d="M10.5 11v-1.5a1.5 1.5 0 0 1 3 0V11"/>')
+  };
+  var CHECK = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg>';
+
+  var USE = [
+    ['private','Private collection','Personal enjoyment'],
+    ['photo','Photography','Posing & shoots'],
+    ['display','Display','Wardrobe & styling'],
+    ['companion','Companionship','A present figure'],
+    ['undecided','Still deciding','Help me decide']
+  ];
+  var TIME = [
+    ['now','Ready now','0–2 weeks'],
+    ['soon','Near term','1–2 months'],
+    ['plan','Planning','3+ months'],
+    ['explore','Just exploring','No timeline']
+  ];
+  var HAND = [
+    ['solo','Solo-manageable','~25–30 kg'],
+    ['space','Dedicated space','Full weight'],
+    ['unsure','Not sure yet','Advise me']
+  ];
+  var PRIV = [
+    ['standard','Standard','Plain box'],
+    ['discreet','Extra discreet','Nothing on label'],
+    ['max','Maximum privacy','Personal delivery']
+  ];
+
+  function labelOf(defs, val) {
+    for (var i = 0; i < defs.length; i++) if (defs[i][0] === val) return defs[i][1];
+    return '';
+  }
+
+  var state = {
+    use: 'private', timeline: 'soon',
+    handling: 'space', privacy: 'discreet'
+  };
+
+  var esc = (typeof ZX !== 'undefined' && ZX.esc) ? ZX.esc : function (s) { return String(s == null ? '' : s); };
+
+  function renderCards(containerId, field, defs) {
+    var el = document.getElementById(containerId);
+    if (!el) return;
+    el.innerHTML = defs.map(function (d) {
+      var sel = state[field] === d[0];
+      return '<button type="button" class="opt-card" data-field="' + field + '" data-value="' + esc(d[0]) + '" aria-pressed="' + sel + '" aria-label="' + esc(d[1]) + ': ' + esc(d[2]) + '">' +
+        '<span class="oc-label">' + esc(d[1]) + '</span>' +
+        '<span class="oc-sub">' + esc(d[2]) + '</span>' +
+      '</button>';
+    }).join('');
+  }
+
+  function syncHidden() {
+    function set(id, v) { var e = document.getElementById(id); if (e) e.value = v; }
+    set('f-use', labelOf(USE, state.use));
+    set('f-timeline', labelOf(TIME, state.timeline));
+    set('f-handling', labelOf(HAND, state.handling));
+    set('f-privacy', labelOf(PRIV, state.privacy));
+  }
+
+  function renderAll() {
+    renderCards('grp-use', 'use', USE);
+    renderCards('grp-timeline', 'timeline', TIME);
+    renderCards('grp-handling', 'handling', HAND);
+    renderCards('grp-privacy', 'privacy', PRIV);
+    syncHidden();
+  }
+
+  function init() {
+    renderAll();
+
+    ['grp-use','grp-timeline','grp-handling','grp-privacy'].forEach(function (gid) {
+      var g = document.getElementById(gid);
+      if (!g) return;
+      g.addEventListener('click', function (e) {
+        var b = e.target.closest('.opt-card'); if (!b) return;
+        var field = b.getAttribute('data-field');
+        state[field] = b.getAttribute('data-value');
+        g.querySelectorAll('.opt-card').forEach(function (c) { c.setAttribute('aria-pressed', c === b ? 'true' : 'false'); });
+        syncHidden();
+      });
+    });
+  }
+
+  return {
+    init: init,
+    setState: function(s) { Object.assign(state, s); renderAll(); }
+  };
+})();
+
+// ── Quiz Bridge: Check sessionStorage for quiz state ──────────
+(function quizBridge() {
+  try {
+    var quizData = sessionStorage.getItem('zx_quiz_result');
+    if (quizData) {
+      var quiz = JSON.parse(quizData);
+      var banner = document.getElementById('quiz-banner');
+      if (banner) banner.classList.add('show');
+
+      // Pre-fill FIT state if present
+      if (quiz.family) {
+        var famSel = document.getElementById('f-family');
+        if (famSel) famSel.value = quiz.family;
+      }
+      if (quiz.use) FIT.setState({ use: quiz.use });
+      if (quiz.timeline) FIT.setState({ timeline: quiz.timeline });
+      if (quiz.handling) FIT.setState({ handling: quiz.handling });
+      if (quiz.privacy) FIT.setState({ privacy: quiz.privacy });
+
+      // Pre-fill message with quiz summary
+      var msgField = document.getElementById('f-message');
+      if (msgField && !msgField.value.trim()) {
+        msgField.value = 'I completed your quiz and am interested in the ' + (quiz.family || 'character') + ' silhouette.';
+      }
+
+      // Wire clear button
+      var clearBtn = document.getElementById('quiz-clear');
+      if (clearBtn) {
+        clearBtn.addEventListener('click', function() {
+          sessionStorage.removeItem('zx_quiz_result');
+          banner.classList.remove('show');
+          FIT.setState({ use: 'private', timeline: 'soon', handling: 'space', privacy: 'discreet' });
+          msgField.value = '';
+        });
+      }
+    }
+  } catch (e) {}
+})();
+
+// ── Phase 2 Toggle (Collapsible buyer-fit) ──────────────────
+(function phase2Toggle() {
+  var toggle = document.getElementById('phase-2-toggle');
+  var fields = document.getElementById('phase-2-fields');
+  if (!toggle || !fields) return;
+
+  toggle.addEventListener('click', function() {
+    var expanded = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', !expanded ? 'true' : 'false');
+    fields.classList.toggle('expanded');
+  });
+})();
+
+// ── Validation ───────────────────────────────────────────────
+function validateEmail(v) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test((v || '').trim());
+}
+
+function showFieldError(fieldId, errId, show) {
+  var field = document.getElementById(fieldId);
+  var err   = document.getElementById(errId);
+  if (field) {
+    if (show) { field.classList.add('err-field'); }
+    else      { field.classList.remove('err-field'); }
+  }
+  if (err) {
+    if (show) { err.classList.add('show'); }
+    else      { err.classList.remove('show'); }
+  }
+}
+
+function clearErrors() {
+  ['f-name','f-email','f-message','f-consent'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.classList.remove('err-field');
+  });
+  ['err-name','err-email','err-message','err-consent'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.classList.remove('show');
+  });
+}
+
+function validate() {
+  var ok = true;
+  var firstBad = null;
+
+  var name = (document.getElementById('f-name') || {}).value || '';
+  if (!name.trim()) {
+    showFieldError('f-name','err-name',true);
+    if (!firstBad) firstBad = document.getElementById('f-name');
+    ok = false;
+  } else { showFieldError('f-name','err-name',false); }
+
+  var email = (document.getElementById('f-email') || {}).value || '';
+  if (!validateEmail(email)) {
+    showFieldError('f-email','err-email',true);
+    if (!firstBad) firstBad = document.getElementById('f-email');
+    ok = false;
+  } else { showFieldError('f-email','err-email',false); }
+
+  var msg = (document.getElementById('f-message') || {}).value || '';
+  if (msg.trim().length < 5) {
+    showFieldError('f-message','err-message',true);
+    if (!firstBad) firstBad = document.getElementById('f-message');
+    ok = false;
+  } else { showFieldError('f-message','err-message',false); }
+
+  var consent = document.getElementById('f-consent');
+  if (!consent || !consent.checked) {
+    showFieldError('f-consent','err-consent',true);
+    if (!firstBad) firstBad = consent;
+    ok = false;
+  } else { showFieldError('f-consent','err-consent',false); }
+
+  if (firstBad && firstBad.scrollIntoView) { try { firstBad.scrollIntoView({ behavior: 'smooth', block: 'center' }); firstBad.focus(); } catch(e) {} }
+  return ok;
+}
+
+// ── Collect form data ────────────────────────────────────────
+function collectFields() {
+  function val(id) {
+    var el = document.getElementById(id);
+    return el ? (el.value || '').trim() : '';
+  }
+  return {
+    name:      val('f-name'),
+    email:     val('f-email'),
+    family:    val('f-family'),
+    use_context: val('f-use'),
+    timeline:  val('f-timeline'),
+    handling:  val('f-handling'),
+    privacy:   val('f-privacy'),
+    message:   val('f-message'),
+    intent:    'contact_form_variant_b'
+  };
+}
+
+// ── Show/hide success & error states ────────────────────────
+function showSuccess() {
+  var form = document.getElementById('inquiry-form');
+  if (form) form.style.display = 'none';
+  var success = document.getElementById('form-success');
+  if (success) success.style.display = 'block';
+  ZX.track('inquiry_submit_success', { variant: 'b', context: 'contact_form', source_page: 'contact' });
+}
+
+function showError(msg) {
+  var errDiv = document.getElementById('form-error');
+  if (errDiv) errDiv.style.display = 'block';
+  if (msg) { var t = document.getElementById('form-error-text'); if (t) t.textContent = msg; }
+  var btn = document.getElementById('submit-btn');
+  var spinner = document.getElementById('submit-spinner');
+  if (btn) btn.disabled = false;
+  if (spinner) spinner.style.display = 'none';
+  ZX.track('inquiry_submit_error', { variant: 'b', message: msg || '', context: 'contact_form', source_page: 'contact' });
+}
+
+// ── Form submit ──────────────────────────────────────────────
+document.getElementById('inquiry-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  clearErrors();
+
+  if (!validate()) {
+    ZX.track('inquiry_validation_failed', { variant: 'b', context: 'contact_form', source_page: 'contact' });
+    return;
+  }
+
+  var btn     = document.getElementById('submit-btn');
+  var spinner = document.getElementById('submit-spinner');
+  if (btn)     btn.disabled = true;
+  if (spinner) spinner.style.display = 'inline-block';
+
+  var errDiv = document.getElementById('form-error');
+  if (errDiv) errDiv.style.display = 'none';
+
+  var fields   = collectFields();
+  var endpoint = (typeof ZX !== 'undefined' && ZX.FORM_ENDPOINT) ? ZX.FORM_ENDPOINT : '';
+  ZX.track('inquiry_submit_attempt', { variant: 'b', family: fields.family || '', use_context: fields.use_context || '', context: 'contact_form', source_page: 'contact' });
+
+  if (endpoint) {
+    fetch(endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(fields)
+    }).then(function(res) {
+      if (res.ok) {
+        showSuccess();
+      } else {
+        showError('Server error. Please try again.');
+      }
+    }).catch(function() {
+      showError('Network error. Please check your connection.');
+    });
+  } else {
+    showSuccess();
+  }
+});
+
+// Boot: mount nav, init FIT, load catalog, prefill
+ZX.mountNav('contact.html');
+FIT.init();
+
+ZX.load().then(function(m) {
+  prefill(m);
+  var hero = document.querySelector('.contact-hero');
+  if (hero && !hero.querySelector('.backdrop')) {
+    var id  = ZX.qs('id');
+    var src = (id && m.byId && m.byId[id]) ? ZX.img(m.byId[id]) : ZX.repImg(m.characters, 0);
+    var html = ZX.heroBackdrop(src);
+    if (html) hero.insertAdjacentHTML('afterbegin', html);
+  }
+  ZX.revealInit();
+  ZX.mountFooter();
+}).catch(function() {
+  try { ZX.revealInit(); ZX.mountFooter(); } catch(e) {}
+});
+
+// ── Prefill from URL params ──────────────────────────────────
+function prefill(m) {
+  if (!m || !m.byId) return;
+
+  var id = ZX.qs('id');
+  var c = (id && m.byId[id]) ? m.byId[id] : null;
+
+  var bParam = (ZX.qs('b') || '').trim();
+  if (!c && bParam && m.byBody && m.byBody[bParam]) {
+    var bucket0 = m.byBody[bParam] || [];
+    c = bucket0.find(function(x){ return x.status === 'live'; }) || bucket0[0] || null;
+  }
+
+  if (!c) return;
+
+  // Show phase 1 and prefill character context
+  var phase1 = document.getElementById('phase-1');
+  if (phase1) phase1.classList.add('show');
+
+  var body = c.body || {};
+  var persona = c.persona || {};
+  var name = persona.name || '';
+  var bc = c.body_code || '';
+
+  var chipArea = document.getElementById('char-chip-area');
+  if (chipArea) {
+    var thumbUrl = ZX.img(c);
+    var thumbHtml = thumbUrl
+      ? '<img class="cc-chip" src="' + ZX.esc(thumbUrl) + '" alt="' + ZX.esc(name) + '">'
+      : '<div class="chip-thumb-ph">' + ZX.esc((name || '?').charAt(0).toUpperCase()) + '</div>';
+
+    var famName = body.family || '';
+    chipArea.innerHTML =
+      '<div class="char-chip">' + thumbHtml +
+        '<div class="chip-info">' +
+          '<div class="chip-label">Your selection</div>' +
+          '<div class="chip-name">' + ZX.esc(name) + '</div>' +
+          '<div class="chip-sub">' + ZX.esc(bc) + (famName ? ' · ' + ZX.esc(famName) : '') + '</div>' +
+        '</div>' +
+      '</div>';
+  }
+
+  if (body.family) {
+    var famSel = document.getElementById('f-family');
+    if (famSel) {
+      for (var fi = 0; fi < famSel.options.length; fi++) {
+        if (famSel.options[fi].value.toLowerCase() === String(body.family).toLowerCase()) {
+          famSel.value = famSel.options[fi].value; break;
+        }
+      }
+    }
+  }
+
+  var msgField = document.getElementById('f-message');
+  if (msgField && !msgField.value.trim()) {
+    msgField.value = 'I am interested in ' + (name || 'a character') + (bc ? ' (' + bc + ')' : '') + '.';
+  }
+}
+</script>
+</body>
+</html>

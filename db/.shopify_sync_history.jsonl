@@ -1,0 +1,5 @@
+{"timestamp": "2026-06-21T16:54:48.563553", "level": "INFO", "message": "Shopify API rate: 1/40"}
+{"timestamp": "2026-06-21T16:54:48.571457", "level": "INFO", "message": "Shopify API rate: <Mock name='request().headers.get()' id='2264462483600'>"}
+{"timestamp": "2026-06-21T16:54:48.571457", "level": "ERROR", "message": "Auth failed: 401. Check SHOPIFY_ACCESS_TOKEN."}
+{"timestamp": "2026-06-21T16:54:48.571457", "level": "WARN", "message": "Rate limited. Waiting 1s before retry."}
+{"timestamp": "2026-06-21T16:54:48.571457", "level": "INFO", "message": "Shopify API rate: 1/40"}

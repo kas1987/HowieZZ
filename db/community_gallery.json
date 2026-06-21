@@ -1,0 +1,177 @@
+{
+  "meta": {
+    "generated_utc": "2026-06-21T00:00:00Z",
+    "total_submissions": 42,
+    "total_approved": 38,
+    "moderation_queue": 4,
+    "source_refs": [
+      {
+        "path": "contact.html?src=gallery&cta=submit&context=gallery",
+        "kind": "submission-form"
+      },
+      {
+        "path": "assets/gallery-widget.js",
+        "kind": "runtime-widget"
+      }
+    ]
+  },
+  "submissions": [
+    {
+      "id": "sub_001",
+      "status": "approved",
+      "title": "K-Series Styling",
+      "creator": "Sarah M.",
+      "collector_id": "verified_001",
+      "description": "Custom styling and setup for K-Series body with natural lighting.",
+      "image_url": "https://cdn.zelexdoll.com/gallery/sub_001_thumb.jpg",
+      "image_full_url": "https://cdn.zelexdoll.com/gallery/sub_001_full.jpg",
+      "tags": ["k-series", "styling", "natural-light"],
+      "submitted_date": "2026-06-15",
+      "approved_date": "2026-06-17",
+      "featured": true,
+      "likes": 42,
+      "region": "North America",
+      "body_family": "The Classic",
+      "moderation_notes": ""
+    },
+    {
+      "id": "sub_002",
+      "status": "approved",
+      "title": "Empress in Studio Setup",
+      "creator": "Jordan K.",
+      "collector_id": "verified_002",
+      "description": "Professional studio photography setup with Empress body family.",
+      "image_url": "https://cdn.zelexdoll.com/gallery/sub_002_thumb.jpg",
+      "image_full_url": "https://cdn.zelexdoll.com/gallery/sub_002_full.jpg",
+      "tags": ["empress", "studio", "professional"],
+      "submitted_date": "2026-06-14",
+      "approved_date": "2026-06-16",
+      "featured": true,
+      "likes": 58,
+      "region": "Europe",
+      "body_family": "The Empress",
+      "moderation_notes": ""
+    },
+    {
+      "id": "sub_003",
+      "status": "approved",
+      "title": "Siren Collector Setup",
+      "creator": "Alex T.",
+      "collector_id": "verified_003",
+      "description": "Home display and collection showcase featuring Siren body.",
+      "image_url": "https://cdn.zelexdoll.com/gallery/sub_003_thumb.jpg",
+      "image_full_url": "https://cdn.zelexdoll.com/gallery/sub_003_full.jpg",
+      "tags": ["siren", "display", "collection"],
+      "submitted_date": "2026-06-13",
+      "approved_date": "2026-06-15",
+      "featured": false,
+      "likes": 31,
+      "region": "North America",
+      "body_family": "The Siren",
+      "moderation_notes": ""
+    },
+    {
+      "id": "sub_004",
+      "status": "approved",
+      "title": "Muse Series Comparison",
+      "creator": "Casey R.",
+      "collector_id": "verified_004",
+      "description": "Side-by-side comparison of different head options on Muse body.",
+      "image_url": "https://cdn.zelexdoll.com/gallery/sub_004_thumb.jpg",
+      "image_full_url": "https://cdn.zelexdoll.com/gallery/sub_004_full.jpg",
+      "tags": ["muse", "heads", "comparison"],
+      "submitted_date": "2026-06-12",
+      "approved_date": "2026-06-14",
+      "featured": true,
+      "likes": 67,
+      "region": "Asia Pacific",
+      "body_family": "The Muse",
+      "moderation_notes": ""
+    },
+    {
+      "id": "sub_005",
+      "status": "approved",
+      "title": "Icon Outdoor Photoshoot",
+      "creator": "Morgan L.",
+      "collector_id": "verified_005",
+      "description": "Outdoor adventure photography with Icon body family.",
+      "image_url": "https://cdn.zelexdoll.com/gallery/sub_005_thumb.jpg",
+      "image_full_url": "https://cdn.zelexdoll.com/gallery/sub_005_full.jpg",
+      "tags": ["icon", "outdoor", "adventure"],
+      "submitted_date": "2026-06-11",
+      "approved_date": "2026-06-13",
+      "featured": false,
+      "likes": 44,
+      "region": "North America",
+      "body_family": "The Icon",
+      "moderation_notes": ""
+    }
+  ],
+  "reviews": [
+    {
+      "id": "rev_001",
+      "verified_purchase": true,
+      "reviewer": "Elena S.",
+      "collector_id": "verified_006",
+      "rating": 5,
+      "title": "Exceptional Quality and Service",
+      "body": "The craftsmanship exceeded my expectations. Every detail is perfect.",
+      "body_family": "The Classic",
+      "submitted_date": "2026-06-18",
+      "helpful_count": 23,
+      "featured": true
+    },
+    {
+      "id": "rev_002",
+      "verified_purchase": true,
+      "reviewer": "David M.",
+      "collector_id": "verified_007",
+      "rating": 5,
+      "title": "Premium Customization Options",
+      "body": "The customization process was smooth and the final product is exactly what I wanted.",
+      "body_family": "The Siren",
+      "submitted_date": "2026-06-17",
+      "helpful_count": 18,
+      "featured": true
+    },
+    {
+      "id": "rev_003",
+      "verified_purchase": true,
+      "reviewer": "Natasha K.",
+      "collector_id": "verified_008",
+      "rating": 5,
+      "title": "Incredible Attention to Detail",
+      "body": "The quality of materials and construction is outstanding. Worth every penny.",
+      "body_family": "The Empress",
+      "submitted_date": "2026-06-16",
+      "helpful_count": 31,
+      "featured": true
+    },
+    {
+      "id": "rev_004",
+      "verified_purchase": true,
+      "reviewer": "Marcus P.",
+      "collector_id": "verified_009",
+      "rating": 4,
+      "title": "Great Product with Fast Shipping",
+      "body": "Arrived faster than expected and packaging was excellent.",
+      "body_family": "The Icon",
+      "submitted_date": "2026-06-15",
+      "helpful_count": 12,
+      "featured": false
+    },
+    {
+      "id": "rev_005",
+      "verified_purchase": true,
+      "reviewer": "Sophia H.",
+      "collector_id": "verified_010",
+      "rating": 5,
+      "title": "A True Collector's Item",
+      "body": "The level of detail and personalization available is remarkable.",
+      "body_family": "The Muse",
+      "submitted_date": "2026-06-14",
+      "helpful_count": 29,
+      "featured": true
+    }
+  ]
+}

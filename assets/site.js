@@ -215,11 +215,11 @@ window.ZX = (function () {
     if (_model) return _model;
     let chars, bodyTypes, profiles;
     try {
-      [chars, bodyTypes, profiles] = await Promise.all([
-        fetch('db/characters.json').then(r=>r.json()),
-        fetch('db/body_types.json').then(r=>r.json()),
-        fetch('db/body_profiles.json').then(r=>r.json()).catch(()=>({profiles:{}}))
-      ]);
+      // Prioritize critical character data fetch with priority hint
+      const charsReq = fetch('db/characters.json', {priority: 'high'}).then(r=>r.json());
+      const bodyReq = fetch('db/body_types.json', {priority: 'low'}).then(r=>r.json());
+      const profileReq = fetch('db/body_profiles.json', {priority: 'low'}).then(r=>r.json()).catch(()=>({profiles:{}}));
+      [chars, bodyTypes, profiles] = await Promise.all([charsReq, bodyReq, profileReq]);
     } catch (e) {
       throw new Error('data-load');
     }
@@ -257,29 +257,26 @@ window.ZX = (function () {
     return src ? `<div class="backdrop" style="background-image:url('${src}')"></div>` : '';
   }
   // Scroll reveal: fade `.reveal` elements up as they scroll into view. Idempotent —
-  // call again after injecting new DOM. Uses a plain scroll-position check (not
-  // IntersectionObserver) so its only failure mode is "show everything," never a
-  // page of invisible content.
+  // call again after injecting new DOM. Uses IntersectionObserver for better performance.
   function _revealSweep(){
-    const vh = window.innerHeight || document.documentElement.clientHeight || 0;
-    const els = document.querySelectorAll('.reveal:not(.in)');
-    for (let i=0;i<els.length;i++){
-      const r = els[i].getBoundingClientRect();
-      if (r.top < vh * 0.94 && r.bottom > 0) els[i].classList.add('in');
+    if (!_revealSweep._observer) {
+      _revealSweep._observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in');
+          }
+        });
+      }, { threshold: 0.06, rootMargin: '0px 0px -6%' });
     }
+    const els = document.querySelectorAll('.reveal:not(.in)');
+    els.forEach(el => _revealSweep._observer.observe(el));
   }
   function revealInit(){
     _revealSweep();                       // reveal whatever is already on screen
     if (!revealInit._bound){
       revealInit._bound = true;
-      let ticking = false;
-      const onScroll = ()=>{ if(ticking) return; ticking = true;
-        requestAnimationFrame(()=>{ ticking = false; _revealSweep(); }); };
-      addEventListener('scroll', onScroll, {passive:true});
-      addEventListener('resize', onScroll, {passive:true});
-      // failsafe: in any environment where scroll, measurement, OR transitions
-      // misbehave, never leave content hidden — hard-show anything still pending after
-      // a few seconds, bypassing the transition (inline wins, transition:none = instant).
+      // failsafe: in any environment where IntersectionObserver misbehaves,
+      // hard-show anything still pending after a few seconds.
       setTimeout(()=>document.querySelectorAll('.reveal:not(.in)').forEach(e=>{
         e.classList.add('in'); e.style.transition='none'; e.style.opacity='1'; e.style.transform='none';
       }), 4000);
@@ -324,9 +321,20 @@ window.ZX = (function () {
         `<div class="links" id="navLinks">${links}</div>` +
         `<div class="nav-scrim" id="navScrim" hidden></div>` +
       `</nav>`);
-    // subtle nav elevation once the page scrolls past the hero lip
+    // subtle nav elevation once the page scrolls past the hero lip (debounced)
     const nav = document.querySelector('.nav');
-    if (nav) addEventListener('scroll', ()=>nav.classList.toggle('up', (window.scrollY||0) > 40), {passive:true});
+    if (nav) {
+      let navTicking = false;
+      addEventListener('scroll', () => {
+        if (!navTicking) {
+          navTicking = true;
+          requestAnimationFrame(() => {
+            nav.classList.toggle('up', (window.scrollY||0) > 40);
+            navTicking = false;
+          });
+        }
+      }, {passive:true});
+    }
 
     // --- mobile drawer wiring ---------------------------------------------
     // Progressive enhancement: with no JS the `.links` list simply renders inline

@@ -5,6 +5,35 @@ howiez.local {
 	}
 	encode gzip
 
+	# Long-term caching for immutable assets (hashed filenames)
+	@immutable {
+		path /assets/*.{js,css}
+		path /assets/thumbs/*
+		path /*.{jpg,jpeg,png,gif,webp,svg,ico}
+	}
+	header @immutable Cache-Control "public, max-age=31536000, immutable"
+
+	# Medium-term caching for versioned assets
+	@versioned {
+		path /db/*.json
+	}
+	header @versioned Cache-Control "public, max-age=3600"
+
+	# No cache for HTML pages (validate with ETag)
+	@html {
+		path /*.html
+	}
+	header @html Cache-Control "public, max-age=0, must-revalidate"
+	header @html ETag "{http.file.etag}"
+
+	# Compression & performance headers
+	header {
+		X-Content-Type-Options "nosniff"
+		X-Frame-Options "DENY"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		Permissions-Policy "geolocation=(), microphone=(), camera=()"
+	}
+
 	handle_errors {
 		respond "{http.error.status_code} {http.error.status_text}"
 	}

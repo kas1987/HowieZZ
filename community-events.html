@@ -8,7 +8,8 @@
 <link rel="canonical" href="https://www.zelexdoll.com/community-events.html">
 <meta property="og:title" content="ZELEX - Community Events">
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/site.css">
 <style>
@@ -36,6 +37,16 @@
   </section>
 
   <section class="events-list" id="events-list"></section>
+
+  <section style="margin:24px 0;border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:20px">
+    <h3 style="margin:0 0 12px">Add to Your Calendar</h3>
+    <p style="margin:0 0 12px;color:var(--muted);font-size:13px">Subscribe to all community events in your preferred calendar app. Updates automatically when events are rescheduled.</p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <a class="btn solid" href="https://calendar.google.com/calendar/u/0/r?cid=https://www.zelexdoll.com/community-calendar.ics" target="_blank" rel="noopener">+ Google Calendar</a>
+      <a class="btn" href="community-calendar.ics" download>Download .ics File</a>
+      <a class="btn ghost" href="contact.html?src=community_events&cta=calendar_help&context=community_events">Calendar Help</a>
+    </div>
+  </section>
 
   <section class="events-provenance" id="events-provenance">Provenance: loading source metadata...</section>
 
@@ -75,7 +86,7 @@ function bindTracking(){
   });
 }
 
-fetch('db/community_events.json')
+fetch('db/community_events_calendar.json')
   .then(function(r){ return r.ok ? r.json() : { events: [] }; })
   .then(function(data){
     var events = (data && data.events) || [];
@@ -83,7 +94,16 @@ fetch('db/community_events.json')
     bindTracking();
   })
   .catch(function(){
-    document.getElementById('events-list').innerHTML = '<div class="compare-empty">Events are loading from curation. Use Contact to request the next session.</div>';
+    fetch('db/community_events.json')
+      .then(function(r){ return r.ok ? r.json() : { events: [] }; })
+      .then(function(data){
+        var events = (data && data.events) || [];
+        document.getElementById('events-list').innerHTML = events.map(cardHtml).join('');
+        bindTracking();
+      })
+      .catch(function(){
+        document.getElementById('events-list').innerHTML = '<div class="compare-empty">Events are loading from curation. Use Contact to request the next session.</div>';
+      });
   });
 
 fetch('db/community_channels.json')

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ZELEX - Community Gallery</title>
+<meta name="description" content="Share your ZELEX collection photos. Curated gallery of verified collector submissions with moderation.">
+<link rel="canonical" href="https://www.zelexdoll.com/gallery.html">
+<meta property="og:title" content="ZELEX - Community Gallery">
+<meta property="og:description" content="Collector photos, styling tips, and setup inspiration.">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+.gallery-page{max-width:var(--maxw);margin:0 auto;padding:26px 24px 72px}
+.gallery-hero{padding:30px 0 12px;max-width:900px}
+.gallery-hero h1{font-size:clamp(34px,6vw,58px);line-height:1.06;margin:10px 0}
+.gallery-hero p{color:var(--muted);max-width:780px;line-height:1.6}
+
+.gallery-submit{margin:28px 0;border:2px solid var(--line);border-radius:14px;background:var(--panel);padding:20px}
+.gallery-submit h3{margin:0 0 8px;font-size:18px}
+.gallery-submit p{margin:0 0 12px;color:var(--muted);font-size:13px}
+.gallery-submit .btn{margin-right:8px}
+
+.gallery-tabs{display:flex;gap:12px;margin:20px 0;border-bottom:1px solid var(--line);padding-bottom:0}
+.gallery-tab{padding:12px 0;border-bottom:2px solid transparent;cursor:pointer;color:var(--muted);transition:all 200ms;font-weight:500}
+.gallery-tab.active{color:var(--cream);border-color:var(--cream)}
+
+.gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-top:14px}
+.gallery-item{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--panel);transition:all 200ms}
+.gallery-item:hover{border-color:var(--cream);transform:translateY(-2px)}
+.gallery-item-image{width:100%;aspect-ratio:1;object-fit:cover;background:var(--panel2)}
+.gallery-item-content{padding:12px}
+.gallery-item-title{margin:0;font-size:15px;font-weight:600;line-height:1.2}
+.gallery-item-creator{margin:4px 0;color:var(--muted);font-size:12px}
+.gallery-item-tags{display:flex;gap:4px;flex-wrap:wrap;margin:8px 0}
+.gallery-tag{font-size:10px;padding:2px 6px;border-radius:4px;background:var(--panel2);color:var(--muted)}
+.gallery-item-meta{display:flex;justify-content:space-between;align-items:center;margin-top:8px;font-size:11px;color:var(--muted)}
+.gallery-item-likes::before{content:'♥ '}
+
+.reviews-carousel{margin:20px 0}
+.reviews-slide{display:none;padding:20px;border:1px solid var(--line);border-radius:14px;background:var(--panel)}
+.reviews-slide.active{display:block}
+.review-rating{font-size:16px;color:#f39c12;margin-bottom:8px}
+.review-title{font-size:18px;font-weight:600;margin:0 0 8px}
+.review-body{color:var(--muted);line-height:1.6;margin:0}
+.review-author{margin-top:12px;font-size:12px;color:var(--muted)}
+.reviews-nav{display:flex;gap:8px;justify-content:center;margin-top:12px}
+.review-dot{width:8px;height:8px;border-radius:50%;background:var(--line);cursor:pointer;transition:all 200ms}
+.review-dot.active{background:var(--cream);width:24px;border-radius:4px}
+
+.gallery-filter{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}
+.filter-btn{padding:6px 12px;border:1px solid var(--line);border-radius:999px;font-size:12px;background:transparent;cursor:pointer;transition:all 200ms;color:var(--muted)}
+.filter-btn.active{background:var(--cream);color:var(--dark);border-color:var(--cream)}
+
+.gallery-empty{text-align:center;padding:40px 20px;color:var(--muted)}
+.gallery-empty h3{margin:0 0 8px;font-size:18px}
+
+@media(max-width:920px){
+  .gallery-grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
+}
+
+@media(max-width:640px){
+  .gallery-grid{grid-template-columns:1fr}
+  .gallery-tabs{flex-wrap:wrap}
+}
+</style>
+</head>
+<body>
+<div class="crumbs"><a href="index.html">Atlas</a><span>&rsaquo;</span><a href="community.html">Community</a><span>&rsaquo;</span> Gallery</div>
+<main class="gallery-page" id="app">
+  <section class="gallery-hero">
+    <div class="eyebrow no-rule">Collector Network</div>
+    <h1>Community Gallery & Reviews</h1>
+    <p>Browse verified collector submissions, setup inspiration, and styling ideas. Your photos and feedback help the ZELEX community grow.</p>
+  </section>
+
+  <section class="gallery-submit">
+    <h3>Share Your Collection</h3>
+    <p>Submit photos of your ZELEX collection, styling tips, and setup ideas. All submissions go through quick moderation to keep the gallery safe and on-brand.</p>
+    <a class="btn solid" href="contact.html?src=gallery&cta=submit_photo&context=gallery&channel=contact">Submit Photo</a>
+    <a class="btn" href="contact.html?src=gallery&cta=submit_review&context=gallery&channel=contact">Write a Review</a>
+  </section>
+
+  <div class="gallery-tabs">
+    <div class="gallery-tab active" data-tab="gallery">Gallery (42)</div>
+    <div class="gallery-tab" data-tab="reviews">Reviews (5)</div>
+    <div class="gallery-tab" data-tab="moderation">Moderation Queue (4)</div>
+  </div>
+
+  <div id="gallery-tab" class="gallery-tab-content active">
+    <div class="gallery-filter">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="featured">Featured</button>
+      <button class="filter-btn" data-filter="The Classic">Classic</button>
+      <button class="filter-btn" data-filter="The Icon">Icon</button>
+      <button class="filter-btn" data-filter="The Muse">Muse</button>
+      <button class="filter-btn" data-filter="The Siren">Siren</button>
+      <button class="filter-btn" data-filter="The Empress">Empress</button>
+      <button class="filter-btn" data-filter="The Sculpt">Sculpt</button>
+    </div>
+    <div class="gallery-grid" id="gallery-grid"></div>
+  </div>
+
+  <div id="reviews-tab" class="gallery-tab-content" style="display:none">
+    <div class="reviews-carousel" id="reviews-carousel"></div>
+    <div class="reviews-nav" id="reviews-nav"></div>
+  </div>
+
+  <div id="moderation-tab" class="gallery-tab-content" style="display:none">
+    <div style="padding:20px;border:1px dashed var(--line);border-radius:12px;background:var(--panel2)">
+      <p style="margin:0;color:var(--muted);font-size:13px">
+        <strong>Moderation queue is available to gallery moderators only.</strong>
+        Submissions are reviewed within 24 hours. <a href="contact.html?src=gallery&cta=join_moderation&context=gallery">Join the moderation team</a> to help curate the community gallery.
+      </p>
+    </div>
+  </div>
+
+  <section style="margin-top:32px">
+    <h2>Community Guidelines</h2>
+    <ul style="color:var(--muted);line-height:1.8">
+      <li>Photos must feature ZELEX products or collector setups.</li>
+      <li>Include a brief description and relevant tags (body family, location, etc.).</li>
+      <li>No political, adult, or hateful content. Follow regional laws for shared photos.</li>
+      <li>Credit other collectors or artists in your description if inspiration is drawn from their work.</li>
+      <li>Approved submissions get featured in the gallery and may be shared to official social channels.</li>
+    </ul>
+  </section>
+</main>
+
+<script src="assets/site.js"></script>
+<script src="assets/gallery-widget.js"></script>
+<script>
+ZX.mountNav('community.html');
+
+var currentFilter = 'all';
+var currentReviewIndex = 0;
+var galleryData = { submissions: [], reviews: [] };
+
+function renderGallery(submissions) {
+  const filtered = currentFilter === 'all'
+    ? submissions
+    : currentFilter === 'featured'
+      ? submissions.filter(s => s.featured)
+      : submissions.filter(s => s.body_family === currentFilter);
+
+  if (filtered.length === 0) {
+    document.getElementById('gallery-grid').innerHTML =
+      '<div class="gallery-empty" style="grid-column:1/-1"><h3>No submissions found</h3><p>Be the first to submit a photo!</p></div>';
+    return;
+  }
+
+  document.getElementById('gallery-grid').innerHTML = filtered.map(item => `
+    <article class="gallery-item">
+      <img src="${ZX.esc(item.image_url)}" alt="${ZX.esc(item.title)}" class="gallery-item-image">
+      <div class="gallery-item-content">
+        <h3 class="gallery-item-title">${ZX.esc(item.title)}</h3>
+        <p class="gallery-item-creator">by ${ZX.esc(item.creator)}</p>
+        <div class="gallery-item-tags">
+          ${(item.tags || []).map(t => `<span class="gallery-tag">${ZX.esc(t)}</span>`).join('')}
+        </div>
+        <div class="gallery-item-meta">
+          <span class="gallery-item-likes">${item.likes || 0}</span>
+          <span>${ZX.esc(item.region || 'Global')}</span>
+        </div>
+      </div>
+    </article>
+  `).join('');
+
+  document.querySelectorAll('.gallery-item').forEach((el, i) => {
+    el.addEventListener('click', () => {
+      ZX.track('gallery_item_view', {
+        submission_id: filtered[i].id,
+        title: filtered[i].title,
+        body_family: filtered[i].body_family
+      });
+    });
+  });
+}
+
+function renderReviews(reviews) {
+  const featured = reviews.filter(r => r.featured);
+  document.getElementById('reviews-carousel').innerHTML = featured.map((r, i) => `
+    <div class="reviews-slide ${i === 0 ? 'active' : ''}">
+      <div class="review-rating">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</div>
+      <h3 class="review-title">${ZX.esc(r.title)}</h3>
+      <p class="review-body">${ZX.esc(r.body)}</p>
+      <div class="review-author">
+        <strong>${ZX.esc(r.reviewer)}</strong> · ${ZX.esc(r.body_family)} · ${r.helpful_count} found helpful
+      </div>
+    </div>
+  `).join('');
+
+  document.getElementById('reviews-nav').innerHTML = featured.map((_, i) => `
+    <div class="review-dot ${i === 0 ? 'active' : ''}" data-index="${i}"></div>
+  `).join('');
+
+  document.querySelectorAll('.review-dot').forEach(dot => {
+    dot.addEventListener('click', () => {
+      currentReviewIndex = parseInt(dot.getAttribute('data-index'));
+      renderReviewCarousel();
+    });
+  });
+}
+
+function renderReviewCarousel() {
+  document.querySelectorAll('.reviews-slide').forEach((s, i) => {
+    s.classList.toggle('active', i === currentReviewIndex);
+  });
+  document.querySelectorAll('.review-dot').forEach((d, i) => {
+    d.classList.toggle('active', i === currentReviewIndex);
+  });
+}
+
+function bindTabs() {
+  document.querySelectorAll('.gallery-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      const tabName = tab.getAttribute('data-tab');
+      document.querySelectorAll('.gallery-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.gallery-tab-content').forEach(c => c.style.display = 'none');
+      tab.classList.add('active');
+      document.getElementById(tabName + '-tab').style.display = 'block';
+
+      ZX.track('gallery_tab_switch', { tab: tabName, context: 'gallery' });
+    });
+  });
+}
+
+function bindFilters() {
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentFilter = btn.getAttribute('data-filter');
+      renderGallery(galleryData.submissions);
+
+      ZX.track('gallery_filter_apply', { filter: currentFilter, context: 'gallery' });
+    });
+  });
+}
+
+fetch('db/community_gallery.json')
+  .then(r => r.ok ? r.json() : null)
+  .then(data => {
+    if (!data) throw new Error('No data');
+    galleryData = data;
+    renderGallery(data.submissions || []);
+    renderReviews(data.reviews || []);
+    bindTabs();
+    bindFilters();
+  })
+  .catch(() => {
+    document.getElementById('gallery-grid').innerHTML =
+      '<div class="gallery-empty" style="grid-column:1/-1"><h3>Loading gallery...</h3></div>';
+  });
+
+ZX.track('gallery_view', { context: 'gallery', source_page: 'gallery' });
+ZX.mountFooter();
+</script>
+</body>
+</html>

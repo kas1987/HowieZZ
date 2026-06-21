@@ -1,0 +1,44 @@
+{
+  "ci": {
+    "collect": {
+      "numberOfRuns": 3,
+      "settings": {
+        "chromeFlags": ["--headless", "--no-sandbox"],
+        "throttling": {
+          "rttMs": 150,
+          "throughputKbps": 1638.4,
+          "cpuSlowdownMultiplier": 1,
+          "request": {
+            "latency": 150,
+            "throughput": 1638.4
+          }
+        },
+        "onlyCategories": ["performance", "accessibility", "best-practices", "seo"],
+        "skipAudits": [],
+        "locale": "en-US"
+      },
+      "url": [
+        "http://localhost:8000/index.html",
+        "http://localhost:8000/browse.html",
+        "http://localhost:8000/family.html",
+        "http://localhost:8000/compare.html",
+        "http://localhost:8000/character.html?id=K-Series-Classic-Tall-Cream"
+      ]
+    },
+    "upload": {
+      "target": "temporary-public-storage"
+    },
+    "assert": {
+      "preset": "lighthouse:recommended",
+      "assertions": {
+        "categories:performance": ["error", { "minScore": 0.90 }],
+        "categories:accessibility": ["error", { "minScore": 0.90 }],
+        "categories:best-practices": ["error", { "minScore": 0.90 }],
+        "categories:seo": ["error", { "minScore": 0.90 }],
+        "largest-contentful-paint": ["error", { "maxNumericValue": 2500 }],
+        "cumulative-layout-shift": ["error", { "maxNumericValue": 0.1 }],
+        "first-input-delay": ["error", { "maxNumericValue": 100 }]
+      }
+    }
+  }
+}

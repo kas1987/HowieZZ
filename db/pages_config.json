@@ -1,0 +1,392 @@
+{
+  "schema_version": "1.0",
+  "description": "Complete page catalog for ZELEX Character Atlas. Maps all 41 HTML pages + variants with metadata, generation rules, and cache controls.",
+  "generation_timestamp": null,
+  "pages": {
+    "primary_nav": {
+      "description": "Core navigation pages (appear in mountNav() and mountFooter())",
+      "pages": [
+        {
+          "id": "index",
+          "file": "index.html",
+          "title": "ZELEX — The Character Atlas",
+          "description": "A measurement-grounded catalog where every body is an architecture cast as named, photographed characters — across four series and six body families.",
+          "route": "/",
+          "type": "homepage",
+          "nav_order": 0,
+          "cache_ttl": 3600,
+          "dependencies": ["catalog.json", "family_taxonomy.json", "characters.json"],
+          "og_tags": {
+            "type": "website",
+            "image": "https://www.zelexdoll.com/assets/og-hero.jpg"
+          },
+          "sitemap": {
+            "changefreq": "weekly",
+            "priority": 1.0
+          }
+        },
+        {
+          "id": "browse",
+          "file": "browse.html",
+          "title": "Browse Characters — ZELEX",
+          "description": "Filterable character grid. Sort by series, body family, height, and more.",
+          "route": "/browse.html",
+          "type": "content",
+          "nav_order": 1,
+          "cache_ttl": 3600,
+          "dependencies": ["characters.json", "family_taxonomy.json"],
+          "og_tags": {
+            "type": "website"
+          },
+          "sitemap": {
+            "changefreq": "weekly",
+            "priority": 0.9
+          }
+        },
+        {
+          "id": "family",
+          "file": "family.html",
+          "title": "Body Families — ZELEX",
+          "description": "Explore the six body architectures: Classic, Icon, Muse, Siren, Empress, Sculpt.",
+          "route": "/family.html",
+          "type": "content",
+          "nav_order": 2,
+          "cache_ttl": 3600,
+          "dependencies": ["family_taxonomy.json", "characters.json"],
+          "dynamic_params": ["f"],
+          "og_tags": {
+            "type": "website"
+          },
+          "sitemap": {
+            "changefreq": "weekly",
+            "priority": 0.9
+          }
+        },
+        {
+          "id": "compare",
+          "file": "compare.html",
+          "title": "Compare Bodies — ZELEX",
+          "description": "Side-by-side body architecture comparison tool.",
+          "route": "/compare.html",
+          "type": "interactive_tool",
+          "nav_order": 3,
+          "cache_ttl": 7200,
+          "dependencies": ["body_profiles.json", "characters.json"],
+          "og_tags": {
+            "type": "website"
+          },
+          "sitemap": {
+            "changefreq": "monthly",
+            "priority": 0.7
+          }
+        },
+        {
+          "id": "options",
+          "file": "options.html",
+          "title": "Customization Options — ZELEX",
+          "description": "Complete guide to ZELEX customization options and configurations.",
+          "route": "/options.html",
+          "type": "guide",
+          "nav_order": 4,
+          "cache_ttl": 7200,
+          "dependencies": [],
+          "og_tags": {
+            "type": "website"
+          },
+          "sitemap": {
+            "changefreq": "monthly",
+            "priority": 0.7
+          }
+        },
+        {
+          "id": "community",
+          "file": "community.html",
+          "title": "Community — ZELEX",
+          "description": "Connect with the ZELEX community. Events, channels, and user content.",
+          "route": "/community.html",
+          "type": "content",
+          "nav_order": 5,
+          "cache_ttl": 1800,
+          "dependencies": ["community_channels.json", "community_events.json"],
+          "og_tags": {
+            "type": "website"
+          },
+          "sitemap": {
+            "changefreq": "weekly",
+            "priority": 0.8
+          }
+        },
+        {
+          "id": "quiz",
+          "file": "quiz.html",
+          "title": "Find Yours Persona Quiz — ZELEX",
+          "description": "Take the persona quiz and discover which ZELEX character matches you.",
+          "route": "/quiz.html",
+          "type": "interactive_tool",
+          "nav_order": 6,
+          "cache_ttl": 7200,
+          "dependencies": ["characters.json"],
+          "og_tags": {
+            "type": "website"
+          },
+          "sitemap": {
+            "changefreq": "monthly",
+            "priority": 0.8
+          }
+        },
+        {
+          "id": "configurator",
+          "file": "configurator.html",
+          "title": "Live Configurator — ZELEX",
+          "description": "Customize and preview your ZELEX build in real-time.",
+          "route": "/configurator.html",
+          "type": "interactive_tool",
+          "nav_order": 7,
+          "cache_ttl": 3600,
+          "dependencies": ["catalog.json", "family_taxonomy.json"],
+          "og_tags": {
+            "type": "website"
+          },
+          "sitemap": {
+            "changefreq": "monthly",
+            "priority": 0.6
+          }
+        },
+        {
+          "id": "contact",
+          "file": "contact.html",
+          "title": "Inquiry — ZELEX",
+          "description": "Get in touch with ZELEX. Pre-fill your inquiry with character or body details.",
+          "route": "/contact.html",
+          "type": "form",
+          "nav_order": 8,
+          "cache_ttl": 7200,
+          "dependencies": ["characters.json"],
+          "dynamic_params": ["id"],
+          "og_tags": {
+            "type": "website"
+          },
+          "sitemap": {
+            "changefreq": "monthly",
+            "priority": 0.6
+          }
+        }
+      ]
+    },
+    "content_pages": {
+      "description": "Content pages reachable via links but not in top nav",
+      "pages": [
+        {
+          "id": "series",
+          "file": "series.html",
+          "title": "Series — ZELEX",
+          "description": "Explore ZELEX manufacturing series.",
+          "route": "/series.html",
+          "type": "content",
+          "cache_ttl": 3600,
+          "dependencies": ["characters.json", "catalog.json"],
+          "dynamic_params": ["s"],
+          "og_tags": {
+            "type": "website"
+          },
+          "sitemap": {
+            "changefreq": "weekly",
+            "priority": 0.7
+          }
+        },
+        {
+          "id": "body",
+          "file": "body.html",
+          "title": "Body Architecture — ZELEX",
+          "description": "Detailed body architecture information and measurements.",
+          "route": "/body.html",
+          "type": "content",
+          "cache_ttl": 3600,
+          "dependencies": ["body_profiles.json", "body_measurements.json", "characters.json"],
+          "dynamic_params": ["b"],
+          "og_tags": {
+            "type": "website"
+          },
+          "sitemap": {
+            "changefreq": "weekly",
+            "priority": 0.6
+          }
+        },
+        {
+          "id": "character",
+          "file": "character.html",
+          "title": "Character Profile — ZELEX",
+          "description": "Individual character details, photoshoots, and customization history.",
+          "route": "/character.html",
+          "type": "content",
+          "cache_ttl": 1800,
+          "dependencies": ["characters.json", "character_profiles.json", "character_stories.json"],
+          "dynamic_params": ["id"],
+          "og_tags": {
+            "type": "website"
+          },
+          "sitemap": {
+            "changefreq": "monthly",
+            "priority": 0.5
+          }
+        },
+        {
+          "id": "craft",
+          "file": "craft.html",
+          "title": "The Craft — ZELEX",
+          "description": "ZELEX brand narrative: design, manufacturing philosophy, and vision.",
+          "route": "/craft.html",
+          "type": "content",
+          "nav_order": 9,
+          "cache_ttl": 7200,
+          "dependencies": [],
+          "og_tags": {
+            "type": "website"
+          },
+          "sitemap": {
+            "changefreq": "monthly",
+            "priority": 0.6
+          }
+        },
+        {
+          "id": "community-events",
+          "file": "community-events.html",
+          "title": "Community Events — ZELEX",
+          "description": "Upcoming ZELEX community events, meetups, and collaborations.",
+          "route": "/community-events.html",
+          "type": "content",
+          "cache_ttl": 1800,
+          "dependencies": ["community_events.json"],
+          "og_tags": {
+            "type": "website"
+          },
+          "sitemap": {
+            "changefreq": "weekly",
+            "priority": 0.6
+          }
+        },
+        {
+          "id": "gallery",
+          "file": "gallery.html",
+          "title": "Community Gallery — ZELEX",
+          "description": "Curated gallery of verified collector submissions with moderation.",
+          "route": "/gallery.html",
+          "type": "content",
+          "cache_ttl": 1800,
+          "dependencies": ["community_events.json"],
+          "og_tags": {
+            "type": "website",
+            "image": "https://www.zelexdoll.com/assets/og-gallery.jpg"
+          },
+          "sitemap": {
+            "changefreq": "weekly",
+            "priority": 0.6
+          }
+        }
+      ]
+    },
+    "support_pages": {
+      "description": "Support and variant pages (not in nav or sitemap)",
+      "pages": [
+        {
+          "id": "404",
+          "file": "404.html",
+          "title": "Not Found — ZELEX",
+          "description": "Page not found.",
+          "route": "/404.html",
+          "type": "error",
+          "cache_ttl": 86400,
+          "dependencies": [],
+          "og_tags": null,
+          "include_in_sitemap": false
+        },
+        {
+          "id": "hero",
+          "file": "hero.html",
+          "title": "ZELEX — The Character Atlas (Hero Variant)",
+          "description": "Alternate homepage variant (A/B testing).",
+          "route": "/hero.html",
+          "type": "homepage",
+          "variant": "ab_test",
+          "cache_ttl": 3600,
+          "dependencies": ["catalog.json", "family_taxonomy.json", "characters.json"],
+          "og_tags": {
+            "type": "website"
+          },
+          "include_in_sitemap": false
+        },
+        {
+          "id": "Landing",
+          "file": "Landing.html",
+          "title": "ZELEX — The Character Atlas (Landing Variant)",
+          "description": "Alternate landing variant (A/B testing).",
+          "route": "/Landing.html",
+          "type": "homepage",
+          "variant": "ab_test",
+          "cache_ttl": 3600,
+          "dependencies": ["catalog.json", "family_taxonomy.json", "characters.json"],
+          "og_tags": {
+            "type": "website"
+          },
+          "include_in_sitemap": false
+        },
+        {
+          "id": "index-gallery-original",
+          "file": "index-gallery-original.html",
+          "title": "ZELEX — Legacy Gallery",
+          "description": "Legacy standalone gallery (no shared kit). Kept for backward compatibility.",
+          "route": "/index-gallery-original.html",
+          "type": "legacy",
+          "cache_ttl": 86400,
+          "dependencies": [],
+          "og_tags": null,
+          "include_in_sitemap": false
+        }
+      ]
+    },
+    "contact_variants": {
+      "description": "Contact form variants for testing",
+      "pages": [
+        {
+          "id": "contact-variant-b",
+          "file": "contact-variant-b.html",
+          "title": "Inquiry (Variant B) — ZELEX",
+          "description": "Contact form variant B (A/B testing).",
+          "route": "/contact-variant-b.html",
+          "type": "form",
+          "variant": "ab_test",
+          "cache_ttl": 7200,
+          "dependencies": ["characters.json"],
+          "dynamic_params": ["id"],
+          "og_tags": null,
+          "include_in_sitemap": false
+        },
+        {
+          "id": "contact-variant-d",
+          "file": "contact-variant-d.html",
+          "title": "Inquiry (Variant D) — ZELEX",
+          "description": "Contact form variant D (A/B testing).",
+          "route": "/contact-variant-d.html",
+          "type": "form",
+          "variant": "ab_test",
+          "cache_ttl": 7200,
+          "dependencies": ["characters.json"],
+          "dynamic_params": ["id"],
+          "og_tags": null,
+          "include_in_sitemap": false
+        }
+      ]
+    }
+  },
+  "metadata": {
+    "total_pages": 21,
+    "by_category": {
+      "primary_nav": 9,
+      "content_pages": 6,
+      "support_pages": 4,
+      "contact_variants": 2
+    },
+    "cache_strategy": "per-page TTL + content-hash invalidation",
+    "last_updated": null
+  }
+}

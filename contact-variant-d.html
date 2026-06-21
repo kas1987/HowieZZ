@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Contact & Inquiries — ZELEX</title>
+  <meta name="description" content="Make a discreet, made-to-order inquiry about a ZELEX character — answered personally, within one business day.">
+  <meta name="theme-color" content="#121212">
+  <meta name="robots" content="index,follow">
+  <link rel="canonical" href="https://www.zelexdoll.com/contact.html">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/site.css">
+  <style>
+    /* ====== VARIANT D: Minimal Entry + Exit-Intent ====== */
+
+    .contact-hero{padding:52px 0 36px;text-align:left;position:relative}
+    .contact-hero h1{font-size:clamp(32px,5vw,56px);font-weight:700;line-height:1.1;margin:10px 0 18px}
+    .contact-hero p{color:var(--muted);font-size:15px;line-height:1.75;max-width:560px}
+
+    .contact-layout{display:grid;grid-template-columns:1fr 400px;gap:52px;align-items:start;margin-top:48px}
+    @media(max-width:900px){.contact-layout{grid-template-columns:1fr;gap:36px}}
+
+    /* ---- minimal form ---- */
+    .form-group{margin-bottom:20px}
+    .form-group label{display:block;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text);margin-bottom:7px;font-weight:600}
+    .form-group label .req{color:var(--coral);margin-left:2px}
+    .form-group input,.form-group textarea,.form-group select{
+      width:100%;background:var(--panel2);border:1px solid var(--line);border-radius:var(--r-md);
+      color:var(--text);font-family:'Montserrat',sans-serif;font-size:14px;padding:11px 14px;
+      transition:.2s;outline:none;appearance:none;-webkit-appearance:none}
+    .form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:var(--gold);box-shadow:0 0 0 2px rgba(212,165,116,.15)}
+    .form-group input.err-field,.form-group textarea.err-field{border-color:var(--coral)}
+    .form-group textarea{resize:vertical;min-height:100px}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    @media(max-width:600px){.form-row{grid-template-columns:1fr}}
+    .field-err{font-size:11px;color:var(--coral);margin-top:5px;display:none}
+    .field-err.show{display:block}
+
+    .consent-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:24px}
+    .consent-row input[type=checkbox]{width:17px;height:17px;flex-shrink:0;margin-top:2px;accent-color:var(--gold);cursor:pointer}
+    .consent-row label{font-size:12px;color:var(--muted);line-height:1.55;cursor:pointer;font-weight:normal}
+    .consent-row label a{color:var(--gold);text-decoration:underline}
+
+    #submit-btn{width:100%;padding:15px;font-size:13px;letter-spacing:3px;position:relative}
+    #submit-btn:disabled{opacity:.55;cursor:not-allowed}
+    #submit-spinner{display:none;width:16px;height:16px;border:2px solid rgba(212,165,116,.3);border-top-color:var(--gold);border-radius:50%;animation:spin .7s linear infinite;position:absolute;right:20px;top:50%;transform:translateY(-50%)}
+    @keyframes spin{to{transform:translateY(-50%) rotate(360deg)}}
+
+    #form-success,#form-error{display:none;border-radius:10px;padding:24px 28px;margin-top:0;margin-bottom:24px}
+    #form-success{background:rgba(159,214,182,.1);border:1px solid rgba(159,214,182,.35)}
+    #form-success h3{font-family:'Playfair Display',serif;font-size:22px;color:var(--Muse);margin-bottom:8px}
+    #form-success p{font-size:14px;color:var(--muted);line-height:1.7}
+    #form-success a{color:var(--gold);text-decoration:underline}
+    #form-error{background:rgba(225,139,115,.08);border:1px solid rgba(225,139,115,.3)}
+    #form-error h3{font-family:'Playfair Display',serif;font-size:18px;color:var(--coral);margin-bottom:8px}
+    #form-error p{font-size:14px;color:var(--muted);line-height:1.7}
+    #form-error a{color:var(--gold);text-decoration:underline}
+
+    .info-panel{background:var(--panel);border:1px solid rgba(212,165,116,.22);border-radius:14px;padding:32px 28px;position:sticky;top:86px}
+    .info-panel h3{font-family:'Playfair Display',serif;font-size:20px;font-weight:600;margin-bottom:20px;color:var(--cream)}
+    .info-item{display:flex;gap:14px;margin-bottom:22px;align-items:flex-start}
+    .info-item:last-child{margin-bottom:0}
+    .info-icon{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px;background:rgba(212,165,116,.12);border:1px solid rgba(212,165,116,.22)}
+    .info-item h4{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+    .info-item p{font-size:13px;color:var(--muted);line-height:1.6}
+    .info-divider{border:none;border-top:1px solid var(--line);margin:24px 0}
+    .info-email-row{font-size:13px;color:var(--muted);text-align:center}
+    .info-email-row a{color:var(--gold)}
+
+    @media(max-width:900px){.info-panel{position:static;margin-top:48px}}
+
+    /* ---- exit-intent modal (overlay) ---- */
+    .exit-intent-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;z-index:9999;padding:20px;opacity:0;transition:opacity .3s ease}
+    .exit-intent-overlay.show{display:flex;opacity:1}
+    .exit-intent-modal{background:var(--panel);border-radius:16px;padding:40px 36px;max-width:520px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.8);position:relative;animation:slideUp .4s cubic-bezier(.33,.66,.66,1)}
+    @keyframes slideUp{from{transform:translateY(40px);opacity:0}to{transform:translateY(0);opacity:1}}
+
+    .exit-intent-modal .eim-icon{font-size:32px;margin-bottom:16px}
+    .exit-intent-modal h3{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:var(--cream);margin-bottom:12px}
+    .exit-intent-modal .eim-subtitle{font-size:14px;color:var(--muted);margin-bottom:28px;line-height:1.6}
+
+    .eim-field-wrap{margin-bottom:24px}
+    .eim-field-wrap label{display:block;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text);margin-bottom:8px;font-weight:600}
+    .eim-field-wrap select,.eim-field-wrap input{
+      width:100%;background:var(--panel2);border:1px solid var(--line);border-radius:var(--r-md);
+      color:var(--text);font-family:'Montserrat',sans-serif;font-size:14px;padding:11px 14px;
+      transition:.2s;outline:none;appearance:none;-webkit-appearance:none}
+    .eim-field-wrap select:focus,.eim-field-wrap input:focus{border-color:var(--gold);box-shadow:0 0 0 2px rgba(212,165,116,.15)}
+
+    .eim-buttons{display:flex;gap:12px}
+    .eim-btn{flex:1;padding:13px 20px;font-size:12px;letter-spacing:2px;text-transform:uppercase;border-radius:var(--r-md);cursor:pointer;font-family:inherit;font-weight:600;border:1px solid;transition:.2s}
+    .eim-btn-submit{background:var(--gold);color:#111;border-color:var(--gold)}
+    .eim-btn-submit:hover{opacity:.9}
+    .eim-btn-skip{background:transparent;color:var(--muted);border-color:var(--line)}
+    .eim-btn-skip:hover{color:var(--cream);border-color:var(--gold)}
+
+    .exit-intent-overlay.show ~ main{filter:blur(2px)}
+  </style>
+</head>
+<body>
+
+<div class="crumbs">
+  <a href="index.html">Atlas</a><span>›</span> Contact
+</div>
+
+<main>
+  <div class="contact-hero has-backdrop">
+    <div class="eyebrow reveal">Private Consultation</div>
+    <h1 class="reveal d1">Request a Private <span class="em-grad">Consultation</span></h1>
+    <p class="reveal d2">Every ZELEX character is made to order — crafted individually, never from standing stock.
+       A quick note is all you need. We'll follow up with questions and details.</p>
+  </div>
+
+  <div class="contact-layout">
+
+    <!-- LEFT: form column -->
+    <div class="reveal d2">
+
+      <!-- success state -->
+      <div id="form-success">
+        <h3>Your consultation request has been received.</h3>
+        <p>A member of our team will be in touch discreetly within one business day to begin your private briefing.<br>
+          You may also reach us directly at
+          <a id="success-email-link" href="#"><!-- filled by JS --></a>.</p>
+      </div>
+
+      <!-- error state -->
+      <div id="form-error" role="alert">
+        <h3>Something went wrong.</h3>
+        <p id="form-error-msg"><span id="form-error-text">We couldn't send your message right now. Please try again, or reach us directly at</span>
+          <a id="error-email-link" href="#"><!-- filled by JS --></a>.</p>
+      </div>
+
+      <!-- the form itself: MINIMAL ENTRY -->
+      <form id="inquiry-form" novalidate>
+
+        <!-- Ultra-minimal Phase 0: Email + Message only -->
+        <div class="form-group">
+          <label for="f-email">Email <span class="req">*</span></label>
+          <input type="email" id="f-email" name="email" placeholder="your@email.com" autocomplete="email" required>
+          <div class="field-err" id="err-email">Please enter a valid email address.</div>
+        </div>
+
+        <div class="form-group">
+          <label for="f-message">What are you looking for? <span class="req">*</span></label>
+          <textarea id="f-message" name="message" placeholder="A character, body type, or feeling — even vague is perfect." required></textarea>
+          <div class="field-err" id="err-message">Please tell us what you're looking for.</div>
+        </div>
+
+        <!-- hidden name field (can be derived from email or left blank for follow-up) -->
+        <input type="hidden" name="name" id="f-name" value="">
+        <input type="hidden" name="intent" id="f-intent" value="contact_form_variant_d">
+        <input type="hidden" name="timeline" id="f-timeline" value="">
+        <input type="hidden" name="use_context" id="f-use" value="">
+        <input type="hidden" name="handling" id="f-handling" value="">
+        <input type="hidden" name="privacy" id="f-privacy" value="">
+        <input type="hidden" name="family" id="f-family" value="">
+
+        <div class="consent-row">
+          <input type="checkbox" id="f-consent" name="consent" required aria-label="Age and contact consent">
+          <label for="f-consent">I confirm that I am 18 years of age or older and I agree to be contacted regarding this inquiry. I understand my information will not be shared with third parties. <a href="#" title="Privacy policy">Privacy &amp; discretion</a>.</label>
+        </div>
+        <div class="field-err" id="err-consent" style="margin-top:-16px;margin-bottom:18px">Please confirm you are 18+ to proceed.</div>
+
+        <button type="submit" class="btn solid" id="submit-btn">
+          Send Inquiry
+          <span id="submit-spinner"></span>
+        </button>
+        <p style="font-size:11px;color:var(--muted);text-align:center;margin-top:12px;letter-spacing:.3px;line-height:1.6">
+          A brief note is enough. We'll be in touch within one business day.
+        </p>
+
+      </form>
+    </div>
+
+    <!-- RIGHT: info panel -->
+    <div class="reveal d3">
+    <aside class="info-panel" aria-label="Inquiry information">
+      <h3>What to expect</h3>
+
+      <div class="info-item">
+        <div class="info-icon">✦</div>
+        <div>
+          <h4>Response time</h4>
+          <p>We reply to every inquiry personally, typically within one business day.</p>
+        </div>
+      </div>
+
+      <div class="info-item">
+        <div class="info-icon">◈</div>
+        <div>
+          <h4>Made to order</h4>
+          <p>Every ZELEX character is produced individually — no standing stock. Lead times vary by series and configuration.</p>
+        </div>
+      </div>
+
+      <div class="info-item">
+        <div class="info-icon">⬡</div>
+        <div>
+          <h4>What to include</h4>
+          <p>The body code or character you're interested in, any questions about customization, and rough timing. Even vague is fine — we'll follow up.</p>
+        </div>
+      </div>
+
+      <div class="info-item">
+        <div class="info-icon">◎</div>
+        <div>
+          <h4>No pressure</h4>
+          <p>A consultation is exactly that — a private conversation, not a commitment. We're happy to walk you through everything.</p>
+        </div>
+      </div>
+
+      <div class="info-item">
+        <div class="info-icon">◇</div>
+        <div>
+          <h4>Discretion &amp; privacy</h4>
+          <p>Your details stay between us — never shared with third parties, never used for marketing. Plain, unbranded packaging.</p>
+        </div>
+      </div>
+
+      <hr class="info-divider">
+      <div class="info-email-row">
+        Or email us directly:<br>
+        <a id="panel-email-link" href="#"><!-- filled by JS --></a>
+      </div>
+    </aside>
+    </div>
+
+  </div>
+</main>
+
+<!-- EXIT-INTENT MODAL: Capture additional field on scroll-to-leave -->
+<div class="exit-intent-overlay" id="exit-intent-overlay">
+  <div class="exit-intent-modal">
+    <div class="eim-icon">⏸</div>
+    <h3>One more thing?</h3>
+    <div class="eim-subtitle">Tell us your timeline and we'll prioritize your inquiry.</div>
+
+    <div class="eim-field-wrap">
+      <label for="eim-timeline">When are you thinking?</label>
+      <select id="eim-timeline">
+        <option value="">Choose a timeframe...</option>
+        <option value="Ready now - 0-2 weeks">Ready now (0–2 weeks)</option>
+        <option value="Near term - 1-2 months">Near term (1–2 months)</option>
+        <option value="Planning - 3+ months">Planning (3+ months)</option>
+        <option value="Just exploring">Just exploring</option>
+      </select>
+    </div>
+
+    <div class="eim-buttons">
+      <button type="button" class="eim-btn eim-btn-submit" id="eim-submit">Add timeline</button>
+      <button type="button" class="eim-btn eim-btn-skip" id="eim-skip">Skip</button>
+    </div>
+  </div>
+</div>
+
+<script src="assets/site.js"></script>
+<script>
+/*
+ * ========================================
+ * VARIANT D: Minimal Entry + Exit-Intent
+ * ========================================
+ * Key improvements:
+ * - Ultra-minimal entry: Email + Message only
+ * - Exit-intent modal captures timeline field
+ * - Psychology: "Brief note is enough" framing
+ * - High conversion velocity with follow-up capture
+ */
+
+// ── Wire email links ──────────────────────────────────────────
+(function wireEmailLinks() {
+  const email = ZX.INQUIRY_EMAIL || 'inquiries@zelexdoll.com';
+  const mailto = 'mailto:' + email;
+  const els = ['success-email-link','error-email-link','panel-email-link'];
+  els.forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) { el.href = mailto; el.textContent = email; }
+  });
+}());
+
+// ── Exit-Intent Logic ────────────────────────────────────────
+(function exitIntent() {
+  var overlay = document.getElementById('exit-intent-overlay');
+  var modal = document.querySelector('.exit-intent-modal');
+  var shown = false;
+  var threshold = 80; // scroll depth % to trigger
+  var lastScrollPercent = 0;
+
+  function getScrollPercent() {
+    var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    return docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+  }
+
+  function showModal() {
+    if (shown || !overlay) return;
+    shown = true;
+    overlay.classList.add('show');
+    ZX.track('exit_intent_shown', { context: 'contact_form', variant: 'd' });
+  }
+
+  // Detect scroll approaching bottom (80%+)
+  window.addEventListener('scroll', function() {
+    var percent = getScrollPercent();
+    if (percent > threshold && !shown) {
+      showModal();
+    }
+    lastScrollPercent = percent;
+  }, { passive: true });
+
+  // Exit-intent: mouse leaves top of window
+  document.addEventListener('mouseleave', function(e) {
+    if (e.clientY <= 0 && !shown) {
+      showModal();
+    }
+  });
+
+  // Submit modal (capture timeline)
+  var submitBtn = document.getElementById('eim-submit');
+  if (submitBtn) {
+    submitBtn.addEventListener('click', function() {
+      var timelineSelect = document.getElementById('eim-timeline');
+      var timelineVal = timelineSelect ? timelineSelect.value : '';
+      if (timelineVal) {
+        var timelineField = document.getElementById('f-timeline');
+        if (timelineField) timelineField.value = timelineVal;
+        ZX.track('exit_intent_completed', { timeline: timelineVal, context: 'contact_form', variant: 'd' });
+      }
+      if (overlay) overlay.classList.remove('show');
+    });
+  }
+
+  // Skip modal
+  var skipBtn = document.getElementById('eim-skip');
+  if (skipBtn) {
+    skipBtn.addEventListener('click', function() {
+      if (overlay) overlay.classList.remove('show');
+      shown = false; // Allow one more attempt
+    });
+  }
+
+  // Close on Escape
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && overlay && overlay.classList.contains('show')) {
+      overlay.classList.remove('show');
+    }
+  });
+})();
+
+// ── Validation ───────────────────────────────────────────────
+function validateEmail(v) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test((v || '').trim());
+}
+
+function showFieldError(fieldId, errId, show) {
+  var field = document.getElementById(fieldId);
+  var err   = document.getElementById(errId);
+  if (field) {
+    if (show) { field.classList.add('err-field'); }
+    else      { field.classList.remove('err-field'); }
+  }
+  if (err) {
+    if (show) { err.classList.add('show'); }
+    else      { err.classList.remove('show'); }
+  }
+}
+
+function clearErrors() {
+  ['f-email','f-message','f-consent'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.classList.remove('err-field');
+  });
+  ['err-email','err-message','err-consent'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.classList.remove('show');
+  });
+}
+
+function validate() {
+  var ok = true;
+  var firstBad = null;
+
+  var email = (document.getElementById('f-email') || {}).value || '';
+  if (!validateEmail(email)) {
+    showFieldError('f-email','err-email',true);
+    if (!firstBad) firstBad = document.getElementById('f-email');
+    ok = false;
+  } else { showFieldError('f-email','err-email',false); }
+
+  var msg = (document.getElementById('f-message') || {}).value || '';
+  if (msg.trim().length < 5) {
+    showFieldError('f-message','err-message',true);
+    if (!firstBad) firstBad = document.getElementById('f-message');
+    ok = false;
+  } else { showFieldError('f-message','err-message',false); }
+
+  var consent = document.getElementById('f-consent');
+  if (!consent || !consent.checked) {
+    showFieldError('f-consent','err-consent',true);
+    if (!firstBad) firstBad = consent;
+    ok = false;
+  } else { showFieldError('f-consent','err-consent',false); }
+
+  if (firstBad && firstBad.scrollIntoView) { try { firstBad.scrollIntoView({ behavior: 'smooth', block: 'center' }); firstBad.focus(); } catch(e) {} }
+  return ok;
+}
+
+// ── Collect form data ────────────────────────────────────────
+function collectFields() {
+  function val(id) {
+    var el = document.getElementById(id);
+    return el ? (el.value || '').trim() : '';
+  }
+  return {
+    email:     val('f-email'),
+    message:   val('f-message'),
+    timeline:  val('f-timeline'),
+    intent:    'contact_form_variant_d'
+  };
+}
+
+// ── Show/hide success & error states ────────────────────────
+function showSuccess() {
+  var form = document.getElementById('inquiry-form');
+  if (form) form.style.display = 'none';
+  var success = document.getElementById('form-success');
+  if (success) success.style.display = 'block';
+  ZX.track('inquiry_submit_success', { variant: 'd', context: 'contact_form', source_page: 'contact' });
+}
+
+function showError(msg) {
+  var errDiv = document.getElementById('form-error');
+  if (errDiv) errDiv.style.display = 'block';
+  if (msg) { var t = document.getElementById('form-error-text'); if (t) t.textContent = msg; }
+  var btn = document.getElementById('submit-btn');
+  var spinner = document.getElementById('submit-spinner');
+  if (btn) btn.disabled = false;
+  if (spinner) spinner.style.display = 'none';
+  ZX.track('inquiry_submit_error', { variant: 'd', message: msg || '', context: 'contact_form', source_page: 'contact' });
+}
+
+// ── Form submit ──────────────────────────────────────────────
+document.getElementById('inquiry-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  clearErrors();
+
+  if (!validate()) {
+    ZX.track('inquiry_validation_failed', { variant: 'd', context: 'contact_form', source_page: 'contact' });
+    return;
+  }
+
+  var btn     = document.getElementById('submit-btn');
+  var spinner = document.getElementById('submit-spinner');
+  if (btn)     btn.disabled = true;
+  if (spinner) spinner.style.display = 'inline-block';
+
+  var errDiv = document.getElementById('form-error');
+  if (errDiv) errDiv.style.display = 'none';
+
+  var fields   = collectFields();
+  var endpoint = (typeof ZX !== 'undefined' && ZX.FORM_ENDPOINT) ? ZX.FORM_ENDPOINT : '';
+  ZX.track('inquiry_submit_attempt', { variant: 'd', timeline: fields.timeline || '', context: 'contact_form', source_page: 'contact' });
+
+  if (endpoint) {
+    fetch(endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(fields)
+    }).then(function(res) {
+      if (res.ok) {
+        showSuccess();
+      } else {
+        showError('Server error. Please try again.');
+      }
+    }).catch(function() {
+      showError('Network error. Please check your connection.');
+    });
+  } else {
+    showSuccess();
+  }
+});
+
+// Boot: mount nav, load catalog
+ZX.mountNav('contact.html');
+
+ZX.load().then(function(m) {
+  var hero = document.querySelector('.contact-hero');
+  if (hero && !hero.querySelector('.backdrop')) {
+    var src = ZX.repImg(m.characters, 0);
+    var html = ZX.heroBackdrop(src);
+    if (html) hero.insertAdjacentHTML('afterbegin', html);
+  }
+  ZX.revealInit();
+  ZX.mountFooter();
+}).catch(function() {
+  try { ZX.revealInit(); ZX.mountFooter(); } catch(e) {}
+});
+</script>
+</body>
+</html>

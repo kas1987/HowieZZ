@@ -1,0 +1,217 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-06-21T17:07:05.475416Z",
+  "config_version": "1.0",
+  "total_pages": 21,
+  "validation": {
+    "problems_count": 0,
+    "problems": [],
+    "all_valid": true
+  },
+  "files": {
+    "index": {
+      "file": "index.html",
+      "size_bytes": 15916,
+      "mtime_unix": 1782061547,
+      "content_hash": "a4451e9874edafed",
+      "exists": true
+    },
+    "browse": {
+      "file": "browse.html",
+      "size_bytes": 22862,
+      "mtime_unix": 1782061561,
+      "content_hash": "b1a75487ec411301",
+      "exists": true
+    },
+    "family": {
+      "file": "family.html",
+      "size_bytes": 34679,
+      "mtime_unix": 1782061562,
+      "content_hash": "88f1aba49909f4ca",
+      "exists": true
+    },
+    "compare": {
+      "file": "compare.html",
+      "size_bytes": 16880,
+      "mtime_unix": 1782061562,
+      "content_hash": "1291b1eb602456e1",
+      "exists": true
+    },
+    "options": {
+      "file": "options.html",
+      "size_bytes": 20917,
+      "mtime_unix": 1782061563,
+      "content_hash": "3b8ffe0848483460",
+      "exists": true
+    },
+    "community": {
+      "file": "community.html",
+      "size_bytes": 8906,
+      "mtime_unix": 1782061562,
+      "content_hash": "b7eba2f3fa088256",
+      "exists": true
+    },
+    "quiz": {
+      "file": "quiz.html",
+      "size_bytes": 30424,
+      "mtime_unix": 1782061563,
+      "content_hash": "e760cd46a045a056",
+      "exists": true
+    },
+    "configurator": {
+      "file": "configurator.html",
+      "size_bytes": 22628,
+      "mtime_unix": 1782061562,
+      "content_hash": "368d65e46a5fb766",
+      "exists": true
+    },
+    "contact": {
+      "file": "contact.html",
+      "size_bytes": 70652,
+      "mtime_unix": 1782061562,
+      "content_hash": "57f308f6e89be090",
+      "exists": true
+    },
+    "series": {
+      "file": "series.html",
+      "size_bytes": 15841,
+      "mtime_unix": 1782061563,
+      "content_hash": "4e9f6689f668251f",
+      "exists": true
+    },
+    "body": {
+      "file": "body.html",
+      "size_bytes": 12287,
+      "mtime_unix": 1782061561,
+      "content_hash": "f81a0caa39110e18",
+      "exists": true
+    },
+    "character": {
+      "file": "character.html",
+      "size_bytes": 37821,
+      "mtime_unix": 1782061561,
+      "content_hash": "46c0fdf7dcbd53f7",
+      "exists": true
+    },
+    "craft": {
+      "file": "craft.html",
+      "size_bytes": 17793,
+      "mtime_unix": 1782061562,
+      "content_hash": "37fdb50502dac305",
+      "exists": true
+    },
+    "community-events": {
+      "file": "community-events.html",
+      "size_bytes": 5422,
+      "mtime_unix": 1782061561,
+      "content_hash": "42fa36e2bb3f572a",
+      "exists": true
+    },
+    "gallery": {
+      "file": "gallery.html",
+      "size_bytes": 12211,
+      "mtime_unix": 1782061562,
+      "content_hash": "1649505c246213ec",
+      "exists": true
+    },
+    "404": {
+      "file": "404.html",
+      "size_bytes": 2159,
+      "mtime_unix": 1782061561,
+      "content_hash": "f43491cc34b678a4",
+      "exists": true
+    },
+    "hero": {
+      "file": "hero.html",
+      "size_bytes": 20425,
+      "mtime_unix": 1782061562,
+      "content_hash": "347df27de0e24a0a",
+      "exists": true
+    },
+    "Landing": {
+      "file": "Landing.html",
+      "size_bytes": 19504,
+      "mtime_unix": 1782061561,
+      "content_hash": "4977c4353feae484",
+      "exists": true
+    },
+    "index-gallery-original": {
+      "file": "index-gallery-original.html",
+      "size_bytes": 20917,
+      "mtime_unix": 1782058371,
+      "content_hash": "22cdf8567c3ce18e",
+      "exists": true
+    },
+    "contact-variant-b": {
+      "file": "contact-variant-b.html",
+      "size_bytes": 38106,
+      "mtime_unix": 1782061562,
+      "content_hash": "136a329e48d3e257",
+      "exists": true
+    },
+    "contact-variant-d": {
+      "file": "contact-variant-d.html",
+      "size_bytes": 22803,
+      "mtime_unix": 1782061562,
+      "content_hash": "0136aee0bf85721c",
+      "exists": true
+    }
+  },
+  "dependencies": {
+    "body_measurements.json": {
+      "exists": true,
+      "size_bytes": 11359,
+      "mtime_unix": 1782058371,
+      "content_hash": "45b5f702c5b0d134"
+    },
+    "body_profiles.json": {
+      "exists": true,
+      "size_bytes": 48982,
+      "mtime_unix": 1782058371,
+      "content_hash": "a47f2339417f1e41"
+    },
+    "catalog.json": {
+      "exists": true,
+      "size_bytes": 163639,
+      "mtime_unix": 1782058371,
+      "content_hash": "60785d7c30c0d9ab"
+    },
+    "character_profiles.json": {
+      "exists": true,
+      "size_bytes": 7001,
+      "mtime_unix": 1782058371,
+      "content_hash": "3ab8783abde39520"
+    },
+    "character_stories.json": {
+      "exists": true,
+      "size_bytes": 90815,
+      "mtime_unix": 1782058371,
+      "content_hash": "2b03aae9fb40b6a7"
+    },
+    "characters.json": {
+      "exists": true,
+      "size_bytes": 297811,
+      "mtime_unix": 1782058371,
+      "content_hash": "3cfe7203a777b20b"
+    },
+    "community_channels.json": {
+      "exists": true,
+      "size_bytes": 3139,
+      "mtime_unix": 1782058371,
+      "content_hash": "b3e57d40de5a8b8d"
+    },
+    "community_events.json": {
+      "exists": true,
+      "size_bytes": 1165,
+      "mtime_unix": 1782058371,
+      "content_hash": "25070953f8307b66"
+    },
+    "family_taxonomy.json": {
+      "exists": true,
+      "size_bytes": 8838,
+      "mtime_unix": 1782058371,
+      "content_hash": "eb2ce4b28c15aeaf"
+    }
+  },
+  "cache_strategy": "per-page TTL + content-hash invalidation"
+}

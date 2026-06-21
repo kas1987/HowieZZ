@@ -62,6 +62,9 @@ STAGES = [
     ("thumbs",      "make_thumbs.py",        ["db/body_profiles.json", "db/characters.json", "assets/data"],
                                              ["assets/thumbs"],
                                              False, 1),  # Must run after profiles/characters
+    ("pages",       "generate_pages.py",     ["db/pages_config.json", "db/characters.json", "db/family_taxonomy.json"],
+                                             ["db/pages_manifest.json"],
+                                             True, 1),  # Parallel-safe; runs after catalog finalized
 ]
 
 # Parallel groups: stages that can run together
@@ -69,7 +72,8 @@ STAGES = [
 PARALLEL_GROUPS = [
     ["db"],                          # Group 0: Initialize DB
     ["profiles", "characters"],      # Group 1: Parallel analysis
-    ["merge_stories", "thumbs"],     # Group 2: Post-processing (order within group doesn't matter)
+    ["merge_stories", "thumbs"],     # Group 2: Post-processing
+    ["pages"],                       # Group 3: Page inventory and manifest
 ]
 
 # ── State tracking ─────────────────────────────────────────────────────────────
